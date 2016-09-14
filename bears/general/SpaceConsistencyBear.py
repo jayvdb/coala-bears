@@ -55,8 +55,9 @@ class SpaceConsistencyBear(LocalBear):
                         "<http://stackoverflow.com/a/5813359/3212182> gives "
                         "more information about why you might need one.")
 
+            replacement = replacement.rstrip(" \t\n") + "\n"
+
             if not allow_trailing_whitespace:
-                replacement = replacement.rstrip(" \t\n") + "\n"
                 if replacement != line.rstrip("\n") + "\n":
                     result_texts.append("Trailing whitespaces.")
                     additional_info_texts.append(
