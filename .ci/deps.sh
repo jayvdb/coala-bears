@@ -10,7 +10,7 @@ esac
 
 # apt-get commands
 sudo add-apt-repository -y ppa:marutter/rdev
-sudo add-apt-repository -y ppa:staticfloat/juliareleases
+sudo add-apt-repository -y ppa:staticfloat/julianightlies
 sudo add-apt-repository -y ppa:staticfloat/julia-deps
 sudo add-apt-repository -y ppa:avsm/ppa
 sudo apt-get -y update
