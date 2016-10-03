@@ -81,7 +81,7 @@ if [ ! -e ~/bakalint-0.4.0 ]; then
 fi
 
 # Julia commands
-julia -e "Pkg.add(\"Lint\")"
+julia -e 'Pkg.setprotocol!("https"); Pkg.add("Lint")'
 
 # Lua commands
 sudo luarocks install luacheck --deps-mode=none
