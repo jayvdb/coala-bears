@@ -81,7 +81,7 @@ if [ ! -e ~/bakalint-0.4.0 ]; then
 fi
 
 # Julia commands
-julia -e 'Pkg.clone("https://github.com/JuliaLang/METADATA.jl"); Pkg.clone("https://github.com/tonyhffong/Lint.jl"); Pkg.add("Lint")'
+# julia -e 'Pkg.clone("https://github.com/JuliaLang/METADATA.jl"); Pkg.clone("https://github.com/tonyhffong/Lint.jl"); Pkg.add("Lint")'
 
 # Lua commands
 sudo luarocks install luacheck --deps-mode=none
