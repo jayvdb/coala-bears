@@ -23,6 +23,7 @@ deps_infer="m4 opam"
 deps_julia="julia"
 deps_go=""
 if [ "$CIRCLE_BUILD_IMAGE" = "ubuntu-12.04" ]; then
+  deps_julia="$deps_julia libstdc++3.0-dev llvm"
   deps_go="golang"
   sudo mv /usr/local/go/bin/go /usr/local/go/bin/circleci-go
 fi
