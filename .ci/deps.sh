@@ -9,17 +9,24 @@ case $CIRCLE_NODE_INDEX in
 esac
 
 # apt-get commands
+export DEBIAN_FRONTEND=noninteractive
+apt_args="--no-install-suggests --no-install-recommends --force-yes"
+
 sudo add-apt-repository -y ppa:marutter/rdev
-sudo add-apt-repository -y ppa:staticfloat/juliareleases
-sudo add-apt-repository -y ppa:staticfloat/julia-deps
 sudo add-apt-repository -y ppa:avsm/ppa
 sudo apt-get -y update
-deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia luarocks verilator cppcheck flawfinder"
+deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base luarocks verilator cppcheck flawfinder libxml2-utils"
 deps_python_dbus="libdbus-glib-1-dev libdbus-1-dev"
 deps_python_gi="glib2.0-dev gobject-introspection libgirepository1.0-dev python3-cairo-dev"
 deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
+deps_julia="julia"
+
 sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
+
+echo "deb http://archive.ubuntu.com/ubuntu/ xenial main universe" | sudo tee -a /etc/apt/sources.list.d/xenial.list > /dev/null
+sudo apt-get update
+sudo apt-get $apt_args install $deps_julia
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
