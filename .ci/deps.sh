@@ -27,11 +27,16 @@ sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_pyth
 if [ "$CIRCLE_BUILD_IMAGE" = "ubuntu-12.04" ]; then
   sudo add-apt-repository -y ppa:staticfloat/juliareleases
   sudo add-apt-repository -y ppa:staticfloat/julia-deps
+  sudo add-apt-repository -y ppa:ondrej/golang
+  deps_go="golang"
+  sudo mv /usr/local/go/bin/go /usr/local/go/bin/circleci-go
+  sudo rm -rf /home/ubuntu/.go_workspace
 else
   echo "deb http://archive.ubuntu.com/ubuntu/ xenial main universe" | sudo tee -a /etc/apt/sources.list.d/xenial.list > /dev/null
+  deps_go=""
 fi
 sudo apt-get update
-sudo apt-get $apt_args install $deps_julia
+sudo apt-get $apt_args install $deps_julia $deps_go
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
