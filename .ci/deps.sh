@@ -10,8 +10,6 @@ esac
 
 # apt-get commands
 sudo add-apt-repository -y ppa:marutter/rdev
-sudo add-apt-repository -y ppa:staticfloat/juliareleases
-sudo add-apt-repository -y ppa:staticfloat/julia-deps
 sudo add-apt-repository -y ppa:avsm/ppa
 sudo apt-get -y update
 deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia luarocks verilator cppcheck flawfinder"
