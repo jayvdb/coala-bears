@@ -9,18 +9,36 @@ case $CIRCLE_NODE_INDEX in
 esac
 
 # apt-get commands
+export DEBIAN_FRONTEND=noninteractive
+apt_args="--no-install-suggests --no-install-recommends --force-yes"
+
 sudo add-apt-repository -y ppa:marutter/rdev
-sudo add-apt-repository -y ppa:staticfloat/juliareleases
-sudo add-apt-repository -y ppa:staticfloat/julia-deps
-sudo add-apt-repository -y ppa:ondrej/golang
 sudo add-apt-repository -y ppa:avsm/ppa
 sudo apt-get -y update
-deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia golang luarocks verilator cppcheck flawfinder"
+deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base luarocks verilator cppcheck flawfinder libxml2-utils"
 deps_python_dbus="libdbus-glib-1-dev libdbus-1-dev"
 deps_python_gi="glib2.0-dev gobject-introspection libgirepository1.0-dev python3-cairo-dev"
 deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
+deps_julia="julia"
+deps_go="golang"
+
 sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
+
+if [ "$CIRCLE_BUILD_IMAGE" = "ubuntu-12.04" ]; then
+  sudo add-apt-repository -y ppa:staticfloat/juliareleases
+  sudo add-apt-repository -y ppa:staticfloat/julia-deps
+  sudo add-apt-repository -y ppa:ondrej/golang
+
+  # The Circle provided Go is too old
+  sudo mv /usr/local/go /usr/local/circleci-go
+else
+  echo "deb http://archive.ubuntu.com/ubuntu/ xenial main universe" | sudo tee -a /etc/apt/sources.list.d/xenial.list > /dev/null
+  deps_go=""
+fi
+
+sudo apt-get update
+sudo apt-get $apt_args install $deps_julia $deps_go
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
@@ -43,8 +61,6 @@ R -e "install.packages('lintr', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
 R -e "install.packages('formatR', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
 
 # GO commands
-sudo mv /usr/local/go/bin/go /usr/local/go/bin/circleci-go
-
 go get -u github.com/golang/lint/golint
 go get -u golang.org/x/tools/cmd/goimports
 go get -u sourcegraph.com/sqs/goreturns
