@@ -21,17 +21,13 @@ deps_python_gi="glib2.0-dev gobject-introspection libgirepository1.0-dev python3
 deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
 deps_julia="julia"
+deps_go="golang"
 
 sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
 
-if [ "$CIRCLE_BUILD_IMAGE" = "ubuntu-12.04" ]; then
-  sudo add-apt-repository -y ppa:staticfloat/juliareleases
-  sudo add-apt-repository -y ppa:staticfloat/julia-deps
-else
-  echo "deb http://archive.ubuntu.com/ubuntu/ xenial main universe" | sudo tee -a /etc/apt/sources.list.d/xenial.list > /dev/null
-fi
+echo "deb http://archive.ubuntu.com/ubuntu/ xenial main universe" | sudo tee -a /etc/apt/sources.list.d/xenial.list > /dev/null
 sudo apt-get update
-sudo apt-get $apt_args install $deps_julia
+sudo apt-get $apt_args install $deps_julia $deps_go
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
