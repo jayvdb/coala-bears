@@ -16,6 +16,7 @@ if [ "$CIRCLE_BUILD_IMAGE" = "ubuntu-12.04" ]; then
   sudo add-apt-repository -y ppa:staticfloat/juliareleases
   sudo add-apt-repository -y ppa:staticfloat/julia-deps
   sudo add-apt-repository -y ppa:ondrej/golang
+  sudo add-apt-repository -y ppa:marutter/rdev
 
   # The Circle provided Go is too old
   sudo mv /usr/local/go /usr/local/circleci-go
@@ -34,7 +35,6 @@ else
   sudo chmod a+x /usr/bin/systemd-detect-virt
 fi
 
-sudo add-apt-repository -y ppa:marutter/rdev
 sudo add-apt-repository -y ppa:avsm/ppa
 sudo apt-get -y update
 deps="espeak libclang1-3.4 indent mono-mcs hlint r-base luarocks verilator flawfinder libxml2-utils"
