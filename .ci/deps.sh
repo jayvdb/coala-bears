@@ -30,7 +30,8 @@ else
   # Use trusty versions for chktex and cppcheck, as the xenial programs fail
   # xenial chktex 1.7.4-1ubuntu2 fails with UnicodeDecodeError: 'utf-8' codec can't decode byte 0xaf in position 116: invalid start byte
   # xenial cppcheck 1.72-1 fails with The local bear 'CPPCheckBear' yields no result although it should.
-  deps_specific_versions="chktex=1.7.2-1ubuntu1 cppcheck=1.61-1"
+  sudo apt-mark hold chktex
+  sudo apt-mark hold cppcheck
   # Work around lack of systemd on trusty, which xenial's lxc-common expects
   echo '#!/bin/sh' | sudo tee /usr/bin/systemd-detect-virt > /dev/null
   sudo chmod a+x /usr/bin/systemd-detect-virt
