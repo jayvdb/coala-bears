@@ -29,9 +29,7 @@ else
   deps_go=""
   # Use trusty versions for chktex and cppcheck, as the xenial programs fail
   # xenial chktex 1.7.4-1ubuntu2 fails with UnicodeDecodeError: 'utf-8' codec can't decode byte 0xaf in position 116: invalid start byte
-  # xenial cppcheck 1.72-1 fails with The local bear 'CPPCheckBear' yields no result although it should.
   sudo apt-mark hold chktex
-  sudo apt-mark hold cppcheck
   # Work around lack of systemd on trusty, which xenial's lxc-common expects
   echo '#!/bin/sh' | sudo tee /usr/bin/systemd-detect-virt > /dev/null
   sudo chmod a+x /usr/bin/systemd-detect-virt
@@ -44,6 +42,8 @@ deps_python_gi="glib2.0-dev gobject-introspection libgirepository1.0-dev python3
 deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
 sudo apt-get -y --no-install-recommends install $deps $deps_specific_versions $deps_python_gi $deps_python_dbus $deps_perl $deps_infer $deps_go
+
+exit 126
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
