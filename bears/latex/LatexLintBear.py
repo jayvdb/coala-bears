@@ -20,4 +20,4 @@ class LatexLintBear:
 
     @staticmethod
     def create_arguments(filename, file, config_file):
-        return filename,
+        return '--format', '%k %n in file line %l: %m!n', filename
