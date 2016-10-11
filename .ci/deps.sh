@@ -43,8 +43,6 @@ deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
 sudo apt-get -y --no-install-recommends install $deps $deps_specific_versions $deps_python_gi $deps_python_dbus $deps_perl $deps_infer $deps_go
 
-exit 126
-
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
 
