@@ -5,7 +5,6 @@ from coalib.bears.requirements.NpmRequirement import NpmRequirement
 
 
 @linter(executable='remark',
-        use_stdin=True,
         output_format='corrected',
         result_message='The text does not comply to the set style.')
 class MarkdownBear:
