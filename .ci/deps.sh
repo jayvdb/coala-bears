@@ -49,9 +49,10 @@ deps_python_dbus="libdbus-glib-1-dev libdbus-1-dev"
 deps_python_gi="glib2.0-dev gobject-introspection libgirepository1.0-dev python3-cairo-dev"
 deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
+deps_R="r-cran-formatr"
 
 sudo apt-get -y update
-sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
+sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer $deps_R
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
@@ -71,7 +72,6 @@ mkdir -p ~/.RLibrary
 echo '.libPaths( c( "~/.RLibrary", .libPaths()) )' >> .Rprofile
 echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> .Rprofile
 R -e "install.packages('lintr', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
-R -e "install.packages('formatR', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
 
 # GO commands
 go get -u github.com/golang/lint/golint
