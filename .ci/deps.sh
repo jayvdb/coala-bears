@@ -5,7 +5,7 @@ set -x
 case $CIRCLE_NODE_INDEX in
  0) dep_versions=( "3.4.3" "3.5.1" ) ;;
  1) dep_versions=( "3.4.3" ) ;;
- *) dep_versions=( "3.5.1" ) ;;
+ *) dep_versions=( ) ;;
 esac
 
 # apt-get commands
@@ -56,30 +56,33 @@ sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_perl
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
 
 # Update hlint to latest version (not available in apt)
-if [ ! -e ~/hlint_1.9.26-1_amd64.deb ]; then
-  wget https://launchpad.net/ubuntu/+source/hlint/1.9.26-1/+build/8831318/+files/hlint_1.9.26-1_amd64.deb -O ~/hlint_1.9.26-1_amd64.deb
+mkdir -p ~/hlint-1.9.26
+if [ ! -e ~/hlint-1.9.26/hlint_1.9.26-1_amd64.deb ]; then
+  wget https://launchpad.net/ubuntu/+source/hlint/1.9.26-1/+build/8831318/+files/hlint_1.9.26-1_amd64.deb -O ~/hlint-1.9.26/hlint_1.9.26-1_amd64.deb
 fi
-sudo dpkg -i ~/hlint_1.9.26-1_amd64.deb
+sudo dpkg -i ~/hlint-1.9.26/hlint_1.9.26-1_amd64.deb
 
 # NPM commands
 sudo rm -rf /opt/alex # Delete ghc-alex as it clashes with npm deps
 npm install
 
 # R commands
-mkdir -p ~/.RLibrary
-echo '.libPaths( c( "~/.RLibrary", .libPaths()) )' >> .Rprofile
-echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> .Rprofile
-R -q -e "install.packages('lintr', dependencies=c('Depends'))"
-R -q -e "install.packages('formatR', dependencies=c('Depends'))"
+mkdir -p ~/R/Library
+echo '.libPaths( c( "~/R/Library", .libPaths()) )' >> ~/.Rprofile
+echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> ~/.Rprofile
+R -q -e "install.packages('lintr')"
+R -q -e "install.packages('formatR')"
 
 # GO commands
-go get -u github.com/golang/lint/golint
-go get -u golang.org/x/tools/cmd/goimports
-go get -u sourcegraph.com/sqs/goreturns
-go get -u golang.org/x/tools/cmd/gotype
-go get -u github.com/kisielk/errcheck
+#go get -u github.com/golang/lint/golint
+#go get -u golang.org/x/tools/cmd/goimports
+#go get -u sourcegraph.com/sqs/goreturns
+#go get -u golang.org/x/tools/cmd/gotype
+#go get -u github.com/kisielk/errcheck
 
 # Ruby commands
+# Remove Ruby directive from Gemfile as this image has 2.2.5
+sed -i '/^ruby/d' Gemfile
 bundle install --path=vendor/bundle --binstubs=vendor/bin --jobs=8 --retry=3
 
 for dep_version in "${dep_versions[@]}" ; do
@@ -139,7 +142,8 @@ if [ ! -e ~/pmd-bin-5.4.1/bin ]; then
 fi
 
 # Tailor (Swift) commands
-curl -fsSL https://tailor.sh/install.sh | sed 's/read -r CONTINUE < \/dev\/tty/CONTINUE=y/' > install.sh
+curl -fsSL https://tailor.sh/install.sh | sed 's/read -r CONTINUE < \/dev\/tty/CONTINUE=y/;s/^PREFIX.*/PREFIX="~\/.\/local"/' > install.sh
+ > install.sh
 sudo bash install.sh
 
 # making coala cache the dependencies downloaded upon first run

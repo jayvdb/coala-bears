@@ -1,0 +1,96 @@
+language: python
+python:
+  - 3.4
+
+cache:
+  pip: true
+  bundler: true
+  packages: true
+  directories:
+    - ~/coala-bears/node_modules
+    - ~/coala-bears/.bundle
+    - ~/coala-bears/vendor
+    - ~/dart-sdk/bin
+    - ~/.cabal
+    - ~/infer-linux64-v0.7.0
+    - ~/nltk_data
+    - ~/pmd-bin-5.4.1
+    - ~/.local/share/coala-bears
+    - ~/bakalint-0.4.0
+    - ~/.julia
+    - ~/hlint-1.9.26
+    - ~/tailor/
+    - ~/.local/bin
+
+sudo: required
+
+env:
+  global:
+    - USE_PPAS=true
+    - R_LIB_USER=~/R/Library
+    - LINTR_COMMENT_BOT=false
+    - PATH="$PATH:/home/travis/build/jayvdb/coala-bears/vendor/bin:/home/travis/dart-sdk/bin:/home/travis/.cabal/bin:/home/travis/infer-linux64-v0.7.0/infer/bin:/home/travis/pmd-bin-5.4.1/bin:/home/travis/bakalint-0.4.0"
+
+
+addons:
+  apt:
+    sources:
+      - hvr-ghc
+      - avsm
+    packages:
+      - clang-3.4
+      - indent
+      - verilator
+      - php-codesniffer
+      - r-base
+      # r-cran-codetools
+      # r-cran-rcpp
+      # r-cran-colorspace
+      - gfortran
+      - oracle-java8-set-default
+      # haskell-platform
+      - cabal-install
+      - libblas-dev
+      - liblapack-dev
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise
+
+before_install:
+  - echo "constraints:cgi==3001.1.7.4,fgl==5.4.2.4,GLUT==2.1.2.1,haskell-src==1.0.1.5,html==1.0.1.2,HTTP==4000.2.3,HUnit==1.2.4.2,mtl==2.1.1,network==2.3.0.13,OpenGL==2.2.3.1,parallel==3.2.0.2,parsec==3.1.2,QuickCheck==2.4.2,random==1.0.1.1,regex-base==0.93.2,regex-compat==0.95.1,regex-posix==0.95.1,stm==2.3,syb==0.3.6.1,text==0.11.2.0,transformers==0.3.0.0,xhtml==3000.2.1,zlib==0.5.3.3" > ~/.cabal/config
+  - nvm install 4
+  - nvm use 4
+  - bash .ci/deps.shellcheck.sh
+  - bash .ci/deps.sh
+  # https://github.com/coala/coala/issues/3183
+  # https://github.com/coala/coala/issues/3184
+  - pip install -U py==1.4.29 pip
+  - cat test-requirements.txt docs-requirements.txt >> requirements.txt
+  - sed -i '/^-r/d' requirements.txt
+
+before_script:
+  - julia -e 'Pkg.add("Lint")'
+  - python3 -m nltk.downloader punkt maxent_treebank_pos_tagger averaged_perceptron_tagger
+
+script:
+  - echo $PATH
+  - which remark
+  - which tailor
+  - tailor --version
+  - tailor --help
+  - python -c "import language_check"
+  - python -c "import guess_language"
+  - bash .ci/tests.sh
+  - python setup.py install
+  # https://github.com/coala/coala-bears/issues/1037
+  - >
+    if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
+      sed -i '/bears = GitCommitBear/d' .coafile
+    fi
+  - coala --non-interactive
+  - bash .ci/deploy.coverage.sh
+  - rm -rf docs/API && make -C docs clean
+  - python setup.py docs
+
+notifications:
+  email: false
