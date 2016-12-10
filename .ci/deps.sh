@@ -13,11 +13,16 @@ export DEBIAN_FRONTEND=noninteractive
 
 deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia golang luarocks verilator cppcheck flawfinder"
 
+deps_R="r-cran-Rcpp"
+deps_R_precise=" r-cran-xtable r-cran-iterators r-cran-colorspace r-cran-RColorBrewer r-cran-foreach  r-cran-bitops r-cran-caTools "
+deps_R_xenial="r-cran-formatr r-cran-dichromat r-cran-munsell r-cran-labeling r-cran-gtable r-cran-plyr r-cran-scales r-cran-doParallel r-cran-ggplot2 r-cran-reshape2 r-cran-stringi r-cran-magrittr r-cran-praise r-cran-mime r-cran-evaluate r-cran-stringr r-cran-yaml r-cran-base64enc r-cran-crayon r-cran-testthat r-cran-digest r-cran-igraph r-cran-jsonlite"
+
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
     USE_PPAS="true"
     # The Circle provided Go is too old
     sudo mv /usr/local/go /usr/local/circleci-go
+    deps="$deps $deps_R_precise"
     ;;
   "ubuntu-14.04")
     # Use xenial, needed to replace outdated julia provided by Circle CI
@@ -26,6 +31,7 @@ case $CIRCLE_BUILD_IMAGE in
     echo '#!/bin/sh' | sudo tee /usr/bin/systemd-detect-virt > /dev/null
     sudo chmod a+x /usr/bin/systemd-detect-virt
 
+    deps="$deps $deps_R_xenial"
     # The non-apt go provided by Circle CI is acceptable
     deps=${deps/golang/}
     # Add libxml2-utils
@@ -34,7 +40,7 @@ case $CIRCLE_BUILD_IMAGE in
 esac
 
 if [ -n "$ADD_APT_UBUNTU_RELEASE" ]; then
-  echo "deb http://archive.ubuntu.com/ubuntu/ $ADD_APT_UBUNTU_RELEASE main universe" | sudo tee -a /etc/apt/sources.list.d/$ADD_APT_UBUNTU_RELEASE.list > /dev/null
+  echo "deb http://archive.ubuntu.com/ubuntu/ $ADD_APT_UBUNTU_RELEASE main universe multiverse" | sudo tee -a /etc/apt/sources.list.d/$ADD_APT_UBUNTU_RELEASE.list > /dev/null
 fi
 
 if [ "$USE_PPAS" = "true" ]; then
@@ -51,7 +57,7 @@ deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
 
 sudo apt-get -y update
-sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
+sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer $deps_R
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
