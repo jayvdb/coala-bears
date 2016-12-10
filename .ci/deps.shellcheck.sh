@@ -5,8 +5,9 @@ VERSION=0.4.1
 BIN_PATH=~/.cabal/bin/shellcheck
 
 function install_shellcheck {
-  cabal update --verbose=0
-  cabal install --verbose=0 shellcheck-$VERSION
+  cabal update --verbose=1
+  #cabal install transformers-0.4.3.0
+  cabal install --verbose=1 --force-reinstalls shellcheck-$VERSION
 }
 
 function currently_installed_shellcheck_version {
