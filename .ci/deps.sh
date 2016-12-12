@@ -12,6 +12,7 @@ esac
 export DEBIAN_FRONTEND=noninteractive
 
 deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia golang luarocks verilator cppcheck flawfinder"
+deps_infer="m4 opam"
 
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
@@ -28,8 +29,11 @@ case $CIRCLE_BUILD_IMAGE in
 
     # The non-apt go provided by Circle CI is acceptable
     deps=${deps/golang/}
-    # Add libxml2-utils
-    deps="$deps libxml2-utils"
+    # Add extra infer deps
+    deps_infer="$deps_infer ocaml camlp4"
+    # Add packages which are already in the precise image
+    deps="$deps libxml2-utils php-codesniffer"
+    # deps="$deps 'g++>=4.9' 'gfortran>=4.9'"
     ;;
 esac
 
@@ -48,10 +52,20 @@ fi
 deps_python_dbus="libdbus-glib-1-dev libdbus-1-dev"
 deps_python_gi="glib2.0-dev gobject-introspection libgirepository1.0-dev python3-cairo-dev"
 deps_perl="perl libperl-critic-perl"
-deps_infer="m4 opam"
 
 sudo apt-get -y update
 sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
+
+# Activate g++ & gfortran 4.9+ for lintr
+if [ -x /usr/bin/gcc-5 ]; then
+  sudo ln -sf /usr/bin/gcc-5 /usr/bin/gcc
+  sudo ln -sf /usr/bin/g++-5 /usr/bin/g++
+  sudo ln -sf /usr/bin/gfortran-5 /usr/bin/gfortran
+elif [ -x /usr/bin/gcc-4.9 ]; then
+  sudo ln -sf /usr/bin/gcc-4.9 /usr/bin/gcc
+  sudo ln -sf /usr/bin/g++-4.9 /usr/bin/g++
+  sudo ln -sf /usr/bin/gfortran-4.9 /usr/bin/gfortran
+fi
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
