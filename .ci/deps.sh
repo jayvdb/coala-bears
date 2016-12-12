@@ -13,6 +13,7 @@ esac
 export DEBIAN_FRONTEND=noninteractive
 
 deps="libclang1-3.4 indent mono-mcs chktex r-base julia golang luarocks verilator cppcheck flawfinder"
+deps_infer="m4 opam"
 
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
@@ -32,8 +33,10 @@ case $CIRCLE_BUILD_IMAGE in
     # Add packages which are available in xenial
     # The xenial hlint is >= 1.9.1
     deps="$deps hlint"
-    # Add libxml2-utils
-    deps="$deps libxml2-utils"
+    # Add packages which are already in the precise image
+    deps="$deps libxml2-utils php-codesniffer"
+    # Add extra infer deps
+    deps_infer="$deps_infer ocaml camlp4"
     ;;
 esac
 
@@ -50,7 +53,6 @@ if [ "$USE_PPAS" = "true" ]; then
 fi
 
 deps_perl="perl libperl-critic-perl"
-deps_infer="m4 opam"
 
 sudo apt-get -y update
 sudo apt-get -y --no-install-recommends install $deps $deps_perl $deps_infer
