@@ -22,7 +22,7 @@ case $CIRCLE_BUILD_IMAGE in
     ;;
   "ubuntu-14.04")
     # Use xenial, needed to replace outdated julia provided by Circle CI
-    ADD_APT_UBUNTU_RELEASE=xenial
+    ADD_APT_UBUNTU_RELEASE=yakkety
     # Work around lack of systemd on trusty, which xenial's lxc-common expects
     echo '#!/bin/sh' | sudo tee /usr/bin/systemd-detect-virt > /dev/null
     sudo chmod a+x /usr/bin/systemd-detect-virt
@@ -33,7 +33,10 @@ case $CIRCLE_BUILD_IMAGE in
     deps_infer="$deps_infer ocaml camlp4"
     # Add packages which are already in the precise image
     deps="$deps libxml2-utils php-codesniffer"
-    # deps="$deps 'g++>=4.9' 'gfortran>=4.9'"
+    # Add dependency breakers for yakkety
+    deps="$deps libpcre3-dev"
+    # yakkety does not include g++ & gfortran
+    deps="$deps g++-6 gfortran-6"
     ;;
 esac
 
@@ -57,7 +60,11 @@ sudo apt-get -y update
 sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
 
 # Activate g++ & gfortran 4.9+ for lintr
-if [ -x /usr/bin/gcc-5 ]; then
+if [ -x /usr/bin/gcc-6 ]; then
+  sudo ln -sf /usr/bin/gcc-6 /usr/bin/gcc
+  sudo ln -sf /usr/bin/g++-6 /usr/bin/g++
+  sudo ln -sf /usr/bin/gfortran-6 /usr/bin/gfortran
+elif [ -x /usr/bin/gcc-5 ]; then
   sudo ln -sf /usr/bin/gcc-5 /usr/bin/gcc
   sudo ln -sf /usr/bin/g++-5 /usr/bin/g++
   sudo ln -sf /usr/bin/gfortran-5 /usr/bin/gfortran
@@ -84,7 +91,7 @@ npm install
 mkdir -p ~/.RLibrary
 echo '.libPaths( c( "~/.RLibrary", .libPaths()) )' >> .Rprofile
 echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> .Rprofile
-R -e "install.packages('lintr', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
+R -e "install.packages('lintr', dependencies=TRUE)"
 R -e "install.packages('formatR', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
 
 # GO commands
