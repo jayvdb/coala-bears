@@ -91,8 +91,8 @@ npm install
 mkdir -p ~/.RLibrary
 echo '.libPaths( c( "~/.RLibrary", .libPaths()) )' >> .Rprofile
 echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> .Rprofile
-R -e "install.packages('lintr', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
-R -e "install.packages('formatR', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
+R -e "install.packages('lintr', dependencies=TRUE, verbose=FALSE)"
+R -e "install.packages('formatR', dependencies=TRUE, verbose=FALSE)"
 
 # GO commands
 go get -u github.com/golang/lint/golint
