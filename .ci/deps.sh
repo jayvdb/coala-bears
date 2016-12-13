@@ -12,6 +12,7 @@ esac
 export DEBIAN_FRONTEND=noninteractive
 
 deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia golang luarocks verilator cppcheck flawfinder"
+deps_R="r-cran-Rcpp"
 
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
@@ -51,7 +52,16 @@ deps_perl="perl libperl-critic-perl"
 deps_infer="m4 opam"
 
 sudo apt-get -y update
-sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
+sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_R $deps_perl $deps_infer
+
+# R commands
+mkdir -p ~/.RLibrary
+echo '.libPaths( c( "~/.RLibrary", .libPaths()) )' >> .Rprofile
+echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> .Rprofile
+R -e "install.packages('lintr', dependencies=TRUE)"
+R -e "install.packages('formatR', dependencies=TRUE)"
+
+exit 1
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
@@ -65,13 +75,6 @@ sudo dpkg -i ~/hlint_1.9.26-1_amd64.deb
 # NPM commands
 sudo rm -rf /opt/alex # Delete ghc-alex as it clashes with npm deps
 npm install
-
-# R commands
-mkdir -p ~/.RLibrary
-echo '.libPaths( c( "~/.RLibrary", .libPaths()) )' >> .Rprofile
-echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> .Rprofile
-R -e "install.packages('lintr', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
-R -e "install.packages('formatR', dependencies=TRUE, quiet=TRUE, verbose=FALSE)"
 
 # GO commands
 go get -u github.com/golang/lint/golint
