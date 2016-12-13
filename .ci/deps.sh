@@ -22,7 +22,7 @@ case $CIRCLE_BUILD_IMAGE in
     ;;
   "ubuntu-14.04")
     # Use xenial, needed to replace outdated julia provided by Circle CI
-    ADD_APT_UBUNTU_RELEASE=yakkety
+    ADD_APT_UBUNTU_RELEASE=zesty
     # Work around lack of systemd on trusty, which xenial's lxc-common expects
     echo '#!/bin/sh' | sudo tee /usr/bin/systemd-detect-virt > /dev/null
     sudo chmod a+x /usr/bin/systemd-detect-virt
@@ -37,6 +37,8 @@ case $CIRCLE_BUILD_IMAGE in
     deps="$deps libpcre3-dev"
     # yakkety does not include g++ & gfortran
     deps="$deps g++-6 gfortran-6"
+    # zesty includes formatr
+    deps="$deps r-cran-formatr"
     ;;
 esac
 
