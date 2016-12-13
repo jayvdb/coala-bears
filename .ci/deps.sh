@@ -17,6 +17,7 @@ deps_infer="m4 opam"
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
     USE_PPAS="true"
+    .ci/deps.shellcheck.sh
     # The Circle provided Go is too old
     sudo mv /usr/local/go /usr/local/circleci-go
     ;;
@@ -32,7 +33,7 @@ case $CIRCLE_BUILD_IMAGE in
     # Add packages which are already in the precise image
     deps="$deps libxml2-utils php-codesniffer"
     # Add packages which are available in xenial
-    deps="$deps hlint"
+    deps="$deps hlint shellcheck"
     # Add extra infer deps
     deps_infer="$deps_infer ocaml camlp4"
     # Note that g++ & gfortran 4.9 or higher are also needed for R,
