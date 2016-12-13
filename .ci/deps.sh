@@ -11,7 +11,7 @@ esac
 # apt-get commands
 export DEBIAN_FRONTEND=noninteractive
 
-deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia golang luarocks verilator cppcheck flawfinder"
+deps="espeak libclang1-3.4 indent mono-mcs chktex ghc r-base julia golang luarocks verilator cppcheck flawfinder"
 
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
@@ -28,6 +28,8 @@ case $CIRCLE_BUILD_IMAGE in
 
     # The non-apt go provided by Circle CI is acceptable
     deps=${deps/golang/}
+    # Add packages which are available in xenial
+    deps="$deps hlint"
     # Add libxml2-utils
     deps="$deps libxml2-utils"
     ;;
@@ -56,10 +58,12 @@ sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_perl
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
 
 # Update hlint to latest version (not available in apt)
-if [ ! -e ~/hlint_1.9.26-1_amd64.deb ]; then
-  wget https://launchpad.net/ubuntu/+source/hlint/1.9.26-1/+build/8831318/+files/hlint_1.9.26-1_amd64.deb -O ~/hlint_1.9.26-1_amd64.deb
+if [ ! -x /usr/bin/hlint ]; then
+  if [ ! -e ~/hlint_1.9.26-1_amd64.deb ]; then
+    wget https://launchpad.net/ubuntu/+source/hlint/1.9.26-1/+build/8831318/+files/hlint_1.9.26-1_amd64.deb -O ~/hlint_1.9.26-1_amd64.deb
+  fi
+  sudo dpkg -i ~/hlint_1.9.26-1_amd64.deb
 fi
-sudo dpkg -i ~/hlint_1.9.26-1_amd64.deb
 
 # NPM commands
 sudo rm -rf /opt/alex # Delete ghc-alex as it clashes with npm deps
