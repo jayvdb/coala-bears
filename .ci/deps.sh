@@ -14,11 +14,16 @@ export DEBIAN_FRONTEND=noninteractive
 deps="espeak libclang1-3.4 indent mono-mcs chktex hlint r-base julia golang luarocks verilator cppcheck flawfinder"
 deps_infer="m4 opam"
 
+deps_R="r-cran-Rcpp"
+deps_R_precise=" r-cran-xtable r-cran-iterators r-cran-colorspace r-cran-RColorBrewer r-cran-foreach  r-cran-bitops r-cran-caTools "
+deps_R_jessie="r-cran-formatr r-cran-dichromat r-cran-munsell r-cran-labeling r-cran-gtable r-cran-plyr r-cran-scales r-cran-doParallel r-cran-ggplot2 r-cran-reshape2 r-cran-stringi r-cran-magrittr r-cran-praise r-cran-mime r-cran-evaluate r-cran-stringr r-cran-yaml r-cran-base64enc r-cran-crayon r-cran-testthat r-cran-digest r-cran-igraph r-cran-jsonlite"
+
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
     USE_PPAS="true"
     # The Circle provided Go is too old
     sudo mv /usr/local/go /usr/local/circleci-go
+    deps="$deps $deps_R_precise"
     ;;
   "ubuntu-14.04")
     # Use xenial, needed to replace outdated julia provided by Circle CI
@@ -27,6 +32,7 @@ case $CIRCLE_BUILD_IMAGE in
     echo '#!/bin/sh' | sudo tee /usr/bin/systemd-detect-virt > /dev/null
     sudo chmod a+x /usr/bin/systemd-detect-virt
 
+    deps="$deps $deps_R_jessie"
     # The non-apt go provided by Circle CI is acceptable
     deps=${deps/golang/}
     # Add extra infer deps
@@ -55,7 +61,7 @@ deps_python_gi="glib2.0-dev gobject-introspection libgirepository1.0-dev python3
 deps_perl="perl libperl-critic-perl"
 
 sudo apt-get -y update
-sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer
+sudo apt-get -y --no-install-recommends install $deps $deps_python_gi $deps_python_dbus $deps_perl $deps_infer $deps_R
 
 # Activate g++ & gfortran 4.9+ for lintr
 if [ -x /usr/bin/gcc-5 ]; then
