@@ -1,20 +1,20 @@
 dependencies:
   cache_directories:
-    - ~/.apt-cache
-    - ~/.pyenv/versions/3.4.3
-    - ~/.pyenv/versions/3.5.1
-    - ~/coala-bears/node_modules
-    - ~/coala-bears/.bundle
-    - ~/coala-bears/vendor
-    - ~/.RLibrary
-    - ~/dart-sdk/bin
-    - ~/.cabal
-    - ~/infer-linux64-v0.7.0
-    - ~/nltk_data
-    - ~/pmd-bin-5.4.1
-    - ~/.local/share/coala-bears
-    - ~/bakalint-0.4.0
-    - ~/.julia
+    - ~/.apt-cache/
+    - ~/.pyenv/versions/3.4.3/
+    - ~/.pyenv/versions/3.5.1/
+    - ~/coala-bears/node_modules/
+    - ~/coala-bears/.bundle/
+    - ~/coala-bears/vendor/
+    - ~/.RLibrary/
+    - ~/dart-sdk/bin/
+    - ~/.cabal/
+    - ~/infer-linux64-v0.7.0/
+    - ~/nltk_data/
+    - ~/pmd-bin-5.4.1/
+    - ~/.local/share/coala-bears/
+    - ~/bakalint-0.4.0/
+    - ~/.julia/
     - ~/hlint_1.9.26-1_amd64.deb
   pre:
     - sudo rm -rf /var/cache/apt/archives && sudo ln -s ~/.apt-cache /var/cache/apt/archives && mkdir -p ~/.apt-cache/partial
