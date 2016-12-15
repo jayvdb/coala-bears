@@ -62,7 +62,7 @@ fi
 sudo dpkg -i ~/hlint_1.9.26-1_amd64.deb
 
 # NPM commands
-sudo rm -rf /opt/alex # Delete ghc-alex as it clashes with npm deps
+sudo rm -rf $(which alex) # Delete ghc-alex as it clashes with npm deps
 npm install
 
 # R commands
