@@ -42,6 +42,9 @@ machine:
 
 test:
   override:
+    - which tailor
+    - echo $PATH
+    - find ~/.local
     - bash .ci/tests.sh:
         parallel: true
     - python setup.py install:

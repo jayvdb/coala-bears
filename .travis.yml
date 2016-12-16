@@ -70,6 +70,9 @@ before_install:
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
   - bash .ci/deps.sh
+  - which tailor
+  - echo $PATH
+  - find ~/.local
   - bash .ci/deps.shellcheck.sh
   # https://github.com/coala/coala/issues/3183
   # https://github.com/coala/coala/issues/3184
