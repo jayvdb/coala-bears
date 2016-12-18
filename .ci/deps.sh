@@ -32,8 +32,9 @@ case $CIRCLE_BUILD_IMAGE in
     # Add packages which are available in xenial
     # The xenial hlint is >= 1.9.1
     deps="$deps hlint"
-    # Add libxml2-utils
-    deps="$deps libxml2-utils"
+    # Add packages which are preinstalled in the precise image,
+    # but missing from the trusty image.
+    deps="$deps libxml2-utils php-codesniffer"
     ;;
 esac
 
