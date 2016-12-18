@@ -16,7 +16,7 @@ with open(VERSION_FILE, 'r') as ver:
 __version__ = VERSION
 
 
-def assert_supported_version():  # pragma: no cover
+def assert_supported_version():
     if not sys.version_info > (3, 3):
         print('coala supports only python 3.4 or later.')
         exit(4)

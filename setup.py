@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 
-# Start ignoring PyImportSortBear as imports below may yield syntax errors
-from bears import assert_supported_version
-assert_supported_version()
-# Stop ignoring
 
 import locale
 import sys
 from subprocess import call
 
 import setuptools.command.build_py
-from bears import Constants
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
+
+from bears import Constants
+from bears import assert_supported_version
 
 try:
     locale.getlocale()
 except (ValueError, UnicodeError):
     locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+
+
+assert_supported_version()
 
 
 class PyTestCommand(TestCommand):
