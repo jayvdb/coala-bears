@@ -34,9 +34,12 @@ case $CIRCLE_BUILD_IMAGE in
     # The xenial hlint is >= 1.9.1
     deps="$deps hlint"
     # Add packages which are already in the precise image
-    deps="$deps libxml2-utils php-codesniffer"
+    deps="$deps g++-4.9 libxml2-utils php-codesniffer"
+    # gfortran on CircleCI precise is 4.6 and R irlba compiles ok,
+    # but for reasons unknown it fails on trusty without gfortran-4.9
+    deps="$deps gfortran-4.9"
     # Add extra infer deps
-    deps_infer="$deps_infer ocaml camlp4"
+    deps_infer="$deps_infer ocaml camlp4 aspcud"
     ;;
 esac
 
@@ -56,6 +59,16 @@ deps_perl="perl libperl-critic-perl"
 
 sudo apt-get -y update
 sudo apt-get -y --no-install-recommends install $deps $deps_perl $deps_infer
+
+# Activate g++ & gfortran 4.9+ for lintr
+ls -al /usr/bin/gcc* /usr/bin/g++* /usr/bin/gfortran* || true
+
+# On Trusty, the installed g++ & gfortran 4.9 need activating.
+if [[ "$CIRCLE_BUILD_IMAGE" == "ubuntu-14.04" ]]; then
+  sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
+  sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20
+  sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-4.9 20
+fi
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
