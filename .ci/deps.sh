@@ -37,8 +37,26 @@ case $CIRCLE_BUILD_IMAGE in
     deps="$deps libxml2-utils php-codesniffer"
     # Add extra infer deps
     deps_infer="$deps_infer ocaml camlp4"
+    # Note that g++ & gfortran 4.9 or higher are also needed for lintr
+    # dependency Rcpp and 5.x is already included due to other dependencies.
+    # However, it needs activating; see immediately below.
     ;;
 esac
+
+# Activate g++ & gfortran 4.9+ for lintr
+if [ -x /usr/bin/gcc-6 ]; then
+  sudo ln -sf /usr/bin/gcc-6 /usr/bin/gcc
+  sudo ln -sf /usr/bin/g++-6 /usr/bin/g++
+  sudo ln -sf /usr/bin/gfortran-6 /usr/bin/gfortran
+elif [ -x /usr/bin/gcc-5 ]; then
+  sudo ln -sf /usr/bin/gcc-5 /usr/bin/gcc
+  sudo ln -sf /usr/bin/g++-5 /usr/bin/g++
+  sudo ln -sf /usr/bin/gfortran-5 /usr/bin/gfortran
+elif [ -x /usr/bin/gcc-4.9 ]; then
+  sudo ln -sf /usr/bin/gcc-4.9 /usr/bin/gcc
+  sudo ln -sf /usr/bin/g++-4.9 /usr/bin/g++
+  sudo ln -sf /usr/bin/gfortran-4.9 /usr/bin/gfortran
+fi
 
 if [ -n "$ADD_APT_UBUNTU_RELEASE" ]; then
   echo "deb http://archive.ubuntu.com/ubuntu/ $ADD_APT_UBUNTU_RELEASE main universe" | sudo tee -a /etc/apt/sources.list.d/$ADD_APT_UBUNTU_RELEASE.list > /dev/null
