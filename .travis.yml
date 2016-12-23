@@ -61,7 +61,6 @@ cache:
 env:
   global:
     - CIRCLE_NODE_INDEX=-1  # Avoid accidentially being a CircleCI worker
-    - USE_PPAS=true
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
     - PATH="$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
@@ -72,6 +71,9 @@ before_install:
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
+  - sudo add-apt-repository -y ppa:marutter/rdev
+  - sudo add-apt-repository -y ppa:staticfloat/juliareleases
+  - sudo add-apt-repository -y ppa:ondrej/golang
   - bash .ci/deps.sh
   - bash .ci/deps.shellcheck.sh
   # https://github.com/coala/coala/issues/3183
