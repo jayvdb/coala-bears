@@ -73,7 +73,6 @@ before_install:
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
   - sudo add-apt-repository -y ppa:staticfloat/juliareleases
-  - sudo add-apt-repository -y ppa:staticfloat/julia-deps
   - sudo add-apt-repository -y ppa:ondrej/golang
   - bash .ci/deps.sh
   - bash .ci/deps.shellcheck.sh
