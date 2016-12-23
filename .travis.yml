@@ -30,6 +30,8 @@ addons:
       - luarocks
       - menhir
       - mono-mcs
+      - ocaml
+      - opam
       - oracle-java9-set-default
       - php-codesniffer
       - verilator
