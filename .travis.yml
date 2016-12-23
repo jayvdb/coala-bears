@@ -1,11 +1,18 @@
 sudo: required
 
 language: python
-python:
-  - 3.4
-  - 3.5
+#python:
+#  - 3.4
+#  - 3.5
 
 dist: trusty
+
+matrix:
+  include:
+    - os: osx
+      langauge: generic
+    - os: osx
+      langauge: generic
 
 addons:
   apt:
