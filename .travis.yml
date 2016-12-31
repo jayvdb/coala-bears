@@ -77,6 +77,7 @@ before_install:
   - echo 'language_check==0.8.*' >> requirements.txt
 
 before_script:
+  - pip --version
   - rst-lint README.rst
   - python -c "from restructuredtext_lint import lint; print(lint('It features more than **78 bears** covering'));"
   - python3 -m nltk.downloader punkt maxent_treebank_pos_tagger averaged_perceptron_tagger
