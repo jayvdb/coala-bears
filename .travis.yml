@@ -79,7 +79,6 @@ before_install:
 before_script:
   - rst-lint README.rst
   - python -c "from restructuredtext_lint import lint; print(lint('It features more than **78 bears** covering'));"
-  - exit 10
   - python3 -m nltk.downloader punkt maxent_treebank_pos_tagger averaged_perceptron_tagger
 
 script:
