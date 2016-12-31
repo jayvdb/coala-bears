@@ -61,8 +61,9 @@ def get_all_pip_requirements(bears):
 
     for bear in bears:
         for requirement in bear.REQUIREMENTS:
-            if isinstance(requirement, PipRequirement) and \
-               requirement not in requirements:
+            if (isinstance(requirement, PipRequirement) and
+                requirement not in requirements
+                and requirement.package != 'libclang-py3'):
                 requirements.append(requirement)
 
     return sorted(requirements, key=lambda requirement: requirement.package)
