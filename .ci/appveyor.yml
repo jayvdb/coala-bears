@@ -20,11 +20,6 @@ cache:
   - "C:\\Users\\appveyor\\AppData\\Local\\coala-bears\\coala-bears"
   - "C:\\Users\\appveyor\\AppData\\Roaming\\nltk_data"
 
-branches:  # Only build official branches, PRs are built anyway.
-  only:
-    - master
-    - /release.*/
-
 install:
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
@@ -40,6 +35,9 @@ install:
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  - "python -c \"import shutil; print(shutil.which('perlcritic.bat'))\""
+  - exit 1
 
   - "%CMD_IN_ENV% pip install wheel"
   # Create c:/wheels if it does not exist.
