@@ -36,6 +36,7 @@ install:
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
 
+  - "C:\\Ruby23-x64\\DevKit\\devkitvars.bat"
   - "python -c \"import shutil; print(shutil.which('perlcritic.bat'))\""
   - "dir C:\\Perl\\bin\\"
   - exit 1
