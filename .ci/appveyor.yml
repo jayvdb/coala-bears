@@ -37,6 +37,7 @@ install:
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
 
   - "python -c \"import shutil; print(shutil.which('perlcritic.bat'))\""
+  - "dir C:\\Perl\\bin\\"
   - exit 1
 
   - "%CMD_IN_ENV% pip install wheel"
