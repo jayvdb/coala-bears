@@ -113,7 +113,9 @@ script:
       fi
     fi
   - if [[ "$UNSUPPORTED" == true ]]; then exit; fi
+  - echo Wheels $(ls ./dist/*.whl)
   - python setup.py bdist_wheel
+  - echo Wheels $(ls ./dist/*.whl)
   - pip install $(ls ./dist/*.whl)"[alldeps]"
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
