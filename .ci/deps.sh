@@ -12,7 +12,7 @@ esac
 # apt-get commands
 export DEBIAN_FRONTEND=noninteractive
 
-deps="libclang1-3.4 indent mono-mcs chktex r-base julia golang luarocks verilator cppcheck flawfinder"
+deps="libclang1-3.4 indent mono-mcs chktex r-base-core julia golang luarocks verilator cppcheck flawfinder"
 deps_infer="m4 opam"
 
 case $CIRCLE_BUILD_IMAGE in
