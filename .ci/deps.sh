@@ -156,7 +156,8 @@ fi
 julia -e "Pkg.add(\"Lint\")"
 
 # Lua commands
-sudo luarocks install luacheck --deps-mode=none
+# luacheck 0.7.3 only needs lua-filesystem 1.6.2, available on Ubuntu precise
+sudo luarocks install --deps-mode=none luacheck 0.7.3
 
 # Infer commands
 if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then

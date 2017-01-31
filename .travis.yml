@@ -28,6 +28,7 @@ addons:
       - indent
       - libblas-dev
       - liblapack-dev
+      - liblua5.1-filesystem0
       - libperl-critic-perl
       - libxml2-utils
       - luarocks
