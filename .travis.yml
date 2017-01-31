@@ -26,9 +26,13 @@ addons:
       - ghc
       - haskell-platform
       - indent
+      - libarpack2
       - libblas-dev
+      - libfftw3-3
       - liblapack-dev
+      - libopenblas-base
       - libperl-critic-perl
+      - libumfpack5.6.2
       - libxml2-utils
       - luarocks
       - menhir
