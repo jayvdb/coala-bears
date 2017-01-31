@@ -40,6 +40,7 @@ addons:
       - ocaml
       - opam
       - php-codesniffer
+      - r-base
       - verilator
 
 cache:
