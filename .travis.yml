@@ -1,42 +1,150 @@
-sudo: required
-
-language: python
-python:
-  # 2.7 is rejected by dependency mypy-lang
-  - 3.3
-  - 3.4
-  - 3.5
-  - 3.6-dev
+sudo: false
 
 dist: trusty
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - avsm  # OPAM stable
-      - hvr-ghc  # Haskell
-    packages:
-      - cabal-install
-      - chktex
-      - clang-3.4
-      - cppcheck
-      - flawfinder
-      - gfortran
-      - ghc
-      - haskell-platform
-      - indent
-      - libblas-dev
-      - liblapack-dev
-      - libperl-critic-perl
-      - libxml2-utils
-      - luarocks
-      - menhir
-      - mono-mcs
-      - ocaml
-      - opam
-      - php-codesniffer
-      - verilator
+matrix:
+  include:
+    - language: perl
+
+    - language: java
+      jdk: oraclejdk8
+
+    - language: bash
+      env: BEARS=lua
+      addons:
+        apt:
+          packages:
+            - luarocks
+
+    - language: bash
+      env: BEARS=opam
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - ocaml
+            - opam
+
+    - language: python
+      python: 3.3
+    - language: python
+      python: 3.5
+      addons:
+        apt:
+          packages: clang-3.4
+
+    - language: node_js
+      node_js: 4
+    - language: node_js
+      node_js: 5
+    - language: node_js
+      node_js: 6
+
+    - language: ruby
+      rvm: 2.2
+    - language: ruby
+      rvm: 2.1
+    - language: ruby
+      rvm: 2.0
+
+    - language: r
+    - language: dart
+    - language: julia
+    - language: php
+
+    - language: haskell
+      ghc: 8.0.2
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - cabal-install-1.24
+            - ghc-8.0.2
+            - happy-1.19.3
+            - python3.4
+
+    # go 1.5 isnt supported by all go linters
+    - language: go
+      go: 1.6
+    - language: go
+      go: 1.7
+
+    - language: generic
+      env: DIST=precise
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - cabal-install-1.24
+            - ghc-8.0.2
+            - happy-1.19.3
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            # php-codesniffer  # linter error?
+            - python3.4
+            - verilator
+
+    - language: generic
+      env: DIST=trusty
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            - php-codesniffer
+            - verilator
+
+    - language: generic
+      env: DIST=debian-sid
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - debian-sid
+          packages:
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - libxml2-utils
+            - verilator
+            # Causes error during apt-get install:
+            # libperl-critic-perl
+            # mono-mcs
+            # php5-cli
+            # php-codesniffer
+    - language: generic
+      env: DIST=xenial
+      dist: trusty
+      sudo: required
+    - language: generic
+      env: DIST=yakkety
+      dist: trusty
+      sudo: required
+    - language: generic
+      env: DIST=zesty
+      dist: trusty
+      sudo: required
 
 cache:
   pip: true
@@ -66,41 +174,121 @@ env:
     - USE_PPAS="marutter/rdev staticfloat/juliareleases ondrej/golang"
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
-    - PATH="$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
+    - TRAVIS_GHC_ROOT=/opt/ghc
+    - PATH="/opt/cabal/1.24/bin:/opt/happy/1.19.3/bin:$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
 
 before_install:
-  - export TRAVIS_PYTHON_VERSION_MAJOR=${TRAVIS_PYTHON_VERSION%.[0-9]}
-  - export TRAVIS_PYTHON_VERSION_MINOR=${TRAVIS_PYTHON_VERSION#[0-9].}
+  - mkdir $HOME/bin/
   - >
-    if [[ $TRAVIS_PYTHON_VERSION_MINOR < 4 || $TRAVIS_PYTHON_VERSION_MAJOR == 2 ]]; then
-      UNSUPPORTED=true
+    if [[ "$DIST" != "" && "$DIST" != "precise" && "$DIST" != "trusty" && "$DIST" != "debian-sid" ]]; then
+      echo "deb http://archive.ubuntu.com/ubuntu/ $DIST main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
+      echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-updates main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
+      echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-backports main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
+      sudo apt-get -y update
+      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent libperl-critic-perl libxml2-utils mono-mcs php7.0-cli php-codesniffer verilator
+    fi
+  - if [[ "$DIST" == "trusty" || "$DIST" == "debian-sid" ]]; then ls /usr/bin/php $HOME/bin/; fi
+
+  - >
+    if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
+      mkdir -p $HOME/bin
+      echo pip3.4 is $(which pip3.4)
+      echo python3.4 is $(which python3.4)
+      if [[ -n "$(which pip3.4)" ]]; then ln -sf $(which pip3.4) $HOME/bin/pip3; fi
+      if [[ -n "$(which python3.4)" ]]; then ln -sf $(which python3.4) $HOME/bin/python3; fi
+      echo pip3.5 is $(which pip3.5)
+      echo python3.5 is $(which python3.5)
+      if [[ -n "$(which pip3.5)" ]]; then ln -sf $(which pip3.5) $HOME/bin/pip3; fi
+      if [[ -n "$(which python3.5)" ]]; then ln -sf $(which python3.5) $HOME/bin/python3; fi
+      echo pip3 is $(which pip3)
+      echo python3 is $(which python3)
+      if [[ -n "$(which python3)" ]]; then ln -sf $(which python3) $HOME/bin/python; fi
+      python --version
+      # Needed as some hosts may be providing python 3.2
+      wget https://bootstrap.pypa.io/get-pip.py
+      python get-pip.py --user
+      rm get-pip.py
+      cp $HOME/.local/bin/pip $HOME/.local/bin/pip3
+      cp $HOME/.local/bin/pip $HOME/bin/pip
+      cp $HOME/.local/bin/pip $HOME/bin/pip3
+      pip --version
     fi
 
-  - nvm install 4
-  - nvm use 4
+  # Change environment for flawfinder from python to python2
+  - if [[ -n "$(which flawfinder)" ]]; then
+      sed -e '1s/.*/#!\/usr\/bin\/env python2/' $(which flawfinder) > $HOME/bin/flawfinder;
+      chmod a+x $HOME/bin/flawfinder;
+    fi
+
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
-  - if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.sh; fi
-  - if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.shellcheck.sh; fi
+  - if [[ "$BEARS" == "all" ]]; then nvm install 4; nvm use 4; bash .ci/deps.sh; fi
+  - if [[ "$BEARS" == "all" ]]; then bash .ci/deps.shellcheck.sh; fi
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
-  - cat test-requirements.txt docs-requirements.txt bear-requirements.txt >> requirements.txt
+  - cat test-requirements.txt docs-requirements.txt >> requirements.txt
+  - >
+    if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
+      cat bear-requirements.txt >> requirements.txt;
+    elif [[ "$TRAVIS_LANGUAGE" == "ruby" ]]; then
+      echo 'pyyaml' > bear-requirements.txt;
+    else
+      rm bear-requirements.txt; touch bear-requirements.txt;
+    fi
   - sed -i '/^-r/d' requirements.txt
   # On unsupported versions, coala will be installed in the `script` block
   - >
     if [[ "$UNSUPPORTED" == true ]]; then
       sed -e '/^coala/d' requirements.txt > requirements.new
       mv requirements.new requirements.txt
+      BEARS=none
+    fi
+  - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install --user -r requirements.txt; fi
+  - >
+    if [[ "$TRAVIS_LANGUAGE" == "haskell" ]]; then
+      sed -i 's/-- force-reinstalls: False/force-reinstalls: True/' /home/travis/.cabal/config
+      sed -i 's/-- max-backjumps: 200/max-backjumps: 1000/' /home/travis/.cabal/config
+      if [[ -n "$(which ghc-mod)" && -n "$(which hlint)" && -n "$(which shellcheck)" ]]; then
+        sed -i 's/build-depends: .*/build-depends: base, Cabal/' coala.cabal
+      fi
     fi
 
 before_script:
+  - if [[ "$TRAVIS_LANGUAGE" == "go" ]]; then
+      grep ImportPath Godeps/Godeps.json | cut -d '"' -f 4 | grep '[a-z]' | xargs go get;
+    fi
+  - if [[ "$TRAVIS_LANGUAGE" == "php" ]]; then
+      pear install pear/PHP_CodeSniffer;
+      phpenv rehash;
+    fi
+  - if [[ "$TRAVIS_LANGUAGE" == "julia" ]]; then
+      julia -e "Pkg.add(\"Lint\")";
+    fi
+  - if [[ "$TRAVIS_LANGUAGE" == "java" ]]; then
+      bash .ci/deps.java.sh;
+    fi
+  - if [[ "$BEARS" == "opam" ]]; then
+      bash .ci/deps.opam.sh;
+    fi
+  - if [[ "$BEARS" == "lua" ]]; then
+      luarocks install --local --deps-mode=none luacheck;
+    fi
+  - if [[ "$TRAVIS_LANGUAGE" == "perl" ]]; then
+      wget "http://downloads.sourceforge.net/project/fpgalibre/bakalint/0.4.0/bakalint-0.4.0.tar.gz?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Ffpgalibre%2Ffiles%2Fbakalint%2F0.4.0%2F&ts=1461844926&use_mirror=netcologne" -O ~/bl.tar.gz ;
+      tar xf ~/bl.tar.gz -C /tmp ;
+      mv /tmp/bakalint-0.4.0/bakalint.pl $HOME/bin ;
+    fi
   - mv requirements.orig requirements.txt
   # nltk 3.2.2 dropped support for Python 3.3
   - >
-    if [[ "$TRAVIS_PYTHON_VERSION" != "3.3" ]]; then
+    if [[ -n "$TRAVIS_PYTHON_VERSION" && "$TRAVIS_PYTHON_VERSION" != "3.3" ]]; then
       python -m nltk.downloader punkt maxent_treebank_pos_tagger averaged_perceptron_tagger
     fi
+  # Only keep non-Python bears on Python 3.4
+  - bash .ci/bears.prune.sh
+  # Delete tests for removed bears
+  - bash .ci/tests.prune.sh
 
 script:
   - >
@@ -113,12 +301,30 @@ script:
       fi
     fi
   - if [[ "$UNSUPPORTED" == true ]]; then exit; fi
-  - python setup.py bdist_wheel
-  - pip install $(ls ./dist/*.whl)"[alldeps]"
+  - coverage run setup.py bdist_wheel
+  - >
+    if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
+      pip install $(ls ./dist/*.whl)"[alldeps]"
+    else
+      pip install --user $(ls ./dist/*.whl)
+    fi
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py
-  - git diff --exit-code bear-requirements.txt Gemfile package.json
+  - >
+    if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
+      (cat bear-requirements.txt; echo "pyyaml~=3.12") | sort -u > bear-requirements.tmp
+      mv bear-requirements.tmp bear-requirements.txt
+      git diff --exit-code bear-requirements.txt
+    fi
+  - >
+    if [[ "$TRAVIS_LANGUAGE" == "ruby" ]]; then
+      git diff --exit-code Gemfile
+    fi
+  - >
+    if [[ "$TRAVIS_LANGUAGE" == "node_js" ]]; then
+      git diff --exit-code package.json
+    fi
   # https://github.com/coala/coala-bears/issues/1037
   - >
     if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
