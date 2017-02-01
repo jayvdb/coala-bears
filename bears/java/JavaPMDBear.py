@@ -5,7 +5,7 @@ from coalib.bearlib import deprecate_settings
 from coala_utils.param_conversion import negate
 
 
-@linter('bash', output_format='regex',
+@linter(executable='bash', output_format='regex',
         output_regex=r'.+:(?P<line>.+):(?P<message>.*)')
 class JavaPMDBear:
     """
