@@ -27,6 +27,7 @@ addons:
       - haskell-platform
       - indent
       - libblas-dev
+      - libghc-nats-dev
       - liblapack-dev
       - libperl-critic-perl
       - libxml2-utils
