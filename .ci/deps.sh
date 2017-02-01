@@ -143,33 +143,9 @@ julia -e "Pkg.add(\"Lint\")"
 # Lua commands
 sudo luarocks install luacheck --deps-mode=none
 
-# Infer commands
-if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
-  wget -nc -O ~/infer.tar.xz https://github.com/facebook/infer/releases/download/v0.7.0/infer-linux64-v0.7.0.tar.xz
-  tar xf ~/infer.tar.xz -C ~/
-  cd ~/infer-linux64-v0.7.0
-  opam init --y
-  opam update
-  opam pin add --yes --no-action infer .
-  opam install --deps-only --yes infer
-  ./build-infer.sh java
-fi
+source .ci/deps.opam.sh
 
-# PMD commands
-if [ ! -e ~/pmd-bin-5.4.1/bin ]; then
-  wget -nc -O ~/pmd.zip https://github.com/pmd/pmd/releases/download/pmd_releases%2F5.4.1/pmd-bin-5.4.1.zip
-  unzip ~/pmd.zip -d ~/
-fi
-
-# Tailor (Swift) commands
-# Comment out the hardcoded PREFIX, so we can put it into ~/.local
-if [ ! -e ~/.local/tailor/tailor-latest ]; then
-  curl -fsSL -o install.sh https://tailor.sh/install.sh
-  sed -i 's/read -r CONTINUE < \/dev\/tty/CONTINUE=y/;;s/^PREFIX.*/# PREFIX=""/;' install.sh
-  PREFIX=$HOME/.local bash ./install.sh
-  # Provide a constant path for the executable
-  ln -s ~/.local/tailor/tailor-* ~/.local/tailor/tailor-latest
-fi
+source .ci/deps.java.sh
 
 # making coala cache the dependencies downloaded upon first run
 echo '' > dummy
