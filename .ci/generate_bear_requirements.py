@@ -17,6 +17,7 @@ import argparse
 import itertools
 import json
 import os
+import re
 import sys
 
 from jinja2 import Environment, FileSystemLoader
@@ -81,6 +82,15 @@ def get_inherited_requirements():
     in_inherited = False
     with open(os.path.join(PROJECT_DIR, 'requirements.txt'), 'r') as file:
         for line in file.read().splitlines():
+            line = line.strip()
+            if not line.startswith('#'):
+                m = re.match('^[A-Za-z._-]+', line)
+                if m:
+                    requirement = m.group(0)
+                    inherited_requirements.add(requirement.replace('-', '_'))
+                    inherited_requirements.add(requirement.replace('_', '-'))
+                continue
+
             if 'inherited' in line:
                 in_inherited = True
                 continue
