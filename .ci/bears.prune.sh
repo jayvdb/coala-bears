@@ -92,10 +92,19 @@ non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
 echo Non-Python $non_python_bears
 
+remove_bears=''
 if [[ $BEARS == "python" ]]; then
-  rm $non_python_bears
   # The test for generate_package depends on non-Python bears
-  rm bears/generate_package.py
+  remove_bears="$non_python_bears bears/generate_package.py"
+elif [[ $BEARS == "npm" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $npm_requirement_bears))
+elif [[ $BEARS == "gem" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $gem_requirement_bears))
 fi
+
+for bear in $remove_bears; do
+  echo Removing $bear
+  rm $bear
+done
 
 source .ci/bears.dirs.prune.sh
