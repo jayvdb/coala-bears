@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import configparser
 import locale
 import sys
 from subprocess import call
@@ -52,9 +53,18 @@ with open('README.rst') as readme:
 extras_require = {
     'alldeps': bear_required,
 }
-required += [req for req in bear_required
-             if not req.startswith('language-check')]
 
+python_bears_deps = True
+
+config = configparser.ConfigParser()
+config.read('setup.cfg')
+if 'setup:custom' in config.sections():
+    if config['setup:custom']['python-bears'] == 'False':
+        python_bears_deps = False
+
+if python_bears_deps:
+    required += [req for req in bear_required
+                 if not req.startswith('language-check')]
 
 if __name__ == '__main__':
     setup(name='coala-bears',

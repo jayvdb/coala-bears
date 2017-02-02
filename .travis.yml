@@ -11,7 +11,7 @@ matrix:
     - language: r
     - language: go
     - language: haskell
-      ghc: 7.4
+      ghc: 7.8
       env: THIS=ghc
 
 cache:
@@ -63,8 +63,11 @@ before_install:
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - cat test-requirements.txt docs-requirements.txt >> requirements.txt
-  - if [[ "$BEARS" == "all" || "$BEARS" == "python" ]]; then
+  - >
+    if [[ "$BEARS" == "all" || "$BEARS" == "python" ]]; then
       cat bear-requirements.txt >> requirements.txt;
+    else
+      rm bear-requirements.txt; touch bear-requirements.txt;
     fi
   - sed -i '/^-r/d' requirements.txt
   # On unsupported versions, coala will be installed in the `script` block
@@ -74,7 +77,7 @@ before_install:
       mv requirements.new requirements.txt
       BEARS=none
     fi
-  - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install -r requirements.txt; fi
+  # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install -r requirements.txt; fi
 
 before_script:
   - mv requirements.orig requirements.txt
@@ -112,10 +115,12 @@ script:
   - >
     if [[ "$BEARS" == "all" || "$BEARS" == "python" ]]; then
       git diff --exit-code bear-requirements.txt
-    fi;
+    fi
+  - >
     if [[ "$BEARS" == "all" || "$BEARS" == "gem" ]]; then
       git diff --exit-code Gemfile
-    fi;
+    fi
+  - >
     if [[ "$BEARS" == "all" || "$BEARS" == "npm" ]]; then
       git diff --exit-code package.json
     fi

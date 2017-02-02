@@ -85,6 +85,8 @@ non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
 remove_bears=''
 
+echo Removing bears not desirable for $BEARS
+
 if [[ $BEARS == "python" ]]; then
   # The test for generate_package depends on non-Python bears
   remove_bears="$non_python_bears"
