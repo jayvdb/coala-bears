@@ -6,16 +6,11 @@ if [[ "$BEARS" == "all" ]]; then
   exit 0
 fi
 
-
-#rm $(comm -23 <(ls bears/*/[A-Za-z]*.py | grep -v general | sort) <(grep -l PipRequirement bears/*/*.py | sort))
-#      rm bears/general/CPDBear.py
-#      rm bears/generate_package.py
-      
 bears=$(find bears -type f -and -name '*Bear.py' | sort)
 
 yield_result_bears=$(grep -m 1 -l 'yield Result' $bears)
 
-non_yield_result_bears=$(comm -23 <(ls $bears) <(ls $yield_result_bears)) 
+non_yield_result_bears=$(comm -23 <(ls $bears) <(ls $yield_result_bears))
 
 requirement_bears=$(grep -m 1 -l 'Requirement(' $bears)
 
@@ -92,10 +87,23 @@ non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
 echo Non-Python $non_python_bears
 
+remove_bears=''
 if [[ $BEARS == "python" ]]; then
-  rm $non_python_bears
   # The test for generate_package depends on non-Python bears
-  rm bears/generate_package.py
+  remove_bears="$non_python_bears"
+elif [[ $BEARS == "npm" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $npm_requirement_bears))
+elif [[ $BEARS == "gem" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $gem_requirement_bears))
 fi
+
+if [[ $BEARS != "all" && $BEARS != "python" && $BEARS != "pip" ]]; then
+  remove_bears="bears/generate_package.py $remove_bears"
+fi
+
+for bear in $remove_bears; do
+  echo Removing $bear
+  rm $bear
+done
 
 source .ci/bears.dirs.prune.sh

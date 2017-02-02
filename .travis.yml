@@ -1,52 +1,20 @@
 sudo: false
-
-language: python
-python:
-  # 2.7 is rejected by dependency mypy-lang
-  - 3.4
-  - 3.6
+dist: trusty
 
 addons:
-  apt:
-    packages:
-      - clang-3.4
+  sources:
+    - debian-sid
+  packages:
+    - python3
 
 matrix:
   include:
-    - python: 3.5
-      sudo: required
-      env: BEARS=all
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - avsm  # OPAM stable
-            - hvr-ghc  # Haskell
-          packages:
-            - cabal-install
-            - chktex
-            - clang-3.4
-            - cppcheck
-            - flawfinder
-            - gfortran
-            - ghc
-            - haskell-platform
-            - indent
-            - libblas-dev
-            - liblapack-dev
-            - libperl-critic-perl
-            - libxml2-utils
-            - luarocks
-            - menhir
-            - mono-mcs
-            - ocaml
-            - opam
-            - php-codesniffer
-            - verilator
-
-    - python: 3.3
-      env: UNSUPPORTED=true
+    - language: node_js
+      node_js: 4
+      env: BEARS=npm
+    - language: ruby
+      rvm: 2
+      env: BEARS=gem
 
 cache:
   pip: true
@@ -76,25 +44,24 @@ env:
     - USE_PPAS="marutter/rdev staticfloat/juliareleases ondrej/golang"
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
-    - PATH="$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
-  matrix:
-    - BEARS=python
+    - PATH="$TRAVIS_BUILD_DIR/node_modules/.bin:$PATH:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
 
 before_install:
-  - export TRAVIS_PYTHON_VERSION_MAJOR=${TRAVIS_PYTHON_VERSION%.[0-9]}
-  - export TRAVIS_PYTHON_VERSION_MINOR=${TRAVIS_PYTHON_VERSION#[0-9].}
   - >
-    if [[ $TRAVIS_PYTHON_VERSION_MINOR < 4 || $TRAVIS_PYTHON_VERSION_MAJOR == 2 ]]; then
-      UNSUPPORTED=true
+    if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
+      mkdir -p $TRAVIS_BUILD_DIR/node_modules/.bin
+      ln -sf $(which pip3) $TRAVIS_BUILD_DIR/node_modules/.bin/pip
+      ln -sf $(which python3) $TRAVIS_BUILD_DIR/node_modules/.bin/python
+      pip --version
+      python --version
     fi
 
-  - nvm install 4
-  - nvm use 4
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
-  - if [[ "$BEARS" == "all" ]]; then bash .ci/deps.sh; fi
+  - if [[ "$BEARS" == "all" ]]; then nvm install 4; nvm use 4; bash .ci/deps.sh; fi
   - if [[ "$BEARS" == "all" ]]; then bash .ci/deps.shellcheck.sh; fi
+  - if [[ "$BEARS" == "npm" ]]; then npm install; fi
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - cat test-requirements.txt docs-requirements.txt bear-requirements.txt >> requirements.txt
@@ -105,14 +72,11 @@ before_install:
       sed -e '/^coala/d' requirements.txt > requirements.new
       mv requirements.new requirements.txt
     fi
+  - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install -r requirements.txt; fi
 
 before_script:
   - mv requirements.orig requirements.txt
   # nltk 3.2.2 dropped support for Python 3.3
-  - >
-    if [[ "$TRAVIS_PYTHON_VERSION" != "3.3" ]]; then
-      python -m nltk.downloader punkt maxent_treebank_pos_tagger averaged_perceptron_tagger
-    fi
   # Only keep non-Python bears on Python 3.4
   - bash .ci/bears.prune.sh
   # Delete tests for removed bears
@@ -129,16 +93,21 @@ script:
       fi
     fi
   - if [[ "$UNSUPPORTED" == true ]]; then exit; fi
-  - python setup.py bdist_wheel
+  - coverage run setup.py bdist_wheel
   - pip install $(ls ./dist/*.whl)"[alldeps]"
+  - find tests
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py
   - >
-    if [[ "$BEARS" == "all" ]]; then
-      git diff --exit-code bear-requirements.txt Gemfile package.json
-    else
+    if [[ "$BEARS" == "all" || "$BEARS" == "python" ]]; then
       git diff --exit-code bear-requirements.txt
+    fi;
+    if [[ "$BEARS" == "all" || "$BEARS" == "gem" ]]; then
+      git diff --exit-code Gemfile
+    fi;
+    if [[ "$BEARS" == "all" || "$BEARS" == "npm" ]]; then
+      git diff --exit-code package.json
     fi
   # https://github.com/coala/coala-bears/issues/1037
   - >
