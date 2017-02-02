@@ -1,0 +1,21 @@
+{
+    "ImportPath": "github.com/foo/bar",
+    "GoVersion": "go1.6",
+    "Deps": [
+        {
+            "ImportPath": "github.com/golang/lint/golint"
+        },
+        {
+            "ImportPath": "golang.org/x/tools/cmd/goimports"
+        },
+        {
+            "ImportPath": "sourcegraph.com/sqs/goreturns"
+        },
+        {
+            "ImportPath": "golang.org/x/tools/cmd/gotype"
+        },
+        {
+            "ImportPath": "github.com/kisielk/errcheck"
+        }
+    ]
+}

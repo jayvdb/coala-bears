@@ -11,6 +11,13 @@ matrix:
     - language: r
     - language: go
     - language: haskell
+      sudo: required
+      dist: precise
+      ghc: 7.8
+      env: THIS=ghc
+    - language: haskell
+      sudo: false
+      dist: precise
       ghc: 7.8
       env: THIS=ghc
 
@@ -66,7 +73,7 @@ before_install:
     if [[ "$BEARS" == "all" || "$BEARS" == "python" ]]; then
       cat bear-requirements.txt >> requirements.txt;
     else
-      rm bear-requirements.txt; touch bear-requirements.txt;
+      echo 'pyyaml' > bear-requirements.txt;
     fi
   - sed -i '/^-r/d' requirements.txt
   # On unsupported versions, coala will be installed in the `script` block
@@ -77,6 +84,8 @@ before_install:
       BEARS=none
     fi
   - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install -r requirements.txt; fi
+  - mkdir -p Godeps
+  - cp Godeps.json Godeps/Godeps.json
 
 before_script:
   - mv requirements.orig requirements.txt
