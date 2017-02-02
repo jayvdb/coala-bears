@@ -15,12 +15,10 @@ matrix:
       go: 1.7
     - language: haskell
       dist: precise
-      addons:
-        apt:
-          sources:
-            trusty
-          packages:
-            python3
+      ghc: 7.8
+    - language: haskell
+      dist: trusty
+      sudo: required
       ghc: 7.8
 
 cache:
