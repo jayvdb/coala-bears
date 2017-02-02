@@ -7,23 +7,19 @@ if [[ "$BEARS" == "all" ]]; then
 fi
 
 if [[ -z "$BEARS" ]]; then
-  if [[ "$TRAVIS" == "true" ]]; then
-    if [[ -n "$TRAVIS_PYTHON_VERSION" ]]; then
-      BEARS=python
-    elif [[ -n "$TRAVIS_GHC_VERSION" ]]; then
-      BEARS=cabal
-    elif [[ -n "$TRAVIS_HASKELL_VERSION" ]]; then
-      BEARS=cabal
-    elif [[ -n "$TRAVIS_RUBY_VERSION" ]]; then
-      BEARS=gem
-    elif [[ -n "$TRAVIS_GO_VERSION" ]]; then
-      BEARS=go
-    elif [[ -n "$TRAVIS_NODE_VERSION" ]]; then
-      BEARS=npm
-    elif [[ -n "$TRAVIS_R_VERSION" ]]; then
-      BEARS=rscript
-    fi
+  if [[ -n "$TRAVIS_LANGUAGE" ]]; then
+    BEARS=$TRAVIS_LANGUAGE
   fi
+fi
+
+if [[ "$BEARS" == "haskell" || "$BEARS" == "ghc" ]]; then
+  BEARS=cabal
+elif [[ "$BEARS" == "ruby" ]]; then
+  BEARS=gem
+elif [[ "${BEARS/node/}" != "$BEARS" ]]; then
+  BEARS=npm
+elif [[ "$BEARS" == "r" ]]; then
+  BEARS=rscript
 fi
 
 bears=$(find bears -type f -and -name '*Bear.py' | sort)

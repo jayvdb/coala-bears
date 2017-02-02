@@ -11,9 +11,8 @@ matrix:
     - language: r
     - language: go
     - language: haskell
-
-    - python: 3.3
-      env: UNSUPPORTED=true
+      ghc: 7.4
+      env: THIS=ghc
 
 cache:
   pip: true
@@ -47,7 +46,6 @@ env:
     - PATH="$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
 
 before_install:
-  - set
   - >
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
       mkdir -p $HOME/bin
