@@ -10,16 +10,18 @@ matrix:
       rvm: 2
     - language: r
     - language: go
+      go: 1.6
+    - language: go
+      go: 1.7
     - language: haskell
-      sudo: required
       dist: precise
+      addons:
+        apt:
+          sources:
+            trusty
+          packages:
+            python3
       ghc: 7.8
-      env: THIS=ghc
-    - language: haskell
-      sudo: false
-      dist: precise
-      ghc: 7.8
-      env: THIS=ghc
 
 cache:
   pip: true
@@ -55,6 +57,8 @@ before_install:
   - >
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
       mkdir -p $HOME/bin
+      echo pip3 is $(which pip3)
+      echo python3 is $(which pip3)
       ln -sf $(which pip3) $HOME/bin/pip
       ln -sf $(which python3) $HOME/bin/python
       pip --version
