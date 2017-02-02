@@ -17,40 +17,11 @@ matrix:
   include:
     - language: node_js
       node_js: 4
-      env: BEARS=npm
     - language: ruby
       rvm: 2
-      env: BEARS=gem
-    - python: 3.5
-      sudo: required
-      env: BEARS=all
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - avsm  # OPAM stable
-            - hvr-ghc  # Haskell
-          packages:
-            - cabal-install
-            - chktex
-            - clang-3.4
-            - cppcheck
-            - flawfinder
-            - gfortran
-            - ghc
-            - haskell-platform
-            - indent
-            - libblas-dev
-            - liblapack-dev
-            - libperl-critic-perl
-            - libxml2-utils
-            - luarocks
-            - menhir
-            - mono-mcs
-            - ocaml
-            - opam
-            - php-codesniffer
-            - verilator
+    - language: r
+    - language: go
+    - language: haskell
 
     - python: 3.3
       env: UNSUPPORTED=true
@@ -87,6 +58,7 @@ env:
     - PATH="$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
 
 before_install:
+  - set
   - >
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
       mkdir -p $HOME/bin

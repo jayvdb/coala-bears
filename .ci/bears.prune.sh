@@ -6,6 +6,26 @@ if [[ "$BEARS" == "all" ]]; then
   exit 0
 fi
 
+if [[ -z "$BEARS" ]]; then
+  if [[ "$TRAVIS" == "true" ]]; then
+    if [[ -n "$TRAVIS_PYTHON_VERSION" ]]; then
+      BEARS=python
+    elif [[ -n "$TRAVIS_GHC_VERSION" ]]; then
+      BEARS=cabal
+    elif [[ -n "$TRAVIS_HASKELL_VERSION" ]]; then
+      BEARS=cabal
+    elif [[ -n "$TRAVIS_RUBY_VERSION" ]]; then
+      BEARS=gem
+    elif [[ -n "$TRAVIS_GO_VERSION" ]]; then
+      BEARS=go
+    elif [[ -n "$TRAVIS_NODE_VERSION" ]]; then
+      BEARS=npm
+    elif [[ -n "$TRAVIS_R_VERSION" ]]; then
+      BEARS=rscript
+    fi
+  fi
+fi
+
 bears=$(find bears -type f -and -name '*Bear.py' | sort)
 
 yield_result_bears=$(grep -m 1 -l 'yield Result' $bears)
@@ -72,10 +92,16 @@ remove_bears=''
 if [[ $BEARS == "python" ]]; then
   # The test for generate_package depends on non-Python bears
   remove_bears="$non_python_bears"
-elif [[ $BEARS == "npm" ]]; then
-  remove_bears=$(comm -23 <(ls $bears) <(ls $npm_requirement_bears))
+elif [[ $BEARS == "cabal" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $cabal_requirement_bears))
 elif [[ $BEARS == "gem" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $gem_requirement_bears))
+elif [[ $BEARS == "go" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $go_requirement_bears))
+elif [[ $BEARS == "npm" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $npm_requirement_bears))
+elif [[ $BEARS == "rscript" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $rscript_requirement_bears))
 fi
 
 if [[ -n "$remove_bears" ]]; then
