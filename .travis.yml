@@ -1,16 +1,5 @@
 sudo: false
 
-language: python
-python:
-  # 2.7 is rejected by dependency mypy-lang
-  - 3.4
-  - 3.6
-
-addons:
-  apt:
-    packages:
-      - clang-3.4
-
 dist: trusty
 
 matrix:
