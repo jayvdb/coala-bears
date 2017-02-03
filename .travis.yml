@@ -4,11 +4,11 @@ dist: trusty
 
 matrix:
   include:
-#    - language: node_js
-#      node_js: 4
-#    - language: ruby
-#      rvm: 2
-#    - language: r
+    - language: node_js
+      node_js: 4
+    - language: ruby
+      rvm: 2
+    - language: r
 
     - language: haskell
       ghc: 8.0.2
