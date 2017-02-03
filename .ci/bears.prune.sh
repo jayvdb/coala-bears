@@ -83,6 +83,8 @@ if [[ -n "$non_yield_result_other_bears" ]]; then
   exit 1
 fi
 
+echo Other exe $executable_linter_bears $executable_other_bears
+
 python_bears="$pip_only_requirement_bears $clang_bears $other_bears"
 
 non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
