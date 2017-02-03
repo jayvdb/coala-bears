@@ -31,6 +31,8 @@ matrix:
 
     - language: go
       go: 1.5
+    - language: go
+      go: 1.7
 
 cache:
   pip: true
