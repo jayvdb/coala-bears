@@ -4,6 +4,10 @@ dist: trusty
 
 matrix:
   include:
+    - language: dart
+    - language: php
+    - language: julia
+
     - language: generic
       env: DIST=precise
       dist: precise
@@ -19,7 +23,7 @@ matrix:
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
-            - php5
+            - php5-cli
             # php-codesniffer  # linter error?
             - python3.4
             - verilator
@@ -36,6 +40,7 @@ matrix:
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
+            - php5-cli
             - php-codesniffer
             - verilator
     - language: generic
@@ -51,11 +56,11 @@ matrix:
             - flawfinder
             - indent
             - libxml2-utils
-            - php5
             - verilator
             # Causes error during apt-get install:
             # libperl-critic-perl
             # mono-mcs
+            # php5-cli
             # php-codesniffer
     - language: generic
       env: DIST=xenial
@@ -108,8 +113,9 @@ before_install:
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-updates main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-backports main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       sudo apt-get -y update
-      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent libperl-critic-perl libxml2-utils mono-mcs php7.0 php-codesniffer verilator
+      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent libperl-critic-perl libxml2-utils mono-mcs php7.0-cli php-codesniffer verilator
     fi
+  - which php || true
   - >
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
       mkdir -p $HOME/bin

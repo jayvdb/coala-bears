@@ -90,12 +90,17 @@ python_bears="$pip_only_requirement_bears $clang_bears $other_bears"
 non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
 cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.py bears/shell/ShellCheckBear.py"
+
+dart_bears=$(ls bears/dart/*Bear.py)
+julia_bears=$(ls bears/julia/*Bear.py)
+php_bears=$(ls bears/php/*Bear.py)
+
 apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep -v '(Haskell|Julia|Lua)' )
 if [[ "$DIST" == "precise" ]]; then
   apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | grep -v 'PHPCodeSniffer' )
 fi
 if [[ "$DIST" == "debian-sid" ]]; then
-  apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep -v '(CSharp|PerlCritic|PHPCodeSniffer)' )
+  apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep -v '(CSharp|PerlCritic|PHPCodeSniffer|PHPLintBear)' )
 fi
 
 remove_bears=''
@@ -107,10 +112,16 @@ if [[ $BEARS == "python" ]]; then
   remove_bears="$non_python_bears"
 elif [[ $BEARS == "cabal" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $cabal_requirement_bears))
+elif [[ $BEARS == "dart" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $dart_bears))
 elif [[ $BEARS == "gem" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $gem_requirement_bears))
 elif [[ $BEARS == "go" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $go_requirement_bears))
+elif [[ $BEARS == "julia" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $julia_bears))
+elif [[ $BEARS == "php" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $php_bears))
 elif [[ $BEARS == "npm" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $npm_requirement_bears))
 elif [[ $BEARS == "rscript" ]]; then
