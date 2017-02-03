@@ -94,9 +94,12 @@ cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.
 dart_bears=$(ls bears/dart/*Bear.py)
 julia_bears=$(ls bears/julia/*Bear.py)
 php_bears=$(ls bears/php/*Bear.py)
+perl_bears=$(ls bears/perl/*Bear.py)
+perl_bears="$perl_bears bears/vhdl/VHDLLintBear.py"
+
 java_bears=$(grep -m 1 -l "'java'" $executable_linter_bears)
 pmd_bears=$(grep -m 1 -l 'PMD is missing' $executable_linter_bears)
-java_bears="$java_bears $pmd_bears"
+java_bears="$java_bears $pmd_bears bears/swift/TailorBear.py"
 
 apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep -v '(Haskell|Julia|Lua)' )
 if [[ "$DIST" == "precise" ]]; then
@@ -125,6 +128,8 @@ elif [[ $BEARS == "java" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $java_bears))
 elif [[ $BEARS == "julia" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $julia_bears))
+elif [[ $BEARS == "perl" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $perl_bears))
 elif [[ $BEARS == "php" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $php_bears))
 elif [[ $BEARS == "npm" ]]; then
