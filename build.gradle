@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    runtime group: 'pmd', name: 'pmd', version: '4.2.4'
+}
