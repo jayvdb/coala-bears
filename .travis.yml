@@ -89,8 +89,10 @@ before_install:
   - >
     if [[ "$BEARS" == "all" || "$BEARS" == "python" ]]; then
       cat bear-requirements.txt >> requirements.txt;
-    else
+    elif [[ "$TRAVIS_LANGUAGE" == "ruby" ]]; then
       echo 'pyyaml' > bear-requirements.txt;
+    else
+      rm bear-requirements.txt; touch bear-requirements.txt;
     fi
   - sed -i '/^-r/d' requirements.txt
   # On unsupported versions, coala will be installed in the `script` block
