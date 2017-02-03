@@ -72,9 +72,8 @@ before_install:
       if [[ -n "$(which python3)" ]]; then ln -sf $(which python3) $HOME/bin/python; fi
       python --version
       wget https://bootstrap.pypa.io/get-pip.py
-      python get-pip.py
-      echo pip3 is $(which pip3)
-      if [[ -n "$(which pip3)" ]]; then ln -sf $(which pip3) $HOME/bin/pip; fi
+      python get-pip.py --user
+      cp $HOME/.local/bin/pip $HOME/bin/pip
       pip --version
     fi
 
