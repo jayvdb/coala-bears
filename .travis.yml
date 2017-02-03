@@ -16,7 +16,6 @@ matrix:
             - cppcheck
             - flawfinder
             - indent
-            - hlint
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
@@ -33,7 +32,6 @@ matrix:
             - cppcheck
             - flawfinder
             - indent
-            - hlint
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
@@ -47,14 +45,13 @@ matrix:
           sources:
             - debian-sid
           packages:
-            # chktex
+            - chktex
             - cppcheck
             - flawfinder
             - indent
-            # hlint
             # libperl-critic-perl
             - libxml2-utils
-            - mono-mcs
+            # mono-mcs
             # php-codesniffer
             - verilator
     - language: generic
@@ -108,7 +105,7 @@ before_install:
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-updates main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-backports main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       sudo apt-get -y update
-      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent hlint libperl-critic-perl libxml2-utils mono-mcs php-codesniffer verilator
+      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent libperl-critic-perl libxml2-utils mono-mcs php-codesniffer verilator
     fi
   - >
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
