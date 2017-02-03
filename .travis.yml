@@ -110,6 +110,14 @@ before_install:
       BEARS=none
     fi
   - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install --user -r requirements.txt; fi
+  - >
+    if [[ "$TRAVIS_LANGUAGE" == "haskell" ]]; then
+      # cabal install cabal-install-1.22.9.0;
+      cat /home/travis/.cabal/config
+      echo "constraint: bytestring   installed" >> /home/travis/.cabal/config
+      echo "constraint: containers   installed" >> /home/travis/.cabal/config
+      echo "constraint: transformers installed" >> /home/travis/.cabal/config
+    fi
 
 before_script:
   - mv requirements.orig requirements.txt
