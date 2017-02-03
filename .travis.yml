@@ -19,6 +19,8 @@ matrix:
             - deadsnakes
             - hvr-ghc
           packages:
+            - cabal-install-1.22
+            - ghc-head
             - happy-1.19.3
             - python3.4
 
