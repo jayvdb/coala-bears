@@ -83,6 +83,9 @@ python_bears="$pip_only_requirement_bears $clang_bears $other_bears"
 
 non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
+cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.py"
+foo=bears/shell/ShellCheckBear.py
+
 remove_bears=''
 
 echo Removing bears not desirable for $BEARS

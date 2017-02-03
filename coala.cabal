@@ -1,2 +1,6 @@
+Name: coala
+Version: 0.1
+cabal-version: >= 1.2
+
 library
-  build-depends: ghc-mod
+  build-depends: ghc-mod, hlint
