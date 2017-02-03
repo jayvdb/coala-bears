@@ -131,6 +131,7 @@ before_script:
   - bash .ci/tests.prune.sh
 
 script:
+  - ~/.cabal/bin/ghc-mod -b '. ' check test.hs
   - >
     if [[ "$UNSUPPORTED" == true ]]; then
       set -e
