@@ -4,8 +4,19 @@ dist: trusty
 
 matrix:
   include:
+    - language: perl
     - language: java
       jdk: oraclejdk8
+
+    - language: bash
+      env: BEARS=opam
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - ocaml
+            - opam
 
     - language: python
       python: 3.5
@@ -31,7 +42,6 @@ matrix:
     - language: dart
     - language: julia
     - language: php
-    - language: perl
 
     - language: haskell
       ghc: 8.0.2
@@ -247,6 +257,9 @@ before_script:
     fi
   - if [[ "$TRAVIS_LANGUAGE" == "java" ]]; then
       bash .ci/deps.java.sh;
+    fi
+  - if [[ "$BEARS" == "opam" ]]; then
+      bash .ci/deps.opam.sh;
     fi
   - if [[ "$TRAVIS_LANGUAGE" == "perl" ]]; then
       wget "http://downloads.sourceforge.net/project/fpgalibre/bakalint/0.4.0/bakalint-0.4.0.tar.gz?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Ffpgalibre%2Ffiles%2Fbakalint%2F0.4.0%2F&ts=1461844926&use_mirror=netcologne" -O ~/bl.tar.gz ;
