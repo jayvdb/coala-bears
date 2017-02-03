@@ -71,6 +71,7 @@ before_install:
       echo python3 is $(which python3)
       if [[ -n "$(which python3)" ]]; then ln -sf $(which python3) $HOME/bin/python; fi
       python --version
+      python -m ensurepip
       python -m pip install -U pip
       echo pip3 is $(which pip3)
       if [[ -n "$(which pip3)" ]]; then ln -sf $(which pip3) $HOME/bin/pip; fi
