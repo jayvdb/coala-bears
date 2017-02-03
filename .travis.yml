@@ -73,6 +73,7 @@ before_install:
       python --version
       wget https://bootstrap.pypa.io/get-pip.py
       python get-pip.py --user
+      rm get-pip.py
       cp $HOME/.local/bin/pip $HOME/bin/pip
       pip --version
     fi

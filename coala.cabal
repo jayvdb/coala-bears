@@ -1,0 +1,2 @@
+executable coala
+  -- build-depends: ghc-mod
