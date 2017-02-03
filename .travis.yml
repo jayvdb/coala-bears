@@ -108,14 +108,15 @@ env:
 
 before_install:
   - >
-    if [[ "$DIST" != "precise" && "$DIST" != "trusty" && "$DIST" != "debian-sid" ]]; then
+    if [[ "$DIST" != "" && "$DIST" != "precise" && "$DIST" != "trusty" && "$DIST" != "debian-sid" ]]; then
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-updates main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-backports main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       sudo apt-get -y update
       sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent libperl-critic-perl libxml2-utils mono-mcs php7.0-cli php-codesniffer verilator
     fi
-  - which php || true
+  - if [[ "$DIST" == "trusty" || "$DIST" == "debian-sid" ]]; then ls /usr/bin/php $HOME/bin/; fi
+  - php --version || true
   - >
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
       mkdir -p $HOME/bin
