@@ -40,6 +40,15 @@ matrix:
             - php-codesniffer
             - verilator
     - language: generic
+      env: DIST=xenial
+      dist: trusty
+    - language: generic
+      env: DIST=yakkety
+      dist: trusty
+    - language: generic
+      env: DIST=zesty
+      dist: trusty
+    - language: generic
       env: DIST=debian-sid
       dist: trusty
       addons:
@@ -47,15 +56,15 @@ matrix:
           sources:
             - debian-sid
           packages:
-            - chktex
-            - cppcheck
+            # chktex
+            # cppcheck
             - flawfinder
             - indent
             # hlint
             # libperl-critic-perl
             # libxml2-utils
             # mono-mcs
-            - php-codesniffer
+            # php-codesniffer
             - verilator
 
 cache:
@@ -90,6 +99,12 @@ env:
     - PATH="/opt/cabal/1.24/bin:/opt/happy/1.19.3/bin:$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
 
 before_install:
+  - >
+    if [[ "$DIST" != "precise" && "$DIST" != "trusty" && "$DIST" != "debian-sid" ]]; then
+      echo "deb http://archive.ubuntu.com/ubuntu/ $DIST main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
+      sudo apt-get -y update
+      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent hlint libperl-critic-perl libxml2-utils mono-mcs php-codesniffer verilator
+    fi
   - >
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
       mkdir -p $HOME/bin
