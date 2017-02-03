@@ -88,7 +88,7 @@ python_bears="$pip_only_requirement_bears $clang_bears $other_bears"
 non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
 cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.py bears/shell/ShellCheckBear.py"
-apt_get_requirement_bears=$(echo $apt_get_requirement_bears | egrep -v '(Haskell|Julia|Lua)' )
+apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep -v '(Haskell|Julia|Lua)' )
 
 remove_bears=''
 
