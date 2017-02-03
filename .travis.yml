@@ -77,8 +77,8 @@ before_install:
     fi
 
   # Change environment for flawfinder from python to python2
-  - if [[ -f /usr/bin/flawfinder ]]; then
-      sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder > $HOME/bin/flawfinder;
+  - if [[ -n "$(which flawfinder)" ]]; then
+      sed -e '1s/.*/#!\/usr\/bin\/env python2/' $(which flawfinder) > $HOME/bin/flawfinder;
       chmod a+x $HOME/bin/flawfinder;
     fi
   # Remove Ruby directive from Gemfile as this image has 2.2.5
