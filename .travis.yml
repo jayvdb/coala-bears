@@ -6,6 +6,9 @@ matrix:
   include:
     - language: python
       python: 3.5
+      addons:
+        apt:
+          packages: clang-3.4
     - language: node_js
       node_js: 4
     - language: ruby
@@ -151,7 +154,7 @@ script:
     if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
       pip install $(ls ./dist/*.whl)"[alldeps]"
     else
-      pip install $(ls ./dist/*.whl)
+      pip install --user $(ls ./dist/*.whl)
     fi
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
