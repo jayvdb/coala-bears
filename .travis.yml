@@ -112,8 +112,9 @@ before_install:
   - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install --user -r requirements.txt; fi
   - >
     if [[ "$TRAVIS_LANGUAGE" == "haskell" ]]; then
-      # cabal install cabal-install-1.22.9.0;
-      sed -i.bak 's/-- force-reinstalls: False/force-reinstalls: True/' /home/travis/.cabal/config
+      cabal install cabal-install-1.22.9.0;
+      sed -i 's/-- force-reinstalls: False/force-reinstalls: True/' /home/travis/.cabal/config
+      sed -i 's/-- max-backjumps: 200/max-backjumps: 1000/' /home/travis/.cabal/config
     fi
 
 before_script:

@@ -3,4 +3,4 @@ Version: 0.1
 cabal-version: >= 1.2
 
 library
-  build-depends: base, ghc-mod==5.6.0.0, hlint, ShellCheck==0.4.1
+  build-depends: base, ghc-mod, hlint, ShellCheck
