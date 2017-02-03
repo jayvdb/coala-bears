@@ -22,7 +22,9 @@ matrix:
       addons:
         apt:
           sources: deadsnakes
-          packages: python3.4
+          packages:
+            - python3.4
+            - pip3.4
       ghc: 7.8
 
 cache:
@@ -60,15 +62,15 @@ before_install:
     if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
       mkdir -p $HOME/bin
       echo pip3.4 is $(which pip3.4)
-      echo python3.4 is $(which pip3.4)
+      echo python3.4 is $(which python3.4)
       if [[ -n "$(which pip3.4)" ]]; then ln -sf $(which pip3.4) $HOME/bin/pip3; fi
       if [[ -n "$(which python3.4)" ]]; then ln -sf $(which python3.4) $HOME/bin/python3; fi
       echo pip3.5 is $(which pip3.5)
-      echo python3.5 is $(which pip3.5)
+      echo python3.5 is $(which python3.5)
       if [[ -n "$(which pip3.5)" ]]; then ln -sf $(which pip3.5) $HOME/bin/pip3; fi
       if [[ -n "$(which python3.5)" ]]; then ln -sf $(which python3.5) $HOME/bin/python3; fi
       echo pip3 is $(which pip3)
-      echo python3 is $(which pip3)
+      echo python3 is $(which python3)
       if [[ -n "$(which pip3)" ]]; then ln -sf $(which pip3) $HOME/bin/pip; fi
       if [[ -n "$(which python3)" ]]; then ln -sf $(which python3) $HOME/bin/python; fi
       pip --version
