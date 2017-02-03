@@ -107,6 +107,7 @@ env:
     - PATH="/opt/cabal/1.24/bin:/opt/happy/1.19.3/bin:$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
 
 before_install:
+  - mkdir $HOME/bin/
   - >
     if [[ "$DIST" != "" && "$DIST" != "precise" && "$DIST" != "trusty" && "$DIST" != "debian-sid" ]]; then
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
@@ -184,6 +185,12 @@ before_install:
 before_script:
   - if [[ "$TRAVIS_LANGUAGE" == "go" ]]; then
       grep ImportPath Godeps/Godeps.json | cut -d '"' -f 4 | grep '[a-z]' | xargs go get;
+    fi
+  - if [[ "$TRAVIS_LANGUAGE" == "php" ]]; then
+      pear install pear/PHP_CodeSniffer;
+    fi
+  - if [[ "$TRAVIS_LANGUAGE" == "julia" ]]; then
+      julia -e "Pkg.add(\"Lint\")";
     fi
   - mv requirements.orig requirements.txt
   # nltk 3.2.2 dropped support for Python 3.3
