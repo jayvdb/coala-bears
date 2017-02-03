@@ -110,6 +110,7 @@ before_install:
       BEARS=none
     fi
   - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pip install --user -r requirements.txt; fi
+  - if [[ "$TRAVIS_LANGUAGE" == "haskell" ]]; then cabal install cabal-install-1.22.9.0; fi
 
 before_script:
   - mv requirements.orig requirements.txt
