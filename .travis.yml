@@ -10,6 +10,10 @@ matrix:
       rvm: 2
     - language: r
     - language: go
+      go: 1.4
+    - language: go
+      go: 1.5
+    - language: go
       go: 1.6
     - language: go
       go: 1.7
