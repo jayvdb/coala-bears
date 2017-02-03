@@ -15,6 +15,8 @@ matrix:
     - language: haskell
       ghc: 8.0.2
       dist: precise
+      env:
+        - PIP_USER=--user
       addons:
         apt:
           sources:
@@ -61,6 +63,7 @@ env:
   global:
     - CIRCLE_NODE_INDEX=-1  # Avoid accidentially being a CircleCI worker
     - USE_PPAS="marutter/rdev staticfloat/juliareleases ondrej/golang"
+    - PIP_USER=""
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
     - TRAVIS_GHC_ROOT=/opt/ghc
@@ -151,7 +154,7 @@ script:
     if [[ "$BEARS" == "all" || "$BEARS" == "python" ]]; then
       pip install $(ls ./dist/*.whl)"[alldeps]"
     else
-      pip install --user $(ls ./dist/*.whl)
+      pip install $PIP_USER $(ls ./dist/*.whl)
     fi
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
