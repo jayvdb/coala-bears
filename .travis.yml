@@ -49,11 +49,12 @@ matrix:
             - cppcheck
             - flawfinder
             - indent
-            # libperl-critic-perl
+            - libperl-critic-perl
             - libxml2-utils
-            # mono-mcs  # Causes install error
-            - php-codesniffer
             - verilator
+            # Causes install error
+            # mono-mcs
+            # php-codesniffer  # Causes install error
     - language: generic
       env: DIST=xenial
       dist: trusty
