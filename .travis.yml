@@ -19,7 +19,7 @@ matrix:
             - deadsnakes
             - hvr-ghc
           packages:
-            - cabal-install-1.22
+            - cabal-install-head
             - ghc-8.0.2
             - happy-1.19.3
             - python3.4
@@ -61,7 +61,7 @@ env:
     - USE_PPAS="marutter/rdev staticfloat/juliareleases ondrej/golang"
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
-    - PATH="/opt/happy/1.19.3/bin:$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
+    - PATH="/opt/ghc/8.0.1/bin:/opt/cabal/head/bin:/opt/happy/1.19.3/bin:$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
 
 before_install:
   - >
