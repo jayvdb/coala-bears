@@ -4,11 +4,11 @@ dist: trusty
 
 matrix:
   include:
-    - language: node_js
-      node_js: 4
-    - language: ruby
-      rvm: 2
-    - language: r
+#    - language: node_js
+#      node_js: 4
+#    - language: ruby
+#      rvm: 2
+#    - language: r
     - language: haskell
       ghc: 7.8
       dist: precise
@@ -16,14 +16,62 @@ matrix:
         apt:
           sources: deadsnakes
           packages: python3.4
-    - language: go
-      go: 1.4
-    - language: go
-      go: 1.5
-    - language: go
-      go: 1.6
-    - language: go
-      go: 1.7
+    - language: haskell
+      ghc: 7.6
+      dist: precise
+      addons:
+        apt:
+          sources: deadsnakes
+          packages: python3.4
+    - language: haskell
+      ghc: 7.4
+      dist: precise
+      addons:
+        apt:
+          sources: deadsnakes
+          packages: python3.4
+    - language: haskell
+      ghc: 7.8
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - happy
+            - python3.4
+    - language: haskell
+      ghc: 7.6
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - happy
+            - python3.4
+    - language: haskell
+      ghc: 7.4
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - happy
+            - python3.4
+
+#    - language: go
+#      go: 1.4
+#    - language: go
+#      go: 1.5
+#    - language: go
+#      go: 1.6
+#    - language: go
+#      go: 1.7
 
 cache:
   pip: true
