@@ -22,9 +22,7 @@ matrix:
       addons:
         apt:
           sources: deadsnakes
-          packages:
-            - python3.4
-            - pip3.4
+          packages: python3.4
       ghc: 7.8
 
 cache:
@@ -71,10 +69,12 @@ before_install:
       if [[ -n "$(which python3.5)" ]]; then ln -sf $(which python3.5) $HOME/bin/python3; fi
       echo pip3 is $(which pip3)
       echo python3 is $(which python3)
-      if [[ -n "$(which pip3)" ]]; then ln -sf $(which pip3) $HOME/bin/pip; fi
       if [[ -n "$(which python3)" ]]; then ln -sf $(which python3) $HOME/bin/python; fi
-      pip --version
       python --version
+      python -m pip install -U pip
+      echo pip3 is $(which pip3)
+      if [[ -n "$(which pip3)" ]]; then ln -sf $(which pip3) $HOME/bin/pip; fi
+      pip --version
     fi
 
   # Remove Ruby directive from Gemfile as this image has 2.2.5
