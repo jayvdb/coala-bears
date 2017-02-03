@@ -117,7 +117,7 @@ before_install:
       sed -i 's/-- force-reinstalls: False/force-reinstalls: True/' /home/travis/.cabal/config
       sed -i 's/-- max-backjumps: 200/max-backjumps: 1000/' /home/travis/.cabal/config
       if [[ -n "$(which ghc-mod)" && -n "$(which hlint)" && -n "$(which shellcheck)" ]]; then
-        sed -i '/build-depends/d' coala.cabal
+        sed -i 's/build-depends: .*/build-depends: base, Cabal/' coala.cabal
       fi
     fi
 
