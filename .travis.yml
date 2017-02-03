@@ -5,6 +5,7 @@ dist: trusty
 matrix:
   include:
     - language: generic
+      env: DIST=precise
       dist: precise
       addons:
         apt:
@@ -20,11 +21,31 @@ matrix:
             - libxml2-utils
             - mono-mcs
             - php-codesniffer
-            - python34
+            - python3.4
             - verilator
     - language: generic
+      env: DIST=trusty
+      dist: trusty
       addons:
         apt:
+          packages:
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - hlint
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php-codesniffer
+            - verilator
+    - language: generic
+      env: DIST=debian-sid
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - debian-sid
           packages:
             - chktex
             - cppcheck
