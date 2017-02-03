@@ -4,9 +4,7 @@ dist: trusty
 
 matrix:
   include:
-    - language: python
-      python: 3.5
-      env: BEARS=apt-get
+    - language: generic
       addons:
         apt:
           packages:
@@ -78,6 +76,11 @@ before_install:
       pip --version
     fi
 
+  # Change environment for flawfinder from python to python2
+  - if [[ -f /usr/bin/flawfinder ]]; then
+      sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder > $HOME/bin/flawfinder;
+      chmod a+x $HOME/bin/flawfinder;
+    fi
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
@@ -150,7 +153,7 @@ script:
   - .ci/generate_bear_requirements.py
   - >
     if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
-      (cat bear-requirements.txt; echo "pyyaml~=3.12") | sort > bear-requirements.tmp
+      (cat bear-requirements.txt; echo "pyyaml~=3.12") | sort -u > bear-requirements.tmp
       mv bear-requirements.tmp bear-requirements.txt
       git diff --exit-code bear-requirements.txt
     fi

@@ -20,6 +20,8 @@ elif [[ "${BEARS/node/}" != "$BEARS" ]]; then
   BEARS=npm
 elif [[ "$BEARS" == "r" ]]; then
   BEARS=rscript
+elif [[ "$BEARS" == "generic" ]]; then
+  BEARS=apt-get
 fi
 
 bears=$(find bears -type f -and -name '*Bear.py' | sort)
@@ -86,6 +88,7 @@ python_bears="$pip_only_requirement_bears $clang_bears $other_bears"
 non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
 cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.py bears/shell/ShellCheckBear.py"
+apt_get_requirement_bears=$(echo $apt_get_requirement_bears | egrep -v '(Haskell|Julia|Lua)' )
 
 remove_bears=''
 
