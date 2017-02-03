@@ -9,6 +9,13 @@ matrix:
     - language: ruby
       rvm: 2
     - language: r
+    - language: haskell
+      ghc: 7.8
+      dist: precise
+      addons:
+        apt:
+          sources: deadsnakes
+          packages: python3.4
     - language: go
       go: 1.4
     - language: go
@@ -17,13 +24,6 @@ matrix:
       go: 1.6
     - language: go
       go: 1.7
-    - language: haskell
-      dist: precise
-      addons:
-        apt:
-          sources: deadsnakes
-          packages: python3.4
-      ghc: 7.8
 
 cache:
   pip: true
