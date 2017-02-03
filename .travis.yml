@@ -9,10 +9,21 @@ matrix:
       addons:
         apt:
           packages: clang-3.4
+
     - language: node_js
       node_js: 4
+    - language: node_js
+      node_js: 5
+    - language: node_js
+      node_js: 6
+
     - language: ruby
-      rvm: 2
+      rvm: 2.2
+    - language: ruby
+      rvm: 2.1
+    - language: ruby
+      rvm: 2.0
+
     - language: r
 
     - language: haskell
