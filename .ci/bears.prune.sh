@@ -94,7 +94,7 @@ cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.
 dart_bears=$(ls bears/dart/*Bear.py)
 julia_bears=$(ls bears/julia/*Bear.py)
 php_bears=$(ls bears/php/*Bear.py)
-java_bears=$(grep -m 1 -l java $executable_linter_bears)
+java_bears=$(grep -m 1 -l "'java'" $executable_linter_bears)
 pmd_bears=$(grep -m 1 -l 'PMD is missing' $executable_linter_bears)
 java_bears="$java_bears $pmd_bears"
 

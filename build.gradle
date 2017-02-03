@@ -5,5 +5,5 @@ repositories {
 }
 
 dependencies {
-    compile group: 'pmd', name: 'pmd', version: '4.2.4'
+    runtime group: 'pmd', name: 'pmd', version: '4.2.4'
 }

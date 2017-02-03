@@ -5,6 +5,7 @@ dist: trusty
 matrix:
   include:
     - language: java
+      jdk: oraclejdk8
     - language: dart
     - language: php
     - language: julia
