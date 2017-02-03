@@ -121,8 +121,7 @@ before_install:
     fi
 
 before_script:
-  - godep save
-  - git diff --exit-code
+  - find ./Godeps/_workspace
   - mv requirements.orig requirements.txt
   # nltk 3.2.2 dropped support for Python 3.3
   - >
