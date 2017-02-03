@@ -39,7 +39,7 @@ matrix:
             - deadsnakes
             - hvr-ghc
           packages:
-            - happy
+            - happy-1.19.3
             - python3.4
     - language: haskell
       ghc: 7.6
@@ -50,7 +50,7 @@ matrix:
             - deadsnakes
             - hvr-ghc
           packages:
-            - happy
+            - happy-1.19.3
             - python3.4
     - language: haskell
       ghc: 7.4
@@ -61,7 +61,7 @@ matrix:
             - deadsnakes
             - hvr-ghc
           packages:
-            - happy
+            - happy-1.19.3
             - python3.4
 
 #    - language: go
@@ -101,7 +101,7 @@ env:
     - USE_PPAS="marutter/rdev staticfloat/juliareleases ondrej/golang"
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
-    - PATH="$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
+    - PATH="/opt/happy/1.19.3/bin:$HOME/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/.local/tailor/tailor-latest/bin"
 
 before_install:
   - >
