@@ -93,6 +93,7 @@ cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.
 
 dart_bears=$(ls bears/dart/*Bear.py)
 julia_bears=$(ls bears/julia/*Bear.py)
+lua_bears=$(ls bears/lua/*Bear.py)
 opam_bears="bears/java/InferBear.py"
 perl_bears=$(ls bears/perl/*Bear.py)
 perl_bears="$perl_bears bears/vhdl/VHDLLintBear.py"
@@ -131,6 +132,8 @@ elif [[ $BEARS == "julia" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $julia_bears))
 elif [[ $BEARS == "opam" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $opam_bears))
+elif [[ $BEARS == "lua" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $lua_bears))
 elif [[ $BEARS == "perl" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $perl_bears))
 elif [[ $BEARS == "php" ]]; then
