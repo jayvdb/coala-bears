@@ -167,8 +167,7 @@ before_install:
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-updates main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-backports main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       sudo apt-get -y update
-      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent libperl-critic-perl libxml2-utils mono-mcs php7.0-cli php-cod
-esniffer verilator
+      sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent libperl-critic-perl libxml2-utils mono-mcs php7.0-cli php-codesniffer verilator
     fi
   - if [[ "$DIST" == "trusty" || "$DIST" == "debian-sid" ]]; then ls /usr/bin/php $HOME/bin/; fi
 
