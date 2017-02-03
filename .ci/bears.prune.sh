@@ -89,6 +89,9 @@ non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 
 cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.py bears/shell/ShellCheckBear.py"
 apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep -v '(Haskell|Julia|Lua)' )
+if [[ -z "$(which phpcs)"; then
+  apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | grep -v 'PHPCodeSniffer' )
+fi
 
 remove_bears=''
 

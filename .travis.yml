@@ -20,7 +20,7 @@ matrix:
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
-            - php-codesniffer
+            # php-codesniffer
             - python3.4
             - verilator
     - language: generic
@@ -51,10 +51,10 @@ matrix:
             - cppcheck
             - flawfinder
             - indent
-            - hlint
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
+            # hlint
+            # libperl-critic-perl
+            # libxml2-utils
+            # mono-mcs
             - php-codesniffer
             - verilator
 
