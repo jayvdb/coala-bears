@@ -19,6 +19,7 @@ matrix:
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
+            - php
             # php-codesniffer  # linter error?
             - python3.4
             - verilator
@@ -50,6 +51,7 @@ matrix:
             - flawfinder
             - indent
             - libxml2-utils
+            - php
             - verilator
             # Causes error during apt-get install:
             # libperl-critic-perl

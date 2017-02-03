@@ -13,6 +13,7 @@ class PHPLintBear:
     Checks the code with ``php -l``. This runs it on each file separately.
     """
     LANGUAGES = {'PHP'}
+    REQUIREMENTS = {DistributionRequirement(apt_get='php')}
     AUTHORS = {'The coala developers'}
     AUTHORS_EMAILS = {'coala-devel@googlegroups.com'}
     LICENSE = 'AGPL-3.0'
