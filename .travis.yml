@@ -54,7 +54,7 @@ matrix:
             # hlint
             # libperl-critic-perl
             - libxml2-utils
-            # mono-mcs
+            - mono-mcs
             # php-codesniffer
             - verilator
     - language: generic
@@ -105,6 +105,8 @@ before_install:
   - >
     if [[ "$DIST" != "precise" && "$DIST" != "trusty" && "$DIST" != "debian-sid" ]]; then
       echo "deb http://archive.ubuntu.com/ubuntu/ $DIST main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
+      echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-updates main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
+      echo "deb http://archive.ubuntu.com/ubuntu/ $DIST-backports main universe" | sudo tee -a /etc/apt/sources.list.d/$DIST.list > /dev/null
       sudo apt-get -y update
       sudo apt-get -y --no-install-recommends install chktex cppcheck flawfinder indent hlint libperl-critic-perl libxml2-utils mono-mcs php-codesniffer verilator
     fi
