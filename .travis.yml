@@ -161,6 +161,8 @@ script:
   - .ci/generate_bear_requirements.py
   - >
     if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
+      (cat bear-requirements.txt; echo "pyyaml~=3.12") | sort > bear-requirements.tmp
+      mv bear-requirements.tmp bear-requirements.txt
       git diff --exit-code bear-requirements.txt
     fi
   - >
