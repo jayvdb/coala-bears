@@ -21,6 +21,17 @@ matrix:
           packages:
             - happy-1.19.3
             - python3.4
+    - language: haskell
+      ghc: 7.10
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - happy-1.19.3
+            - python3.4
 
 
 #    - language: go
