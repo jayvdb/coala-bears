@@ -19,7 +19,7 @@ matrix:
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
-            # php-codesniffer
+            # php-codesniffer  # Causes an error
             - python3.4
             - verilator
     - language: generic
@@ -51,8 +51,8 @@ matrix:
             - indent
             # libperl-critic-perl
             - libxml2-utils
-            # mono-mcs
-            # php-codesniffer
+            # mono-mcs  # Causes install error
+            - php-codesniffer
             - verilator
     - language: generic
       env: DIST=xenial
