@@ -40,6 +40,24 @@ matrix:
             - php-codesniffer
             - verilator
     - language: generic
+      env: DIST=debian-sid
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - debian-sid
+          packages:
+            # chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            # hlint
+            # libperl-critic-perl
+            - libxml2-utils
+            # mono-mcs
+            # php-codesniffer
+            - verilator
+    - language: generic
       env: DIST=xenial
       dist: trusty
       sudo: required
@@ -51,24 +69,6 @@ matrix:
       env: DIST=zesty
       dist: trusty
       sudo: required
-    - language: generic
-      env: DIST=debian-sid
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - debian-sid
-          packages:
-            # chktex
-            # cppcheck
-            - flawfinder
-            - indent
-            # hlint
-            # libperl-critic-perl
-            # libxml2-utils
-            # mono-mcs
-            # php-codesniffer
-            - verilator
 
 cache:
   pip: true
