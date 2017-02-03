@@ -5,6 +5,21 @@ dist: trusty
 matrix:
   include:
     - language: generic
+      dist: precise
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - hlint
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php-codesniffer
+            - verilator
+    - language: generic
       addons:
         apt:
           packages:
