@@ -92,6 +92,9 @@ apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep
 if [[ "$DIST" == "precise" ]]; then
   apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | grep -v 'PHPCodeSniffer' )
 fi
+if [[ "$DIST" == "debian-sid" ]]; then
+  apt_get_requirement_bears=$(echo $apt_get_requirement_bears | xargs -n 1 | egrep -v '(CSharp|PerlCritic|PHPCodeSniffer)' )
+fi
 
 remove_bears=''
 
