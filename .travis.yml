@@ -270,7 +270,7 @@ before_script:
       bash .ci/deps.opam.sh;
     fi
   - if [[ "$BEARS" == "lua" ]]; then
-      luarocks install --local --deps-mode=none luacheck
+      luarocks install --local --deps-mode=none luacheck;
     fi
   - if [[ "$TRAVIS_LANGUAGE" == "perl" ]]; then
       wget "http://downloads.sourceforge.net/project/fpgalibre/bakalint/0.4.0/bakalint-0.4.0.tar.gz?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Ffpgalibre%2Ffiles%2Fbakalint%2F0.4.0%2F&ts=1461844926&use_mirror=netcologne" -O ~/bl.tar.gz ;
