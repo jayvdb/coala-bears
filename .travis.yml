@@ -79,14 +79,13 @@ before_install:
       echo python3 is $(which python3)
       if [[ -n "$(which python3)" ]]; then ln -sf $(which python3) $HOME/bin/python; fi
       python --version
-      if [[ -z "$(which pip3)" ]]; then
-        wget https://bootstrap.pypa.io/get-pip.py
-        python get-pip.py --user
-        rm get-pip.py
-        cp $HOME/.local/bin/pip $HOME/.local/bin/pip3
-        cp $HOME/.local/bin/pip $HOME/bin/pip
-        cp $HOME/.local/bin/pip $HOME/bin/pip3
-      fi
+      # Needed as some hosts may be providing python 3.2
+      wget https://bootstrap.pypa.io/get-pip.py
+      python get-pip.py --user
+      rm get-pip.py
+      cp $HOME/.local/bin/pip $HOME/.local/bin/pip3
+      cp $HOME/.local/bin/pip $HOME/bin/pip
+      cp $HOME/.local/bin/pip $HOME/bin/pip3
       pip --version
     fi
 
