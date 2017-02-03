@@ -42,10 +42,12 @@ non_pip_runtime_requirement_bears="$cabal_requirement_bears $gem_requirement_bea
 
 other_requirement_bears=$(comm -23 <(ls $requirement_bears) <(ls $non_pip_runtime_requirement_bears $pip_requirement_bears))
 
-distribution_only_bears=$(grep -Pl 'DistributionRequirement\(' $other_requirement_bears)
+distribution_requirement_bears=$(grep -m 1 -l 'DistributionRequirement(' $requirement_bears)
+
+apt_get_requirement_bears=$(grep -m 1 -l 'apt_get' $distribution_requirement_bears)
 
 # Verify that DistributionRequirement is the only other Requirement subclass used
-unknown_requirement_bears=$(grep -Pl '(?<!Distribution)Requirement\(' $other_requirement_bears || true)
+unknown_requirement_bears=$(grep -m 1 -Pl '(?<!Distribution)Requirement\(' $other_requirement_bears || true)
 
 if [[ -n "$unknown_requirement_bears" ]]; then
   echo "Unknown requirements for $unknown_requirement_bears"
@@ -102,6 +104,8 @@ elif [[ $BEARS == "npm" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $npm_requirement_bears))
 elif [[ $BEARS == "rscript" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $rscript_requirement_bears))
+elif [[ $BEARS == "apt-get" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $apt_get_requirement_bears))
 fi
 
 if [[ -n "$remove_bears" ]]; then
