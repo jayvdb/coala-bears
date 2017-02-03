@@ -113,10 +113,7 @@ before_install:
   - >
     if [[ "$TRAVIS_LANGUAGE" == "haskell" ]]; then
       # cabal install cabal-install-1.22.9.0;
-      cat /home/travis/.cabal/config
-      echo "constraint: bytestring   installed" >> /home/travis/.cabal/config
-      echo "constraint: containers   installed" >> /home/travis/.cabal/config
-      echo "constraint: transformers installed" >> /home/travis/.cabal/config
+      sed -i.bak 's/-- force-reinstalls: False/force-reinstalls: True/' /home/travis/.cabal/config
     fi
 
 before_script:
