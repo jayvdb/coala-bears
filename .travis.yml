@@ -4,6 +4,7 @@ dist: trusty
 
 matrix:
   include:
+    - language: java
     - language: dart
     - language: php
     - language: julia
@@ -188,6 +189,7 @@ before_script:
     fi
   - if [[ "$TRAVIS_LANGUAGE" == "php" ]]; then
       pear install pear/PHP_CodeSniffer;
+      phpenv rehash;
     fi
   - if [[ "$TRAVIS_LANGUAGE" == "julia" ]]; then
       julia -e "Pkg.add(\"Lint\")";
