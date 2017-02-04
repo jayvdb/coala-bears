@@ -85,7 +85,6 @@ before_install:
   - mkdir -p ~/.apt-cache
   - # if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.sh; fi
   - if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.cabal.sh; fi
-  - false
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - cat test-requirements.txt docs-requirements.txt bear-requirements.txt >> requirements.txt
