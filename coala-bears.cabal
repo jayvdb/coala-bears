@@ -1,7 +1,7 @@
 Name: coala-bears
-Version: 0.1
+Version: 0.10
 cabal-version: >= 1.2
 build-type: Simple
 
 library
-  build-depends: base, Cabal==1.22.8.0, cabal-install==1.22.9.0, ghc-mod==5.7.0.0, hlint==1.9.35, ShellCheck==0.4.1
+  build-depends: base, Cabal>=1.16, cabal-install>=1.22, ghc-mod==5.7.0.0, hlint==1.9.35, ShellCheck==0.4.1
