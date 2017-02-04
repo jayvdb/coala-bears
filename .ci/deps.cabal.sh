@@ -1,5 +1,5 @@
 set -e
 set -x
 
-cabal update && cabal install cabal-install-1.22.9.0
+cabal update
 cabal install
