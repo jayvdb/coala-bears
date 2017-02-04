@@ -3,10 +3,10 @@ sudo: required
 language: python
 python:
   # 2.7 is rejected by dependency mypy-lang
-  - 3.3
+  # 3.3
   - 3.4
-  - 3.5
-  - 3.6-dev
+  # 3.5
+  # 3.6-dev
 
 dist: trusty
 
@@ -82,8 +82,9 @@ before_install:
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
-  - if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.sh; fi
+  - # if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.sh; fi
   - if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.cabal.sh; fi
+  - false
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - cat test-requirements.txt docs-requirements.txt bear-requirements.txt >> requirements.txt
