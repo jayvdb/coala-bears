@@ -24,7 +24,8 @@ addons:
       - flawfinder
       - gfortran
       - ghc
-      - haskell-platform
+      - happy
+      - cabal-install
       - indent
       - libblas-dev
       - liblapack-dev
