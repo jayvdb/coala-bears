@@ -42,6 +42,8 @@ machine:
 
 test:
   override:
+    - ~/.cabal/bin/ghc-mod -b '. ' check test.hs:
+        parallel: true
     - python setup.py bdist_wheel:
         parallel: true
     - pip install $(ls ./dist/*.whl)"[alldeps]":
