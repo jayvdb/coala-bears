@@ -33,8 +33,8 @@ dependencies:
     - nvm alias default node
   override:
     - bash .ci/deps.cabal.sh
-    - bash .ci/deps.sh:
-        timeout: 900  # Allow 15 mins before timing out due to "no output"
+    #- bash .ci/deps.sh:
+    #    timeout: 900  # Allow 15 mins before timing out due to "no output"
 
 machine:
   java:
