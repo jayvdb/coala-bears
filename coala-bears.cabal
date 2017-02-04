@@ -15,4 +15,4 @@ build-type: Simple
 -- current solution: add mtl
 
 library
-  build-depends: base, Cabal>=1.16, safe==0.3.9, mtl==2.2.1, ghc-mod==5.6.0.0, hlint==1.9.27, ShellCheck==0.4.1
+  build-depends: base, Cabal>=1.16, safe==0.3.9, mtl==2.2.1, regex-posix==0.95.2, regex-compat==0.95.1, ghc-mod==5.6.0.0, hlint==1.9.27, ShellCheck==0.4.1
