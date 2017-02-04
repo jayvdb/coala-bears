@@ -1,16 +1,36 @@
 set -e
-set -x
+
+pkgs=$(ghc-pkg list --user)
+
+function pkg_version_chk {
+  versions=versions=$(echo $pkgs | xargs -n 1 | grep hashable | xargs)
+  if [[ -z "$versions" ]]; then
+    echo "$1: missing" 1>&2
+    return 1
+  fi
+  if [[ "${versions/ /}" != "$versions" ]]; then
+    echo "$1-$2: multiple: $versions" 1>&2
+    return 1
+  fi
+  if [[ "${versions/$1-$2/}" != "$versions" ]]; then
+    echo "$1-$2: found" 1>&2
+    return 0
+  else
+    echo "$1-$2: found $versions" 1>&2
+    return 1
+  fi
+}
+
+if [[ -n "$TRAVIS" ]]; then
+  # https://github.com/coala/coala-bears/issues/1380
+  if pkg_version_chk hlint 1.9.27 && pkg_version_chk ShellCheck 0.4.1 && pkg_version_chk ghc-mod 5.6.0.0 ; then
+    exit 0
+  fi
+
+  rm -rf $HOME/.cabal $HOME/.ghc $HOME/.ghc-mod
+fi
 
 cabal update
-
-cat $HOME/.cabal/config
-find $HOME/.cabal
-
-
-echo "shadow-installed-packages: False" >> $HOME/.cabal/config
-echo "shared: " >> $HOME/.cabal/config
-
-ghc-pkg list
 
 cabal install cabal-install==1.22.9.0
 cabal install --only-dependencies --avoid-reinstalls
