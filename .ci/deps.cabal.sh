@@ -5,4 +5,5 @@ cabal update
 #cabal install cabal-install==1.22.9.0
 cabal install --only-dependencies
 
-$HOME/.ghc-mod/cabal-helper
+# Force ghc-mod to resolve its Cabal version
+~/.cabal/bin/ghc-mod modules
