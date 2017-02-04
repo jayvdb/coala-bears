@@ -32,11 +32,11 @@ function pkg_version_chk {
 
 cabal update
 
-if pkg_version_chk cabal-install 1.22.9.0 ; then
-  cabal --version | grep 1.22.9.0
-else
-  cabal install cabal-install==1.22.9.0
-fi
+#if pkg_version_chk cabal-install 1.22.9.0 ; then
+#  cabal --version | grep 1.22.9.0
+#else
+#  cabal install cabal-install==1.22.9.0
+#fi
 
 rm $HOME/.cabal/config
 
