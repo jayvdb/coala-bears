@@ -32,6 +32,7 @@ function pkg_version_chk {
 
 cabal update
 
+# TODO use pkg_version_chk
 cabal install cabal-install==1.22.9.0
 
 rm $HOME/.cabal/config
