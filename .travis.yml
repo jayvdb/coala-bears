@@ -25,7 +25,6 @@ addons:
       - gfortran
       - ghc
       - happy
-      - cabal-install
       - indent
       - libblas-dev
       - liblapack-dev
