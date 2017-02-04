@@ -43,6 +43,7 @@ cache:
   directories:
     # Installed language package caches
     - ~/.cabal
+    - ~/.ghc-mod
     - ~/R/Library
     - ~/.julia
     - $TRAVIS_BUILD_DIR/node_modules

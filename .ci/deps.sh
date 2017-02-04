@@ -31,9 +31,6 @@ case $CIRCLE_BUILD_IMAGE in
 
     # The non-apt go provided by Circle CI is acceptable
     deps=${deps/golang/}
-    # Add packages which are available in xenial
-    # The xenial hlint is >= 1.9.1
-    deps="$deps hlint"
     # Add packages which are already in the precise image
     deps="$deps g++-4.9 libxml2-utils php-codesniffer"
     # gfortran on CircleCI precise is 4.6 and R irlba compiles ok,
