@@ -1,6 +1,17 @@
 set -e
 set -x
 
+
+if [[ -n "$(which ghc-mod)" ]]; then
+  rm $(which ghc-mod)
+fi
+
+# cabal update to 1.22.9.0 and install ghc-mod 5.6.0
+if [[ -z "$(which ghc-mod)" ]]; then
+  cabal update && cabal install cabal-install-1.22.9.0
+  cabal install ghc-mod
+fi
+
 VERSION=0.4.1
 BIN_PATH=~/.cabal/bin/shellcheck
 

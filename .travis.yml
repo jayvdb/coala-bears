@@ -224,7 +224,7 @@ before_install:
   - sed -i '/^ruby/d' Gemfile
   - mkdir -p ~/.apt-cache
   - if [[ "$BEARS" == "all" ]]; then nvm install 4; nvm use 4; bash .ci/deps.sh; fi
-  - if [[ "$BEARS" == "all" ]]; then bash .ci/deps.shellcheck.sh; fi
+  - if [[ "$BEARS" == "all" ]]; then bash .ci/deps.cabal.sh; fi
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - cat test-requirements.txt docs-requirements.txt >> requirements.txt
