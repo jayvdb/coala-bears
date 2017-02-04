@@ -7,7 +7,7 @@ cat $HOME/.cabal/config
 find $HOME/.cabal
 
 #cabal install cabal-install==1.22.9.0
-cabal install --only-dependencies
+cabal install --only-dependencies --avoid-reinstalls
 
 # Force ghc-mod to resolve its Cabal version
 ~/.cabal/bin/ghc-mod modules
