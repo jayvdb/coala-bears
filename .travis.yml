@@ -53,8 +53,6 @@ cache:
     # coala managed data
     - ~/nltk_data
     - ~/.local/share/coala-bears
-    # .deb cache
-    - ~/.apt-cache
     # Installed linters
     - ~/infer-linux64-v0.7.0
     - ~/pmd-bin-5.4.1

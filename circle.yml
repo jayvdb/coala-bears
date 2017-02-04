@@ -1,6 +1,5 @@
 dependencies:
   cache_directories:
-    - ~/.apt-cache
     - ~/.pyenv/versions/3.4.3
     - ~/.pyenv/versions/3.5.1
     - ~/coala-bears/node_modules
@@ -9,6 +8,7 @@ dependencies:
     - ~/.RLibrary
     - ~/dart-sdk/bin
     - ~/.cabal
+    - ~/.ghc
     - ~/.ghc-mod
     - ~/infer-linux64-v0.7.0
     - ~/nltk_data

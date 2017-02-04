@@ -80,7 +80,10 @@ fi
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
 
 # NPM commands
-sudo rm -rf $(which alex)  # Delete ghc-alex as it clashes with npm deps
+if [[ -n "$(which alex)" ]]; then
+  # Delete ghc-alex as it clashes with npm deps
+  sudo rm -rf $(which alex)
+fi
 npm install
 
 # R commands
