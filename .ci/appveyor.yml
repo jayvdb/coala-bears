@@ -6,13 +6,15 @@ environment:
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
 
   matrix:
-    - PYTHON: "C:\\Python34"
-      PYTHON_VERSION: "3.4"
-      PYTHON_ARCH: "32"
-
     - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4"
       PYTHON_ARCH: "64"
+      LLVM_VERSION: 3.4.1
+
+    - PYTHON: "C:\\Python34"
+      PYTHON_VERSION: "3.4"
+      PYTHON_ARCH: "32"
+      LLVM_VERSION: 3.4.1
 
 cache:
   - "C:\\pip_cache"
@@ -29,7 +31,7 @@ install:
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - "SET PATH=C:\\LLVM\\bin;%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "SET PATH=C:\\Program\ Files\\Java\\jdk1.7.0\\bin;%PATH%"
 
   # language-tool needs the registry tweaked here since it determines the java
@@ -45,6 +47,13 @@ install:
   - "%CMD_IN_ENV% pip install --cache-dir=C:\\pip_cache -r requirements.txt -r test-requirements.txt"
   - "CALL .ci/deps.nltk.cmd"
 
+  - curl -fsSL http://llvm.org/releases/%LLVM_VERSION%/LLVM-%LLVM_VERSION%-win32.exe -o LLVM.exe
+  - 7z x LLVM.exe -oC:\LLVM
+  - DEL tests\\c_languages\\ClangComplexityBearTest.py
+  - DEL tests\\c_languages\\codeclone_detection\\ClangASTPrintBearTest.py
+  - DEL tests\\c_languages\\codeclone_detection\\ClangCloneDetectionBearTest.py
+  - DEL tests\\c_languages\\codeclone_detection\\ClangCountVectorCreatorTest.py 
+
   - ps: "Install-Product node ''"  # Use latest node v5.x.x
   - "npm config set loglevel warn"
   - "npm install"
@@ -55,5 +64,8 @@ test_script:
   # Clang DLLs x64 were nowadays installed, but the x64 version hangs, so we
   # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
   # https://github.com/appveyor/ci/issues/688
-  - "%CMD_IN_ENV% python -m pytest --cov -k \"not ClangASTPrintBear and not ClangCloneDetectionBear and not ClangComplexityBear and not ClangCountVectorCreator and not ClangCountingConditions\""
+  - "%CMD_IN_ENV% python -m pytest"
   - "%CMD_IN_ENV% python setup.py install"
+
+matrix:
+  fast_finish: true
