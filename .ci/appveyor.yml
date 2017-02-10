@@ -52,7 +52,8 @@ install:
   - DEL tests\\c_languages\\ClangComplexityBearTest.py
   - DEL tests\\c_languages\\codeclone_detection\\ClangASTPrintBearTest.py
   - DEL tests\\c_languages\\codeclone_detection\\ClangCloneDetectionBearTest.py
-  - DEL tests\\c_languages\\codeclone_detection\\ClangCountVectorCreatorTest.py 
+  - DEL tests\\c_languages\\codeclone_detection\\ClangCountVectorCreatorTest.py
+  - DEL tests\\c_languages\\codeclone_detection\\ClangCountingConditionsTest.py
 
   - ps: "Install-Product node ''"  # Use latest node v5.x.x
   - "npm config set loglevel warn"
