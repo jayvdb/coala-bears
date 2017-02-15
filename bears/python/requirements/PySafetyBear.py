@@ -10,6 +10,10 @@ from coalib.results.Result import Result
 from coalib.results.SourceRange import SourceRange
 from coalib.settings.Setting import typed_list
 
+try:
+    from pkg_resources import RequirementParseError
+except ImportError:
+    RequirementParseError = ValueError
 
 # the safety module expects an object that looks like this
 # (not importing it from there because it's in a private-ish location)
@@ -91,6 +95,6 @@ class PySafetyBear(LocalBear):
         for line in lines:
             try:
                 yield from pkg_resources.parse_requirements(line)
-            except pkg_resources.RequirementParseError:
+            except RequirementParseError:
                 # unsupported requirement specification
                 pass
