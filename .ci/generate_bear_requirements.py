@@ -166,7 +166,14 @@ def write_pip_requirements(requirements, output):
             continue
 
         if requirement.version:
-            marker = '==' if requirement.package in PINNED_PACKAGES else '~='
+            if requirement.version[1] == '=':
+                marker = requirement.version[:2]
+                requirement.version = requirement.version[2:]
+            elif requirement.package in PINNED_PACKAGES:
+                marker = '=='
+            else:
+                marker = '~='
+
             output.write('{0}{1}{2}\n'.format(requirement.package,
                                               marker,
                                               requirement.version))
