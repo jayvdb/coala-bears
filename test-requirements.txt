@@ -6,5 +6,5 @@ pytest-timeout~=1.2
 pytest-xdist~=1.15
 requests_mock~=0.7.0
 pip==7.0.0
-setuptools==12.1
+setuptools==11.3
 wheel~=0.29
