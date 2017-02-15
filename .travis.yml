@@ -6,32 +6,41 @@ matrix:
   include:
     - language: python
       python: 3.3
+      dist: precise
       env: UNSUPPORTED=true
 
     - language: python
       python: 3.4
+      dist: precise
       addons:
         apt:
           packages: clang-3.4
 
     - language: python
       python: 3.5
+      dist: precise
       addons:
         apt:
           packages: clang-3.4
 
     - language: node_js
+      dist: precise
       node_js: 4
     - language: node_js
+      dist: precise
       node_js: 5
     - language: node_js
+      dist: precise
       node_js: 6
 
     - language: ruby
+      dist: precise
       rvm: 2.2
     - language: ruby
+      dist: precise
       rvm: 2.1
     - language: ruby
+      dist: precise
       rvm: 2.0
 
     - language: haskell
