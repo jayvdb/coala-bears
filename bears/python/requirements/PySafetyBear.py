@@ -12,7 +12,7 @@ from coalib.settings.Setting import typed_list
 
 try:
     from pkg_resources import RequirementParseError
-except ImportError:
+except ImportError:  # pragma: no cover
     RequirementParseError = ValueError
 
 # the safety module expects an object that looks like this
