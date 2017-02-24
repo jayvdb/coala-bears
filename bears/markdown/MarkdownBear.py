@@ -21,6 +21,7 @@ class MarkdownBear:
 
     LANGUAGES = {'Markdown'}
     REQUIREMENTS = {NpmRequirement('remark-cli', '3'),
+                    NpmRequirement('unified-engine', '3.0.1'),
                     NpmRequirement('remark-lint', '6')}
     AUTHORS = {'The coala developers'}
     AUTHORS_EMAILS = {'coala-devel@googlegroups.com'}

@@ -17,6 +17,7 @@
     "postcss-cli": "~2",
     "ramllint": "~1.2.2",
     "remark-cli": "~3",
+    "unified-engine": "~3.0.1",
     "remark-lint": "~6",
     "stylelint": "~7",
     "tslint": "~3",
