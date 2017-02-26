@@ -48,6 +48,7 @@ install:
   - ps: "Install-Product node ''"  # Use latest node v5.x.x
   - "npm config set loglevel warn"
   - "npm install"
+  - bash .ci/deps.coala-bears.sh
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
