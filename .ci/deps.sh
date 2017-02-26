@@ -87,7 +87,7 @@ if [[ -n "$ALEX" && "${ALEX/node_modules/}" == "${ALEX}" ]]; then
   echo "Removing $ALEX"
   sudo rm -rf $ALEX
 fi
-npm install
+yarn install --flat --production --no-progress --no-lockfile
 
 # R commands
 echo '.libPaths( c( "'"$R_LIB_USER"'", .libPaths()) )' >> .Rprofile
