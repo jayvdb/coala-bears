@@ -1,3 +1,5 @@
+from shutil import which
+
 from coalib.bearlib.abstractions.Linter import linter
 from coalib.settings.Setting import path
 from dependency_management.requirements.DistributionRequirement import (
@@ -16,6 +18,8 @@ _online_styles = {
 # To be deprecated
 known_checkstyles = dict(_online_styles, **{'google': None, 'sun': None})
 
+checkstyle_executable = which('checkstyle')
+
 
 def check_invalid_configuration(checkstyle_configs, use_spaces, indent_size):
     if (checkstyle_configs is 'google' and
@@ -31,7 +35,7 @@ def known_checkstyle_or_path(setting):
         return path(setting)
 
 
-@linter(executable='java',
+@linter(executable=checkstyle_executable if checkstyle_executable else 'java',
         output_format='regex',
         output_regex=r'\[(?P<severity>WARN|INFO)\].*?'
                      r'(?P<line>\d+):?(?P<column>\d+)?. '
@@ -45,13 +49,17 @@ class CheckstyleBear:
     """
 
     LANGUAGES = {'Java'}
-    REQUIREMENTS = {DistributionRequirement(apt_get='default-jre')}
+    REQUIREMENTS = {DistributionRequirement(apt_get='checkstyle')}
     AUTHORS = {'The coala developers'}
     AUTHORS_EMAILS = {'coala-devel@googlegroups.com'}
     LICENSE = 'AGPL-3.0'
     CAN_DETECT = {'Formatting', 'Smell'}
 
     def setup_dependencies(self):
+        if checkstyle_executable:
+            type(self).checkstyle_jar_file = None
+            return
+
         type(self).checkstyle_jar_file = self.download_cached_file(
             'http://sourceforge.net/projects/checkstyle/files/checkstyle/6.15'
             '/checkstyle-6.15-all.jar',
@@ -92,5 +100,11 @@ class CheckstyleBear:
                 _online_styles[checkstyle_configs],
                 checkstyle_configs + '.xml')
 
-        return ('-jar', self.checkstyle_jar_file, '-c',
-                checkstyle_configs, filename)
+        if self.checkstyle_jar_file:
+            args = '-jar', self.checkstyle_jar_file
+        else:
+            args = []
+
+        args += ['-c', checkstyle_configs, filename]
+
+        return args
