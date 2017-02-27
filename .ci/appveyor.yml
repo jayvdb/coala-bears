@@ -48,6 +48,9 @@ install:
   - ps: "Install-Product node ''"  # Use latest node v5.x.x
   - "npm config set loglevel warn"
   - "npm install"
+  - "copy NUL dummy.ext"
+  - "%CMD_IN_ENV% coala --ci -V --bears CheckstyleBear --files dummy.ext --no-config --bear-dirs bears"
+  - "java -jar C:\\Users\\appveyor\\AppData\\Local\\coala-bears\\coala-bears\\CheckstyleBear\\checkstyle-7.5.1-all.jar -c /sun_checks.xml C:\\projects\\coala-bears\\tests\\java\\test_files\\CheckstyleGood.java"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
