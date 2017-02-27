@@ -54,8 +54,8 @@ class CheckstyleBear:
     def setup_dependencies(self):
         type(self).checkstyle_jar_file = self.download_cached_file(
             'http://sourceforge.net/projects/checkstyle/files/checkstyle/6.19'
-            '/checkstyle-6.19-all.jar',
-            'checkstyle-6.19.jar')
+            '/checkstyle-7.1.2-all.jar',
+            'checkstyle-7.1.2.jar')
 
     def create_arguments(
             self, filename, file, config_file,
