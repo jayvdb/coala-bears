@@ -87,6 +87,7 @@ if [[ -n "$ALEX" && "${ALEX/node_modules/}" == "${ALEX}" ]]; then
   echo "Removing $ALEX"
   sudo rm -rf $ALEX
 fi
+npm install elm
 yarn install --flat --production --no-progress --pure-lockfile --ignore-engines
 
 # R commands
