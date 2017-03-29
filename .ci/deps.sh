@@ -87,7 +87,10 @@ if [[ -n "$ALEX" && "${ALEX/node_modules/}" == "${ALEX}" ]]; then
   echo "Removing $ALEX"
   sudo rm -rf $ALEX
 fi
-cd $HOME && npm install --global-style $TRAVIS_BUILD_DIR/ && cd -
+
+mkdir -p vendor
+cp package.json vendor/
+cd vendor && npm install && cd ..
 
 # R commands
 echo '.libPaths( c( "'"$R_LIB_USER"'", .libPaths()) )' >> .Rprofile
