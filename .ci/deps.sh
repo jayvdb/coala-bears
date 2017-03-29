@@ -88,9 +88,8 @@ if [[ -n "$ALEX" && "${ALEX/node_modules/}" == "${ALEX}" ]]; then
   sudo rm -rf $ALEX
 fi
 
-mkdir -p vendor
-cp package.json vendor/
-cd vendor && npm install && cd ..
+cp package.json $HOME
+cd $HOME && npm install && cd -
 
 # R commands
 echo '.libPaths( c( "'"$R_LIB_USER"'", .libPaths()) )' >> .Rprofile
