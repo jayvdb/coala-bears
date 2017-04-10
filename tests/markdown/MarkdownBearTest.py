@@ -26,12 +26,14 @@ MarkdownBearTest = verify_local_bear(MarkdownBear,
                                      valid_files=(test_file2,),
                                      invalid_files=(test_file1,))
 
+@pytest.mark.usefixtures('tmpworkdir')
 MarkdownBearConfigsTest = verify_local_bear(
     MarkdownBear,
     valid_files=(test_file1,),
     invalid_files=(test_file2,),
     settings={'list_increment': False})
 
+@pytest.mark.usefixtures('tmpworkdir')
 MarkdownBearMaxLineLengthSettingTest = verify_local_bear(
     MarkdownBear,
     valid_files=(test_file2,),
@@ -40,6 +42,7 @@ MarkdownBearMaxLineLengthSettingTest = verify_local_bear(
 
 
 @generate_skip_decorator(MarkdownBear)
+@pytest.mark.usefixtures('tmpworkdir')
 class MarkdownBearMaxLineLengthMessageTest(unittest.TestCase):
 
     def setUp(self):
