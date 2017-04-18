@@ -116,7 +116,7 @@ script:
   - if [[ "$UNSUPPORTED" == true ]]; then exit; fi
   - python setup.py bdist_wheel
   - pip install $(ls ./dist/*.whl)"[alldeps]"
-  - bash .ci/tests.sh
+  - pytest -k MarkdownBear
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py
   - git diff --exit-code bear-requirements.txt Gemfile package.json
