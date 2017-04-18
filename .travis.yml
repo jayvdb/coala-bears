@@ -121,6 +121,9 @@ script:
   - coala-ci -I --bears MarkdownBear --files foo.md
   - cd /tmp
   - echo foo > foo.md
+  - remark foo.md
+  - remark --use 'remark-lint="maximumLineLength": 100' foo.md || true
+  - remark --use 'lint="maximumLineLength": 100' foo.md || true
   - coala-ci -I --bears MarkdownBear --files foo.md
   - cd -
   # Ensure bear requirements are in sync with the bear PipRequirement
