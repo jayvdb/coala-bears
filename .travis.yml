@@ -117,6 +117,12 @@ script:
   - python setup.py bdist_wheel
   - pip install $(ls ./dist/*.whl)"[alldeps]"
   - pytest -k MarkdownBear
+  - echo foo > foo.md
+  - coala-ci -I --bears MarkdownBear --files foo.md
+  - cd /tmp
+  - echo foo > foo.md
+  - coala-ci -I --bears MarkdownBear --files foo.md
+  - cd -
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py
   - git diff --exit-code bear-requirements.txt Gemfile package.json
