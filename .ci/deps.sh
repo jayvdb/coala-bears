@@ -96,6 +96,7 @@ R -q -e 'install.packages("lintr")'
 R -q -e 'install.packages("formatR")'
 
 # GO commands
+source /etc/profile.d/go.sh
 go get -u github.com/golang/lint/golint
 go get -u golang.org/x/tools/cmd/goimports
 go get -u sourcegraph.com/sqs/goreturns
