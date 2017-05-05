@@ -63,6 +63,10 @@ elif [ -n "$USE_PPAS" ]; then
   done
 fi
 
+sudo add-apt-repository -y ppa:kalon33/gamesgiroll
+
+deps="$deps phpmd"
+
 deps_perl="perl libperl-critic-perl"
 
 sudo apt-get -y update
