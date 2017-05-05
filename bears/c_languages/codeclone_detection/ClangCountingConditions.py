@@ -158,7 +158,7 @@ def _get_position_in_for_tokens(tokens, position):
     # realized through macros. FIXME: This is not covered in the tests because
     # it contains a known bug that needs to be fixed, that is: macros destroy
     # everything.
-    return FOR_POSITION.UNKNOWN  # pragma: no cover
+    return FOR_POSITION.UNKNOWN
 
 
 def _get_positions_in_for_loop(stack):
@@ -200,7 +200,7 @@ def _get_binop_operator(cursor):
                                  token.extent.end.column)):
             return token
 
-    return None  # pragma: no cover
+    return None
 
 
 def _stack_contains_operators(stack, operators):
@@ -218,7 +218,7 @@ def _stack_contains_operators(stack, operators):
             operator = _get_binop_operator(elem)
             # Not known how to reproduce but may be possible when evil macros
             # join the game.
-            if operator is None:  # pragma: no cover
+            if operator is None:
                 continue
 
             if operator.spelling in operators:

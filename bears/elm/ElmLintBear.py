@@ -25,7 +25,7 @@ class ElmLintBear:
 
     @classmethod
     def check_prerequisites(cls):
-        if which('elm-format') is None:
+        if which('elm-format') is None:  # pragma: no cover
             return ('elm-format is missing. Download it from '
                     'https://github.com/avh4/elm-format/blob/master/README.md'
                     '#for-elm-018 and put it into your PATH.')
