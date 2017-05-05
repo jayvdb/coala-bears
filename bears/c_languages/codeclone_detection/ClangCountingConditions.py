@@ -158,7 +158,7 @@ def _get_position_in_for_tokens(tokens, position):
     # realized through macros. FIXME: This is not covered in the tests because
     # it contains a known bug that needs to be fixed, that is: macros destroy
     # everything.
-    return FOR_POSITION.UNKNOWN
+    return FOR_POSITION.UNKNOWN  # pragma: no cover
 
 
 def _get_positions_in_for_loop(stack):

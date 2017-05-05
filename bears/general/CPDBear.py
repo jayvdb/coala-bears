@@ -38,7 +38,7 @@ class CPDBear(GlobalBear):
     CAN_DETECT = {'Duplication'}
 
     @classmethod
-    def check_prerequisites(cls):
+    def check_prerequisites(cls):  # pragma: no cover
         if which('bash') is None:
             return 'bash is not installed.'
         if which('pmd') is None and which('run.sh') is None:
@@ -76,7 +76,7 @@ class CPDBear(GlobalBear):
         """
         language = language.lower()
 
-        if language not in self.lowered_lang_dict:
+        if language not in self.lowered_lang_dict:  # pragma: no cover
             self.err('This bear does not support files with the extension '
                      "'{}'.".format(language))
             return
