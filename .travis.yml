@@ -13,7 +13,7 @@ matrix:
     - python: 3.3
       env: UNSUPPORTED=true
 
-dist: trusty
+dist: precise
 
 addons:
   apt:
