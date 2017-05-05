@@ -14,6 +14,7 @@ esac
 export DEBIAN_FRONTEND=noninteractive
 
 deps="libclang1-3.4 indent mono-mcs chktex r-base julia golang-go luarocks verilator cppcheck flawfinder devscripts"
+deps_go="golang-golang-x-tools"
 deps_infer="m4 opam"
 
 case $CIRCLE_BUILD_IMAGE in
@@ -66,7 +67,7 @@ fi
 deps_perl="perl libperl-critic-perl"
 
 sudo apt-get -y update
-sudo apt-get -y --no-install-recommends install $deps $deps_perl $deps_infer
+sudo apt-get -y --no-install-recommends install $deps $deps_go $deps_perl $deps_infer
 
 # On Trusty, g++ & gfortran 4.9 need activating for R lintr dependency irlba.
 ls -al /usr/bin/gcc* /usr/bin/g++* /usr/bin/gfortran* || true
@@ -97,9 +98,7 @@ R -q -e 'install.packages("formatR")'
 
 # GO commands
 go get -u github.com/golang/lint/golint
-go get -u golang.org/x/tools/cmd/goimports
 go get -u sourcegraph.com/sqs/goreturns
-go get -u golang.org/x/tools/cmd/gotype
 go get -u github.com/kisielk/errcheck
 
 # Ruby commands
