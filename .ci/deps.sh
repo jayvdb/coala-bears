@@ -13,11 +13,16 @@ esac
 # apt-get commands
 export DEBIAN_FRONTEND=noninteractive
 
+CHRONIC=chronic
+
 deps="libclang1-3.4 indent mono-mcs chktex r-base julia golang-go luarocks verilator cppcheck flawfinder devscripts"
 deps_infer="m4 opam"
 
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
+    # Chronic in moreutils not available on Ubuntu 12
+    CHRONIC=""
+    # All PPAs are needed on Ubuntu 12
     USE_PPAS="true"
     # The Circle provided Go is too old
     sudo mv /usr/local/go /usr/local/circleci-go
@@ -36,6 +41,8 @@ case $CIRCLE_BUILD_IMAGE in
     # gfortran on CircleCI precise is 4.6 and R irlba compiles ok,
     # but for reasons unknown it fails on trusty without gfortran-4.9
     deps="$deps gfortran-4.9"
+    # Add moreutils for chronic
+    deps="$deps moreutils"
     # Add extra infer deps
     deps_infer="$deps_infer ocaml camlp4"
     # opam install --deps-only --yes infer fails with
@@ -87,13 +94,13 @@ if [[ -n "$ALEX" && "${ALEX/node_modules/}" == "${ALEX}" ]]; then
   echo "Removing $ALEX"
   sudo rm -rf $ALEX
 fi
-npm install
+$CHRONIC npm install
 
 # R commands
 echo '.libPaths( c( "'"$R_LIB_USER"'", .libPaths()) )' >> .Rprofile
 echo 'options(repos=structure(c(CRAN="http://cran.rstudio.com")))' >> .Rprofile
-R -q -e 'install.packages("lintr")'
-R -q -e 'install.packages("formatR")'
+$CHRONIC R -q -e 'install.packages("lintr")'
+$CHRONIC R -q -e 'install.packages("formatR")'
 
 # GO commands
 go get -u github.com/golang/lint/golint
@@ -104,7 +111,7 @@ go get -u github.com/kisielk/errcheck
 go get -u github.com/BurntSushi/toml/cmd/tomlv
 
 # Ruby commands
-bundle install --path=vendor/bundle --binstubs=vendor/bin --jobs=8 --retry=3
+$CHRONIC bundle install --path=vendor/bundle --binstubs=vendor/bin --jobs=8 --retry=3
 
 for dep_version in "${dep_versions[@]}" ; do
   pyenv install -ks $dep_version
@@ -119,27 +126,27 @@ for dep_version in "${dep_versions[@]}" ; do
   pip install language_check==0.8.*
 done
 
-pip install -r docs-requirements.txt
+$CHRONIC pip install -r docs-requirements.txt
 
 python setup.py --help
 
 # Dart Lint commands
 if ! dartanalyzer -v &> /dev/null ; then
-  wget -nc -O ~/dart-sdk.zip https://storage.googleapis.com/dart-archive/channels/stable/release/1.14.2/sdk/dartsdk-linux-x64-release.zip
-  unzip -n ~/dart-sdk.zip -d ~/
+  $CHRONIC wget -nc -O ~/dart-sdk.zip https://storage.googleapis.com/dart-archive/channels/stable/release/1.14.2/sdk/dartsdk-linux-x64-release.zip
+  $CHRONIC unzip -n ~/dart-sdk.zip -d ~/
 fi
 
 # VHDL Bakalint Installation
 if [ ! -e ~/bakalint-0.4.0/bakalint.pl ]; then
-  wget "http://downloads.sourceforge.net/project/fpgalibre/bakalint/0.4.0/bakalint-0.4.0.tar.gz?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Ffpgalibre%2Ffiles%2Fbakalint%2F0.4.0%2F&ts=1461844926&use_mirror=netcologne" -O ~/bl.tar.gz
-  tar xf ~/bl.tar.gz -C ~/
+  $CHRONIC wget "http://downloads.sourceforge.net/project/fpgalibre/bakalint/0.4.0/bakalint-0.4.0.tar.gz?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Ffpgalibre%2Ffiles%2Fbakalint%2F0.4.0%2F&ts=1461844926&use_mirror=netcologne" -O ~/bl.tar.gz
+  $CHRONIC tar xf ~/bl.tar.gz -C ~/
 fi
 
 # elm-format Installation
 if [ ! -e ~/elm-format-0.18/elm-format ]; then
   mkdir -p ~/elm-format-0.18
-  curl -fsSL -o elm-format.tgz https://github.com/avh4/elm-format/releases/download/0.5.2-alpha/elm-format-0.17-0.5.2-alpha-linux-x64.tgz
-  tar -xvzf elm-format.tgz -C ~/elm-format-0.18
+  $CHRONIC curl -fsSL -o elm-format.tgz https://github.com/avh4/elm-format/releases/download/0.5.2-alpha/elm-format-0.17-0.5.2-alpha-linux-x64.tgz
+  $CHRONIC tar -xvzf elm-format.tgz -C ~/elm-format-0.18
 fi
 
 # Julia commands
@@ -157,7 +164,7 @@ if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
   opam update
   opam pin add --yes --no-action infer .
   opam install --deps-only --yes infer
-  ./build-infer.sh java
+  $CHRONIC ./build-infer.sh java
 fi
 
 # PMD commands
@@ -169,9 +176,9 @@ fi
 # Tailor (Swift) commands
 # Comment out the hardcoded PREFIX, so we can put it into ~/.local
 if [ ! -e ~/.local/tailor/tailor-latest ]; then
-  curl -fsSL -o install.sh https://tailor.sh/install.sh
+  $CHRONIC curl -fsSL -o install.sh https://tailor.sh/install.sh
   sed -i 's/read -r CONTINUE < \/dev\/tty/CONTINUE=y/;;s/^PREFIX.*/# PREFIX=""/;' install.sh
-  PREFIX=$HOME/.local bash ./install.sh
+  PREFIX=$HOME/.local $CHRONIC bash ./install.sh
   # Provide a constant path for the executable
   ln -s ~/.local/tailor/tailor-* ~/.local/tailor/tailor-latest
 fi
@@ -179,7 +186,7 @@ fi
 # PHPMD installation
 if [ ! -e ~/phpmd/phpmd ]; then
   mkdir -p ~/phpmd
-  curl -fsSL -o phpmd.phar http://static.phpmd.org/php/latest/phpmd.phar
+  $CHRONIC curl -fsSL -o phpmd.phar http://static.phpmd.org/php/latest/phpmd.phar
   sudo chmod +x phpmd.phar
   sudo mv phpmd.phar ~/phpmd/phpmd
 fi

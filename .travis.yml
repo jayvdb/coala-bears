@@ -39,6 +39,7 @@ addons:
       - luarocks
       - menhir
       - mono-mcs
+      - moreutils
       - ocaml
       - opam
       - php-codesniffer
