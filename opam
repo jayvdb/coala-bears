@@ -1,0 +1,12 @@
+opam-version: "1.2"
+ocaml-version: [ >= "4.02.3" ]
+name: "coala-bears"
+version: "0.11.0"
+build: ["true"]
+install: ["true"]
+remove: ["true"]
+depends: [
+  "atdgen" {="1.10.0"}
+  "reason" {="1.13.4"}
+  "infer" {="https://github.com/facebook/infer.git#v0.7.0"}
+]

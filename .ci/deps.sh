@@ -155,8 +155,8 @@ if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
   cd ~/infer-linux64-v0.7.0
   opam init --y
   opam update
-  opam pin add --yes --no-action infer .
-  opam install --deps-only --yes infer
+  opam pin add --yes --no-action coala-bears .
+  opam install --deps-only --yes coala-bears
   ./build-infer.sh java
 fi
 
