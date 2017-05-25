@@ -8,5 +8,5 @@ remove: ["true"]
 depends: [
   "atdgen" {="1.10.0"}
   "reason" {="1.13.4"}
-  "infer" {="https://github.com/facebook/infer.git#v0.7.0"}
+  "infer" {="https://github.com/facebook/infer.git#v0.10.0"}
 ]
