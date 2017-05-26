@@ -121,7 +121,6 @@ done
 
 pip install -r docs-requirements.txt
 
-python setup.py --help
 
 # Dart Lint commands
 if ! dartanalyzer --version &> /dev/null ; then
