@@ -37,6 +37,8 @@ dependencies:
   override:
     - bash .ci/deps.apt.sh
     - bash .ci/deps.pip.sh
+    - pip uninstall --yes vim-vint
+    - pip install chardet==3.0.3
     - bash .ci/deps.java.sh
     - bash .ci/deps.opam.sh
     - bash .ci/deps.r.sh

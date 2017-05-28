@@ -101,6 +101,8 @@ before_install:
 
 before_script:
   - mv requirements.orig requirements.txt
+  - pip uninstall --yes vim-vint
+  - pip install chardet==3.0.3
   - if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.coala-bears.sh; fi
 
 script:
