@@ -118,6 +118,8 @@ script:
   - if [[ "$UNSUPPORTED" == true ]]; then exit; fi
   - python setup.py bdist_wheel
   - pip install $(ls ./dist/*.whl)"[alldeps]"
+  - pip uninstall --yes vim-vint
+  - pip install chardet==3.0.3
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py

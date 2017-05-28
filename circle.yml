@@ -57,6 +57,10 @@ test:
         parallel: true
     - pip install $(ls ./dist/*.whl)"[alldeps]":
         parallel: true
+    - pip uninstall --yes vim-vint:
+        parallel: true
+    - pip install chardet==3.0.3:
+        parallel: true
     - bash .ci/tests.sh:
         parallel: true
     - coala-ci -L DEBUG:
