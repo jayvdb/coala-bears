@@ -101,8 +101,6 @@ before_install:
 
 before_script:
   - mv requirements.orig requirements.txt
-  - pip uninstall --yes vim-vint
-  - pip install chardet==3.0.3
   - if [[ "$UNSUPPORTED" != true ]]; then bash .ci/deps.coala-bears.sh; fi
 
 script:
@@ -118,8 +116,6 @@ script:
   - if [[ "$UNSUPPORTED" == true ]]; then exit; fi
   - python setup.py bdist_wheel
   - pip install $(ls ./dist/*.whl)"[alldeps]"
-  - pip uninstall --yes vim-vint
-  - pip install chardet==3.0.3
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py
