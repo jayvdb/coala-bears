@@ -24,8 +24,8 @@ go get -u github.com/BurntSushi/toml/cmd/tomlv
 bundle install --path=vendor/bundle --binstubs=vendor/bin --jobs=8 --retry=3
 
 # Dart Lint commands
-wget -nc -O ~/dart-sdk.zip https://storage.googleapis.com/dart-archive/channels/stable/release/1.14.2/sdk/dartsdk-linux-x64-release.zip
-unzip -n ~/dart-sdk.zip -d ~/
+time wget -nc -O ~/dart-sdk.zip https://storage.googleapis.com/dart-archive/channels/stable/release/1.14.2/sdk/dartsdk-linux-x64-release.zip
+time unzip -n ~/dart-sdk.zip -d ~/
 
 
 # VHDL Bakalint Installation
