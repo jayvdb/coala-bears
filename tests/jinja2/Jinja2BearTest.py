@@ -17,6 +17,7 @@ Jinja2BearVariableSpacingTest = verify_local_bear(
 Jinja2BearCustomVariableSpacingTest = verify_local_bear(
     Jinja2Bear,
     valid_files=(r'foo {{var}}',
+                 r'foo {{',
                  r'foo {{var1|filter}} bar {{var2}}'),
     invalid_files=(r'foo {{ var }}',
                    r'foo {{ var}} bar',
