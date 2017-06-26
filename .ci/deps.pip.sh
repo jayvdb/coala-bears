@@ -17,6 +17,6 @@ for dep_version in "${dep_versions[@]}" ; do
   python --version
   source .ci/env_variables.sh
 
-  pip install -U 'pip<9' setuptools
+  pip install -U 'pip<8' setuptools
   pip -r requirements.txt -r test-requirements.txt -r docs-requirements.txt
 done
