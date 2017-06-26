@@ -41,24 +41,26 @@ class ClangCloneDetectionBearTest(unittest.TestCase):
                                         lambda results, msg: True)
 
     def test_non_clones(self):
+        def check_results(results, msg):
+            self.assertEqual(results, [], msg)
+
         self.non_clone_files = [
             os.path.join(self.base_test_path, 'non_clones', elem)
             for elem in os.listdir(os.path.join(self.base_test_path,
                                                 'non_clones'))]
 
-        self.check_clone_detection_bear(self.non_clone_files,
-                                        lambda results, msg:
-                                        self.assertEqual(results, [], msg))
+        self.check_clone_detection_bear(self.non_clone_files, check_results)
 
     def test_clones(self):
+        def check_results(results, msg):
+            self.assertEqual(results, [], msg)
+
         self.clone_files = [
             os.path.join(self.base_test_path, 'clones', elem)
             for elem in os.listdir(os.path.join(self.base_test_path,
                                                 'clones'))]
 
-        self.check_clone_detection_bear(self.clone_files,
-                                        lambda results, msg:
-                                        self.assertNotEqual(results, [], msg))
+        self.check_clone_detection_bear(self.clone_files, check_results)
 
     def check_clone_detection_bear(self, files, result_check_function):
         """
