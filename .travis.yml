@@ -121,7 +121,8 @@ script:
   - if [[ "$UNSUPPORTED" == true ]]; then exit; fi
   - python setup.py bdist_wheel
   - pip install $(ls ./dist/*.whl)"[alldeps]"
-  - unittest2pytest --no-diffs tests
+  - unittest2pytest --write --no-diffs tests
+  - git diff
   - bash .ci/tests.sh
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py
