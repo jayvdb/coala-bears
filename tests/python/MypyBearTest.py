@@ -33,7 +33,7 @@ class MypyBearTest(LocalBearTestHelper):
 
     def test_py2(self):
         self.check_validity(self.uut,
-                            ['print(123)'], valid=True)
+                            ['print 123)'], valid=True)
         self.check_validity(self.uut,
                             ['print 123'], valid=False)
         self.section.append(Setting('language', 'Python 2'))
