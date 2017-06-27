@@ -18,7 +18,7 @@ class RubySmellBear:
     """
 
     LANGUAGES = {'Ruby'}
-    REQUIREMENTS = {GemRequirement('reek')}
+    REQUIREMENTS = {GemRequirement('reek', '4.7.1')}
     AUTHORS = {'The coala developers'}
     AUTHORS_EMAILS = {'coala-devel@googlegroups.com'}
     LICENSE = 'AGPL-3.0'
