@@ -5,10 +5,10 @@ TERM=dumb
 
 # Choose the python versions to install deps for
 case $CIRCLE_NODE_INDEX in
- 0) dep_versions=( "3.4.3" "3.5.1" ) ;;
+ 0) dep_versions=( "3.4.3" "3.5.0" ) ;;
  1) dep_versions=( "3.4.3" ) ;;
  -1) dep_versions=( ) ;;  # set by .travis.yml
- *) dep_versions=( "3.5.1" ) ;;
+ *) dep_versions=( "3.5.0" ) ;;
 esac
 
 for dep_version in "${dep_versions[@]}" ; do
