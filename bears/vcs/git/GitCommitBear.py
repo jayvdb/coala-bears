@@ -34,8 +34,17 @@ class GitCommitBear(GlobalBear):
     _nltk_data_downloaded = False
 
     def setup_dependencies(self):
-        if not self._nltk_data_downloaded and bool(
-                self.section.get('shortlog_imperative_check', True)):
+        if bool(self.section.get('shortlog_imperative_check', True)):
+            try:
+                nltk.data.load('nltk:tokenizers/punkt/english.pickle')
+                # nltk.data.load('nltk:taggers/maxent_treebank_pos_tagger/PY3/english.pickle')
+                nltk.data.load('nltk:taggers/averaged_perceptron_tagger/averaged_perceptron_tagger.pickle')
+                type(self)._nltk_data_downloaded = True
+                return
+
+            except LookupError:
+                pass
+
             nltk.download([
                 'punkt',
                 'maxent_treebank_pos_tagger',
