@@ -20,7 +20,7 @@ class SCSSLintBear:
     # require flag is necessary for 'scss_lint'
     # https://github.com/brigade/scss-lint#installation
     REQUIREMENTS = {GemRequirement('scss_lint', '', 'false'),
-                    PipRequirement('pyyaml', '3.12')}
+                    PipRequirement('pyyaml', '3.11')}
     AUTHORS = {'The coala developers'}
     AUTHORS_EMAILS = {'coala-devel@googlegroups.com'}
     LICENSE = 'AGPL-3.0'
