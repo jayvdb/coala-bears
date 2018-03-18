@@ -11,7 +11,7 @@ set -x
 # mypy-lang and guess-language-spirit do not install on unsupported versions
 sed -i.bak -E '/^(mypy-lang|guess-language-spirit)/d' bear-requirements.txt
 
-pip install 'pytest<3.3'
+pip install 'pytest-runner==2.12'
 python setup.py install | tee setup.log
 
 retval=$?
