@@ -26,6 +26,7 @@ language = Python
 [all.autopep8]
 bears = PEP8Bear, PycodestyleBear
 default_actions = PEP8Bear: ApplyPatchAction
+pycodestyle_ignore = E252, W504, W605
 
 [all.linelength]  # Sometimes autopep8 makes too long lines, need to check after!
 bears = LineLengthBear
