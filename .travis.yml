@@ -15,7 +15,6 @@ jobs:
       install: pip install 3to2
       before_script: true
       script: .ci/check_unsupported.sh
-      if: branch = master AND type = push
     - python: 3.3
       env: UNSUPPORTED=true PIP_NO_COMPILE=1
       addons: false
@@ -23,7 +22,6 @@ jobs:
       install: true
       before_script: true
       script: .ci/check_unsupported.sh
-      if: branch = master AND type = push
 
 dist: trusty
 
