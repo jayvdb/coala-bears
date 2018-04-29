@@ -6,14 +6,14 @@ TERM=dumb
 # apt-get commands
 export DEBIAN_FRONTEND=noninteractive
 
-deps="libclang1-3.4 indent mono-mcs chktex r-base julia golang-go luarocks verilator cppcheck flawfinder devscripts"
+deps="libclang1-3.4 indent mono-mcs chktex r-base julia luarocks verilator cppcheck flawfinder devscripts"
 deps_infer="m4 opam"
 
 case $CIRCLE_BUILD_IMAGE in
   "ubuntu-12.04")
     USE_PPAS="true"
     # The Circle provided Go is too old
-    sudo mv /usr/local/go /usr/local/circleci-go
+    # sudo mv /usr/local/go /usr/local/circleci-go
     ;;
   "ubuntu-14.04")
     # Use xenial, needed to replace outdated julia provided by Circle CI
@@ -48,7 +48,6 @@ if [ "$USE_PPAS" = "true" ]; then
   sudo add-apt-repository -y ppa:marutter/rdev
   sudo add-apt-repository -y ppa:staticfloat/juliareleases
   sudo add-apt-repository -y ppa:staticfloat/julia-deps
-  sudo add-apt-repository -y ppa:ondrej/golang
   sudo add-apt-repository -y ppa:avsm/ppa
 elif [ -n "$USE_PPAS" ]; then
   for ppa in $USE_PPAS; do
@@ -71,3 +70,12 @@ fi
 
 # Change environment for flawfinder from python to python2
 sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
+
+case $CIRCLE_BUILD_IMAGE in
+  "ubuntu-12.04")
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+    source $HOME/.gvm/scripts/gvm
+    gvm install go1.7
+    gvm use go1.7 --default
+    ;;
+esac
