@@ -103,8 +103,9 @@ before_install:
   - cp requirements.txt requirements.orig
   - >
     cat test-requirements.txt docs-requirements.txt
-    bear-requirements.txt >> requirements.txt
-  - sed -i '/^-r/d' requirements.txt
+    bear-requirements.txt requirements.txt >> all-requirements.txt
+  - sed -i '/^-r/d' all-requirements.txt
+  - cp all-requirements.txt requirements.txt
 
 before_script:
   - mv requirements.orig requirements.txt

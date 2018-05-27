@@ -1,4 +1,3 @@
-# coverage must be before codecov so pip respects the coverage version
 coverage~=4.3.4
 coverage-env-plugin~=0.1
 coverage-config-reload-plugin~=0.2
