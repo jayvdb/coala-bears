@@ -124,6 +124,7 @@ script:
     fi
   - coala --non-interactive
   - codecov
+  - python setup.py install
   - python setup.py docs
 
 notifications:
