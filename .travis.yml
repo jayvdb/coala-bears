@@ -88,6 +88,7 @@ env:
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
     - PATH="/opt/cabal/1.24/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/dart-sdk/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v0.7.0/infer/bin:$HOME/pmd-bin-5.4.1/bin:$HOME/bakalint-0.4.0:$HOME/elm-format-0.18:$HOME/.local/tailor/tailor-latest/bin:$HOME/phpmd"
+    - MOBAN_BRANCH=add-python-path
 
 before_install:
   - nvm install 6.10.2
@@ -117,7 +118,7 @@ script:
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py
   - git clone https://github.com/moremoban/setupmobans ../setupmobans
-  - git clone https://gitlab.com/coala/mobans ../coala-mobans
+  - git clone https://gitlab.com/coala/mobans --branch=$MOBAN_BRANCH ../coala-mobans
   - moban
   - git diff --exit-code
   # https://github.com/coala/coala-bears/issues/1037
