@@ -23,14 +23,6 @@ VERSION = '0.12.0.dev99999999999999'
 SETUP_COMMANDS = {}
 
 
-def set_python_path(path):
-    try:
-        user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
-        user_paths.insert(0, path)
-        os.environ['PYTHONPATH'] = os.pathsep.join(user_paths)
-    except KeyError:
-        os.environ['PYTHONPATH'] = path
-
 class PyTestCommand(TestCommand):
     """
     From https://pytest.org/latest/goodpractices.html
@@ -57,28 +49,11 @@ SETUP_COMMANDS['test'] = PyTestCommand
 
 
 class BuildDocsCommand(setuptools.command.build_py.build_py):
-
-    def initialize_options(self):
-        setup_dir = os.path.join(os.getcwd(), __dir__)
-        docs_dir = os.path.join(setup_dir, 'docs')
-        source_docs_dir = os.path.join(setup_dir, 'docs/API')
-
-        set_python_path(setup_dir)
-
-        self.apidoc_command = (
-            'sphinx-apidoc', '-f', '-o', source_docs_dir,
-            os.path.join(setup_dir, 'bears'),
-        )
-        self.make_command = (
-            'make', '-C',
-            docs_dir,
-            'html', 'SPHINXOPTS=-W',
-        )
-
-        # build_lib & optimize is set to these as a
-        # work around for "AttributeError"
-        self.build_lib = ''
-        self.optimize = 2
+    apidoc_command = (
+        'sphinx-apidoc', '-f', '-o', 'docs/API',
+        'bears'
+    )
+    make_command = ('make', '-C', 'docs', 'html', 'SPHINXOPTS=-W')
 
     def run(self):
         err_no = call(self.apidoc_command)

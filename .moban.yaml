@@ -17,9 +17,9 @@ entry_points:
 configuration:
   template_dir:
     - .moban.dt/
-    - .ci/
+    - ../coala-mobans/assets/
     - ../coala-mobans/templates/
-    - ../setupmobans/templates/
+    - .ci/
   configuration: .moban.yaml
   configuration_dir: ../coala-mobans/
 targets:
