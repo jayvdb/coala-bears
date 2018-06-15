@@ -19,8 +19,7 @@ for dep_version in "${dep_versions[@]}" ; do
 
   pip install pip==9.0.1
   pip install -U setuptools
-  pip install -r test-requirements.txt
-  pip install -r requirements.txt
+  pip install -r test-requirements.txt -r requirements.txt
 done
 
 pip install -r docs-requirements.txt
