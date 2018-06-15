@@ -92,8 +92,6 @@ addons:
       - mono-mcs
       - ocaml
       - opam
-      - perl-base
-      - perl-modules
       - php-codesniffer
       - r-recommended
       - verilator
