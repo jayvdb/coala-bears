@@ -26,11 +26,9 @@ def check_invalid_configuration(checkstyle_configs, use_spaces, indent_size):
                          'use_spaces=False or indent_size != 2')
 
 
-def known_checkstyle_or_path(setting):
+def KnownCheckstyle(setting):
     if str(setting) in known_checkstyles.keys():
         return str(setting)
-    else:
-        return path(setting)
 
 
 @linter(executable='java',
@@ -62,7 +60,7 @@ class CheckstyleBear:
 
     def create_arguments(
             self, filename, file, config_file,
-            checkstyle_configs: known_checkstyle_or_path = 'google',
+            checkstyle_configs: (KnownCheckstyle, path) = 'google',
             use_spaces: bool = True,
             indent_size: int = 2,
             ):

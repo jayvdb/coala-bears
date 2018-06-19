@@ -63,16 +63,4 @@ class CheckstyleBearTest(LocalBearTestHelper):
 
 def known_checkstyle_test(monkeypatch):
     monkeypatch.setattr(CheckstyleBear, 'known_checkstyles', {'such': 'style'})
-    assert CheckstyleBear.known_checkstyle_or_path('such') == 'such'
-
-
-def known_path_test(monkeypatch):
-    monkeypatch.setattr(CheckstyleBear, 'known_checkstyles', {'such': 'style'})
-    with NamedTemporaryFile() as coafile, NamedTemporaryFile() as style_file:
-        coafile_path = pathlib.Path(coafile.name)
-        style_path = pathlib.Path(style_file.name)
-        setting = Setting(
-            'style_path', style_path.name, origin=str(coafile_path))
-        assert (
-            CheckstyleBear.known_checkstyle_or_path(setting) == str(style_path)
-        )
+    assert CheckstyleBear.KnownCheckstyle('such') == 'such'
