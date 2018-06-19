@@ -29,6 +29,7 @@ def check_invalid_configuration(checkstyle_configs, use_spaces, indent_size):
 def KnownCheckstyle(setting):
     if str(setting) in known_checkstyles.keys():
         return str(setting)
+    raise ValueError('Unknown checkstyle config %s' % str(setting))
 
 
 @linter(executable='java',
