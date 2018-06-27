@@ -11,7 +11,29 @@ _online_styles = {
     'android-check-hard': 'https://raw.githubusercontent.com/noveogroup/' +
     'android-check/master/android-check-plugin/src/main/resources/' +
     'checkstyle/checkstyle-hard.xml',
-}
+
+
+from aenum import AutoNumberEnum
+
+class CheckStyleEnum(AutoNumberEnum):
+    android_check_easy = None
+    android_check_hard = None
+
+
+CheckStyleEnum.__members__
+
+CheckStyleEnum(1)  # ok
+# CheckStyleEnum('android_check_hard')  # not ok
+
+
+
+from lenum import LabeledEnum
+
+class CheckStyleEnum(LabeledEnum):
+    android_check_easy = 1, 'android-check-easy'
+    android_check_hard = 2, 'android-check-hard'
+
+
 
 _checkstyle_version = '6.19'
 
