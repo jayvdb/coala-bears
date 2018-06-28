@@ -57,7 +57,7 @@ fi
 deps_perl="libperl-critic-perl"
 
 sudo apt-get -y update
-sudo apt-get -y --no-install-recommends install $deps $deps_perl $deps_infer
+sudo apt-get -y --allow-unauthenticated --no-install-recommends install $deps $deps_perl $deps_infer
 
 # On Trusty, g++ & gfortran 4.9 need activating for R lintr dependency irlba.
 ls -al /usr/bin/gcc* /usr/bin/g++* /usr/bin/gfortran* || true
