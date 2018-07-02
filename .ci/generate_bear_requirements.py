@@ -129,7 +129,11 @@ def get_gem_requirements(requirements):
     gem_dependencies = {}
 
     for requirement in requirements:
-        gem_dependencies[requirement.package] = _to_entry(requirement)
+        req_version = requirement.version
+        if req_version and req_version[0] not in ('<', '>', '~', '='):
+            req_version = '~>' + req_version
+        gem_dependencies[requirement.package] = _to_entry(requirement,
+                                                          req_version)
 
     return gem_dependencies
 
