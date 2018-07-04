@@ -34,6 +34,7 @@ def known_checkstyle_or_path(setting):
 
 
 @linter(executable='java',
+        normalize_line_numbers=True,
         output_format='regex',
         output_regex=r'\[(?P<severity>ERROR|WARN|INFO)\].*?'
                      r'(?P<line>\d+):?(?P<column>\d+)?. '
