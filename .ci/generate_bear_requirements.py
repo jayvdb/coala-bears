@@ -15,13 +15,10 @@
 
 import argparse
 import itertools
-import json
 import os
 import sys
-from collections import OrderedDict
 
 from yaml import dump
-from pyprint.NullPrinter import NullPrinter
 
 from coalib.bears.BEAR_KIND import BEAR_KIND
 from coalib.collecting.Collectors import collect_bears
@@ -30,7 +27,7 @@ from dependency_management.requirements.GemRequirement import GemRequirement
 from dependency_management.requirements.NpmRequirement import NpmRequirement
 from dependency_management.requirements.PipRequirement import PipRequirement
 
-BEAR_REQUIREMENTS_YAML = "bear-requirements.yaml"
+BEAR_REQUIREMENTS_YAML = 'bear-requirements.yaml'
 _VERSION_OPERATORS = ('<', '>', '~', '=', '-', '!')
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -93,13 +90,13 @@ def get_all_requirements(bears):
     for bear in bears:
         for requirement in bear.REQUIREMENTS:
             if isinstance(requirement, PipRequirement) and \
-               requirement not in pip_requirements:
+                    requirement not in pip_requirements:
                 pip_requirements.append(requirement)
             elif isinstance(requirement, NpmRequirement) and \
-               requirement not in npm_requirements:
+                    requirement not in npm_requirements:
                 npm_requirements.append(requirement)
             elif isinstance(requirement, GemRequirement) and \
-               requirement not in gem_requirements:
+                    requirement not in gem_requirements:
                 gem_requirements.append(requirement)
 
     return (
