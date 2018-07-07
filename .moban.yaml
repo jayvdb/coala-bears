@@ -37,6 +37,8 @@ coafile_quotes_ignore:
   - '**/*test_files/**'
   - package.json
   - package-lock.json
+  # Lots of shell double quotes in this yaml
+  - .travis.yml
 
 configuration:
   template_dir:
