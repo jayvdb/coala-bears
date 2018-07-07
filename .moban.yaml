@@ -23,6 +23,8 @@ coafile_global_ignore:
   - '**/*test_files/**'
   - 'infer-out/**'
   - '*.class'
+  - .bundle/config
+  - .Rprofile
 
 coafile_python_ignore:
   - docs/conf.py
@@ -31,7 +33,6 @@ coafile_whitespace_ignore:
   - tests/c_languages/codeclone_detection/clone_detection_samples/stdint.h
 
 coafile_quotes_ignore:
-  - .ci/adjust_version_number.py
   - package.json
   - package-lock.json
   # Lots of shell double quotes in this yaml
