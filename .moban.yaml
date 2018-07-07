@@ -21,6 +21,8 @@ coafile_global:
 
 coafile_global_ignore:
   - '**/*test_files/**'
+  - 'infer-out/**'
+  - '*.class'
 
 coafile_python_ignore:
   - docs/conf.py

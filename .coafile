@@ -7,6 +7,8 @@ max_line_length = 80
 use_spaces = True
 
 ignore = **/*test_files/**,
+  infer-out/**,
+  *.class,
   .git/**,
   dist/**,
   tmp/**,
@@ -17,13 +19,20 @@ ignore = **/*test_files/**,
   .env/**,
   .tox/**,
   prof/**,
-  docs/_build/html/**
+  .pytest_cache/**,
+  **/__pycache__/**,
+  bears.egg-info/**,
+  docs/_build/html/**,
+  docs/_build/doctrees/**,
+  docs/make.bat
 
 [all.whitespace]
 files = **
 bears = SpaceConsistencyBear
 
 ignore = **/*test_files/**,
+  infer-out/**,
+  *.class,
   .git/**,
   dist/**,
   tmp/**,
@@ -34,7 +43,12 @@ ignore = **/*test_files/**,
   .env/**,
   .tox/**,
   prof/**,
+  .pytest_cache/**,
+  **/__pycache__/**,
+  bears.egg-info/**,
   docs/_build/html/**,
+  docs/_build/doctrees/**,
+  docs/make.bat,
   tests/c_languages/codeclone_detection/clone_detection_samples/stdint.h,
   **/Makefile*
 
@@ -48,6 +62,8 @@ default_actions = QuotesBear: ApplyPatchAction
 
 # " and ' are not interchangable for shell scripts, C or Java
 ignore = **/*test_files/**,
+  infer-out/**,
+  *.class,
   .git/**,
   dist/**,
   tmp/**,
@@ -58,7 +74,12 @@ ignore = **/*test_files/**,
   .env/**,
   .tox/**,
   prof/**,
+  .pytest_cache/**,
+  **/__pycache__/**,
+  bears.egg-info/**,
   docs/_build/html/**,
+  docs/_build/doctrees/**,
+  docs/make.bat,
   .ci/adjust_version_number.py,
   package.json,
   package-lock.json,
@@ -128,6 +149,8 @@ ignore += *.py
 files = **.py, **.py.in
 
 ignore = **/*test_files/**,
+  infer-out/**,
+  *.class,
   .git/**,
   dist/**,
   tmp/**,
@@ -138,7 +161,12 @@ ignore = **/*test_files/**,
   .env/**,
   .tox/**,
   prof/**,
+  .pytest_cache/**,
+  **/__pycache__/**,
+  bears.egg-info/**,
   docs/_build/html/**,
+  docs/_build/doctrees/**,
+  docs/make.bat,
   docs/conf.py
 
 [all.python.flakes]
