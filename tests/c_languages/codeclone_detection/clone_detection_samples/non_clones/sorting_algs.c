@@ -71,19 +71,19 @@ void gnome_sort(int *array, int size){
 
 // http://de.wikibooks.org/wiki/Algorithmen_und_Datenstrukturen_in_C/_Selectionsort
 void selectionsort(int *const data, size_t const n) {
-	size_t left = 0;
-	while (left < n) {
-		size_t min = left;
-		size_t i;
-		for (i = left+1; i < n; ++i) {
-			if (data[i] < data[min]) {
-				min = i;
-			}
-		}
-		int tmp = data[min];
-		data[min] = data[left];
-		data[left++] = tmp;
-	}
+    size_t left = 0;
+    while (left < n) {
+        size_t min = left;
+        size_t i;
+        for (i = left+1; i < n; ++i) {
+            if (data[i] < data[min]) {
+                min = i;
+            }
+        }
+        int tmp = data[min];
+        data[min] = data[left];
+        data[left++] = tmp;
+    }
 }
 
 // http://de.wikibooks.org/wiki/Algorithmen_und_Datenstrukturen_in_C/_Bubblesort

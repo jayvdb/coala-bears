@@ -29,33 +29,33 @@ int strlen(const char * s) {
 
 char errMessage[MAX_ERRNO][27] =
 {
-	"Unknown error code!",
-	"Yet unimplemented feature!",
-	"Unsupported architecture!",
-	"Out of range!",
-	"Object already exists!",
-	"A subroutine failed!"
+    "Unknown error code!",
+    "Yet unimplemented feature!",
+    "Unsupported architecture!",
+    "Out of range!",
+    "Object already exists!",
+    "A subroutine failed!"
 };
 
 char * getErrText(const err_t errCode)
 {
-	if(errCode != SUCCESS)
-	{
-		if(ABS(errCode) < MAX_ERRNO)
-		{
-			return errMessage[ABS(errCode)];
-		}
-		return errMessage[0];
-	}
-	return "Function executed successfully.";
+    if(errCode != SUCCESS)
+    {
+        if(ABS(errCode) < MAX_ERRNO)
+        {
+            return errMessage[ABS(errCode)];
+        }
+        return errMessage[0];
+    }
+    return "Function executed successfully.";
 }
 
 extern inline bool assertSuccess(const err_t errCode)
 {
-	if(errCode != SUCCESS)
-	{
-		//will halt the kernel, no return needed
-		fatalErr("%s", getErrText(errCode));
-	}
-	return true;
+    if(errCode != SUCCESS)
+    {
+        //will halt the kernel, no return needed
+        fatalErr("%s", getErrText(errCode));
+    }
+    return true;
 }
