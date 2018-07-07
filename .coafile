@@ -1,9 +1,9 @@
 [all]
-language = python
+language = python 3
 
-max_line_length = 79
 shellcheck_ignore = SC2046, SC2154, SC2155
 body_enforce_issue_reference = False
+max_line_length = 80
 use_spaces = True
 
 ignore = **/*test_files/**,
@@ -107,8 +107,12 @@ files = **.jj2
 
 
 [all.rst]
-bear = reSTLintBear
 files = **.rst
+bear = RSTcheckBear
+
+[all.rst.readme]
+files = README.rst
+bears = reSTLintBear
 
 [all.PythonPackageInit]
 bears = PythonPackageInitBear
@@ -142,6 +146,16 @@ default_actions = PyUnusedCodeBear: ApplyPatchAction
 bears = PEP8Bear, PycodestyleBear
 
 default_actions = PEP8Bear: ApplyPatchAction
+
+[all.python.urllib]
+# Encourage usage of requests library by blacklisting usage of urlopen()
+bears = KeywordBear
+keywords = urlopen
+
+[all.css]
+bears = CSSLintBear
+files = **.css
+
 
 # Sometimes fixers (e.g. autopep8) makes too long lines, need to check after!
 [all.linelength]

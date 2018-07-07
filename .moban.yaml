@@ -16,7 +16,6 @@ entry_points:
     - coala_official_bears = bears
 
 coafile_global:
-  max_line_length: 79
   shellcheck_ignore: SC2046, SC2154, SC2155
   body_enforce_issue_reference: 'False'
 
