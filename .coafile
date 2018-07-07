@@ -6,7 +6,8 @@ shellcheck_ignore = SC2046, SC2154, SC2155
 body_enforce_issue_reference = False
 use_spaces = True
 
-ignore = .git/**,
+ignore = **/*test_files/**,
+  .git/**,
   dist/**,
   tmp/**,
   vendor/**,
@@ -19,7 +20,8 @@ ignore = .git/**,
 files = **
 bears = SpaceConsistencyBear
 
-ignore = .git/**,
+ignore = **/*test_files/**,
+  .git/**,
   dist/**,
   tmp/**,
   vendor/**,
@@ -27,7 +29,7 @@ ignore = .git/**,
   venv/**,
   .env/**,
   .tox/**,
-  **/*test_files/**,
+  tests/c_languages/codeclone_detection/clone_detection_samples/stdint.h,
   **/Makefile*
 
 [all.quotes]
@@ -38,8 +40,9 @@ preferred_quotation = '
 
 default_actions = QuotesBear: ApplyPatchAction
 
-# " and ' are not interchangable for shell scripts
-ignore = .git/**,
+# " and ' are not interchangable for shell scripts, C or Java
+ignore = **/*test_files/**,
+  .git/**,
   dist/**,
   tmp/**,
   vendor/**,
@@ -48,20 +51,20 @@ ignore = .git/**,
   .env/**,
   .tox/**,
   .ci/adjust_version_number.py,
-  **/*test_files/**,
   package.json,
   package-lock.json,
   .travis.yml,
   .moban.dt/Gemfile.jj2,
   .moban.dt/package.json.jj2,
   Gemfile,
-  **.c,
-  **.h,
   **.sh,
   **/Makefile*,
   Dockerfile,
+  **.c,
+  **.h,
+  **.java,
   **.md,
-  **..xml,
+  **.xml,
   **.html,
   **.less,
   LICENSE,
@@ -111,7 +114,8 @@ ignore += *.py
 [all.python]
 files = **.py, **.py.in
 
-ignore = .git/**,
+ignore = **/*test_files/**,
+  .git/**,
   dist/**,
   tmp/**,
   vendor/**,
@@ -119,9 +123,6 @@ ignore = .git/**,
   venv/**,
   .env/**,
   .tox/**,
-  tests/python/test_files/pylint_test.py,
-  tests/python/bandit_test_files/*,,
-  tests/python/vulture_test_files/*,,
   docs/conf.py
 
 [all.python.flakes]
@@ -138,19 +139,6 @@ bears = PEP8Bear, PycodestyleBear
 
 default_actions = PEP8Bear: ApplyPatchAction
 
-[all.python.code duplication and complexity]
-bears = RadonBear
-
-ignore = .git/**,
-  dist/**,
-  tmp/**,
-  vendor/**,
-  env/**,
-  venv/**,
-  .env/**,
-  .tox/**,
-  **.py.in
-
 # Sometimes fixers (e.g. autopep8) makes too long lines, need to check after!
 [all.linelength]
 bears = LineLengthBear
@@ -159,15 +147,6 @@ ignore_length_regex = ^.*https?://
 [all.links]
 bears = InvalidLinkBear
 
-ignore = .git/**,
-  dist/**,
-  tmp/**,
-  vendor/**,
-  env/**,
-  venv/**,
-  .env/**,
-  .tox/**,
-  **/*test_files/**
 
 [all.commit]
 bears = GitCommitBear
