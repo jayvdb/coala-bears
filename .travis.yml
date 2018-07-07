@@ -40,7 +40,9 @@ jobs:
       # All other jobs will be cancelled if the sentinel job fails
       <<: *disable_global
       python: 3.6
-      install: pip install ".[alldeps]"
+      install:
+        - pip install ".[alldeps]"
+        - npm install
       script: coala --non-interactive -V
 
     - stage: test
