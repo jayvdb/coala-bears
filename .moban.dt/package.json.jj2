@@ -8,6 +8,6 @@
 {% else %}
     "{{ package }}": "{{ data.version }}"
 {% endif %}{# if not loop.last #}
-{% endfor %}{# for package, data in npm_requirements.items() #}
+{% endfor %}{# for package, data in npm_requirements.items() | sort #}
   }
 }
