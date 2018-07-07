@@ -15,6 +15,29 @@ entry_points:
   coalabears:
     - coala_official_bears = bears
 
+coafile_global:
+  max_line_length: 79
+  shellcheck_ignore: SC2046, SC2154, SC2155
+  body_enforce_issue_reference: False
+
+coafile_python_ignore:
+  - tests/python/test_files/pylint_test.py
+  - tests/python/bandit_test_files/*,
+  - tests/python/vulture_test_files/*,
+  - docs/conf.py
+
+coafile_whitespace_ignore:
+  - '**/*test_files/**'
+
+coafile_links_ignore:
+  - '**/*test_files/**'
+
+coafile_quotes_ignore:
+  - .ci/adjust_version_number.py
+  - '**/*test_files/**'
+  - package.json
+  - package-lock.json
+
 configuration:
   template_dir:
     - .moban.dt/
@@ -24,6 +47,7 @@ configuration:
   configuration: .moban.yaml
   configuration_dir: ../coala-mobans/
 targets:
+  - .coafile: bear-coafile.jj2
   - setup.py: bears-setup.py.jj2
   - requirements.txt: requirements.txt.jj2
   - test-requirements.txt: test-requirements.txt.jj2
