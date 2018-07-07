@@ -61,7 +61,7 @@ test:
   override:
     - python setup.py bdist_wheel:
         parallel: true
-    - pip install $(ls ./dist/*.whl)"[alldeps]":
+    - pip install $(ls ./dist/*.whl)'[alldeps]':
         parallel: true
     - bash .ci/tests.sh:
         parallel: true
