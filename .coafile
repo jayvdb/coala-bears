@@ -51,12 +51,17 @@ ignore = .git/**,
   **/*test_files/**,
   package.json,
   package-lock.json,
+  .travis.yml,
+  .moban.dt/Gemfile.jj2,
+  .moban.dt/package.json.jj2,
+  Gemfile,
   **.c,
   **.h,
   **.sh,
   **/Makefile*,
   Dockerfile,
   **.md,
+  **..xml,
   **.html,
   **.less,
   LICENSE,
@@ -89,6 +94,10 @@ indent_size = 2
 files = **.html
 bears = HTMLLintBear
 htmllint_ignore = optional
+
+[all.jinja2]
+bears = Jinja2Bear
+files = **.jj2
 
 
 [all.rst]
@@ -132,6 +141,16 @@ default_actions = PEP8Bear: ApplyPatchAction
 [all.python.code duplication and complexity]
 bears = RadonBear
 
+ignore = .git/**,
+  dist/**,
+  tmp/**,
+  vendor/**,
+  env/**,
+  venv/**,
+  .env/**,
+  .tox/**,
+  **.py.in
+
 # Sometimes fixers (e.g. autopep8) makes too long lines, need to check after!
 [all.linelength]
 bears = LineLengthBear
@@ -157,9 +176,3 @@ shortlog_regex = ([^:]*|[^:]+: [A-Z0-9*].*)
 body_close_issue = True
 body_close_issue_full_url = True
 body_close_issue_on_last_line = True
-
-[all.jinja2]
-bears = Jinja2Bear
-files = **.jj2
-# Bug in handling of ".. list | sort"
-ignore += .moban.dt/Gemfile.jj2, .moban.dt/bear-requirements.txt.jj2, .moban.dt/package.json.jj2
