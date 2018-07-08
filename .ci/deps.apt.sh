@@ -68,4 +68,7 @@ if [[ "$CIRCLE_BUILD_IMAGE" == "ubuntu-14.04" ]]; then
 fi
 
 # Change environment for flawfinder from python to python2
-sudo sed -i '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder
+if [ ! -e $HOME/.local/bin/flawfinder ]; then
+  sed -e '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder > $HOME/.local/bin/flawfinder
+  chmod +x $HOME/.local/bin/flawfinder
+fi
