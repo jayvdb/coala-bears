@@ -46,18 +46,18 @@ fi
 julia -e "Pkg.add(\"Lint\")"
 
 # Lua commands
-sudo luarocks install luacheck --deps-mode=none
+luarocks install luacheck --deps-mode=none
 
 # PHPMD installation
 if [ ! -e ~/phpmd/phpmd ]; then
   mkdir -p ~/phpmd
   curl -fsSL -o phpmd.phar http://static.phpmd.org/php/latest/phpmd.phar
-  sudo chmod +x phpmd.phar
-  sudo mv phpmd.phar ~/phpmd/phpmd
+  chmod +x phpmd.phar
+  mv phpmd.phar ~/phpmd/phpmd
 fi
 
 # astyle installation
 wget "https://downloads.sourceforge.net/project/astyle/astyle/astyle%203.0.1/astyle_3.0.1_linux.tar.gz?r=&ts=1499017588&use_mirror=excellmedia" -O ~/astyle.tar.gz
 tar -xvzf ~/astyle.tar.gz -C ~/
 make -C ~/astyle/build/gcc
-sudo make install -C ~/astyle/build/gcc
+make install -C ~/astyle/build/gcc
