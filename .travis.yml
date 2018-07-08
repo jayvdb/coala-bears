@@ -88,6 +88,14 @@ addons:
       - ubuntu-toolchain-r-test
       - avsm  # OPAM stable
       - hvr-ghc  # Haskell
+      # Ignoring YAMLLintBear
+      - sourceline: 'deb https://cloud.r-project.org/bin/linux/ubuntu trusty-cran35/'
+        key_url: 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x51716619E084DAB9'
+      # sourceline: 'deb http://robosub.eecs.wsu.edu/repo/ /'
+      # key_url: 'http://robosub.eecs.wsu.edu/repo/repository_key'
+      # sourceline: 'deb http://packages.osrfoundation.org/gazebo/ubuntu trusty main'
+      # key_url: 'http://packages.osrfoundation.org/gazebo.key'
+      # Stop ignoring YAMLLintBear
     packages:
       - aspcud
       - cabal-install-1.24
@@ -117,6 +125,7 @@ addons:
       - ocaml
       - opam
       - php-codesniffer
+      - r-base
       - verilator
 
 cache:
