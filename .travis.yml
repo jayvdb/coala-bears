@@ -39,6 +39,15 @@ jobs:
     - stage: sentinel
       # All other jobs will be cancelled if the sentinel job fails
       <<: *disable_global
+      addons:
+        apt:
+          sources:
+            - sourceline: 'deb https://cloud.r-project.org/bin/linux/ubuntu trusty-cran35/'
+              key_url: 'http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x51716619E084DAB9'
+
+    - stage: sentinel
+      # All other jobs will be cancelled if the sentinel job fails
+      <<: *disable_global
       python: 3.6
       install: pip install ".[alldeps]"
       script: coala --non-interactive -V
