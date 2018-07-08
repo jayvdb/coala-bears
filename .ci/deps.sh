@@ -60,3 +60,8 @@ wget "https://downloads.sourceforge.net/project/astyle/astyle/astyle%203.0.1/ast
 tar -xvzf ~/astyle.tar.gz -C ~/
 make -C ~/astyle/build/gcc
 sudo make install -C ~/astyle/build/gcc
+
+if [ ! -e $HOME/.local/bin/flawfinder ]; then
+  sed -e '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder > $HOME/.local/bin/flawfinder
+  chmod +x $HOME/.local/bin/flawfinder
+fi
