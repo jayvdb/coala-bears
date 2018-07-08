@@ -49,11 +49,10 @@ julia -e "Pkg.add(\"Lint\")"
 sudo luarocks install luacheck --deps-mode=none
 
 # PHPMD installation
-if [ ! -e ~/phpmd/phpmd ]; then
-  mkdir -p ~/phpmd
-  curl -fsSL -o phpmd.phar http://static.phpmd.org/php/latest/phpmd.phar
-  sudo chmod +x phpmd.phar
-  sudo mv phpmd.phar ~/phpmd/phpmd
+if [ ! -e ~/.local/bin/phpmd ]; then
+  mkdir -p ~/.local/bin
+  curl -fsSL -o  ~/.local/bin/phpmd http://static.phpmd.org/php/latest/phpmd.phar
+  chmod +x ~/.local/bin/phpmd
 fi
 
 # astyle installation
