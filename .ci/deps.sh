@@ -46,7 +46,7 @@ fi
 julia -e "Pkg.add(\"Lint\")"
 
 # Lua commands
-luarocks install luacheck --deps-mode=none
+luarocks install --local --deps-mode=none luarocks
 
 # PHPMD installation
 if [ ! -e ~/phpmd/phpmd ]; then
