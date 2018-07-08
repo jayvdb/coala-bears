@@ -61,3 +61,7 @@ wget "https://downloads.sourceforge.net/project/astyle/astyle/astyle%203.0.1/ast
 tar -xvzf ~/astyle.tar.gz -C ~/
 make -C ~/astyle/build/gcc
 make install -C ~/astyle/build/gcc
+
+# Change environment for flawfinder from python to python2
+sed -e '1s/.*/#!\/usr\/bin\/env python2/' /usr/bin/flawfinder > $HOME/.local/bin/flawfinder
+chmod a+x $HOME/.local/bin /flawfinder
