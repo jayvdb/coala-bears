@@ -42,16 +42,18 @@ jobs:
       python: 3.6
       install: pip install ".[alldeps]"
       script: coala --non-interactive -V
+      env: CACHE_NAME=lint-py36
 
     - stage: test
       # The sentinel job isnt active on master pushes, so the
       # job is re-added to the bottom of the test matrix
       python: 3.6
       if: branch = master AND type = push
+      env: CACHE_NAME=test-36
 
     - python: 2.7
       stage: unsupported
-      env: PIP_NO_COMPILE=1
+      env: PIP_NO_COMPILE=1 CACHE_NAME=unsupported-py27
       addons: false
       before_install: true
       install: pip install 3to2
@@ -59,7 +61,7 @@ jobs:
       script: .ci/check_unsupported.sh
     - python: 3.3
       stage: unsupported
-      env: PIP_NO_COMPILE=1
+      env: PIP_NO_COMPILE=1 CACHE_NAME=unsupported-py33
       addons: false
       before_install: true
       install: true
@@ -68,6 +70,7 @@ jobs:
     - python: 3.6
       stage: moban
       addons: false
+      env: CACHE_NAME=moban-py36
       cache: pip
       before_install: false
       install: pip install moban
