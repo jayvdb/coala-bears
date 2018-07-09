@@ -146,6 +146,7 @@ cache:
 
 env:
   global:
+    - CACHE_NAME=$TRAVIS_BUILD_STAGE_NAME-$TRAVIS_PYTHON_VERSION
     - TERM=dumb
     - CIRCLE_NODE_INDEX=-1  # Avoid accidentially being a CircleCI worker
     - USE_PPAS="marutter/rdev staticfloat/juliareleases ondrej/golang cs50/ppa"
