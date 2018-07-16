@@ -18,12 +18,15 @@ retval=$?
 set +x
 
 # coalib.__init__.py should exit with 4 on unsupported versions of Python
-# And setup.py emits something else.
-if [[ $retval == 0 ]]; then
-  echo "Unexpected error code 0"
-  exit 1
-else
-  echo "setup.py error code $retval ok"
+# If setup.py emits something else.
+if [[ $retval != 4 ]]; then
+  echo "Unexpected error code $?"
+
+  # When the exit code is 0, use a non-zero exit code instead
+  if [[ $retval == 0 ]]; then
+    exit 127
+  fi
+  exit $retval
 fi
 
 # error when no lines selected by grep
