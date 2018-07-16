@@ -36,13 +36,6 @@ stages:
 
 jobs:
   include:
-    - stage: sentinel
-      # All other jobs will be cancelled if the sentinel job fails
-      <<: *disable_global
-      python: 3.6
-      install: pip install -r requirements.txt ".[alldeps]"
-      script: coala --non-interactive -V
-
     - python: 2.7
       stage: unsupported
       env: PIP_NO_COMPILE=1
