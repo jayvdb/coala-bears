@@ -24,7 +24,6 @@ stages:
   - test
   - moban
   - name: unsupported
-    if: branch = master AND type = push
 
 .check_moban: &check_moban
   <<: *disable_global
