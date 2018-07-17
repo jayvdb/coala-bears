@@ -18,9 +18,9 @@ retval=$?
 set +x
 
 # coalib.__init__.py should exit with 4 on unsupported versions of Python
-# If setup.py emits something else.
-if [[ $retval != 4 ]]; then
-  echo "Unexpected error code $?"
+# But bears setup.py sees retval 1.
+if [[ $retval != 1 ]]; then
+  echo "Unexpected error code $retval"
 
   # When the exit code is 0, use a non-zero exit code instead
   if [[ $retval == 0 ]]; then
@@ -33,5 +33,6 @@ fi
 set -e
 
 grep -q 'coala supports only python 3.4.4 or later' setup.log
+grep -q 'error: Setup script exited with 4' setup.log
 
 echo "Unsupported check completed successfully"
