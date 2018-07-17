@@ -8,8 +8,8 @@ set -o pipefail
 
 set -x
 
-# mypy-lang and guess-language-spirit do not install on unsupported versions
-sed -i.bak -E '/^(mypy-lang|guess-language-spirit)/d' bear-requirements.txt
+# Many bear dependencies do not install on unsupported versions
+echo "" > bear-requirements.txt
 
 python setup.py install | tee setup.log
 
