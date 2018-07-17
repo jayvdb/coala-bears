@@ -11,7 +11,7 @@ set -x
 # Many bear dependencies do not install on unsupported versions
 echo "" > bear-requirements.txt
 
-python setup.py install | tee setup.log
+python setup.py install 2>&1 | tee setup.log
 
 retval=$?
 
