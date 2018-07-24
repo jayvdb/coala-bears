@@ -118,16 +118,29 @@ class PEP440Version(LooseVersion):
     def __init__(self, vstring=None, v_prefix=None):
         self._v_prefix = v_prefix
         if isinstance(vstring, (list, tuple)):
-            if len(vstring) and vstring[0].startswith('v):
-               self.version = type(vstring)(
-                    [vstring[0][1:]] + vstring[1:])
-            else:
-                self.version = vstring
+            self.version = vstring
+            if (len(vstring) and not isinstance(vstring[0], int) and
+                        vstring[0].startswith('v')):
+                try:
+                    v = int(vstring[0][1:])
 
-            self._v_prefix = v_prefix
+                    self.version = type(vstring)(
+                        [v] + vstring[1:])
+
+                    if v_prefix is not False:
+                        self._v_prefix = True
+                except ValueError:
+                    pass
+
             self.vstring = str(self)
         else:
+            if vstring.startswith('v'):
+                vstring = vstring[1:]
+                if self._v_prefix is not False:
+                    self._v_prefix = True
             super(PEP440Version, self).__init__(vstring)
+            if self._v_prefix:
+                self.vstring = 'v' + self.vstring
 
         self._final = None
         self._previous = None
@@ -138,15 +151,6 @@ class PEP440Version(LooseVersion):
 
     def __repr__(self):
         return "%s('%s')" % (self.__class__.__name__, str(self))
-
-    def parse(self, vstring):
-        if vstring.startswith('v'):
-            vstring = vstring[1:]
-            if self._v_prefix is not False:
-                self._v_prefix = True
-        super(PEP440Version, self).parse(vstring)
-        if self._v_prefix:
-            self.vstring = 'v' + self.vstring
 
     @property
     def is_dev(self):
@@ -182,6 +186,8 @@ class PEP440Version(LooseVersion):
     def is_zero(self):
         return all(part == 0 for part in self.version)
 
+    _zero_message = 'version prior to 0.0 can not exist'
+
     def _estimate_previous(self):
         """
         Return a new version calculated to be the previous version.
@@ -197,16 +203,16 @@ class PEP440Version(LooseVersion):
         As a result, currently this assumes that release x.(x-1).0 exists
         in that instance.
         """
-        assert self.is_final, '%r is not final' % self
-
         if self._previous:
             return self._previous
 
+        assert self.is_final, '%r is not final' % self
+
         if self.is_zero:
-            raise ValueError('version 0.0 detected; can not be decremented')
+            raise ValueError(self._zero_message)
 
         version = self.version
-        pos = len(version) -1
+        pos = len(version) - 1
 
         # Look for non-zero part
         while pos != 0 and not version[pos]:
@@ -222,7 +228,7 @@ class PEP440Version(LooseVersion):
             previous += [0] * (len(version) - pos - 2)
 
             if len(previous) < len(version):
-                previous += (0, )
+                previous += ('*', )
 
         self._previous = PEP440Version(previous, self._v_prefix)
         return self._previous
@@ -274,7 +280,8 @@ def egg_name_to_requirement(name):
     previous_version = version.final._estimate_previous()
 
     if previous_version.is_zero:
-        raise ValueError('Version %s could not be decremented' % version.version)
+        raise ValueError(
+           'Version %s could not be decremented' % version.version)
 
     return name + '>' + str(previous_version)
 
