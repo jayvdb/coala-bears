@@ -120,7 +120,7 @@ class PEP440Version(LooseVersion):
         if isinstance(vstring, (list, tuple)):
             self.version = vstring
             if (len(vstring) and not isinstance(vstring[0], int) and
-                        vstring[0].startswith('v')):
+                    vstring[0].startswith('v')):
                 try:
                     v = int(vstring[0][1:])
 
