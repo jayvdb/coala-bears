@@ -6,6 +6,26 @@ from dependency_management.requirements.AnyOneOfRequirements import (
 from dependency_management.requirements.CabalRequirement import (
      CabalRequirement)
 
+from coalib.settings.Setting import Setting
+
+from enum_custom import MultiValueEnum
+
+
+class ShellTypeEnum(MultiValueEnum):
+    bash = 1, 'bash'
+    sh = 2, 'sh'
+    ksh = 3, 'ksh'
+    dash = 4, 'dash'
+
+
+class ShellType(str):
+
+    _enum = ShellTypeEnum
+
+    def __init__(self, value):
+        obj = self._enum(str(value))
+        self.value = obj.value[1]
+
 
 @linter(executable='shellcheck', output_format='regex',
         output_regex=r'.+:(?P<line>\d+):(?P<column>\d+): '
@@ -32,7 +52,7 @@ class ShellCheckBear:
     CAN_DETECT = {'Syntax', 'Security', 'Undefined Element', 'Unused Code'}
 
     @staticmethod
-    def create_arguments(filename, file, config_file, shell: str = 'sh',
+    def create_arguments(filename, file, config_file, shell: ShellType = 'sh',
                          shellcheck_ignore: list = None,
                          ):
         """

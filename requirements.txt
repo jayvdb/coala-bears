@@ -6,3 +6,4 @@ git+https://github.com/coala/coala#egg=coala
 # dependency_management
 # requests
 -r bear-requirements.txt
+enum34-custom

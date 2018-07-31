@@ -61,6 +61,43 @@ IgnoreSC2060Test = verify_local_bear(ShellCheckBear,
                                      settings={
                                          'shellcheck_ignore': ['SC2060']},
                                      )
+
+BashTest = verify_local_bear(ShellCheckBear,
+                             valid_files=(trigger_sc2060,),
+                             invalid_files=(),
+                             settings={
+                                 'shell': 'bash',
+                                 'shellcheck_ignore': ['SC2060'],
+                             },
+                             )
+
+KshTest = verify_local_bear(ShellCheckBear,
+                            valid_files=(trigger_sc2060,),
+                            invalid_files=(),
+                            settings={
+                                'shell': 'sh',
+                                'shellcheck_ignore': ['SC2060'],
+                            },
+                            )
+
+KshTest = verify_local_bear(ShellCheckBear,
+                            valid_files=(trigger_sc2060,),
+                            invalid_files=(),
+                            settings={
+                                'shell': 'ksh',
+                                'shellcheck_ignore': ['SC2060'],
+                            },
+                            )
+
+DashTest = verify_local_bear(ShellCheckBear,
+                             valid_files=(trigger_sc2060,),
+                             invalid_files=(),
+                             settings={
+                                 'shell': 'dash',
+                                 'shellcheck_ignore': ['SC2060'],
+                             },
+                             )
+
 MultipleIgnoreTest = verify_local_bear(ShellCheckBear,
                                        valid_files=(trigger_sc2164,
                                                     trigger_sc2060,),
