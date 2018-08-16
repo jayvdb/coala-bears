@@ -204,7 +204,7 @@ def sort_requirements(req_dict):
                                             key=lambda t: t[0]))
 
 
-if __name__ == '__main__':
+def main():
     args = get_args()
 
     bear_dirs = [PROJECT_BEAR_DIR]
@@ -261,3 +261,7 @@ if __name__ == '__main__':
     sort_requirements(requirements)
     yaml.dump(requirements, output)
     output.close()
+
+
+if __name__ == '__main__':
+    sys.exit(main())
