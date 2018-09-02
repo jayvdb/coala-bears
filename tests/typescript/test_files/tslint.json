@@ -1,8 +1,5 @@
 {
     "rules": {
-        "quotemark": [
-            true,
-            "single"
-        ]
+        "quotemark": "single"
     }
 }
