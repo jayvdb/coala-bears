@@ -1,6 +1,6 @@
 # NOTE: This file is parsed by .ci/generate_bear_requirements.py
 # Edit coala_dependency in coala-build.yaml
-coala @ https://github.com/coala/coala/archive/5ed1163183.zip#egg=coala-0.12.0.dev
+git+https://github.com/jayvdb/coala@linter-stream-info#egg=coala
 # Dependencies inherited from coala
 # coala_utils
 # dependency_management
