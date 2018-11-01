@@ -1,6 +1,12 @@
 # NOTE: This file is parsed by .ci/generate_bear_requirements.py
 # Edit coala_dependency in coala-build.yaml
-git+https://github.com/coala/coala#egg=coala
+{% if coala_dependency.startswith('git+') %}
+{{ coala_dependency }}
+{% elif coala_dependency[0] in ['=', '>', '<'] %}
+coala{{coala_dependency}}
+{% else %}
+https://github.com/coala/coala/archive/{{coala_dependency}}.zip
+{% endif %}
 # Dependencies inherited from coala
 # coala_utils
 # dependency_management
