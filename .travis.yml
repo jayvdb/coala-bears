@@ -39,6 +39,7 @@ jobs:
       # All other jobs will be cancelled if the sentinel job fails
       <<: *disable_global
       python: 3.6
+      before_install: pip install -U pip setuptools
       install: pip install -r requirements.txt ".[alldeps]"
       script: coala --non-interactive -V
 
