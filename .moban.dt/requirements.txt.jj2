@@ -3,9 +3,9 @@
 {% if coala_dependency.startswith('git+') %}
 {{ coala_dependency }}
 {% elif coala_dependency[0] in ['=', '>', '<'] %}
-coala{{coala_dependency}}
+coala{{ coala_dependency }}
 {% else %}
-coala@https://github.com/coala/coala/archive/{{coala_dependency}}.zip
+coala @ https://github.com/coala/coala/archive/{{ coala_dependency }}.zip#egg=coala
 {% endif %}
 # Dependencies inherited from coala
 # coala_utils
