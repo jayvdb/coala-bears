@@ -5,7 +5,7 @@
 {% elif coala_dependency[0] in ['=', '>', '<'] %}
 coala{{coala_dependency}}
 {% else %}
-https://github.com/coala/coala/archive/{{coala_dependency}}.zip
+coala@https://github.com/coala/coala/archive/{{coala_dependency}}.zip
 {% endif %}
 # Dependencies inherited from coala
 # coala_utils
