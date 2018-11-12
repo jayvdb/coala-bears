@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -n "$TRAVIS_PYTHON_VERSION" ]]; then
+  exit 0
+fi
+
 set -e -x
 
 echo pip3.4 is $(which pip3.4)

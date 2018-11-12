@@ -1,9 +1,8 @@
 sudo: false
 
+dist: xenial
+
 language: python
-python:
-  - 3.4
-  - 3.5
 
 .disable_lang: &disable_lang
   addons: false
@@ -260,8 +259,6 @@ jobs:
   allow_failures:
     - *check_moban
 
-dist: trusty
-
 .apt_sources: &apt_sources
   - ubuntu-toolchain-r-test
   - avsm  # OPAM stable
@@ -324,13 +321,10 @@ before_install:
   # mkdir -p $HOME/bin/
   - .ci/deps.apt-new.sh
   - if [[ "$DIST" == "trusty" || "$DIST" == "debian-sid" ]]; then
-      ls /usr/bin/php $HOME/bin/;
+      ln -s /usr/bin/php $HOME/bin/;
     fi
 
-  - >
-    if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then
-      .ci/deps.python.sh
-    fi
+  - .ci/deps.python.sh
 
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
