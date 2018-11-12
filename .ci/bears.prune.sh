@@ -33,6 +33,8 @@ yield_result_bears=$(grep -m 1 -l 'yield Result' $bears)
 # unused
 # non_yield_result_bears=$(comm -23 <(ls $bears) <(ls $yield_result_bears))
 
+abstract_bears=$(grep -m 1 -l '__metaclass__ = abc.ABCMeta' $bears)
+
 requirement_bears=$(grep -m 1 -l 'Requirement(' $bears)
 
 cabal_requirement_bears=$(grep -m 1 -l CabalRequirement $requirement_bears)
@@ -82,7 +84,7 @@ done
 executable_linter_bears=$(grep -m 1 -l '@linter(.' $other_bears)
 executable_other_bears=$(grep -m 1 -l 'run_shell_command' $other_bears)
 
-other_bears=$(comm -23 <(ls $other_bears) <(ls $executable_linter_bears $executable_other_bears))
+other_bears=$(comm -23 <(ls $other_bears) <(ls $executable_linter_bears $executable_other_bears $abstract_bears))
 
 non_yield_result_other_bears=$(comm -23 <(ls $other_bears) <(ls $yield_result_bears))
 
