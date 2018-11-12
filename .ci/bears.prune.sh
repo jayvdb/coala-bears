@@ -40,10 +40,14 @@ gem_requirement_bears=$(grep -m 1 -l GemRequirement $requirement_bears)
 go_requirement_bears=$(grep -m 1 -l GoRequirement $requirement_bears)
 npm_requirement_bears=$(grep -m 1 -l NpmRequirement $requirement_bears)
 rscript_requirement_bears=$(grep -m 1 -l RscriptRequirement $requirement_bears)
+julia_requirement_bears=$(grep -m 1 -l JuliaRequirement $requirement_bears)
+lua_requirement_bears=$(grep -m 1 -l LuarocksRequirement $requirement_bears)
+php_requirement_bears=$(grep -m 1 -l ComposerRequirement $requirement_bears)
+conda_requirement_bears=$(grep -m 1 -l CondaRequirement $requirement_bears)
 
 pip_requirement_bears=$(grep -m 1 -l PipRequirement $requirement_bears)
 
-non_pip_runtime_requirement_bears="$cabal_requirement_bears $gem_requirement_bears $go_requirement_bears $npm_requirement_bears $rscript_requirement_bears"
+non_pip_runtime_requirement_bears="$cabal_requirement_bears $gem_requirement_bears $go_requirement_bears $npm_requirement_bears $rscript_requirement_bears $julia_requirement_bears $lua_requirement_bears $php_requirement_bears $conda_requirement_bears"
 
 other_requirement_bears=$(comm -23 <(ls $requirement_bears) <(ls $non_pip_runtime_requirement_bears $pip_requirement_bears))
 
@@ -96,12 +100,9 @@ non_python_bears=$(comm -23 <(ls $bears) <(ls $python_bears))
 cabal_requirement_bears="$cabal_requirement_bears bears/haskell/HaskellLintBear.py bears/shell/ShellCheckBear.py"
 
 dart_bears=$(ls bears/dart/*Bear.py)
-julia_bears=$(ls bears/julia/*Bear.py)
-lua_bears=$(ls bears/lua/*Bear.py)
 opam_bears="bears/java/InferBear.py"
 perl_bears=$(ls bears/perl/*Bear.py)
 perl_bears="$perl_bears bears/vhdl/VHDLLintBear.py"
-php_bears=$(ls bears/php/*Bear.py)
 
 
 java_bears=$(grep -m 1 -l 'default-jre' $apt_get_requirement_bears)
@@ -123,6 +124,8 @@ echo Removing bears not desirable for $BEARS
 if [[ $BEARS == "python" ]]; then
   # The test for generate_package depends on non-Python bears
   remove_bears="$non_python_bears"
+elif [[ $BEARS == "conda" ]]; then
+  remove_bears=$(comm -23 <(ls $bears) <(ls $conda_requirement_bears))
 elif [[ $BEARS == "cabal" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $cabal_requirement_bears))
 elif [[ $BEARS == "dart" ]]; then
@@ -134,15 +137,15 @@ elif [[ $BEARS == "go" ]]; then
 elif [[ $BEARS == "java" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $java_bears))
 elif [[ $BEARS == "julia" ]]; then
-  remove_bears=$(comm -23 <(ls $bears) <(ls $julia_bears))
+  remove_bears=$(comm -23 <(ls $bears) <(ls $julia_requirement_bears))
 elif [[ $BEARS == "opam" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $opam_bears))
 elif [[ $BEARS == "lua" ]]; then
-  remove_bears=$(comm -23 <(ls $bears) <(ls $lua_bears))
+  remove_bears=$(comm -23 <(ls $bears) <(ls $lua_requirement_bears))
 elif [[ $BEARS == "perl" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $perl_bears))
 elif [[ $BEARS == "php" ]]; then
-  remove_bears=$(comm -23 <(ls $bears) <(ls $php_bears))
+  remove_bears=$(comm -23 <(ls $bears) <(ls $php_requirement_bears))
 elif [[ $BEARS == "npm" ]]; then
   remove_bears=$(comm -23 <(ls $bears) <(ls $npm_requirement_bears))
 elif [[ $BEARS == "rscript" ]]; then
