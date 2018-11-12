@@ -5,6 +5,16 @@ python:
   - 3.4
   - 3.5
 
+.disable_lang: &disable_lang
+  addons: false
+  python: false
+  cache: pip
+  install: false
+  after_success: false
+  after_failure: false
+  before_deploy: false
+  deploy: false
+
 .disable_global: &disable_global
   addons: false
   python: false
@@ -84,27 +94,27 @@ jobs:
         apt:
           packages: clang-3.4
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: node_js
       node_js: 4
-    - <<: *disable_global
+    - <<: *disable_lang
       language: node_js
       node_js: 5
-    - <<: *disable_global
+    - <<: *disable_lang
       language: node_js
       node_js: 6
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: ruby
       rvm: 2.2
-    - <<: *disable_global
+    - <<: *disable_lang
       language: ruby
       rvm: 2.1
-    - <<: *disable_global
+    - <<: *disable_lang
       language: ruby
       rvm: 2.0
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: haskell
       ghc: 8.0.2
       dist: precise
@@ -119,36 +129,36 @@ jobs:
             - happy-1.19.3
             - python3.4
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: java
       jdk: oraclejdk8
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: java
       jdk: openjdk7
-    - <<: *disable_global
+    - <<: *disable_lang
       language: java
       jdk: openjdk6
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: r
-    - <<: *disable_global
+    - <<: *disable_lang
       language: dart
-    - <<: *disable_global
+    - <<: *disable_lang
       language: julia
-    - <<: *disable_global
+    - <<: *disable_lang
       language: php
-    - <<: *disable_global
+    - <<: *disable_lang
       language: perl
     # go 1.5 isnt supported by all go linters
-    - <<: *disable_global
+    - <<: *disable_lang
       language: go
       go: 1.6
-    - <<: *disable_global
+    - <<: *disable_lang
       language: go
       go: 1.7
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: bash
       env: BEARS=lua
       addons:
@@ -156,7 +166,7 @@ jobs:
           packages:
             - luarocks
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: bash
       env: BEARS=opam
       addons:
@@ -167,7 +177,7 @@ jobs:
             - ocaml
             - opam
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: generic
       env: DIST=precise
       dist: precise
@@ -192,7 +202,7 @@ jobs:
             - python3.4
             - verilator
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: generic
       env: DIST=trusty
       dist: trusty
@@ -210,7 +220,7 @@ jobs:
             - php-codesniffer
             - verilator
 
-    - <<: *disable_global
+    - <<: *disable_lang
       language: generic
       env: DIST=debian-sid
       dist: trusty
@@ -230,16 +240,18 @@ jobs:
             # mono-mcs
             # php5-cli
             # php-codesniffer
-    - <<: *disable_global
+    - <<: *disable_lang
       language: generic
       env: DIST=xenial
       dist: trusty
       sudo: required
-    - language: generic
+    - <<: *disable_lang
+      language: generic
       env: DIST=yakkety
       dist: trusty
       sudo: required
-    - language: generic
+    - <<: *disable_lang
+      language: generic
       env: DIST=zesty
       dist: trusty
       sudo: required
@@ -274,9 +286,6 @@ dist: trusty
 addons:
   apt:
     sources: *apt_sources
-
-matrix:
-  include:
 
 cache:
   pip: true
@@ -351,7 +360,7 @@ before_install:
 
 before_script:
   - if [[ "$TRAVIS_LANGUAGE" == "go" ]]; then
-      .ci/deps.go.sh
+      .ci/deps.go.sh;
     fi
   - if [[ "$TRAVIS_LANGUAGE" == "php" ]]; then
       pear install pear/PHP_CodeSniffer;
@@ -374,7 +383,7 @@ before_script:
       luarocks install --local --deps-mode=none luacheck;
     fi
   - if [[ "$TRAVIS_LANGUAGE" == "perl" ]]; then
-      .ci/deps.perl.sh
+      .ci/deps.perl.sh;
     fi
   - mv requirements.orig requirements.txt
   - .ci/deps.coala-bears.sh
@@ -382,7 +391,7 @@ before_script:
   - >
     if [[ -n "$TRAVIS_PYTHON_VERSION" && "$TRAVIS_PYTHON_VERSION" != "3.3" ]];
     then
-      python -m nltk.downloader
+      python -m nltk.downloader \
         punkt maxent_treebank_pos_tagger averaged_perceptron_tagger;
     fi
   # Only keep non-Python bears on Python 3.4
@@ -394,27 +403,27 @@ script:
   - python setup.py bdist_wheel
   - >
     if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
-      pip install $(ls ./dist/*.whl)"[alldeps]"
+      pip install $(ls ./dist/*.whl)"[alldeps]";
     else
-      pip install --user $(ls ./dist/*.whl)
+      pip install --user $(ls ./dist/*.whl);
     fi
   - pytest
   # Ensure bear requirements are in sync with the bear PipRequirement
   - .ci/generate_bear_requirements.py --check --update
   - >
     if [[ "$TRAVIS_LANGUAGE" == "python" ]]; then
-      (cat bear-requirements.txt; echo "pyyaml~=3.12")
-        > | sort -u > bear-requirements.tmp
-      mv bear-requirements.tmp bear-requirements.txt
-      git diff --exit-code bear-requirements.txt
+      (cat bear-requirements.txt; echo "pyyaml~=3.12") \
+        > | sort -u > bear-requirements.tmp;
+      mv bear-requirements.tmp bear-requirements.txt;
+      git diff --exit-code bear-requirements.txt;
     fi
   - >
     if [[ "$TRAVIS_LANGUAGE" == "ruby" ]]; then
-      git diff --exit-code Gemfile
+      git diff --exit-code Gemfile;
     fi
   - >
     if [[ "$TRAVIS_LANGUAGE" == "node_js" ]]; then
-      git diff --exit-code package.json
+      git diff --exit-code package.json;
     fi
   - coala --non-interactive
   - codecov
