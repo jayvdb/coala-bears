@@ -1,5 +1,7 @@
 import json
 
+from json.decoder import JSONDecodeError
+
 from coalib.bearlib.abstractions.Linter import linter
 from dependency_management.requirements.NpmRequirement import NpmRequirement
 from coalib.results.Result import Result
@@ -42,7 +44,11 @@ class TSLintBear:  # pragma nt: no cover
         return args + (filename,)
 
     def process_output(self, output, filename, file):
-        output = json.loads(output) if output else []
+        try:
+            output = json.loads(output) if output else []
+        except JSONDecodeError as e:
+            self.err('Error: {e}; output={output}'.format(e=e, output=output))
+            raise e
         for issue in output:
             yield Result.from_values(
                 origin='{} ({})'.format(self.__class__.__name__,
