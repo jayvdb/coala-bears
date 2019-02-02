@@ -74,19 +74,6 @@ dist: trusty
   - sourceline:  # R
       deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/
     key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x51716619E084DAB9
-  - sourceline:  # Julia
-      deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu xenial main
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCF979FFA3D3D3ACC
-  - sourceline:  # Go
-      deb http://ppa.launchpad.net/ondrej/golang/ubuntu xenial main
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x4F4EA0AAE5267A6C
-  - sourceline:  # astyle
-      deb http://ppa.launchpad.net/cs50/ppa/ubuntu xenial main
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
 
 addons:
   apt:
@@ -123,7 +110,7 @@ addons:
       - ocaml
       - opam
       - php-codesniffer
-      - r-base
+      - r-base-core
       - verilator
 
 cache:
