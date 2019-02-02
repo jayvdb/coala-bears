@@ -69,8 +69,6 @@ dist: trusty
 
 .apt_sources: &apt_sources
   - sourceline:
-      deb http://security.ubuntu.com/ubuntu xenial-security main restricted
-  - sourceline:
       deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted
   - sourceline:
       deb http://us.archive.ubuntu.com/ubuntu/ xenial-backports main restricted
@@ -121,10 +119,10 @@ addons:
       - mono-mcs
       - ocaml
       - opam
+      - php-cli
       - php-codesniffer
       - php-pear
       - php-timer
-      - php7.0-cli
       - r-base-core
       - verilator
 
