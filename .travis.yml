@@ -68,12 +68,8 @@ jobs:
 dist: trusty
 
 .apt_sources: &apt_sources
-  - ubuntu-toolchain-r-test
   - avsm  # OPAM stable
   - hvr-ghc  # Haskell
-  - sourceline:  # R
-      deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran35/
-    key_url:
 
 addons:
   apt:
