@@ -95,6 +95,7 @@ addons:
       - cppcheck
       - devscripts
       - flawfinder
+      - gcc-5
       - gfortran
       - ghc
       - golang-go
