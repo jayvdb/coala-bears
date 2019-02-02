@@ -123,6 +123,7 @@ addons:
       - php-codesniffer
       - php-pear
       - php-timer
+      - php7.0-cli
       - r-base-core
       - verilator
 
