@@ -105,6 +105,8 @@ addons:
       - libopenblas-base
       - libpaper-utils
       - libperl-critic-perl
+      - libssl1
+      - libstdc++6
       - libumfpack5.6.2
       - libxml2-utils
       - luarocks
