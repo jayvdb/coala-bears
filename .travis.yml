@@ -121,6 +121,7 @@ addons:
       - mono-mcs
       - ocaml
       - opam
+      - php-cli
       - php-codesniffer
       - php-pear
       - php-timer
