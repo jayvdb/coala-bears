@@ -124,6 +124,7 @@ addons:
       - php-codesniffer
       - php-pear
       - php-timer
+      - php5-cli
       - r-base-core
       - verilator
 
