@@ -74,6 +74,10 @@ dist: trusty
       deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu xenial main
     key_url:
       https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCF979FFA3D3D3ACC
+  - sourceline:  # Julia dependencies
+      deb http://ppa.launchpad.net/staticfloat/julia-deps/ubuntu xenial main
+    key_url:
+      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCF979FFA3D3D3ACC
 
 addons:
   apt:
