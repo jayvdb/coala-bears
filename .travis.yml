@@ -122,6 +122,8 @@ addons:
       - ocaml
       - opam
       - php-codesniffer
+      - php-pear
+      - php-timer
       - r-base-core
       - verilator
 
