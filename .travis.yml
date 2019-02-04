@@ -156,6 +156,7 @@ addons:
       - mono-mcs
       - ocaml
       - opam
+      - php-codesniffer
       - r-base-core
       - verilator
 
