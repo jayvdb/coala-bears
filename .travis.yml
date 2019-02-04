@@ -73,13 +73,15 @@ dist: trusty
   - sourceline:
       deb http://us.archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
   - sourceline:
-      deb http://security.ubuntu.com/ubuntu/ xenial-security main
+      deb http://security.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
   - sourceline:
       deb http://ppa.launchpad.net/git-core/ppa/ubuntu xenial main
-  - avsm  # OPAM stable
+  - sourceline:
+      deb https://packagecloud.io/github/git-lfs/ubuntu xenial main
+  - sourceline:
+      deb https://packagecloud.io/computology/apt-backport/ubuntu xenial main
   - sourceline:
       deb http://ppa.launchpad.net/avsm/ppa/ubuntu xenial main
-  - hvr-ghc  # Haskell
   - sourceline:
       deb http://ppa.launchpad.net/hvr/ghc/ubuntu xenial main
   - sourceline:  # Julia
