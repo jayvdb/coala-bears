@@ -92,6 +92,7 @@ addons:
       - cabal-install-1.24
       - chktex
       - clang-3.4
+      - cpp-5
       - cppcheck
       - devscripts
       - flawfinder
@@ -106,7 +107,10 @@ addons:
       - libblas-dev
       - libcolamd2.8.0
       - libfftw3-3
+      - libgcc-5-dev
+      - libisl15
       - liblapack-dev
+      - libmpfr4
       - libopenblas-base
       - libpaper-utils
       - libperl-critic-perl
