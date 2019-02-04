@@ -117,6 +117,7 @@ addons:
       - mono-mcs
       # ocaml
       # opam
+      - oracle-java8-installer
       - php-codesniffer
       - r-base-core
       - verilator
