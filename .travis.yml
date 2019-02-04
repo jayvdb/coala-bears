@@ -1,5 +1,5 @@
 sudo: false
-dist: xenial
+dist: bionic
 
 language: python
 python:
@@ -69,47 +69,47 @@ dist: trusty
 
 .apt_sources: &apt_sources
   - sourceline:
-      deb http://us.archive.ubuntu.com/ubuntu/ xenial main restricted universe restricted
+      deb http://us.archive.ubuntu.com/ubuntu/ bionic main restricted universe restricted
   - sourceline:
-      deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe restricted
+      deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe restricted
   - sourceline:
-      deb http://us.archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
+      deb http://us.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse
   - sourceline:
-      deb http://security.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
+      deb http://security.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse
   - sourceline:
-      deb http://ppa.launchpad.net/git-core/ppa/ubuntu xenial main
+      deb http://ppa.launchpad.net/git-core/ppa/ubuntu bionic main
   - sourceline:
-      deb https://packagecloud.io/github/git-lfs/ubuntu xenial main
+      deb https://packagecloud.io/github/git-lfs/ubuntu bionic main
   - sourceline:
-      deb https://packagecloud.io/computology/apt-backport/ubuntu xenial main
+      deb https://packagecloud.io/computology/apt-backport/ubuntu bionic main
   - sourceline:
-      deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu xenial main
+      deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu bionic main
   - sourceline:
-      deb http://ppa.launchpad.net/avsm/ppa/ubuntu xenial main
+      deb http://ppa.launchpad.net/avsm/ppa/ubuntu bionic main
   - sourceline:
-      deb http://ppa.launchpad.net/hvr/ghc/ubuntu xenial main
+      deb http://ppa.launchpad.net/hvr/ghc/ubuntu bionic main
   - sourceline:
-      deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu xenial main
+      deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu bionic main
   - sourceline:
-      deb http://ppa.launchpad.net/pollinate/ppa/ubuntu xenial main
+      deb http://ppa.launchpad.net/pollinate/ppa/ubuntu bionic main
   - sourceline:
-      deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main
+      deb http://ppa.launchpad.net/webupd8team/java/ubuntu bionic main
   - sourceline:
-      deb http://ppa.launchpad.net/couchdb/stable/ubuntu xenial main
+      deb http://ppa.launchpad.net/couchdb/stable/ubuntu bionic main
   - sourceline:
-      deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu xenial main
+      deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu bionic main
   - sourceline:
-      deb http://dl.hhvm.com/ubuntu xenial main
+      deb http://dl.hhvm.com/ubuntu bionic main
   - sourceline:
-      deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse
+      deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/3.4 multiverse
   - sourceline:
-      deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main
+      deb http://apt.postgresql.org/pub/repos/apt bionic-pgdg main
   - sourceline:  # Julia
-      deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu xenial main
+      deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu bionic main
     key_url:
       https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCF979FFA3D3D3ACC
   - sourceline:  # Julia dependencies
-      deb http://ppa.launchpad.net/staticfloat/julia-deps/ubuntu xenial main
+      deb http://ppa.launchpad.net/staticfloat/julia-deps/ubuntu bionic main
     key_url:
       https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCF979FFA3D3D3ACC
   - avsm  # OPAM stable
