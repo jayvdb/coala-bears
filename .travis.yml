@@ -99,6 +99,7 @@ addons:
       - flawfinder
       - gfortran
       - ghc
+      - golang-go
       - happy
       - indent
       - julia
