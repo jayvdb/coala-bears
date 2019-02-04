@@ -136,7 +136,6 @@ addons:
       - libcolamd2.8.0
       - libfftw3-3
       - libgcc-5-dev
-      - libisl15
       - liblapack-dev
       - libmpfr4
       - libopenblas-base
