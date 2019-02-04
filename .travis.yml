@@ -69,6 +69,8 @@ dist: trusty
 
 .apt_sources: &apt_sources
   - sourceline:
+      deb http://us.archive.ubuntu.com/ubuntu/ xenial main restricted universe restricted
+  - sourceline:
       deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe restricted
   - sourceline:
       deb http://us.archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
@@ -136,6 +138,7 @@ addons:
       - libcolamd2.8.0
       - libfftw3-3
       - libgcc-5-dev
+      - libisl15
       - liblapack-dev
       - libmpfr4
       - libopenblas-base
