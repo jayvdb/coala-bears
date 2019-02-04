@@ -76,7 +76,7 @@ addons:
       - astyle
       - cabal-install-1.24
       - chktex
-      - clang-3.4
+      - clang-3.8
       - cpp-5
       - cppcheck
       - devscripts
@@ -90,7 +90,6 @@ addons:
       - julia
       - libarpack2
       - libblas-dev
-      - libcolamd2.8.0
       - libfftw3-3
       - libgcc-5-dev
       - libisl15
@@ -101,7 +100,6 @@ addons:
       - libperl-critic-perl
       - libssl1.0.0
       - libstdc++6
-      - libumfpack5.6.2
       - libxml2-utils
       - luarocks
       - mercurial
