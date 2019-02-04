@@ -4,7 +4,6 @@ dist: xenial
 language: python
 python:
   - 3.4
-  - 3.5
 
 .disable_global: &disable_global
   addons: false
