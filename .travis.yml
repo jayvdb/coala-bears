@@ -117,7 +117,6 @@ addons:
       - mono-mcs
       # ocaml
       # opam
-      - oracle-java8-installer
       - php-codesniffer
       - r-base-core
       - verilator
@@ -156,6 +155,7 @@ before_install:
   - gimme 1.11.5 > setup_go_root.sh
   - source setup_go_root.sh
   - nvm install 8
+  - jdk_switcher use openjdk10
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
   - .ci/deps.sh
