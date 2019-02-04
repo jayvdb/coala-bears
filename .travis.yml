@@ -72,8 +72,16 @@ dist: trusty
       deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted
   - sourceline:
       deb http://us.archive.ubuntu.com/ubuntu/ xenial-backports main restricted
+  - sourceline:
+      deb http://security.ubuntu.com/ubuntu/ xenial-security main
+  - sourceline:
+      deb http://ppa.launchpad.net/git-core/ppa/ubuntu xenial main
   - avsm  # OPAM stable
+  - sourceline:
+      deb http://ppa.launchpad.net/avsm/ppa/ubuntu xenial main
   - hvr-ghc  # Haskell
+  - sourceline:
+      deb http://ppa.launchpad.net/hvr/ghc/ubuntu xenial main
   - sourceline:  # Julia
       deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu xenial main
     key_url:
