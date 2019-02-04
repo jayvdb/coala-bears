@@ -81,9 +81,27 @@ dist: trusty
   - sourceline:
       deb https://packagecloud.io/computology/apt-backport/ubuntu xenial main
   - sourceline:
+      deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu xenial main
+  - sourceline:
       deb http://ppa.launchpad.net/avsm/ppa/ubuntu xenial main
   - sourceline:
       deb http://ppa.launchpad.net/hvr/ghc/ubuntu xenial main
+  - sourceline:
+      deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu xenial main
+  - sourceline:
+      deb http://ppa.launchpad.net/pollinate/ppa/ubuntu xenial main
+  - sourceline:
+      deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main
+  - sourceline:
+      deb http://ppa.launchpad.net/couchdb/stable/ubuntu xenial main
+  - sourceline:
+      deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu xenial main
+  - sourceline:
+      deb http://dl.hhvm.com/ubuntu xenial main
+  - sourceline:
+      deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse
+  - sourceline:
+      deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main
   - sourceline:  # Julia
       deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu xenial main
     key_url:
