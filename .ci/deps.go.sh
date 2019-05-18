@@ -7,3 +7,5 @@ go get -u github.com/alecthomas/gometalinter
 gometalinter --install
 
 go get -u github.com/BurntSushi/toml/cmd/tomlv
+
+.ci/deps.goreturns.sh

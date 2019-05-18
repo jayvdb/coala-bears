@@ -37,9 +37,9 @@ class AlexBear:
         try:
             output = subprocess.check_output(('alex', '--help'),
                                              stderr=subprocess.STDOUT)
-        except (OSError, subprocess.CalledProcessError):
-            return ('The `alex` package could not be verified. ' +
-                    incorrect_pkg_msg)
+        except (OSError, subprocess.CalledProcessError) as e:
+            return ('The `alex` package could not be verified. {}\n{}'
+                    ''.format(e, incorrect_pkg_msg))
         else:
             output = output.decode(sys.getfilesystemencoding())
             if 'Catch insensitive, inconsiderate writing' in output:
