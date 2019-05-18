@@ -16,9 +16,7 @@ def _map_to_r_bool(py_bool):
 
 @linter(executable='Rscript',
         output_format='corrected',
-        prerequisite_check_command=('Rscript', '-e', 'library(formatR)'),
-        prerequisite_check_fail_message='Please install formatR for this bear '
-                                        'to work.')
+        )
 class FormatRBear:
     """
     Check and correct formatting of R Code using known formatR utility.
@@ -33,7 +31,7 @@ class FormatRBear:
                 zypper='R-formatR',
              ),
              RscriptRequirement('formatR',
-                                version='>1.5'),
+                                ),
              ]
         )
     }
