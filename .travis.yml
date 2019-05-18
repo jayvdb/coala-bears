@@ -1,14 +1,10 @@
 sudo: false
-
-language: python
-python:
-  - 3.4
-  - 3.5
-  - 3.6
+python: 3.6
 
 .disable_global: &disable_global
   addons: false
   cache: pip
+  python: false
   before_install: false
   install: false
   before_script: false
@@ -21,13 +17,19 @@ python:
 stages:
   - name: sentinel
     if: branch != master OR type = pull_request
-  - test
+  - test-python
+  - test-languages
+  - test-other-versions
+  - test-apt
   - moban
+  - name: test-master
+    if: branch = master AND type = push
   - name: unsupported
     if: branch = master AND type = push
 
 .check_moban: &check_moban
   <<: *disable_global
+  language: python
   python: 3.6
   stage: moban
   install: pip install moban
@@ -39,11 +41,13 @@ jobs:
     - stage: sentinel
       # All other jobs will be cancelled if the sentinel job fails
       <<: *disable_global
+      language: python
       python: 3.6
       install: pip install -r requirements.txt ".[alldeps]"
       script: coala --non-interactive -V
 
     - python: 2.7
+      language: python
       stage: unsupported
       env: PIP_NO_COMPILE=1
       addons: false
@@ -52,6 +56,7 @@ jobs:
       before_script: true
       script: .ci/check_unsupported.sh
     - python: 3.3
+      language: python
       stage: unsupported
       env: PIP_NO_COMPILE=1
       addons: false
@@ -59,7 +64,9 @@ jobs:
       install: true
       before_script: true
       script: .ci/check_unsupported.sh
+
     - python: 3.6
+      language: python
       stage: moban
       addons: false
       cache: pip
@@ -70,67 +77,326 @@ jobs:
       after_success: false
       after_failure: false
       if: branch = master AND type = push
+
+    - stage: test-other-versions
+      os: windows
+      language: bash
+      python: 3.6.8
+      env:
+        BEAR_LIST="astyle cppcheck xmllint"
+        TOX_TEST_SELECTORS=pip-noreqs-npm-gem-go-perl-php-java8-adhoc
+      cache:
+        directories:
+          - /C/nuget_http_cache
+          - /C/choco_cache
+          - /C/pip_cache
+      before_install:
+        - bash --version
+        - powershell -c "$PSVersionTable"
+        - powershell -c 'Set-MpPreference -DisableRealtimeMonitoring $true'
+        - powershell -c 'Set-MpPreference -DisableArchiveScanning $true'
+        - powershell -c 'Set-MpPreference -DisableBehaviorMonitoring $true'
+
+        - export NUGET_HTTP_CACHE_PATH=/C/nuget_http_cache
+        - export CHOCO_CACHE_DIR=/C/choco_cache
+        - export PIP_CACHE_DIR=/C/pip_cache
+
+        - export TOXENV=py36-${TOX_TEST_SELECTORS}-${TOX_FEATURES}-win
+
+        - printenv
+
+        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+                                             -Scope LocalMachine"
+
+        # TODO: move into post-install
+        # These are empty at this stage, and probably not used at all
+        # but pip complains about them not being in the PATH, which might
+        # be for --user support
+        - ls /C/Users/travis/AppData/Roaming/ || true
+        - ls /C/Users/travis/AppData/Roaming/Python/ || true
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/ || true
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts/ || true
+        - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
+        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
+        - echo $PATH
+
+        - python .ci/store_env_in_registry.py
+        - source .ci/refreshenv.sh
+
+        # TODO: Add support for disabling pre-installed vctools which is
+        # disabled in choco_requirements.  Uninstalling vctools fails
+      install:
+        - powershell -c ". .ci/Fudge.ps1 install"
+        - refreshenv
+        - taskkill -IM "gpg-agent.exe" || true
+      before_script:
+        - python --version
+      script:
+        - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
+        - python -m tox --sitepackages
+        - git checkout tox.ini
+
+    - stage: sentinel
+      language: python
+      python: 3.6
+      addons:
+        apt:
+          packages: clang-3.4
+
+    - stage: test-languages
+      language: python
+      python: 3.5
+      addons:
+        apt:
+          packages: clang-3.4
+
+    - stage: test-other-versions
+      language: python
+      python: 3.4
+      addons:
+        apt:
+          packages: clang-3.4
+
+    - stage: test-languages
+      language: csharp
+      mono: 5.20.1
+
+    - language: r
+      r: release
+
+    - language: node_js
+      node_js: 10
+
+    - language: julia
+      # default language is 0.6.4, and has problems with pre-installed Lint.jl
+      julia: 1.1
+      env: JL_PKG=CoalaBears
+      # install not provided https://github.com/travis-ci/travis-build/pull/1571
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        # Verify compilation works
+        - julia -e 'import Lint.lintfile'
+
+    - language: dart
+      dart: 1.15.0
+
+    - language: perl
+      perl: 5.14
+
+    - language: go
+      go: 1.11
+      install: true
+
+    - language: ruby
+      rvm: 2.4
+
+    - language: php
+      php: 7.2
+
+    - language: java
+      jdk: oraclejdk8
+
+    - language: scala
+      scala: 2.11
+
+    - language: lua
+      env: BEARS=lua
+      addons:
+        apt:
+          packages:
+            - luarocks
+
+    - language: generic
+      env: BEARS=opam INFER_VERSION=0.7.0
+           PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - camlp4-extra
+            - ocaml
+            - opam
+
+    # This is in generic image, as language: haskell isnt working yet
+    - language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod hlint"
+      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
+      # ghc-mod needs cabal-install
+      # shellcheck is failing in xenial
+      addons:
+        apt:
+          packages:
+            - cabal-install
+            - ghc
+            - ghc-mod
+            - hlint
+
+    # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
+    # which is the old circle init
+    - language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php7.0-cli
+            - phpmd
+            - php-codesniffer
+            - verilator
+
+    - language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre"
+
+    - language: generic
+      env: DIST=trusty BEARS=adhoc BEAR_LIST=astyle
+      addons:
+        apt:
+          sources:
+            - sourceline:  # astyle
+                deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
+              key_url:
+                https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
+          packages:
+            - astyle
+
+    - stage: test-other-versions
+
+      language: node_js
+      node_js: 9
+    - language: node_js
+      node_js: 8
+    - language: node_js
+      node_js: 7
+    - language: node_js
+      node_js: 6
+
+    - language: ruby
+      rvm: 2.5
+      env: DISABLE_BEARS=csvlint
+    - language: ruby
+      rvm: 2.3
+    - language: ruby
+      rvm: 2.2
+    - language: ruby
+      rvm: 2.1
+
+    - language: go
+      go: '1.10'
+      install: true
+
+    - language: php
+      php: hhvm-3.18
+    - language: php
+      php: 5.5
+
+    - language: scala
+      jdk: oraclejdk8
+      scala: 2.12.2
+
+    # oraclejdk10 is EOL
+    - language: java
+      jdk: oraclejdk9
+      env: DISABLE_BEARS="languagetool tailor"
+
+    - language: java
+      jdk: openjdk11
+      env: DISABLE_BEARS="languagetool tailor"
+    - language: java
+      jdk: openjdk10
+      env: DISABLE_BEARS="languagetool tailor"
+    - language: java
+      jdk: openjdk9
+      env: DISABLE_BEARS="languagetool tailor"
+    - language: java
+      jdk: openjdk7
+      env: DISABLE_BEARS=tailor
+
+    - language: dart
+      dart: 1.14.2
+
+    - language: julia
+      julia: 1.0
+      env: JL_PKG=CoalaBears
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        - julia -e 'import Lint.lintfile'
+
+    - language: julia
+      julia: 0.7.0
+      env: JL_PKG=CoalaBears
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        - julia -e 'import Lint.lintfile'
+
+    - language: r
+      r: devel
+
+    - language: r
+      r: oldrel
+
+    - language: generic
+      env: DIST=trusty BEARS=apt_get
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            - php-codesniffer
+            - shellcheck
+            - verilator
+
+    - stage: test-other-versions
+      language: generic
+      env: DIST=precise BEARS=apt_get
+      dist: precise
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            - python3
+            - verilator
+
+    - stage: test-master
+
+      # This is only performed on master, as the osx jobs take too long to
+      # start, causing delays.  The only ObjC bear is tailor which is also
+      # a java bear covered above.
+      language: objective_c
+      os: osx
+      dist: false
+
     - *check_moban
   allow_failures:
     - *check_moban
 
-dist: trusty
-
-.apt_sources: &apt_sources
-  - ubuntu-toolchain-r-test
-  # avsm  # OPAM stable
-  - hvr-ghc  # Haskell
-  - sourceline:  # R
-      deb https://cloud.r-project.org/bin/linux/ubuntu trusty-cran35/
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x51716619E084DAB9
-  - sourceline:  # Julia
-      deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu trusty main
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCF979FFA3D3D3ACC
-  - sourceline:  # astyle
-      deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
-
-addons:
-  apt:
-    sources: *apt_sources
-    packages:
-      - aspcud
-      - astyle
-      - cabal-install-1.24
-      - chktex
-      - clang-3.4
-      - cppcheck
-      - devscripts
-      - flawfinder
-      - gfortran
-      - ghc
-      - happy
-      - indent
-      - julia
-      - libarpack2
-      - libblas-dev
-      - libcolamd2.8.0
-      - libfftw3-3
-      - liblapack-dev
-      - libopenblas-base
-      - libpaper-utils
-      - libperl-critic-perl
-      - libumfpack5.6.2
-      - libxml2-utils
-      - luarocks
-      - mercurial
-      # menhir
-      - mono-mcs
-      # ocaml
-      # opam
-      - php-codesniffer
-      - r-base
-      - verilator
-
-cache:
+.cache:
   pip: true
   directories:
     - docs/_build
@@ -147,6 +413,7 @@ cache:
     # coala managed data
     - ~/nltk_data
     # Installed linters
+    # Check this version works
     - ~/infer-linux64-v$INFER_VERSION
     - ~/.local/
 
@@ -154,47 +421,89 @@ env:
   global:
     - TERM=dumb
     - R_LIB_USER=~/R/Library
+    - R_PROFILE=~/.Rprofile
     - LINTR_COMMENT_BOT=false
     - CABAL_VERSION=1.24
-    - INFER_VERSION=0.7.0
-    - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v$INFER_VERSION/infer/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    # These are only needed by Windows
+    - NUGET_EXE_NO_PROMPT=true
+    - VIRTUALENV_NO_DOWNLOAD=1
+    - VIRTUALENV_NO_PIP=1
+    - VIRTUALENV_NO_SETUPTOOLS=1
+    # Enable to debug tox
+    # VIRTUALENV_VERBOSE=1
+    - PIP_DISABLE_PIP_VERSION_CHECK=1
+    - PIP_YES=1
+    - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
+    - TOX_FEATURES=check-noskip-codecov
 
 before_install:
-  # Install latest stable version of Go using gimme
-  - gimme 1.11.5 > setup_go_root.sh
-  - source setup_go_root.sh
-  - nvm install 6.10.2
-  # Remove Ruby directive from Gemfile as this image has 2.2.5
-  - sed -i '/^ruby/d' Gemfile
-  - .ci/deps.sh
-  - .ci/deps.go.sh
-  - .ci/deps.cabal.sh
-  - .ci/deps.r.sh
-  # .ci/deps.opam.sh
-  - .ci/deps.java.sh
+  - printenv
+  - mkdir -p ~/bin ~/.local/bin
+
+  - if [ -z "$GOPATH" ]; then
+      export GOPATH="/home/travis/gopath";
+    fi
+  # TODO: implement DISABLE_BEARS globally, esp deps.generic.sh
+
+  - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
+      bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
+    fi
+
+  - python --version
+  # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
+  - rm -f ~/.local/bin/python* ~/.local/bin/pip*
+
+  - source .ci/deps.pyenv.sh
+  - pyenv versions
+  - pyenv versions --bare
+  # node-gpy needs py27
+  - if [ "$TRAVIS_LANGUAGE" = "node_js" ]; then pyenv global 2.7; hash -r; fi
+  - if [ "$BEARS" = "infer" ]; then pyenv global 2.7; hash -r; fi
+  - pyenv versions
+  - python --version
+
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
-  - printf '%s\n%s\n%s\n'
+  # Move these requirements into test-requirements.txt
+  - printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n'
+           "tox~=3.12.0" "tox-travis" "tox-backticks" "tox-pyenv" "tox-venv"
            "$(cat test-requirements.txt)"
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
 
 before_script:
+  - source .ci/deps.python36.sh
+  - hash -r
+  - pyenv versions
+  - python --version
   - mv requirements.orig requirements.txt
-  - .ci/deps.coala-bears.sh
 
 script:
-  - python setup.py bdist_wheel
-  - pip install $(ls ./dist/*.whl)"[alldeps]"
-  # Ensure bear requirements are in sync with the bear PipRequirement
-  - .ci/generate_bear_requirements.py --check --update
-  - coala --non-interactive
-  - rm bears/java/InferBear.py tests/java/InferBearTest.py
-  - rm bears/go/GoReturnsBear.py tests/go/GoReturnsBearTest.py
-  - pytest
-  - codecov
-  - python setup.py docs
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py bdist_wheel;
+      pip install $(ls ./dist/*.whl)"[alldeps]";
+      coala --non-interactive;
+    fi
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+      pyenv global $(pyenv versions --bare | fgrep '3.6' --max-count 1)
+                   $(pyenv versions --bare | fgrep '2.7' --max-count 1);
+      hash -r;
+    fi
+  - python --version
+  # Ensure metadata files are in sync with the bear metadata in the source
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
+    fi
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+      python -m pip install --upgrade --user
+        tox~=3.12.0 tox-travis tox-backticks tox-pyenv tox-venv;
+    fi
+  - python -m tox
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py docs;
+    fi
 
 notifications:
   email: false
