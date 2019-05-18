@@ -1,0 +1,259 @@
+{% extends 'ci/travis.yml.jj2' %}
+
+{% block custom_python_versions %}
+python: 3.6.3
+{% endblock %}
+
+{% block stages %}
+stages:
+  - name: sentinel
+    if: branch != master OR type = pull_request
+  - test-languages
+  - test-other-versions
+  - moban
+
+{% endblock %}
+
+{% block jobs %}
+{% macro job(language, version, seen) -%}
+{%   if language == 'python' and version.startswith('3.5') %}
+{%     set seen = False %}
+{%   endif %}
+{%   if language == 'python' and version.startswith('3.6') %}
+    - stage: sentinel
+{%   elif not seen %}
+    - stage: test-languages
+{%   else %}
+    - stage: test-other-versions
+{%   endif %}
+{%   set env = {} %}
+{%   set version_key = language %}
+{%   set dist = None %}
+{%   set cacher = False %}
+{%   if language == 'lua' %}
+{%     set env = {'BEARS': 'lua'} %}
+{%     set version_key = None %}
+{%   elif language == 'infer' %}
+{%     set version_key = None %}
+{%     set env = {
+         'BEARS': 'opam',
+         'INFER_VERSION': version,
+         'PATH': '$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin',
+       } %}
+{%     set dist = 'trusty' %}
+{%   elif language == 'ruby' %}
+{%     set dist = 'trusty' %}
+{%     set version_key = 'rvm' %}
+{%     set cacher = 'bundler' %}
+{%   elif language == 'python' %}
+{#     clang-3.4 is not available on xenial #}
+{%     set dist = 'trusty' %}
+{%     set cacher = 'pip' %}
+{%   elif language == 'perl' %}
+{%     set dist = 'trusty' %}
+{%   elif language == 'php' %}
+{%     set dist = 'trusty' %}
+{%   elif language == 'r' %}
+{%     set cacher = 'packages' %}
+{%   elif language == 'node_js' %}
+{%     set cacher = 'npm' %}
+{%   elif language == 'java' %}
+{%     set version_key = 'jdk' %}
+{%   elif language == 'mono' %}
+{%     set language = 'csharp' %}
+{%   endif %}
+{%   if dist %}
+      dist: {{ dist }}
+{%   endif %}
+{%   if language in ['lua', 'infer'] %}
+{%     if dist == 'trusty' %}
+      language: generic
+{%     else %}
+      language: minimal
+{%     endif %}
+{%   else %}
+      language: {{ language }}
+{%   endif %}
+{%   if version_key %}
+{%     if version.endswith('0') and not version.endswith('.0') %}
+      {{ version_key }}: '{{ version }}'
+{%     else %}
+      {{ version_key }}: {{ version }}
+{%     endif %}
+{%   endif %}
+{%   if env %}
+      env:
+{%     for name, value in env.items() %}
+        {{ name }}="{{ value }}"
+{%     endfor %}
+{%   endif %}
+{%   if cacher %}
+      cache: {{ cacher }}
+{%   endif %}
+{%   if language == 'python' %}
+      addons:
+        apt:
+          packages: clang-3.4
+{%   elif language == 'go' %}
+      install: skip
+      cache:
+        directories:
+          - $HOME/.cache/go-build
+          - $HOME/gopath/pkg/mod
+{%   elif language == 'lua' %}
+      cache:
+        directories:
+          - $HOME/.luarocks
+      addons:
+        apt:
+          packages:
+            - luarocks
+{%   elif language == 'perl' %}
+      cache:
+        directories:
+          - $HOME/perl5
+{%   elif language == 'scala' and version.startswith('2.12') %}
+      jdk: openjdk8
+{%   elif language == 'julia' %}
+{# default language is 0.6.4, and has problems with pre-installed Lint.jl #}
+{# install not provided https://github.com/travis-ci/travis-build/pull/1571 #}
+      env: JL_PKG={{ appveyor_global_environment.JL_PKG }}
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        # Verify compilation works
+        - julia -e 'import Lint.lintfile'
+      cache:
+        directories:
+          - $HOME/.julia
+{%   elif language == 'infer' %}
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - camlp4-extra
+            - ocaml
+            - opam
+{%   endif %}
+{% endmacro %}
+{# reorder so python is first on Python 3.6 #}
+{% set _supported_versions = {'python': python_versions} %}
+{% set _ = _supported_versions.update(supported_versions) %}
+{% set supported_versions = _supported_versions %}
+jobs:
+  include:
+    # Manually added "language" entries should complete test coverage
+{% macro manualmatrix() %}{% include 'travis-manual-matrix.yml' %}{% endmacro %}
+    {{ manualmatrix() | indent(4) }}
+    # Entries generates from `supported_versions`
+{% set seen_languages = {} %}
+{% for language, versions in supported_versions.items() %}
+{%   for version in versions %}
+{%     set version = ''.__class__(version) %}
+{{ job(language, version, language in seen_languages) }}
+{%     set _ = seen_languages.__setitem__(language, 1) %}
+{%   endfor %}
+{% endfor %}
+    - *moban
+  allow_failures:
+    - *moban
+
+cache:
+  pip: true
+  directories:
+    - docs/_build
+    # Installed language package caches
+    - ~/.cabal
+    - ~/.ghc
+    - ~/.ghc-mod
+    - $TRAVIS_BUILD_DIR/vendor
+    # coala managed data
+    - ~/nltk_data
+    # Installed linters
+    - ~/infer-linux64-v$INFER_VERSION
+    - ~/.local/
+
+env:
+  global:
+    - TERM=dumb
+    - PATH="$HOME/.local/bin:$PATH"
+    # These are only needed by Windows
+    - NUGET_EXE_NO_PROMPT=true
+    - VIRTUALENV_NO_DOWNLOAD=1
+    # Enable to debug tox
+    # VIRTUALENV_VERBOSE=1
+    # This exceeds the travis maximum log length
+    # PIP_VERBOSE=1
+    - PIP_DISABLE_PIP_VERSION_CHECK=1
+    - PIP_YES=1
+    - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
+    - TOX_FEATURES={{ '-'.join(tox.features) }}
+{% endblock %}
+
+{% block before_install %}
+before_install:
+  - printenv
+  - mkdir -p ~/bin ~/.local/bin
+  - source .ci/travis_extra_globals.sh
+
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+      .ci/deps.python36.sh;
+    fi
+  - if [ -d "$HOME/.pyenv/bin" ]; then
+      export PATH="$HOME/.pyenv/bin:$PATH";
+    fi
+  - hash -r && pyenv versions --bare && python --version
+  - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
+      pip install pip==9.0.3 setuptools==21.2.2;
+    fi
+
+  - if [ -f ".ci/deps.$TRAVIS_LANGUAGE.sh" ]; then
+      bash -e -x ".ci/deps.$TRAVIS_LANGUAGE.sh";
+    fi
+
+  # https://github.com/coala/coala/issues/3183
+  - cp requirements.txt requirements.orig
+  - printf '%s\n%s\n%s\n'
+           "$(cat test-requirements.txt)"
+           "$(grep -v '^-r' docs-requirements.txt)"
+           "$(cat bear-requirements.txt requirements.txt)"
+           > requirements.txt
+
+{% endblock %}
+
+{% block before_script %}
+before_script:
+  - mv requirements.orig requirements.txt
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py bdist_wheel &&
+      pip install $(ls ./dist/*.whl)"[alldeps]";
+    fi
+
+{% endblock %}
+
+{% block script %}
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+      python -m pip install --upgrade --user -r test-requirements.txt;
+    fi
+  # Ensure metadata files are in sync with the bear metadata in the source
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
+    fi
+  - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
+      pip install --upgrade setuptools;
+    fi
+  - python -m tox
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py docs;
+    fi
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      coala --non-interactive;
+    fi
+{% endblock %}
+
+{% block end %}
+
+branches:
+  exclude:
+    - /^sils\//
+{% endblock %}
