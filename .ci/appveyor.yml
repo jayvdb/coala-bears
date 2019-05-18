@@ -1,25 +1,34 @@
 environment:
+  nodejs_version: "10"
   global:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
     PIP_CACHE_DIR: C:\pip_cache
+    GOPATH: c:\gopath
+    PERLPATH: C:\strawberry\c\bin;C:\strawberry\perl\bin
+    PERLSITEPATH: C:\strawberry\perl\site\bin
 
   matrix:
-    - PYTHON: "C:\\Python34"
-      PYTHON_VERSION: "3.4.4"
-      PYTHON_ARCH: "32"
-      ruby_version: "24"
-
-    - PYTHON: "C:\\Python34-x64"
-      PYTHON_VERSION: "3.4.4"
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       ruby_version: "24-x64"
+      TOX_APPVEYOR_X64: 1
+
+    - PYTHON: "C:\\Python36"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "32"
+      TOX_APPVEYOR_X64: 0
+      ruby_version: "24"
+
+stack: go 1.10
 
 cache:
   - "C:\\pip_cache"
   - "node_modules"
+  - "C:\\strawberry"
   - "C:\\Users\\appveyor\\AppData\\Local\\coala-bears\\coala-bears"
   - "C:\\Users\\appveyor\\AppData\\Roaming\\nltk_data"
 
@@ -32,36 +41,36 @@ install:
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.7.0\\bin;%PATH%"
+  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.8.0\\bin;%PATH%"
+  - "SET PATH=C:\\gopath\\bin;%PATH%"
 
-  # language-tool needs the registry tweaked here since it determines the java
-  # version wrong (since appveyor has both, 1.7 and 1.8 in x86 and x64).
-  - "SET KEY_NAME=HKLM\\Software\\JavaSoft\\Java Runtime Environment"
-  - "REG add \"%KEY_NAME%\" /v CurrentVersion /t REG_SZ /d 1.7 /f"
+  # https://github.com/coala/coala-bears/issues/2908
+  # choco install --ignore-dependencies --yes pmd
+  # Also doesnt work
+  # ps: iex (new-object net.webclient).
+  #     downloadstring('https://tailor.sh/install.ps1')
+
+  - go get -u github.com/alecthomas/gometalinter
+  - gometalinter --install
+  - go get -u github.com/BurntSushi/toml/cmd/tomlv
+  - go get -u sourcegraph.com/sqs/goreturns
+
+  # Default Perl doesnt include cpanm
+  - if not exist "C:\strawberry" choco install strawberryperl -y
+  - set PATH=%PERLPATH%;%PERLSITEPATH%;%PATH%;
+  - cpanm --quiet --installdeps --with-develop --notest .
+
+  - echo %PATH%
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  - "%CMD_IN_ENV% python -m pip install --upgrade setuptools==21 pip==9"
-  - "%CMD_IN_ENV% python -m pip install -r test-requirements.txt \
-    -r requirements.txt -r docs-requirements.txt"
-  - ps: "Install-Product node ''"  # Use latest node v5.x.x
+  - "%CMD_IN_ENV% python -m pip install tox-appveyor tox-backticks tox-venv"
+
+  - ps: Install-Product node $env:nodejs_version
   - "npm config set loglevel warn"
-  - "sed -i '/alex/d' package.json"
-  - "sed -i '/coffeelint/d' package.json"
-  - "sed -i '/csscomb/d' package.json"
-  - "sed -i '/docker/d' package.json"
-  - "sed -i '/elm/d' package.json"
-  - "sed -i '/gherkin/d' package.json"
-  - "sed -i '/jshint/d' package.json"
-  - "sed -i '/remark/d' package.json"
-  - "sed -i '/postcss/d' package.json"
-  - "sed -i '/sass/d' package.json"
-  - "sed -i '/textlint/d' package.json"
-  - "sed -i '/tslint/d' package.json"
   - "npm install"
   - "SET PATH=node_modules\\.bin;%PATH%"
-  - "DEL node_modules\\.bin\\eslint*"
 
   # Commands for Ruby
   - "sed -i '/sqlint/d' Gemfile"
@@ -78,23 +87,14 @@ test_script:
   # Clang DLLs x64 were nowadays installed, but the x64 version hangs, so we
   # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
   # https://github.com/appveyor/ci/issues/688
-  - >
-    "%CMD_IN_ENV% python -m pytest
-    --cov -k "not ClangASTPrintBear and not ClangCloneDetectionBear and
-    not ClangComplexityBear and not ClangCountVectorCreator and
-    not ClangCountingConditions and not RuboCopBearTest and
-    not CSVLintBearTest"
-  - "%CMD_IN_ENV% python setup.py install"
-  - "%CMD_IN_ENV% python -m pip install \
-    git+https://github.com/coala/coala"
-  - sed -i '/ShellCheckBear/d' .coafile
-  - "%CMD_IN_ENV% coala --ci"
-
-on_success:
-  - codecov
-
-on_failure:
-  - codecov
+  - set TOXENV=py36-noreqs-pip-npm-gem-go-perl-java8-win-check-noskip-codecov
+  - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
+  - "%CMD_IN_ENV% python -m tox"
+  # "%CMD_IN_ENV% python setup.py install"
+  # "%CMD_IN_ENV% python -m pip install \
+  # git+https://github.com/coala/coala"
+  # sed -i '/ShellCheckBear/d' .coafile
+  # "%CMD_IN_ENV% coala --ci"
 
 matrix:
   fast_finish: true

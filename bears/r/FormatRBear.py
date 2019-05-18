@@ -33,7 +33,7 @@ class FormatRBear:
                 zypper='R-formatR',
              ),
              RscriptRequirement('formatR',
-                                version='>1.5'),
+                                ),
              ]
         )
     }
