@@ -188,7 +188,7 @@ script:
   - python setup.py bdist_wheel
   - pip install $(ls ./dist/*.whl)"[alldeps]"
   # Ensure bear requirements are in sync with the bear PipRequirement
-  - .ci/generate_bear_requirements.py --check --update
+  - .ci/generate_bear_metadata.py --check --update
   - coala --non-interactive
   - rm bears/java/InferBear.py tests/java/InferBearTest.py
   - rm bears/go/GoReturnsBear.py tests/go/GoReturnsBearTest.py
