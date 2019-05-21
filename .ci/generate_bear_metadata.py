@@ -27,12 +27,17 @@ from coalib.bears.BEAR_KIND import BEAR_KIND
 from coalib.collecting.Collectors import collect_bears
 
 from dependency_management.requirements.AnyOneOfRequirements import (
-    AnyOneOfRequirements)
+    AnyOneOfRequirements,
+)
+from dependency_management.requirements.ExecutableRequirement import (
+    ExecutableRequirement,
+)
 
 yaml = YAML(typ='rt')
 yaml.default_flow_style = False
 yaml.Dumper = RoundTripDumper
 
+BEAR_METADATA_YAML = 'bear-metadata.yaml'
 BEAR_REQUIREMENTS_YAML = 'bear-requirements.yaml'
 BEAR_LANGUAGES_YAML = 'bear-languages.yaml'
 
@@ -43,24 +48,6 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 PROJECT_BEAR_DIR = os.path.abspath(os.path.join(PROJECT_DIR, 'bears'))
-
-SUPPORTED_INSTANCES = (
-    'PipRequirement',
-    'NpmRequirement',
-    'GemRequirement',
-    'ComposerRequirement',
-    'CabalRequirement',
-    'RscriptRequirement',
-)
-
-INSTANCE_NAMES = (
-    'pip_requirements',
-    'npm_requirements',
-    'gem_requirements',
-    'composer_requirements',
-    'cabal_requirements',
-    'r_script_requirements',
-)
 
 
 def get_args():
@@ -113,27 +100,106 @@ def get_inherited_requirements():
     return inherited_requirements
 
 
+INHERITED_PIP_REQUIREMENTS = get_inherited_requirements()
+
+REQUIREMENT_TYPES = collections.OrderedDict({
+    'PipRequirement': {
+        'prefix': 'pip',
+        'version_operator': '~=',
+        'exclude': INHERITED_PIP_REQUIREMENTS,
+    },
+    'NpmRequirement': {
+        'prefix': 'npm',
+        'version_operator': '~',
+    },
+    'GemRequirement': {
+        'prefix': 'gem',
+        'version_operator': '~>',
+    },
+    'ComposerRequirement': {
+        'prefix': 'composer',
+        'version_operator': '~',
+    },
+    'CabalRequirement': {
+        'prefix': 'cabal',
+        'version_operator': '==',
+    },
+    'RscriptRequirement': {
+        'prefix': 'r_script',
+        'version_operator': '>=',
+    },
+    'DistributionRequirement': {
+        'prefix': 'distro',
+        'version_operator': '>=',
+        'allow_missing_version': True,
+    },
+    'ExecutableRequirement': {
+        'prefix': 'exe',
+        'version_operator': '>=',
+        'allow_missing_version': True,
+    },
+    'JuliaRequirement': {
+        'prefix': 'julia',
+        'version_operator': '>=',
+        'allow_missing_version': True,
+    },
+    'GoRequirement': {
+        'prefix': 'go',
+        'version_operator': '>=',
+        'allow_missing_version': True,
+    },
+    'LuarocksRequirement': {
+        'prefix': 'luarocks',
+        'version_operator': '>=',
+        'allow_missing_version': True,
+    },
+    'CondaRequirement': {
+        'prefix': 'conda',
+        'version_operator': '>=',
+    },
+})
+
+
 def helper(requirements, instance_dict):
     for requirement in requirements:
         if isinstance(requirement, AnyOneOfRequirements):
             helper(requirement.requirements, instance_dict)
-        elif any(type(requirement).__name__ == instance
-                 for instance in SUPPORTED_INSTANCES):
+        elif requirement.__class__.__name__ not in REQUIREMENT_TYPES:
+            raise RuntimeError(
+                '{} not configured'.format(repr(requirement)))
+        else:
             instance_dict[type(requirement).__name__].add(requirement)
 
 
 def get_all_requirements(bears):
-    instance_dict = collections.defaultdict(set)
+    bear_requirements = {}
 
     for bear in bears:
+        instance_dict = collections.defaultdict(set)
+        executable = None
+        if hasattr(bear, 'get_executable'):
+            executable = bear.get_executable()
+        if executable:
+            requirement = ExecutableRequirement(executable)
+            instance_dict['ExecutableRequirement'].add(requirement)
         helper(bear.REQUIREMENTS, instance_dict)
+        bear_requirements[str(bear.name)] = instance_dict
 
-    return instance_dict
+    return bear_requirements
 
 
 def _to_entry(requirement, default_operator):
-    assert requirement.version, '%s has no version' % requirement.package
     entry = {}
+
+    if not requirement.version:
+        requirement_type = requirement.__class__.__name__
+        settings = REQUIREMENT_TYPES[requirement_type]
+        if settings.get('allow_missing_version', False) is True:
+            return None
+        else:
+            raise RuntimeError(
+                '{}({}) has no version'.format(requirement_type,
+                                               requirement.package))
 
     if requirement.version[0].isdigit():
         entry['version'] = default_operator + requirement.version
@@ -152,30 +218,9 @@ def _get_requirements(requirements, default_operator, exclude=[]):
     )
 
 
-def get_gem_requirements(requirements):
-    return _get_requirements(requirements, '~>')
-
-def get_r_requirements(requirements):
-    return _get_requirements(requirements, '>=')
-
-def get_npm_requirements(requirements):
-    return _get_requirements(requirements, '~')
-
-
-def get_composer_requirements(requirements):
-    return _get_requirements(requirements, '~')
-
-
-def get_pip_requirements(requirements):
-    inherited_requirements = get_inherited_requirements()
-    return _get_requirements(requirements, '~=', inherited_requirements)
-
-
-def get_cabal_requirements(requirements):
-    return _get_requirements(requirements, '==')
-
-
 def _create_sorted_commented_map(input_dict):
+    if not input_dict:
+        return CommentedMap()
     return CommentedMap(sorted(input_dict.items(),
                                key=lambda t: t[0]))
 
@@ -195,9 +240,92 @@ def get_languages(bears):
     return language_dict
 
 
+def get_bear_requirement_metadata(bear_requirement_sets, storage=None,
+                                  old_labels=False):
+    if not storage:
+        storage = {}
+    instance_dict = bear_requirement_sets
+
+    for requirement_type, settings in REQUIREMENT_TYPES.items():
+        requirements = _get_requirements(bear_requirement_sets[requirement_type],
+                                         settings['version_operator'],
+                                         settings.get('exclude', []))
+        if not requirements:
+            continue
+
+        label = settings['prefix']
+        if old_labels:
+            label += '_requirements'
+        
+        storage[label] = requirements
+
+    return storage
+
+
+def get_bear_tags(bear, metadata):
+    tags = set()
+
+    if bear.name == 'InferBear':
+        # Special case, not a Java bear
+        tags.add('opam')
+        return tags
+
+    impl_language = None
+    requirements = metadata['requirements'] or {}
+    for requirement_type, requirement_items in requirements.items():
+        if requirement_type == 'DistributionRequirement':
+            print(dir(requirement_items))
+        elif 'default-jre' in requirement_items:
+            tags.add('java')
+
+        requirement_type = requirement_type.replace('Requirement', '').lower()
+
+        tags.add(requirement_type)
+
+    # Extra pip dependencies does not make the bear a pip bear
+    if len(tags) > 1 and 'pip' in tags:
+        tags.remove('pip')
+    elif not requirements:
+        tags.add('noreqs')
+
+    tags.add(metadata['subdir'].replace('_', '-').replace('/', '-'))
+
+    if bear.name == 'VHDLLintBear':
+        tags.add('perl')
+
+    if 'swift' in tags:
+        tags.add('java')
+
+    return tags
+
+
+def get_metadata(bears, bear_requirements, bear_languages):
+    # Add 1 for the path separator after bears
+    bear_dir_prefix_len = len(PROJECT_BEAR_DIR) + 1
+    metadata = {}
+    for bear in bears:
+        name = str(bear.name)
+        requirements = bear_requirements[name]
+        requirement_metadata = get_bear_requirement_metadata(requirements)
+        if not requirement_metadata:
+            requirement_metadata = None
+        directory, filename = os.path.split(bear.source_location)
+        bears_subdirs = directory[bear_dir_prefix_len:].split(os.path.sep)
+        metadata[name] = {
+            'subdir': '/'.join(bears_subdirs),
+            'filename': filename,
+            'requirements': requirement_metadata,
+            'languages': bear_languages[name],
+        }
+        tags = get_bear_tags(bear, metadata[name])
+        metadata[name]['tags'] = list(tags)
+
+    return metadata
+
+
 def deep_update(target, src):
     for key, value in src.items():
-        if key not in target:
+        if target.get(key) is None:
             target[key] = copy.deepcopy(value)
         else:
             if isinstance(value, list):
@@ -230,10 +358,28 @@ def deep_diff(target, src):
     return errors
 
 
+def merge_requirements(bear_requirements, exclude=['ExecutableRequirement']):
+    merged_requirements = collections.defaultdict(set)
+
+    for bear, bear_requirement_sets in bear_requirements.items():
+        for requirement_type, requirements in bear_requirement_sets.items():
+            if requirement_type not in exclude:
+                for requirement in requirements:
+                    merged_requirements[requirement_type].add(requirement)
+
+    return merged_requirements
+
 
 def sort_requirements(req_dict):
-    for key in INSTANCE_NAMES:
-        req_dict[key] = _create_sorted_commented_map(req_dict[key])
+    for _type, settings in REQUIREMENT_TYPES.items():
+        key = settings['prefix'] + '_requirements'
+        req_dict[key] = _create_sorted_commented_map(req_dict.get(key))
+
+
+YAML_MISSING = (
+    'bear-requirements.yaml not found or is empty. '
+    'Please fetch it from the repository.'
+)
 
 
 if __name__ == '__main__':
@@ -246,7 +392,8 @@ if __name__ == '__main__':
 
     all_bears = get_all_bears(bear_dirs)
 
-    instance_dict = get_all_requirements(all_bears)
+    bear_requirements = get_all_requirements(all_bears)
+    instance_dict = merge_requirements(bear_requirements)
 
     requirements = CommentedMap()
     requirements.yaml_set_start_comment(
@@ -254,18 +401,8 @@ if __name__ == '__main__':
         'And should not be edited by hand.')
 
     requirements['overrides'] = 'coala-build.yaml'
-    requirements['gem_requirements'] = get_gem_requirements(
-                                            instance_dict['GemRequirement'])
-    requirements['r_script_requirements'] = get_r_requirements(
-                                            instance_dict['RscriptRequirement'])
-    requirements['npm_requirements'] = get_npm_requirements(
-                                            instance_dict['NpmRequirement'])
-    requirements['pip_requirements'] = get_pip_requirements(
-                                            instance_dict['PipRequirement'])
-    requirements['composer_requirements'] = get_composer_requirements(
-                                            instance_dict['ComposerRequirement'])
-    requirements['cabal_requirements'] = get_cabal_requirements(
-                                            instance_dict['CabalRequirement'])
+    get_bear_requirement_metadata(bear_requirement_sets=instance_dict,
+                                  storage=requirements, old_labels=True)
 
     if args.update or args.check:
         input_file_path = os.path.join(PROJECT_DIR, BEAR_REQUIREMENTS_YAML)
@@ -273,11 +410,14 @@ if __name__ == '__main__':
         try:
             input_file = open(input_file_path, 'r')
         except FileNotFoundError:
-            print('bear-requirements.yaml not found. '
-                  'Run without flags to generate it.')
+            print(YAML_MISSING)
             exit(1)
 
         input_requirments = yaml.load(input_file)
+
+        if not input_requirments:
+            print(YAML_MISSING)
+            exit(1)
 
         new_requirments = copy.deepcopy(input_requirments)
         deep_update(new_requirments, requirements)
@@ -291,18 +431,27 @@ if __name__ == '__main__':
                 yaml.dump(changed, sys.stdout)
                 exit(1)
 
+    sort_requirements(requirements)
+
     if args.output == '-':
         output = sys.stdout
     else:
         output = open(args.output, 'w')
 
+    yaml.dump(requirements, output)
+    output.close()
+
     language_requirements = get_languages(all_bears)
+    bear_languages = language_requirements
     language_requirements = _create_sorted_commented_map(language_requirements)
     file_path = os.path.join(PROJECT_DIR, BEAR_LANGUAGES_YAML)
     with open(file_path, 'w') as outfile:
         yaml.indent(mapping=2, sequence=4, offset=2)
         yaml.dump(language_requirements, outfile)
 
-    sort_requirements(requirements)
-    yaml.dump(requirements, output)
-    output.close()
+    metadata = get_metadata(all_bears, bear_requirements, bear_languages)
+    metadata = _create_sorted_commented_map(metadata)
+    file_path = os.path.join(PROJECT_DIR, BEAR_METADATA_YAML)
+    with open(file_path, 'w') as outfile:
+        yaml.indent(mapping=2, sequence=4, offset=2)
+        yaml.dump(metadata, outfile)

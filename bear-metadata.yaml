@@ -1,0 +1,1932 @@
+AlexBear:
+  subdir: natural_language
+  filename: AlexBear.py
+  requirements:
+    npm:
+      alex:
+        version: ~3
+    exe:
+      alex:
+  languages:
+    - Natural Language
+  tags:
+    - natural-language
+    - exe
+    - npm
+AnnotationBear:
+  subdir: general
+  filename: AnnotationBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+ApertiumLintBear:
+  subdir: apertium
+  filename: ApertiumLintBear.py
+  requirements:
+    pip:
+      lxml:
+        version: ==3.6.0
+      apertium-lint:
+        version: ~=0.29
+    exe:
+      apertium_lint:
+  languages:
+    - Apertium
+  tags:
+    - exe
+    - apertium
+ArtisticStyleBear:
+  subdir: c_languages
+  filename: ArtisticStyleBear.py
+  requirements:
+    distro:
+      astyle:
+    exe:
+      astyle:
+  languages:
+    - C
+    - C#
+    - CPP
+    - Java
+    - Objective-C
+  tags:
+    - distro
+    - exe
+    - c-languages
+BanditBear:
+  subdir: python
+  filename: BanditBear.py
+  requirements:
+    pip:
+      bandit:
+        version: ~=1.2
+    exe:
+      bandit:
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - exe
+BashateBear:
+  subdir: shell
+  filename: BashateBear.py
+  requirements:
+    pip:
+      bashate:
+        version: ~=0.5.1
+    exe:
+      bashate:
+  languages:
+    - bash
+  tags:
+    - shell
+    - exe
+BootLintBear:
+  subdir: hypertext
+  filename: BootLintBear.py
+  requirements:
+    npm:
+      bootlint:
+        version: ~0
+    exe:
+      bootlint:
+  languages:
+    - HTML
+  tags:
+    - hypertext
+    - exe
+    - npm
+CISkipInspectBear:
+  subdir: vcs/git
+  filename: CISkipInspectBear.py
+  requirements:
+  languages:
+    - Git
+  tags:
+    - vcs-git
+    - noreqs
+CMakeLintBear:
+  subdir: cmake
+  filename: CMakeLintBear.py
+  requirements:
+    pip:
+      cmakelint:
+        version: ~=1.3
+    exe:
+      cmakelint:
+  languages:
+    - CMake
+  tags:
+    - exe
+    - cmake
+CPDBear:
+  subdir: general
+  filename: CPDBear.py
+  requirements:
+  languages:
+    - C#
+    - CPP
+    - Fortran
+    - Go
+    - JSP
+    - Java
+    - JavaScript
+    - Matlab
+    - Objective-C
+    - Octave
+    - PHP
+    - PLSQL
+    - Python
+    - Python 2
+    - Python 3
+    - Ruby
+    - Scala
+    - Swift
+  tags:
+    - noreqs
+    - general
+CPPCheckBear:
+  subdir: c_languages
+  filename: CPPCheckBear.py
+  requirements:
+    distro:
+      cppcheck:
+    exe:
+      cppcheck:
+  languages:
+    - C
+    - CPP
+  tags:
+    - distro
+    - exe
+    - c-languages
+CPPCleanBear:
+  subdir: c_languages
+  filename: CPPCleanBear.py
+  requirements:
+    pip:
+      cppclean:
+        version: ~=0.12.0
+    exe:
+      cppclean:
+  languages:
+    - CPP
+  tags:
+    - exe
+    - c-languages
+CPPLintBear:
+  subdir: c_languages
+  filename: CPPLintBear.py
+  requirements:
+    pip:
+      cpplint:
+        version: ~=1.3
+    exe:
+      cpplint:
+  languages:
+    - CPP
+  tags:
+    - exe
+    - c-languages
+CSSAutoPrefixBear:
+  subdir: css
+  filename: CSSAutoPrefixBear.py
+  requirements:
+    npm:
+      postcss-cli:
+        version: ~2
+      autoprefixer:
+        version: ~7.2.0
+    exe:
+      postcss:
+  languages:
+    - CSS
+  tags:
+    - css
+    - exe
+    - npm
+CSSCombBear:
+  subdir: css
+  filename: CSSCombBear.py
+  requirements:
+    npm:
+      csscomb:
+        version: ~4.2.0
+    exe:
+      csscomb:
+  languages:
+    - CSS
+  tags:
+    - css
+    - exe
+    - npm
+CSSLintBear:
+  subdir: css
+  filename: CSSLintBear.py
+  requirements:
+    npm:
+      csslint:
+        version: ~1
+    exe:
+      csslint:
+  languages:
+    - CSS
+  tags:
+    - css
+    - exe
+    - npm
+CSVLintBear:
+  subdir: csv
+  filename: CSVLintBear.py
+  requirements:
+    gem:
+      csvlint:
+        version: ~>0.4.0
+    exe:
+      csvlint:
+  languages:
+    - CSV
+  tags:
+    - csv
+    - gem
+    - exe
+CSecurityBear:
+  subdir: c_languages
+  filename: CSecurityBear.py
+  requirements:
+    distro:
+      flawfinder:
+    exe:
+      flawfinder:
+  languages:
+    - C
+    - CPP
+  tags:
+    - distro
+    - exe
+    - c-languages
+CSharpLintBear:
+  subdir: c_languages
+  filename: CSharpLintBear.py
+  requirements:
+    distro:
+      mono:
+    exe:
+      mcs:
+  languages:
+    - C#
+  tags:
+    - distro
+    - exe
+    - c-languages
+CheckstyleBear:
+  subdir: java
+  filename: CheckstyleBear.py
+  requirements:
+    distro:
+      default-jre:
+    exe:
+      java:
+  languages:
+    - Java
+  tags:
+    - distro
+    - java
+    - exe
+CoffeeLintBear:
+  subdir: coffee_script
+  filename: CoffeeLintBear.py
+  requirements:
+    npm:
+      coffeelint:
+        version: ~1
+    exe:
+      coffeelint:
+  languages:
+    - CoffeeScript
+  tags:
+    - coffee-script
+    - exe
+    - npm
+DartLintBear:
+  subdir: dart
+  filename: DartLintBear.py
+  requirements:
+    distro:
+      dart:
+    exe:
+      dartanalyzer:
+  languages:
+    - Dart
+  tags:
+    - distro
+    - dart
+    - exe
+DennisBear:
+  subdir: gettext
+  filename: DennisBear.py
+  requirements:
+    pip:
+      dennis:
+        version: ~=0.9
+    exe:
+      dennis-cmd:
+  languages:
+    - po
+    - pot
+  tags:
+    - gettext
+    - exe
+DocGrammarBear:
+  subdir: documentation
+  filename: DocGrammarBear.py
+  requirements:
+    pip:
+      language-check:
+        version: ~=1.0
+  languages:
+    - c
+    - cpp
+    - cs
+    - fortran
+    - golang
+    - java
+    - objective-c
+    - php
+    - python
+    - python3
+    - tcl
+    - vhdl
+  tags:
+    - documentation
+    - pip
+DockerfileLintBear:
+  subdir: configfiles
+  filename: DockerfileLintBear.py
+  requirements:
+    npm:
+      dockerfile_lint:
+        version: ~0.3.2
+    exe:
+      dockerfile_lint:
+  languages:
+    - Dockerfile
+  tags:
+    - exe
+    - npm
+    - configfiles
+DocumentationStyleBear:
+  subdir: documentation
+  filename: DocumentationStyleBear.py
+  requirements:
+  languages:
+    - c
+    - cpp
+    - cs
+    - fortran
+    - golang
+    - java
+    - objective-c
+    - php
+    - python
+    - python3
+    - tcl
+    - vhdl
+  tags:
+    - documentation
+    - noreqs
+DuplicateFileBear:
+  subdir: general
+  filename: DuplicateFileBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+ESLintBear:
+  subdir: js
+  filename: ESLintBear.py
+  requirements:
+    npm:
+      eslint-plugin-typescript:
+        version: ~0.8.1
+      typescript-eslint-parser:
+        version: ~12.0.0
+      eslint:
+        version: ~3
+      eslint-plugin-markdown:
+        version: ~1.0.0-beta.6
+      babel-eslint:
+        version: ~8.0
+      eslint-plugin-html:
+        version: ~3.2.2
+      eslint-plugin-import:
+        version: ~2
+    exe:
+      eslint:
+  languages:
+    - HTML
+    - JSX
+    - JavaScript
+    - Markdown
+    - Typescript
+  tags:
+    - js
+    - exe
+    - npm
+ElmLintBear:
+  subdir: elm
+  filename: ElmLintBear.py
+  requirements:
+    npm:
+      elm:
+        version: ~0.18
+    exe:
+      elm-format:
+  languages:
+    - Elm
+  tags:
+    - elm
+    - exe
+    - npm
+FilenameBear:
+  subdir: general
+  filename: FilenameBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+GNUIndentBear:
+  subdir: c_languages
+  filename: GNUIndentBear.py
+  requirements:
+    distro:
+      indent:
+    exe:
+      indent:
+  languages:
+    - C
+    - CPP
+  tags:
+    - distro
+    - exe
+    - c-languages
+GhcModBear:
+  subdir: haskell
+  filename: GhcModBear.py
+  requirements:
+    cabal:
+      ghc-mod:
+        version: ==5.6.0.0
+    distro:
+      ghc-mod:
+    exe:
+      ghc-mod:
+  languages:
+    - Haskell
+  tags:
+    - distro
+    - haskell
+    - exe
+    - cabal
+GherkinLintBear:
+  subdir: gherkin
+  filename: GherkinLintBear.py
+  requirements:
+    npm:
+      gherkin-lint:
+        version: ~2
+    exe:
+      gherkin-lint:
+  languages:
+    - Gherkin
+  tags:
+    - gherkin
+    - exe
+    - npm
+GitCommitBear:
+  subdir: vcs/git
+  filename: GitCommitBear.py
+  requirements:
+    pip:
+      nltk:
+        version: ~=3.2
+      git-url-parse:
+        version: ~=1.1
+  languages:
+    - Git
+  tags:
+    - vcs-git
+    - pip
+GitCommitMetadataBear:
+  subdir: vcs/git
+  filename: GitCommitMetadataBear.py
+  requirements:
+  languages:
+    - Git
+  tags:
+    - vcs-git
+    - noreqs
+GitIgnoreBear:
+  subdir: vcs/git
+  filename: GitIgnoreBear.py
+  requirements:
+  languages:
+    - Git
+  tags:
+    - vcs-git
+    - noreqs
+GitLinearCommitBear:
+  subdir: vcs/git
+  filename: GitLinearCommitBear.py
+  requirements:
+  languages:
+    - Git
+  tags:
+    - vcs-git
+    - noreqs
+GitRevertInspectBear:
+  subdir: vcs/git
+  filename: GitRevertInspectBear.py
+  requirements:
+  languages:
+    - Git
+  tags:
+    - vcs-git
+    - noreqs
+GoErrCheckBear:
+  subdir: go
+  filename: GoErrCheckBear.py
+  requirements:
+    exe:
+      errcheck:
+    go:
+      github.com/kisielk/errcheck:
+  languages:
+    - Go
+  tags:
+    - exe
+    - go
+GoImportsBear:
+  subdir: go
+  filename: GoImportsBear.py
+  requirements:
+    exe:
+      goimports:
+    go:
+      golang.org/x/tools/cmd/goimports:
+  languages:
+    - Go
+  tags:
+    - exe
+    - go
+GoLintBear:
+  subdir: go
+  filename: GoLintBear.py
+  requirements:
+    exe:
+      golint:
+    go:
+      github.com/golang/lint/golint:
+  languages:
+    - Go
+  tags:
+    - exe
+    - go
+GoReturnsBear:
+  subdir: go
+  filename: GoReturnsBear.py
+  requirements:
+    exe:
+      goreturns:
+    go:
+      sourcegraph.com/sqs/goreturns:
+  languages:
+    - Go
+  tags:
+    - exe
+    - go
+GoTypeBear:
+  subdir: go
+  filename: GoTypeBear.py
+  requirements:
+    exe:
+      gotype:
+    go:
+      golang.org/x/tools/cmd/gotype:
+  languages:
+    - Go
+  tags:
+    - exe
+    - go
+GoVetBear:
+  subdir: go
+  filename: GoVetBear.py
+  requirements:
+    exe:
+      go:
+    go:
+      golang.org/cmd/vet:
+  languages:
+    - Go
+  tags:
+    - exe
+    - go
+GofmtBear:
+  subdir: go
+  filename: GofmtBear.py
+  requirements:
+    exe:
+      gofmt:
+    go:
+      golang.org/cmd/gofmt:
+  languages:
+    - Go
+  tags:
+    - exe
+    - go
+HAMLLintBear:
+  subdir: haml
+  filename: HAMLLintBear.py
+  requirements:
+    gem:
+      haml_lint:
+        version: ~>0.27.0
+    exe:
+      haml-lint:
+  languages:
+    - Haml
+  tags:
+    - haml
+    - gem
+    - exe
+HTMLHintBear:
+  subdir: hypertext
+  filename: HTMLHintBear.py
+  requirements:
+    npm:
+      htmlhint:
+        version: ~0.9.13
+    exe:
+      htmlhint:
+  languages:
+    - HTML
+  tags:
+    - hypertext
+    - exe
+    - npm
+HTMLLintBear:
+  subdir: hypertext
+  filename: HTMLLintBear.py
+  requirements:
+    pip:
+      html-linter:
+        version: ~=0.4.0
+    exe:
+      /usr/bin/python3:
+  languages:
+    - HTML
+    - Jinja2
+    - PHP
+  tags:
+    - hypertext
+    - exe
+HTTPSBear:
+  subdir: general
+  filename: HTTPSBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+HTTPoliceLintBear:
+  subdir: hypertext
+  filename: HTTPoliceLintBear.py
+  requirements:
+    pip:
+      HTTPolice:
+        version: ~=0.5.2
+    exe:
+      httpolice:
+  languages:
+    - HAR
+  tags:
+    - hypertext
+    - exe
+HappinessLintBear:
+  subdir: js
+  filename: HappinessLintBear.py
+  requirements:
+    npm:
+      happiness:
+        version: ~10
+    exe:
+      happiness:
+  languages:
+    - JavaScript
+  tags:
+    - js
+    - exe
+    - npm
+HaskellLintBear:
+  subdir: haskell
+  filename: HaskellLintBear.py
+  requirements:
+    cabal:
+      hlint:
+        version: ==1.9.27
+    distro:
+      hlint:
+    exe:
+      hlint:
+  languages:
+    - Haskell
+  tags:
+    - distro
+    - haskell
+    - exe
+    - cabal
+HgCommitBear:
+  subdir: vcs/mercurial
+  filename: HgCommitBear.py
+  requirements:
+    pip:
+      nltk:
+        version: ~=3.2
+      git-url-parse:
+        version: ~=1.1
+  languages:
+    - Hg
+  tags:
+    - vcs-mercurial
+    - pip
+IndentationBear:
+  subdir: general
+  filename: IndentationBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+InferBear:
+  subdir: java
+  filename: InferBear.py
+  requirements:
+    exe:
+      infer:
+  languages:
+    - Java
+  tags:
+    - opam
+InvalidLinkBear:
+  subdir: general
+  filename: InvalidLinkBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+JSComplexityBear:
+  subdir: js
+  filename: JSComplexityBear.py
+  requirements:
+    npm:
+      complexity-report:
+        version: ~2.0.0-alpha
+    exe:
+      cr:
+  languages:
+    - JavaScript
+  tags:
+    - js
+    - exe
+    - npm
+JSHintBear:
+  subdir: js
+  filename: JSHintBear.py
+  requirements:
+    npm:
+      jshint:
+        version: ~2.9.5
+    exe:
+      jshint:
+  languages:
+    - JavaScript
+  tags:
+    - js
+    - exe
+    - npm
+JSONFormatBear:
+  subdir: js
+  filename: JSONFormatBear.py
+  requirements:
+  languages:
+    - JSON
+  tags:
+    - noreqs
+    - js
+JSStandardBear:
+  subdir: js
+  filename: JSStandardBear.py
+  requirements:
+    npm:
+      standard:
+        version: ~10
+    exe:
+      standard:
+  languages:
+    - JSX
+    - JavaScript
+  tags:
+    - js
+    - exe
+    - npm
+JavaPMDBear:
+  subdir: java
+  filename: JavaPMDBear.py
+  requirements:
+    exe:
+      bash:
+  languages:
+    - Java
+  tags:
+    - java
+    - exe
+Jinja2Bear:
+  subdir: jinja2
+  filename: Jinja2Bear.py
+  requirements:
+  languages:
+    - Jinja2
+  tags:
+    - jinja2
+    - noreqs
+JuliaLintBear:
+  subdir: julia
+  filename: JuliaLintBear.py
+  requirements:
+    exe:
+      julia:
+    julia:
+      Lint:
+  languages:
+    - Julia
+  tags:
+    - julia
+    - exe
+KeywordBear:
+  subdir: general
+  filename: KeywordBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+LanguageToolBear:
+  subdir: natural_language
+  filename: LanguageToolBear.py
+  requirements:
+    pip:
+      guess-language-spirit:
+        version: ~=0.5.2
+      language-check:
+        version: ~=1.0
+  languages:
+    - Natural Language
+  tags:
+    - natural-language
+    - pip
+LatexLintBear:
+  subdir: latex
+  filename: LatexLintBear.py
+  requirements:
+    distro:
+      chktex:
+    exe:
+      chktex:
+  languages:
+    - Tex
+  tags:
+    - distro
+    - latex
+    - exe
+LicenseCheckBear:
+  subdir: general
+  filename: LicenseCheckBear.py
+  requirements:
+    distro:
+      devscripts:
+    exe:
+      licensecheck:
+  languages:
+  tags:
+    - distro
+    - exe
+    - general
+LicenseHeaderBear:
+  subdir: general
+  filename: LicenseHeaderBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+LineContinuationBear:
+  subdir: general
+  filename: LineContinuationBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+LineCountBear:
+  subdir: general
+  filename: LineCountBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+LineLengthBear:
+  subdir: general
+  filename: LineLengthBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+LuaLintBear:
+  subdir: lua
+  filename: LuaLintBear.py
+  requirements:
+    exe:
+      luacheck:
+    luarocks:
+      luacheck:
+  languages:
+    - Lua
+  tags:
+    - luarocks
+    - lua
+    - exe
+MarkdownBear:
+  subdir: markdown
+  filename: MarkdownBear.py
+  requirements:
+    npm:
+      remark-validate-links:
+        version: ~5
+      remark-cli:
+        version: ~2
+      remark-lint:
+        version: ~5
+    exe:
+      remark:
+  languages:
+    - Markdown
+  tags:
+    - markdown
+    - exe
+    - npm
+MatlabIndentationBear:
+  subdir: matlab
+  filename: MatlabIndentationBear.py
+  requirements:
+  languages:
+    - Matlab
+    - Octave
+  tags:
+    - matlab
+    - noreqs
+MementoBear:
+  subdir: general
+  filename: MementoBear.py
+  requirements:
+    pip:
+      memento-client:
+        version: ~=0.6.1
+  languages:
+  tags:
+    - general
+    - pip
+MypyBear:
+  subdir: python
+  filename: MypyBear.py
+  requirements:
+    pip:
+      mypy:
+        version: ==0.590
+    exe:
+      /usr/bin/python3:
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - exe
+PEP8Bear:
+  subdir: python
+  filename: PEP8Bear.py
+  requirements:
+    pip:
+      autopep8:
+        version: ~=1.2
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - pip
+PEP8NotebookBear:
+  subdir: python
+  filename: PEP8NotebookBear.py
+  requirements:
+    pip:
+      autopep8:
+        version: ~=1.2
+      nbformat:
+        version: ~=4.1
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - pip
+PHPCodeSnifferBear:
+  subdir: php
+  filename: PHPCodeSnifferBear.py
+  requirements:
+    composer:
+      squizlabs/php_codesniffer:
+        version: ~3.3.2
+    distro:
+      php-codesniffer:
+    exe:
+      phpcs:
+  languages:
+    - CSS
+    - JavaScript
+    - PHP
+  tags:
+    - distro
+    - php
+    - exe
+    - composer
+PHPLintBear:
+  subdir: php
+  filename: PHPLintBear.py
+  requirements:
+    distro:
+      php-cli:
+    exe:
+      php:
+  languages:
+    - PHP
+  tags:
+    - distro
+    - php
+    - exe
+PHPMessDetectorBear:
+  subdir: php
+  filename: PHPMessDetectorBear.py
+  requirements:
+    composer:
+      phpmd/phpmd:
+        version: ~2.6.0
+    distro:
+      phpmd:
+    exe:
+      phpmd:
+  languages:
+    - PHP
+  tags:
+    - distro
+    - php
+    - exe
+    - composer
+PerlCriticBear:
+  subdir: perl
+  filename: PerlCriticBear.py
+  requirements:
+    distro:
+      libperl-critic-perl:
+    exe:
+      perlcritic:
+  languages:
+    - Perl
+  tags:
+    - distro
+    - perl
+    - exe
+PinRequirementsBear:
+  subdir: python/requirements
+  filename: PinRequirementsBear.py
+  requirements:
+  languages:
+    - Python 2 Requirements
+    - Python 3 Requirements
+    - Python Requirements
+  tags:
+    - python-requirements
+    - noreqs
+PrettierLintBear:
+  subdir: js
+  filename: PrettierLintBear.py
+  requirements:
+    npm:
+      prettier:
+        version: ~1.9.2
+    exe:
+      prettier:
+  languages:
+    - CSS
+    - GraphQL
+    - JSON
+    - JavaScript
+    - Less
+    - Markdown
+    - SCSS
+    - TypeScript
+    - Vue
+  tags:
+    - js
+    - exe
+    - npm
+ProseLintBear:
+  subdir: natural_language
+  filename: ProseLintBear.py
+  requirements:
+    pip:
+      proselint:
+        version: ~=0.7.0
+    exe:
+      proselint:
+  languages:
+    - Natural Language
+  tags:
+    - natural-language
+    - exe
+PugLintBear:
+  subdir: pug
+  filename: PugLintBear.py
+  requirements:
+    npm:
+      pug-lint:
+        version: ~2.4.0
+    exe:
+      pug-lint:
+  languages:
+    - Pug
+  tags:
+    - pug
+    - exe
+    - npm
+PuppetLintBear:
+  subdir: configfiles
+  filename: PuppetLintBear.py
+  requirements:
+    gem:
+      puppet-lint:
+        version: ~>2.1.1
+    exe:
+      puppet-lint:
+  languages:
+    - Puppet
+  tags:
+    - gem
+    - exe
+    - configfiles
+PyCommentedCodeBear:
+  subdir: python
+  filename: PyCommentedCodeBear.py
+  requirements:
+    pip:
+      eradicate:
+        version: ~=0.1.6
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - pip
+PyDocStyleBear:
+  subdir: python
+  filename: PyDocStyleBear.py
+  requirements:
+    pip:
+      pydocstyle:
+        version: ~=2.0
+    exe:
+      pydocstyle:
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - exe
+PyFlakesBear:
+  subdir: python
+  filename: PyFlakesBear.py
+  requirements:
+    pip:
+      pyflakes:
+        version: ~=2.0.0
+    exe:
+      pyflakes:
+  languages:
+    - Python
+    - Python 3
+  tags:
+    - python
+    - exe
+PyImportSortBear:
+  subdir: python
+  filename: PyImportSortBear.py
+  requirements:
+    pip:
+      isort:
+        version: ~=4.2
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - pip
+PyLintBear:
+  subdir: python
+  filename: PyLintBear.py
+  requirements:
+    pip:
+      pylint:
+        version: ~=1.7.2
+    exe:
+      pylint:
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - exe
+PySafetyBear:
+  subdir: python/requirements
+  filename: PySafetyBear.py
+  requirements:
+    pip:
+      safety:
+        version: ~=1.8.2
+  languages:
+    - Python 2 Requirements
+    - Python 3 Requirements
+    - Python Requirements
+  tags:
+    - python-requirements
+    - pip
+PyStringConcatBear:
+  subdir: python
+  filename: PyStringConcatBear.py
+  requirements:
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - noreqs
+    - python
+PyUnusedCodeBear:
+  subdir: python
+  filename: PyUnusedCodeBear.py
+  requirements:
+    pip:
+      autoflake:
+        version: ~=0.7
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - pip
+PycodestyleBear:
+  subdir: python
+  filename: PycodestyleBear.py
+  requirements:
+    pip:
+      pycodestyle:
+        version: ~=2.2
+    exe:
+      pycodestyle:
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - exe
+PyromaBear:
+  subdir: python
+  filename: PyromaBear.py
+  requirements:
+    pip:
+      pyroma:
+        version: ~=2.2.0
+  languages:
+    - Python
+    - Python 3
+  tags:
+    - python
+    - pip
+PythonPackageInitBear:
+  subdir: python
+  filename: PythonPackageInitBear.py
+  requirements:
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - noreqs
+    - python
+QuotesBear:
+  subdir: general
+  filename: QuotesBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+RAMLLintBear:
+  subdir: yaml
+  filename: RAMLLintBear.py
+  requirements:
+    npm:
+      ramllint:
+        version: '>=1.2.2 <1.2.4 || >=1.2.5 <1.3.0'
+    exe:
+      ramllint:
+  languages:
+    - RAML
+  tags:
+    - yaml
+    - exe
+    - npm
+RSTcheckBear:
+  subdir: rest
+  filename: RSTcheckBear.py
+  requirements:
+    pip:
+      rstcheck:
+        version: ~=3.1
+    exe:
+      rstcheck:
+  languages:
+    - reStructuredText
+  tags:
+    - rest
+    - exe
+RadonBear:
+  subdir: python
+  filename: RadonBear.py
+  requirements:
+    pip:
+      radon:
+        version: ==1.4.0
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - pip
+RuboCopBear:
+  subdir: ruby
+  filename: RuboCopBear.py
+  requirements:
+    pip:
+      pyyaml:
+        version: ~=3.12
+    gem:
+      rubocop:
+        version: ~>0.51.0
+    exe:
+      rubocop:
+  languages:
+    - Ruby
+  tags:
+    - gem
+    - exe
+    - ruby
+RubyFastererBear:
+  subdir: ruby
+  filename: RubyFastererBear.py
+  requirements:
+    gem:
+      fasterer:
+        version: ~>0.4.1
+    exe:
+      fasterer:
+  languages:
+    - Ruby
+  tags:
+    - gem
+    - exe
+    - ruby
+RubySecurityBear:
+  subdir: ruby
+  filename: RubySecurityBear.py
+  requirements:
+    gem:
+      brakeman:
+        version: ~>4.1.1
+    exe:
+      brakeman:
+  languages:
+    - Ruby
+  tags:
+    - gem
+    - exe
+    - ruby
+RubySmellBear:
+  subdir: ruby
+  filename: RubySmellBear.py
+  requirements:
+    gem:
+      reek:
+        version: ~>4.6
+    exe:
+      reek:
+  languages:
+    - Ruby
+  tags:
+    - gem
+    - exe
+    - ruby
+RubySyntaxBear:
+  subdir: ruby
+  filename: RubySyntaxBear.py
+  requirements:
+    distro:
+      ruby:
+    exe:
+      ruby:
+    conda:
+      ruby:
+        version: '>=2.2.3'
+  languages:
+    - Ruby
+  tags:
+    - conda
+    - distro
+    - exe
+    - ruby
+SASSLintBear:
+  subdir: scss
+  filename: SASSLintBear.py
+  requirements:
+    npm:
+      sass-lint:
+        version: ~1.12.1
+    exe:
+      sass-lint:
+  languages:
+    - SASS
+    - SCSS
+  tags:
+    - scss
+    - exe
+    - npm
+SCSSLintBear:
+  subdir: scss
+  filename: SCSSLintBear.py
+  requirements:
+    pip:
+      pyyaml:
+        version: ~=3.12
+    gem:
+      scss_lint:
+        version: ~>0.56.0
+    exe:
+      scss-lint:
+  languages:
+    - SCSS
+  tags:
+    - scss
+    - gem
+    - exe
+SQLFormatBear:
+  subdir: sql
+  filename: SQLFormatBear.py
+  requirements:
+    pip:
+      sqlparse:
+        version: ~=0.2.4
+  languages:
+    - SQL
+  tags:
+    - sql
+    - pip
+SQLintBear:
+  subdir: sql
+  filename: SQLintBear.py
+  requirements:
+    gem:
+      sqlint:
+        version: ~>0.1.5
+    exe:
+      sqlint:
+  languages:
+    - SQL
+  tags:
+    - gem
+    - exe
+    - sql
+ScalaLintBear:
+  subdir: scala
+  filename: ScalaLintBear.py
+  requirements:
+    distro:
+      default-jre:
+    exe:
+      java:
+  languages:
+    - Scala
+  tags:
+    - scala
+    - distro
+    - java
+    - exe
+ShellCheckBear:
+  subdir: shell
+  filename: ShellCheckBear.py
+  requirements:
+    cabal:
+      ShellCheck:
+        version: ==0.4.1
+    distro:
+      shellcheck:
+    exe:
+      shellcheck:
+  languages:
+    - bash
+    - dash
+    - ksh
+    - sh
+  tags:
+    - distro
+    - exe
+    - shell
+    - cabal
+SpaceConsistencyBear:
+  subdir: general
+  filename: SpaceConsistencyBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+SpellCheckBear:
+  subdir: natural_language
+  filename: SpellCheckBear.py
+  requirements:
+    pip:
+      scspell3k:
+        version: ~=2.0
+    exe:
+      scspell:
+  languages:
+    - Natural Language
+  tags:
+    - natural-language
+    - exe
+StyleLintBear:
+  subdir: css
+  filename: StyleLintBear.py
+  requirements:
+    npm:
+      stylelint:
+        version: ~7
+    exe:
+      stylelint:
+  languages:
+    - CSS
+    - SCSS
+  tags:
+    - css
+    - exe
+    - npm
+StylintBear:
+  subdir: stylus
+  filename: StylintBear.py
+  requirements:
+    npm:
+      stylint:
+        version: ~1.5.9
+    exe:
+      stylint:
+  languages:
+    - Stylus
+  tags:
+    - stylus
+    - exe
+    - npm
+TOMLBear:
+  subdir: configfiles
+  filename: TOMLBear.py
+  requirements:
+    exe:
+      tomlv:
+    go:
+      github.com/BurntSushi/toml/cmd/tomlv:
+  languages:
+    - TOML
+  tags:
+    - configfiles
+    - exe
+    - go
+TSLintBear:
+  subdir: typescript
+  filename: TSLintBear.py
+  requirements:
+    npm:
+      typescript:
+        version: '>=1.7.3'
+      tslint:
+        version: '>=3.0 <6.0'
+    exe:
+      tslint:
+  languages:
+    - TypeScript
+  tags:
+    - typescript
+    - exe
+    - npm
+TailorBear:
+  subdir: swift
+  filename: TailorBear.py
+  requirements:
+    exe:
+      tailor:
+  languages:
+    - Swift
+  tags:
+    - swift
+    - java
+    - exe
+TextLintBear:
+  subdir: general
+  filename: TextLintBear.py
+  requirements:
+    pip:
+      docutils-ast-writer:
+        version: ~=0.1.2
+    npm:
+      textlint:
+        version: ~7.3.0
+      textlint-plugin-asciidoc-loose:
+        version: ~1.0.1
+      textlint-plugin-html:
+        version: ~0.1.5
+      textlint-plugin-review:
+        version: ~0.3.3
+      textlint-plugin-rst:
+        version: ~0.1.1
+      textlint-rule-alex:
+        version: ~1.2.0
+      textlint-rule-common-misspellings:
+        version: ~1.0.1
+      textlint-rule-date-weekday-mismatch:
+        version: ~1.0.5
+      textlint-rule-ginger:
+        version: '>=2.1.0 <2.1.2'
+      textlint-rule-max-comma:
+        version: ~1.0.4
+      textlint-rule-max-number-of-lines:
+        version: ~1.0.3
+      textlint-rule-ng-word:
+        version: ~1.0.0
+      textlint-rule-no-dead-link:
+        version: ~3.1.1
+      textlint-rule-no-empty-section:
+        version: ~1.1.0
+      textlint-rule-no-start-duplicated-conjunction:
+        version: ~1.1.3
+      textlint-rule-no-todo:
+        version: ~2.0.0
+      textlint-rule-period-in-list-item:
+        version: ~0.2.0
+      textlint-rule-rousseau:
+        version: ~1.4.5
+      textlint-rule-unexpanded-acronym:
+        version: ~1.2.1
+      textlint-rule-write-good:
+        version: ~1.6.0
+    exe:
+      textlint:
+  languages:
+    - HTML
+    - Markdown
+    - reStructuredText
+  tags:
+    - general
+    - exe
+    - npm
+TravisLintBear:
+  subdir: yaml
+  filename: TravisLintBear.py
+  requirements:
+    gem:
+      travis:
+        version: ~>1.8.8
+    exe:
+      travis:
+  languages:
+    - YAML
+  tags:
+    - yaml
+    - gem
+    - exe
+URLBear:
+  subdir: general
+  filename: URLBear.py
+  requirements:
+    pip:
+      aenum:
+        version: ~=2.0.8
+  languages:
+  tags:
+    - general
+    - pip
+URLHeadBear:
+  subdir: general
+  filename: URLHeadBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+VCSCommitMetadataBear:
+  subdir: vcs
+  filename: VCSCommitMetadataBear.py
+  requirements:
+  languages:
+    - Git
+  tags:
+    - noreqs
+    - vcs
+VHDLLintBear:
+  subdir: vhdl
+  filename: VHDLLintBear.py
+  requirements:
+    distro:
+      perl:
+    exe:
+      perl:
+  languages:
+    - VHDL
+  tags:
+    - distro
+    - perl
+    - exe
+    - vhdl
+VerilogLintBear:
+  subdir: verilog
+  filename: VerilogLintBear.py
+  requirements:
+    distro:
+      verilator:
+    exe:
+      verilator:
+  languages:
+    - Verilog
+  tags:
+    - distro
+    - verilog
+    - exe
+VintBear:
+  subdir: vimscript
+  filename: VintBear.py
+  requirements:
+    pip:
+      vim-vint:
+        version: ~=0.3.12,!=0.3.19
+    exe:
+      vint:
+  languages:
+    - VimScript
+  tags:
+    - vimscript
+    - exe
+VultureBear:
+  subdir: python
+  filename: VultureBear.py
+  requirements:
+    pip:
+      vulture:
+        version: ~=0.25.0
+  languages:
+    - Python
+    - Python 3
+  tags:
+    - python
+    - pip
+WriteGoodLintBear:
+  subdir: natural_language
+  filename: WriteGoodLintBear.py
+  requirements:
+    npm:
+      write-good:
+        version: ~0.9.1
+    exe:
+      write-good:
+  languages:
+    - Natural Language
+  tags:
+    - natural-language
+    - exe
+    - npm
+XMLBear:
+  subdir: xml2
+  filename: XMLBear.py
+  requirements:
+    distro:
+      libxml2:
+    exe:
+      xmllint:
+  languages:
+    - XML
+  tags:
+    - distro
+    - exe
+    - xml2
+YAMLLintBear:
+  subdir: yaml
+  filename: YAMLLintBear.py
+  requirements:
+    pip:
+      yamllint:
+        version: ~=1.12.0
+    exe:
+      yamllint:
+  languages:
+    - YAML
+  tags:
+    - yaml
+    - exe
+YapfBear:
+  subdir: python
+  filename: YapfBear.py
+  requirements:
+    pip:
+      yapf:
+        version: ~=0.21.0
+  languages:
+    - Python
+    - Python 2
+    - Python 3
+  tags:
+    - python
+    - pip
+_CommitBear:
+  subdir: vcs
+  filename: CommitBear.py
+  requirements:
+    pip:
+      git-url-parse:
+        version: ~=1.1
+      nltk:
+        version: ~=3.2
+  languages:
+  tags:
+    - vcs
+    - pip
+coalaBear:
+  subdir: general
+  filename: coalaBear.py
+  requirements:
+  languages:
+  tags:
+    - noreqs
+    - general
+reSTLintBear:
+  subdir: rest
+  filename: reSTLintBear.py
+  requirements:
+    pip:
+      restructuredtext-lint:
+        version: ~=1.0
+  languages:
+    - reStructuredText
+  tags:
+    - rest
+    - pip
