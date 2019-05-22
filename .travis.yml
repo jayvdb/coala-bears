@@ -19,7 +19,6 @@ stages:
   - test-python
   - test-main-langs-primary-version
   - test-main-langs-other-versions
-  - haskell
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -171,10 +170,11 @@ jobs:
           sources:
             - avsm
           packages:
+            - camlp4-extra
             - ocaml
             - opam
 
-    - stage: test-distro-bears
+    - stage: haskell
       language: haskell
       ghc: 8.0.2
       dist: precise
@@ -195,8 +195,7 @@ jobs:
     # ghc: 7.8
     # language: haskell
     # ghc: 7.6
-    - stage: haskell
-      language: haskell
+    - language: haskell
       ghc: 8.0.2
     - language: haskell
       ghc: 8.4.1
