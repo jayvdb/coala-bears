@@ -13,8 +13,8 @@ sudo: false
   deploy: false
 
 stages:
-  - test-python
   - test-main-langs
+  - test-python
   - test-travis-other-langs
   - test-travis-generic-langs
   - moban
@@ -241,11 +241,15 @@ env:
     - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v$INFER_VERSION/infer/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
 
 before_install:
+  # ~/bin is uncached; ~/local/bin is cached
+  - mkdir -p ~/bin ~/local/bin
   - pyenv versions
+  - python --version || true
+  - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
   # Install latest stable version of Go using gimme
   # gimme 1.11.5 > setup_go_root.sh
   # source setup_go_root.sh
-  - nvm install 6.10.2
+  # nvm install 6.10.2
   # Remove Ruby directive from Gemfile as this image has 2.2.5
   - sed -i '/^ruby/d' Gemfile
   # .ci/deps.sh
