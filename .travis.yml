@@ -13,8 +13,8 @@ sudo: false
   deploy: false
 
 stages:
-  - test-travis-other-langs-primary-version
   - test-main-langs-other-versions
+  - test-travis-other-langs-primary-version
   - test-travis-generic-langs
   - test-main-langs-primary-version
   - test-python
