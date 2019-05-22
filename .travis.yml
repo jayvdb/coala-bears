@@ -15,6 +15,7 @@ sudo: false
 stages:
   - test-travis-other-langs-primary-version
   - test-travis-generic-langs
+  - test-travis-other-langs-other-versions
   - test-python
   - test-main-langs-primary-version
   - test-main-langs-other-versions
@@ -126,14 +127,22 @@ jobs:
 
     - stage: test-travis-other-langs-primary-version
 
-      language: java
+      language: haskell
+      ghc: "7.10"
+    - language: haskell
+      ghc: 7.8
+    - language: haskell
+      ghc: 7.6
+    - language: haskell
+      ghc: 8.0.2
+    - language: haskell
+      ghc: 8.4.1
+
+    - language: java
       jdk: oraclejdk8
 
     - language: php
     - language: perl
-
-    - language: haskell
-      ghc: 8.0.2
 
     - stage: test-travis-other-langs-other-versions
       language: java
@@ -276,7 +285,7 @@ before_install:
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
   - mkdir -p ~/bin ~/.local/bin
   - pyenv versions
-  - if [ "$TRAVIS_LANGUAGE" = "perl" ]; then pyenv install 3.6; fi
+  - if [ "$TRAVIS_LANGUAGE" = "perl" ]; then pyenv install 3.6.3; fi
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv global 3.6 2.7; hash -r; fi
   - python --version
   # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
