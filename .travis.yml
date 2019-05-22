@@ -22,6 +22,7 @@ stages:
 
 .check_moban: &check_moban
   <<: *disable_global
+  language: python
   python: 3.6
   stage: moban
   install: pip install moban
@@ -33,11 +34,13 @@ jobs:
     - stage: sentinel
       # All other jobs will be cancelled if the sentinel job fails
       <<: *disable_global
+      language: python
       python: 3.6
       install: pip install -r requirements.txt ".[alldeps]"
       script: coala --non-interactive -V
 
     - python: 2.7
+      language: python
       stage: unsupported
       env: PIP_NO_COMPILE=1
       addons: false
@@ -46,6 +49,7 @@ jobs:
       before_script: true
       script: .ci/check_unsupported.sh
     - python: 3.3
+      language: python
       stage: unsupported
       env: PIP_NO_COMPILE=1
       addons: false
@@ -54,6 +58,7 @@ jobs:
       before_script: true
       script: .ci/check_unsupported.sh
     - python: 3.6
+      language: python
       stage: moban
       addons: false
       cache: pip
