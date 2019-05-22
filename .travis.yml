@@ -127,7 +127,10 @@ jobs:
 
     - stage: test-travis-other-langs-primary-version
 
-      language: haskell
+      language: php
+    - language: perl
+
+    - language: haskell
       ghc: "7.10"
     - language: haskell
       ghc: 7.8
@@ -140,9 +143,6 @@ jobs:
 
     - language: java
       jdk: oraclejdk8
-
-    - language: php
-    - language: perl
 
     - stage: test-travis-other-langs-other-versions
       language: java
@@ -285,7 +285,10 @@ before_install:
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
   - mkdir -p ~/bin ~/.local/bin
   - pyenv versions
+  - export VERSION_ALIAS=3.6
+  - ls $(pyenv root)/plugins/
   - if [ "$TRAVIS_LANGUAGE" = "perl" ]; then pyenv install 3.6.3; fi
+  - if [ "$TRAVIS_LANGUAGE" = "haskell" ]; then pyenv install 3.6.3; fi
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv global 3.6 2.7; hash -r; fi
   - python --version
   # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
