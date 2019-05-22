@@ -13,12 +13,13 @@ sudo: false
   deploy: false
 
 stages:
-  - test-travis-other-langs-primary-version
   - test-travis-generic-langs
+  - test-travis-other-langs-primary-version
   # test-travis-other-langs-other-versions
   - test-python
   - test-main-langs-primary-version
   - test-main-langs-other-versions
+  - haskell
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -128,27 +129,25 @@ jobs:
     - stage: test-travis-other-langs-primary-version
 
       language: php
-    - language: perl
-
-    # language: haskell
-    # ghc: "7.10"
-    # language: haskell
-    # ghc: 7.8
-    # language: haskell
-    # ghc: 7.6
-    - language: haskell
-      ghc: 8.0.2
-    - language: haskell
-      ghc: 8.4.1
+      php: 7.2
 
     - language: java
       jdk: oraclejdk8
 
+    - language: perl
+
     # stage: test-travis-other-langs-other-versions
-    - language: java
-      jdk: openjdk7
-    - language: java
-      jdk: openjdk6
+
+    - language: php
+      php: 5.5
+    - language: php
+      php: hhvm-3.18
+
+    # Tailor depends on java 8
+    # language: java
+    # jdk: openjdk7
+    # language: java
+    # jdk: openjdk6
 
     # Travis community supported languages
     - language: dart
@@ -189,6 +188,19 @@ jobs:
             - ghc-8.0.2
             - happy-1.19.3
             - python3.4
+
+    # language: haskell
+    # ghc: "7.10"
+    # language: haskell
+    # ghc: 7.8
+    # language: haskell
+    # ghc: 7.6
+    - stage: haskell
+      language: haskell
+      ghc: 8.0.2
+    - language: haskell
+      ghc: 8.4.1
+
 
     - *check_moban
   allow_failures:
@@ -291,12 +303,12 @@ before_install:
   - mkdir -p ~/bin ~/.local/bin
   - pyenv versions
   - git clone https://github.com/s1341/pyenv-alias.git $(pyenv root)/plugins/pyenv-alias
-  - ls $(pyenv root)/plugins/
-  - if [ "$TRAVIS_LANGUAGE" = "perl" -o "$TRAVIS_LANGUAGE" = "haskell" ]; then
+  - if [ -z "$(pyenv versions | grep '3.6')" ]; then
       VERSION_ALIAS=3.6 pyenv install 3.6.3;
     fi
   # node-gpy needs py27
   - if [ "$TRAVIS_LANGUAGE" = "node_js" ]; then pyenv global 2.7; hash -r; fi
+  - pyenv versions
   - python --version
   # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
 
@@ -313,8 +325,8 @@ before_install:
     fi
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
-  - printf '%s\n%s\n%s\n%s\n%s\n%s\n'
-           "tox-travis" "tox-backticks" "tox-pyenv"
+  - printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n'
+           "tox-travis" "tox-backticks" "tox-pyenv" "tox-venv"
            "$(cat test-requirements.txt)"
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
