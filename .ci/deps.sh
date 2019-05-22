@@ -17,4 +17,4 @@ set -x
 
 .ci/deps.php.sh
 
-.ci/deps.python.sh
+.ci/deps.flawfinder.sh

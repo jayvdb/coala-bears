@@ -20,3 +20,5 @@ if [ ! -e ~/.local/tailor/tailor-latest ]; then
   # Provide a constant path for the executable
   ln -s ~/.local/tailor/tailor-* ~/.local/tailor/tailor-latest
 fi
+
+bash -e -x .ci/deps.coala-bears.sh

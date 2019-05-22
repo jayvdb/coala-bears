@@ -121,6 +121,23 @@ jobs:
             - happy-1.19.3
             - python3.4
 
+    - language: generic
+      env: BEARS=lua
+      addons:
+        apt:
+          packages:
+            - luarocks
+
+    - language: generic
+      env: BEARS=opam
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - ocaml
+            - opam
+
   allow_failures:
     - *check_moban
 
@@ -235,14 +252,13 @@ before_install:
 
 before_script:
   - mv requirements.orig requirements.txt
-  - .ci/deps.coala-bears.sh
 
 script:
-  - python setup.py bdist_wheel
-  - pip install $(ls ./dist/*.whl)"[alldeps]"
+  # python setup.py bdist_wheel
+  # pip install $(ls ./dist/*.whl)"[alldeps]"
   # Ensure bear requirements are in sync with the bear PipRequirement
-  - .ci/generate_bear_metadata.py --check --update
-  - coala --non-interactive
+  # .ci/generate_bear_metadata.py --check --update
+  # coala --non-interactive
   - tox
   - codecov
   - python setup.py docs
