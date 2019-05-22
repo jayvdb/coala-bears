@@ -15,7 +15,7 @@ sudo: false
 stages:
   - test-travis-other-langs-primary-version
   - test-travis-generic-langs
-  - test-travis-other-langs-other-versions
+  # test-travis-other-langs-other-versions
   - test-python
   - test-main-langs-primary-version
   - test-main-langs-other-versions
@@ -130,22 +130,22 @@ jobs:
       language: php
     - language: perl
 
-    - language: haskell
-      ghc: "7.10"
+    # language: haskell
+    # ghc: "7.10"
     # language: haskell
     # ghc: 7.8
-    - language: haskell
-      ghc: 7.6
+    # language: haskell
+    # ghc: 7.6
     - language: haskell
       ghc: 8.0.2
-    # language: haskell
-    # ghc: 8.4.1
+    - language: haskell
+      ghc: 8.4.1
 
     - language: java
       jdk: oraclejdk8
 
-    - stage: test-travis-other-langs-other-versions
-      language: java
+    # stage: test-travis-other-langs-other-versions
+    - language: java
       jdk: openjdk7
     - language: java
       jdk: openjdk6
@@ -175,7 +175,8 @@ jobs:
             - ocaml
             - opam
 
-    - language: haskell
+    - stage: test-distro-bears
+      language: haskell
       ghc: 8.0.2
       dist: precise
       addons:
@@ -294,7 +295,8 @@ before_install:
   - if [ "$TRAVIS_LANGUAGE" = "perl" -o "$TRAVIS_LANGUAGE" = "haskell" ]; then
       VERSION_ALIAS=3.6 pyenv install 3.6.3;
     fi
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv global 3.6 2.7; hash -r; fi
+  # node-gpy needs py27
+  - if [ "$TRAVIS_LANGUAGE" = "node_js" ]; then pyenv global 2.7; hash -r; fi
   - python --version
   # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
 
@@ -338,6 +340,7 @@ script:
   # Ensure bear requirements are in sync with the bear PipRequirement
   # .ci/generate_bear_metadata.py --check --update
   # coala --non-interactive
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv global 3.6; fi
   - python -m tox
   # codecov
   # python setup.py docs
