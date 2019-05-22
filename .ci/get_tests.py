@@ -58,7 +58,7 @@ def main():
 
     bears = get_bears(metadata, args)
     tests = get_tests(bears)
-    print(' '.join(tests))
+    print(' '.join(sorted(tests)))
 
 
 if __name__ == '__main__':

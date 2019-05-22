@@ -273,11 +273,6 @@ def get_bear_requirement_metadata(bear_requirement_sets, storage=None,
 def get_bear_tags(bear, metadata):
     tags = set()
 
-    if bear.name == 'InferBear':
-        # Special case, not a Java bear
-        tags.add('opam')
-        return tags
-
     impl_language = None
     requirements = metadata['requirements'] or {}
     for requirement_type, requirement_items in requirements.items():
@@ -304,6 +299,17 @@ def get_bear_tags(bear, metadata):
         tags.add('perl')
 
     if 'swift' in tags:
+        tags.add('java')
+
+    # Special cases
+    if bear.name == 'InferBear':
+        # Processes java, but not written in Java
+        if 'java' in tags:
+            tags.remove('java')
+        tags.add('opam')
+
+    elif bear.name == 'CPDBear':
+        # Has no requirements defined yet
         tags.add('java')
 
     return tags

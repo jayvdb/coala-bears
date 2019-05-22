@@ -10,7 +10,7 @@ def main():
         bear = bear[:bear.find('Test')] + '.py'
         bears.add(bear)
 
-    print('--cov=' + ' --cov='.join(bears))
+    print('--cov=' + ' --cov='.join(sorted(bears)))
 
 
 if __name__ == '__main__':

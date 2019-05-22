@@ -168,7 +168,7 @@ CPDBear:
     - Swift
   tags:
     - general
-    - noreqs
+    - java
 CPPCheckBear:
   name: CPPCheckBear
   subdir: c_languages
