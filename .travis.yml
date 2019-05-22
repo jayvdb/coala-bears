@@ -13,10 +13,13 @@ sudo: false
   deploy: false
 
 stages:
+  - test-python
+  - test-main-langs
+  - test-travis-other-langs
+  - test-travis-generic-langs
+  - moban
   - name: sentinel
     if: branch != master OR type = pull_request
-  - test
-  - moban
   - name: unsupported
     if: branch = master AND type = push
 
@@ -57,6 +60,7 @@ jobs:
       install: true
       before_script: true
       script: .ci/check_unsupported.sh
+
     - python: 3.6
       language: python
       stage: moban
@@ -69,10 +73,10 @@ jobs:
       after_success: false
       after_failure: false
       if: branch = master AND type = push
-    - *check_moban
 
-    - language: python
-      stage: test
+    - stage: test-python
+
+      language: python
       python: 3.4
       addons:
         apt:
@@ -83,7 +87,9 @@ jobs:
         apt:
           packages: clang-3.4
 
-    - language: node_js
+    - stage: test-main-langs
+
+      language: node_js
       node_js: 4
     - language: node_js
       node_js: 5
@@ -94,16 +100,15 @@ jobs:
     - language: go
       go: 1.7
 
-    - language: java
+    - stage: test-travis-other-langs
+
+      language: java
       jdk: oraclejdk8
     - language: java
       jdk: openjdk7
     - language: java
       jdk: openjdk6
 
-    - language: r
-    - language: dart
-    - language: julia
     - language: php
     - language: perl
 
@@ -121,7 +126,15 @@ jobs:
             - happy-1.19.3
             - python3.4
 
-    - language: generic
+    # Travis community supported languages
+    - language: dart
+    - language: julia
+    - language: r
+
+    # coala hacks for additional languages
+    - stage: test-travis-generic-langs
+
+      language: generic
       env: BEARS=lua
       addons:
         apt:
@@ -138,6 +151,7 @@ jobs:
             - ocaml
             - opam
 
+    - *check_moban
   allow_failures:
     - *check_moban
 
@@ -245,10 +259,14 @@ before_install:
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - printf '%s\n%s\n%s\n'
+           "tox-backticks"
            "$(cat test-requirements.txt)"
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
+  - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
+      pip3 install tox-backticks;
+    fi
 
 before_script:
   - mv requirements.orig requirements.txt
