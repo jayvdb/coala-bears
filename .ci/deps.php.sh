@@ -5,3 +5,6 @@ if [ ! -e ~/.local/bin/phpmd ]; then
   curl -fsSL -o  ~/.local/bin/phpmd "$PHPMD"
   chmod +x ~/.local/bin/phpmd
 fi
+
+pear install pear/PHP_CodeSniffer
+phpenv rehash
