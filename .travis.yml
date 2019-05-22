@@ -91,6 +91,36 @@ jobs:
     - language: ruby
       rvm: 2.2
 
+    - language: go
+      go: 1.7
+
+    - language: java
+      jdk: oraclejdk8
+    - language: java
+      jdk: openjdk7
+    - language: java
+      jdk: openjdk6
+
+    - language: r
+    - language: dart
+    - language: julia
+    - language: php
+    - language: perl
+
+    - language: haskell
+      ghc: 8.0.2
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - cabal-install-1.24
+            - ghc-8.0.2
+            - happy-1.19.3
+            - python3.4
+
   allow_failures:
     - *check_moban
 
@@ -192,7 +222,9 @@ before_install:
   # .ci/deps.r.sh
   # .ci/deps.opam.sh
   # .ci/deps.java.sh
-  - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh; fi
+  - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
+      bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
+    fi
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - printf '%s\n%s\n%s\n'
