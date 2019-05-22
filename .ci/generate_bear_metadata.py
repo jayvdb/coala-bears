@@ -312,6 +312,10 @@ def get_bear_tags(bear, metadata):
         # Has no requirements defined yet
         tags.add('java')
 
+    elif bear.name == 'LanguageToolBear':
+        # Has no requirements defined yet
+        tags.add('java')
+
     return tags
 
 

@@ -1093,6 +1093,7 @@ LanguageToolBear:
   tags:
     - natural-language
     - pip
+    - java
 LatexLintBear:
   name: LatexLintBear
   subdir: latex
