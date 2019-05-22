@@ -195,7 +195,7 @@ def _to_entry(requirement, default_operator):
     entry = {}
 
     if isinstance(requirement, DistributionRequirement):
-        entry['packages'] = requirement.packages
+        entry['packages'] = dict(sorted(requirement.packages.items()))
 
     if not requirement.version:
         requirement_type = requirement.__class__.__name__
@@ -284,16 +284,17 @@ def get_bear_tags(bear, metadata):
         if requirement_type == 'distro':
             for name, settings in requirement_items.items():
                 tags.add(name)
-                tags.update(settings['packages'].keys())
+                tags.update(settings['packages'])
         elif 'default-jre' in requirement_items:
             tags.add('java')
 
         tags.add(requirement_type)
 
     # Extra pip dependencies does not make the bear a pip bear
-    # Algorithm needs a rethink
-    #if len(tags) > 1 and 'pip' in tags:
-    #    tags.remove('pip')
+    # Allow for 'exe' dependency
+    if 'pip' in tags and tags not in (set(['pip']), set(['pip', 'exe'])):
+        tags.remove('pip')
+
     if not requirements:
         tags.add('noreqs')
 

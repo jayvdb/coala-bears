@@ -231,25 +231,25 @@ distro_requirements:
       dnf: astyle
   chktex:
     packages:
-      zypper: texlive-chktex
-      pacman: chktex
-      portage: chktex
-      brew: chktex
       apt_get: chktex
-      pkg: chktex
-      yum: chktex
+      brew: chktex
       dnf: chktex
+      pacman: chktex
+      pkg: chktex
+      portage: chktex
       xbps: chktex
+      yum: chktex
+      zypper: texlive-chktex
   cppcheck:
     packages:
-      brew: cppcheck
       apt_get: cppcheck
-      pkg: cppcheck
-      yum: cppcheck
+      brew: cppcheck
       dnf: cppcheck
-      xbps: cppcheck
       pacman: cppcheck
+      pkg: cppcheck
       portage: cppcheck
+      xbps: cppcheck
+      yum: cppcheck
       zypper: cppcheck
   dart:
     packages:
@@ -265,40 +265,40 @@ distro_requirements:
       zypper: devscripts
   flawfinder:
     packages:
-      portage: flawfinder
-      zypper: flawfinder
-      yum: flawfinder
-      brew: flawfinder
-      pkg: flawfinder
       apt_get: flawfinder
+      brew: flawfinder
       dnf: flawfinder
       pacman: flawfinder
+      pkg: flawfinder
+      portage: flawfinder
       xbps: flawfinder
+      yum: flawfinder
+      zypper: flawfinder
   ghc-mod:
     packages:
-      pacman: ghc-mod
-      portage: ghc-mod
-      zypper: ghc-mod
-      pkg: ghc-mod
-      yum: ghc-mod
+      apt_get: ghc-mod
       brew: ghc-mod
       dnf: ghc-mod
+      pacman: ghc-mod
+      pkg: ghc-mod
+      portage: ghc-mod
       xbps: ghc-mod
-      apt_get: ghc-mod
+      yum: ghc-mod
+      zypper: ghc-mod
   hlint:
     packages:
       apt_get: hlint
   indent:
     packages:
       apt_get: indent
-      pkg: indent
-      xbps: indent
-      dnf: indent
-      yum: indent
       brew: indent
-      zypper: indent
+      dnf: indent
       pacman: indent
+      pkg: indent
       portage: indent
+      xbps: indent
+      yum: indent
+      zypper: indent
   libperl-critic-perl:
     packages:
       apt_get: libperl-critic-perl
@@ -311,34 +311,34 @@ distro_requirements:
   libxml2:
     packages:
       apt_get: libxml2-utils
-      portage: dev-libs/libxml2
-      dnf: libxml2
-      xbps: libxml2
-      pkg: libxml2
-      pacman: libxml2
-      zypper: libxml2
-      yum: libxml2
       brew: libxml2
+      dnf: libxml2
+      pacman: libxml2
+      pkg: libxml2
+      portage: dev-libs/libxml2
+      xbps: libxml2
+      yum: libxml2
+      zypper: libxml2
   mono:
     packages:
       apt_get: mono-mcs
+      brew: mono
+      dnf: mono
+      pacman: mono
+      pkg: mono
       portage: dev-lang/mono
       xbps: mono
-      dnf: mono
-      pkg: mono
-      pacman: mono
-      zypper: mono
-      brew: mono
       yum: mono
+      zypper: mono
   perl:
     packages:
-      xbps: perl
-      pacman: perl
-      dnf: perl
-      portage: perl
-      pkg: perl
       apt_get: perl
       brew: perl
+      dnf: perl
+      pacman: perl
+      pkg: perl
+      portage: perl
+      xbps: perl
       yum: perl
       zypper: perl
   php-cli:
@@ -354,25 +354,25 @@ distro_requirements:
       dnf: php-phpmd-PHP-PMD
   ruby:
     packages:
-      zypper: ruby
-      brew: ruby
-      yum: ruby
       apt_get: ruby
-      pkg: ruby
-      xbps: ruby
-      portage: ruby
+      brew: ruby
       dnf: ruby
       pacman: ruby
+      pkg: ruby
+      portage: ruby
+      xbps: ruby
+      yum: ruby
+      zypper: ruby
   shellcheck:
     packages:
-      brew: shellcheck
       apt_get: shellcheck
-      pkg: shellcheck
-      yum: shellcheck
+      brew: shellcheck
       dnf: shellcheck
-      xbps: shellcheck
       pacman: shellcheck
+      pkg: shellcheck
       portage: shellcheck
+      xbps: shellcheck
+      yum: shellcheck
       zypper: shellcheck
   verilator:
     packages:
