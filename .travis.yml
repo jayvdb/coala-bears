@@ -106,10 +106,13 @@ jobs:
 
     - language: go
       go: 1.11
+      install: true
     - language: go
       go: '1.10'
+      install: true
     - language: go
       go: 1.9
+      install: true
 
     - stage: test-main-langs-other-versions
 
@@ -257,6 +260,7 @@ env:
     - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v$INFER_VERSION/infer/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
 
 before_install:
+  - printenv
   - python --version
   # ~/bin is uncached; ~/local/bin is cached; we dont want python or pip in latter
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
