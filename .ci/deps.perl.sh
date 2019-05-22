@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -e -x
+
 # VHDL Bakalint Installation
 if [ ! -e ~/.local/bin/bakalint.pl ]; then
   BAKALINT_VERSION=0.4.0

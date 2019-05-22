@@ -98,7 +98,7 @@ jobs:
       rvm: 2.2
 
     - language: go
-      go: 1.7
+      go: 1.11
 
     - stage: test-travis-other-langs
 
@@ -244,8 +244,10 @@ before_install:
   # ~/bin is uncached; ~/local/bin is cached
   - mkdir -p ~/bin ~/local/bin
   - pyenv versions
+  - pyenv local 3.6
   - python --version || true
-  - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
+  # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
+
   # Install latest stable version of Go using gimme
   # gimme 1.11.5 > setup_go_root.sh
   # source setup_go_root.sh
@@ -270,7 +272,7 @@ before_install:
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
   - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
-      pip3 install --user tox-travis tox-backticks;
+      pip install --user tox-travis tox-backticks;
     fi
 
 before_script:
@@ -283,8 +285,8 @@ script:
   # .ci/generate_bear_metadata.py --check --update
   # coala --non-interactive
   - tox
-  - codecov
-  - python setup.py docs
+  # codecov
+  # python setup.py docs
 
 notifications:
   email: false
