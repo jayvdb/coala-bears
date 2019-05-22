@@ -31,15 +31,16 @@ ApertiumLintBear:
     exe:
       apertium_lint:
     pip:
-      lxml:
-        version: ==3.6.0
       apertium-lint:
         version: ~=0.29
+      lxml:
+        version: ==3.6.0
   languages:
     - Apertium
   tags:
     - apertium
     - exe
+    - pip
 ArtisticStyleBear:
   name: ArtisticStyleBear
   subdir: c_languages
@@ -81,6 +82,7 @@ BanditBear:
     - Python 3
   tags:
     - exe
+    - pip
     - python
 BashateBear:
   name: BashateBear
@@ -96,6 +98,7 @@ BashateBear:
     - bash
   tags:
     - exe
+    - pip
     - shell
 BootLintBear:
   name: BootLintBear
@@ -138,6 +141,7 @@ CMakeLintBear:
   tags:
     - cmake
     - exe
+    - pip
 CPDBear:
   name: CPDBear
   subdir: general
@@ -173,15 +177,15 @@ CPPCheckBear:
     distro:
       cppcheck:
         packages:
-          pacman: cppcheck
           brew: cppcheck
+          apt_get: cppcheck
           pkg: cppcheck
-          zypper: cppcheck
           yum: cppcheck
           dnf: cppcheck
           xbps: cppcheck
-          apt_get: cppcheck
+          pacman: cppcheck
           portage: cppcheck
+          zypper: cppcheck
     exe:
       cppcheck:
   languages:
@@ -216,6 +220,7 @@ CPPCleanBear:
   tags:
     - c-languages
     - exe
+    - pip
 CPPLintBear:
   name: CPPLintBear
   subdir: c_languages
@@ -231,6 +236,7 @@ CPPLintBear:
   tags:
     - c-languages
     - exe
+    - pip
 CSSAutoPrefixBear:
   name: CSSAutoPrefixBear
   subdir: css
@@ -239,10 +245,10 @@ CSSAutoPrefixBear:
     exe:
       postcss:
     npm:
-      autoprefixer:
-        version: ~7.2.0
       postcss-cli:
         version: ~2
+      autoprefixer:
+        version: ~7.2.0
   languages:
     - CSS
   tags:
@@ -305,15 +311,15 @@ CSecurityBear:
     distro:
       flawfinder:
         packages:
-          dnf: flawfinder
-          xbps: flawfinder
-          apt_get: flawfinder
-          pacman: flawfinder
           portage: flawfinder
-          pkg: flawfinder
           zypper: flawfinder
-          brew: flawfinder
           yum: flawfinder
+          brew: flawfinder
+          pkg: flawfinder
+          apt_get: flawfinder
+          dnf: flawfinder
+          pacman: flawfinder
+          xbps: flawfinder
     exe:
       flawfinder:
   languages:
@@ -343,13 +349,13 @@ CSharpLintBear:
         packages:
           apt_get: mono-mcs
           portage: dev-lang/mono
-          zypper: mono
-          brew: mono
-          pkg: mono
-          yum: mono
           xbps: mono
           dnf: mono
+          pkg: mono
           pacman: mono
+          zypper: mono
+          brew: mono
+          yum: mono
     exe:
       mcs:
   languages:
@@ -437,6 +443,7 @@ DennisBear:
   tags:
     - exe
     - gettext
+    - pip
 DocGrammarBear:
   name: DocGrammarBear
   subdir: documentation
@@ -515,8 +522,6 @@ ESLintBear:
     exe:
       eslint:
     npm:
-      eslint-plugin-import:
-        version: ~2
       typescript-eslint-parser:
         version: ~12.0.0
       eslint-plugin-typescript:
@@ -529,6 +534,8 @@ ESLintBear:
         version: ~3
       babel-eslint:
         version: ~8.0
+      eslint-plugin-import:
+        version: ~2
   languages:
     - HTML
     - JSX
@@ -572,15 +579,15 @@ GNUIndentBear:
     distro:
       indent:
         packages:
-          brew: indent
-          zypper: indent
+          apt_get: indent
           pkg: indent
-          yum: indent
           xbps: indent
           dnf: indent
-          portage: indent
-          apt_get: indent
+          yum: indent
+          brew: indent
+          zypper: indent
           pacman: indent
+          portage: indent
     exe:
       indent:
   languages:
@@ -611,15 +618,15 @@ GhcModBear:
     distro:
       ghc-mod:
         packages:
-          xbps: ghc-mod
-          dnf: ghc-mod
           pacman: ghc-mod
           portage: ghc-mod
-          apt_get: ghc-mod
           zypper: ghc-mod
-          brew: ghc-mod
           pkg: ghc-mod
           yum: ghc-mod
+          brew: ghc-mod
+          dnf: ghc-mod
+          xbps: ghc-mod
+          apt_get: ghc-mod
     exe:
       ghc-mod:
   languages:
@@ -857,6 +864,7 @@ HTMLLintBear:
   tags:
     - exe
     - hypertext
+    - pip
 HTTPSBear:
   name: HTTPSBear
   subdir: general
@@ -881,6 +889,7 @@ HTTPoliceLintBear:
   tags:
     - exe
     - hypertext
+    - pip
 HappinessLintBear:
   name: HappinessLintBear
   subdir: js
@@ -1092,14 +1101,14 @@ LatexLintBear:
       chktex:
         packages:
           zypper: texlive-chktex
-          pkg: chktex
-          brew: chktex
           pacman: chktex
-          apt_get: chktex
           portage: chktex
+          brew: chktex
+          apt_get: chktex
+          pkg: chktex
+          yum: chktex
           dnf: chktex
           xbps: chktex
-          yum: chktex
     exe:
       chktex:
   languages:
@@ -1252,6 +1261,7 @@ MypyBear:
     - Python 3
   tags:
     - exe
+    - pip
     - python
 PEP8Bear:
   name: PEP8Bear
@@ -1274,10 +1284,10 @@ PEP8NotebookBear:
   filename: PEP8NotebookBear.py
   requirements:
     pip:
-      nbformat:
-        version: ~=4.1
       autopep8:
         version: ~=1.2
+      nbformat:
+        version: ~=4.1
   languages:
     - Python
     - Python 2
@@ -1438,6 +1448,7 @@ ProseLintBear:
   tags:
     - exe
     - natural-language
+    - pip
 PugLintBear:
   name: PugLintBear
   subdir: pug
@@ -1501,6 +1512,7 @@ PyDocStyleBear:
     - Python 3
   tags:
     - exe
+    - pip
     - python
 PyFlakesBear:
   name: PyFlakesBear
@@ -1517,6 +1529,7 @@ PyFlakesBear:
     - Python 3
   tags:
     - exe
+    - pip
     - python
 PyImportSortBear:
   name: PyImportSortBear
@@ -1549,6 +1562,7 @@ PyLintBear:
     - Python 3
   tags:
     - exe
+    - pip
     - python
 PySafetyBear:
   name: PySafetyBear
@@ -1608,6 +1622,7 @@ PycodestyleBear:
     - Python 3
   tags:
     - exe
+    - pip
     - python
 PyromaBear:
   name: PyromaBear
@@ -1674,6 +1689,7 @@ RSTcheckBear:
     - reStructuredText
   tags:
     - exe
+    - pip
     - rest
 RadonBear:
   name: RadonBear
@@ -1708,6 +1724,7 @@ RuboCopBear:
   tags:
     - exe
     - gem
+    - pip
     - ruby
 RubyFastererBear:
   name: RubyFastererBear
@@ -1768,15 +1785,15 @@ RubySyntaxBear:
     distro:
       ruby:
         packages:
-          dnf: ruby
-          xbps: ruby
-          yum: ruby
-          pkg: ruby
           zypper: ruby
           brew: ruby
-          pacman: ruby
+          yum: ruby
           apt_get: ruby
+          pkg: ruby
+          xbps: ruby
           portage: ruby
+          dnf: ruby
+          pacman: ruby
     exe:
       ruby:
   languages:
@@ -1830,6 +1847,7 @@ SCSSLintBear:
   tags:
     - exe
     - gem
+    - pip
     - scss
 SQLFormatBear:
   name: SQLFormatBear
@@ -1890,14 +1908,14 @@ ShellCheckBear:
     distro:
       shellcheck:
         packages:
-          portage: shellcheck
-          pacman: shellcheck
-          xbps: shellcheck
-          dnf: shellcheck
-          pkg: shellcheck
-          apt_get: shellcheck
-          yum: shellcheck
           brew: shellcheck
+          apt_get: shellcheck
+          pkg: shellcheck
+          yum: shellcheck
+          dnf: shellcheck
+          xbps: shellcheck
+          pacman: shellcheck
+          portage: shellcheck
           zypper: shellcheck
     exe:
       shellcheck:
@@ -1945,6 +1963,7 @@ SpellCheckBear:
   tags:
     - exe
     - natural-language
+    - pip
 StyleLintBear:
   name: StyleLintBear
   subdir: css
@@ -2032,8 +2051,6 @@ TextLintBear:
     exe:
       textlint:
     npm:
-      textlint-plugin-html:
-        version: ~0.1.5
       textlint-plugin-review:
         version: ~0.3.3
       textlint-plugin-rst:
@@ -2072,6 +2089,8 @@ TextLintBear:
         version: ~7.3.0
       textlint-plugin-asciidoc-loose:
         version: ~1.0.1
+      textlint-plugin-html:
+        version: ~0.1.5
     pip:
       docutils-ast-writer:
         version: ~=0.1.2
@@ -2083,6 +2102,7 @@ TextLintBear:
     - exe
     - general
     - npm
+    - pip
 TravisLintBear:
   name: TravisLintBear
   subdir: yaml
@@ -2138,15 +2158,15 @@ VHDLLintBear:
     distro:
       perl:
         packages:
-          dnf: perl
           xbps: perl
-          apt_get: perl
           pacman: perl
+          dnf: perl
           portage: perl
           pkg: perl
-          zypper: perl
+          apt_get: perl
           brew: perl
           yum: perl
+          zypper: perl
     exe:
       perl:
   languages:
@@ -2208,6 +2228,7 @@ VintBear:
     - VimScript
   tags:
     - exe
+    - pip
     - vimscript
 VultureBear:
   name: VultureBear
@@ -2249,13 +2270,13 @@ XMLBear:
         packages:
           apt_get: libxml2-utils
           portage: dev-libs/libxml2
+          dnf: libxml2
+          xbps: libxml2
+          pkg: libxml2
+          pacman: libxml2
+          zypper: libxml2
           yum: libxml2
           brew: libxml2
-          zypper: libxml2
-          pacman: libxml2
-          xbps: libxml2
-          dnf: libxml2
-          pkg: libxml2
     exe:
       xmllint:
   languages:
@@ -2288,6 +2309,7 @@ YAMLLintBear:
     - YAML
   tags:
     - exe
+    - pip
     - yaml
 YapfBear:
   name: YapfBear
@@ -2310,10 +2332,10 @@ _CommitBear:
   filename: CommitBear.py
   requirements:
     pip:
-      git-url-parse:
-        version: ~=1.1
       nltk:
         version: ~=3.2
+      git-url-parse:
+        version: ~=1.1
   languages:
   tags:
     - pip

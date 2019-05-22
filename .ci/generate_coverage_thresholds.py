@@ -2,11 +2,13 @@
 import json
 import sys
 
+
 def main():
     args = sys.argv[1:]
     thresholds = {}
     for test in args:
-        bear = test.replace('tests/', 'bears/').replace('Test.py', '.py').replace('*', '.*')
+        bear = test.replace('tests/', 'bears/')
+        bear = bear.replace('Test.py', '.py').replace('*', '.*')
         thresholds[bear] = 100
 
     with open('.threshold.json', 'w') as f:

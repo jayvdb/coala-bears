@@ -62,46 +62,6 @@ CSharpLintBear:
   - C#
 CheckstyleBear:
   - Java
-ClangASTPrintBear:
-  - C
-  - CPP
-  - CUDA
-  - Objective-C
-  - Objective-CPP
-  - OpenCL
-  - OpenMP
-ClangBear:
-  - C
-  - CPP
-  - CUDA
-  - Objective-C
-  - Objective-CPP
-  - OpenCL
-  - OpenMP
-ClangCloneDetectionBear:
-  - C
-  - CPP
-  - CUDA
-  - Objective-C
-  - Objective-CPP
-  - OpenCL
-  - OpenMP
-ClangComplexityBear:
-  - C
-  - CPP
-  - CUDA
-  - Objective-C
-  - Objective-CPP
-  - OpenCL
-  - OpenMP
-ClangFunctionDifferenceBear:
-  - C
-  - CPP
-  - CUDA
-  - Objective-C
-  - Objective-CPP
-  - OpenCL
-  - OpenMP
 CoffeeLintBear:
   - CoffeeScript
 DartLintBear:
@@ -147,8 +107,6 @@ ESLintBear:
 ElmLintBear:
   - Elm
 FilenameBear:
-FormatRBear:
-  - R
 GNUIndentBear:
   - C
   - CPP
@@ -159,6 +117,8 @@ GherkinLintBear:
 GitCommitBear:
   - Git
 GitCommitMetadataBear:
+  - Git
+GitIgnoreBear:
   - Git
 GitLinearCommitBear:
   - Git
@@ -319,8 +279,6 @@ PythonPackageInitBear:
 QuotesBear:
 RAMLLintBear:
   - RAML
-RLintBear:
-  - R
 RSTcheckBear:
   - reStructuredText
 RadonBear:

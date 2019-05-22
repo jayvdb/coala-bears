@@ -253,16 +253,18 @@ def get_bear_requirement_metadata(bear_requirement_sets, storage=None,
     instance_dict = bear_requirement_sets
 
     for requirement_type, settings in REQUIREMENT_TYPES.items():
-        requirements = _get_requirements(bear_requirement_sets[requirement_type],
-                                         settings['version_operator'],
-                                         settings.get('exclude', []))
+        requirements = _get_requirements(
+            bear_requirement_sets[requirement_type],
+            settings['version_operator'],
+            settings.get('exclude', [])
+        )
         if not requirements:
             continue
 
         label = settings['prefix']
         if old_labels:
             label += '_requirements'
-        
+
         storage[label] = requirements
 
     return storage
@@ -289,9 +291,10 @@ def get_bear_tags(bear, metadata):
         tags.add(requirement_type)
 
     # Extra pip dependencies does not make the bear a pip bear
-    if len(tags) > 1 and 'pip' in tags:
-        tags.remove('pip')
-    elif not requirements:
+    # Algorithm needs a rethink
+    #if len(tags) > 1 and 'pip' in tags:
+    #    tags.remove('pip')
+    if not requirements:
         tags.add('noreqs')
 
     tags.add(metadata['subdir'].replace('_', '-').replace('/', '-'))
@@ -314,7 +317,8 @@ def get_metadata(bears, bear_requirements, bear_languages):
         requirements = bear_requirements[name]
         requirement_metadata = get_bear_requirement_metadata(requirements)
         if requirement_metadata:
-            requirement_metadata = _create_sorted_commented_map(requirement_metadata)
+            requirement_metadata = _create_sorted_commented_map(
+                requirement_metadata)
         else:
             requirement_metadata = None
         directory, filename = os.path.split(bear.source_location)

@@ -9,52 +9,21 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
+
 def get_metadata():
     with open('bear-metadata.yaml') as f:
         metadata = yaml.load(f, Loader=yaml.BaseLoader)
 
     return metadata
 
-def jque_contains(x, y):
-    return y in x
-
-
-def _check_record(qr, record):
-    include = True
-    for key, qual in qr.items():
-        if isinstance(qual, dict):
-            for op, val in qual.items():
-                if isinstance(op, types.FunctionType):
-                    if not op(record[key], val):
-                        return False
-                elif op not in jque_orig._OPERATORS:
-                    raise ValueError(
-                        "'{}' is not a valid operator.".format(op)
-                    )
-                elif not jque_orig._OPERATORS[op](record[key], val):
-                    return False
-        elif isinstance(qual, types.FunctionType):
-            if not qual(record[key]):
-                return False
-        else:
-            if record[key] != qual:
-                return False
-    return include
-
-import jque as jque_orig
-jque_orig._check_record = _check_record
-
-from jque import jque
-
 
 def get_bears(metadata, args):
     bears = []
-    metadata = [item for item in metadata.values()]
-    obj = jque(metadata)
     for arg in args:
-        matches = obj.query({'tags': {jque_contains: arg}})
-        for bear in matches:
-            bears.append(bear)
+        matches = []
+        for bear in metadata.values():
+            if arg in bear['tags']:
+                bears.append(bear)
 
     return bears
 
@@ -79,6 +48,7 @@ def get_tests(bears):
             tests.append(filename)
 
     return tests
+
 
 def main():
     args = sys.argv[1:]
