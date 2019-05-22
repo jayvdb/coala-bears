@@ -26,6 +26,6 @@ requests-mock~=1.2
 ipdb~=0.11
 pip<10
 wheel~=0.29
-ruamel.yaml~=0.15.42
+ruamel.yaml>=0.15.42,<=0.15.94
 pytest-pythonpath~=0.7.0
 twine~=1.7.4

@@ -134,14 +134,14 @@ jobs:
     # coala hacks for additional languages
     - stage: test-travis-generic-langs
 
-      language: generic
+      language: minimal
       env: BEARS=lua
       addons:
         apt:
           packages:
             - luarocks
 
-    - language: generic
+    - language: minimal
       env: BEARS=opam
       addons:
         apt:
