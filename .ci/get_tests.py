@@ -22,7 +22,8 @@ def get_bears(metadata, args):
     for arg in args:
         matches = []
         for bear in metadata.values():
-            if arg in bear['tags']:
+            tags = bear['tags']
+            if arg in tags and 'disabled' not in tags:
                 bears.append(bear)
 
     return bears

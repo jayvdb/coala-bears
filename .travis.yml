@@ -95,29 +95,29 @@ jobs:
 
     - language: ruby
       rvm: 2.4
-    - language: ruby
-      rvm: 2.3
-    - language: ruby
-      rvm: 2.2
-    - language: ruby
-      rvm: 2.1
-    - language: ruby
-      rvm: 2.0
 
     - language: go
       go: 1.11
-      install: true
-    - language: go
-      go: '1.10'
-      install: true
-    - language: go
-      go: 1.9
       install: true
 
     - stage: test-main-langs-other-versions
 
       language: node_js
       node_js: 4
+
+    - language: ruby
+      rvm: 2.3
+    - language: ruby
+      rvm: 2.2
+    - language: ruby
+      rvm: 2.1
+
+    - language: go
+      go: '1.10'
+      install: true
+    - language: go
+      go: 1.9
+      install: true
 
     - stage: test-travis-other-langs
 
@@ -306,12 +306,13 @@ before_script:
   - mv requirements.orig requirements.txt
 
 script:
-  - bundle info puppet-lint || true
-  - which puppet-lint || true
-  - head "$(which puppet-lint)" || true
-  - gem update --system || true
-  - gem install bundler -v 1.16.1 || true
-  - puppet-lint --version || true
+  # bundle info puppet-lint || true
+  # which puppet-lint || true
+  # head "$(which puppet-lint)" || true
+  # gem update --system || true
+  # gem install bundler -v 1.16.1 || true
+  # puppet-lint --version || true
+
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # Ensure bear requirements are in sync with the bear PipRequirement

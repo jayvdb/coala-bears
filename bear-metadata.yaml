@@ -771,6 +771,7 @@ GoReturnsBear:
   languages:
     - Go
   tags:
+    - disabled
     - exe
     - go
 GoTypeBear:
