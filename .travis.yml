@@ -90,17 +90,27 @@ jobs:
     - stage: test-main-langs
 
       language: node_js
-      node_js: 4
-    - language: node_js
       node_js: 5
+    - language: node_js
+      node_js: 4
 
     - language: ruby
+      rvm: 2.4
+    - language: ruby
+      rvm: 2.3
+    - language: ruby
       rvm: 2.2
+    - language: ruby
+      rvm: 2.1
+    - language: ruby
+      rvm: 2.0
 
+    - language: go
+      go: 1.11
     - language: go
       go: '1.10'
     - language: go
-      go: 1.11
+      go: 1.9
 
     - stage: test-travis-other-langs
 
@@ -243,12 +253,13 @@ env:
     - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v$INFER_VERSION/infer/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
 
 before_install:
+  - python --version
   # ~/bin is uncached; ~/local/bin is cached; we dont want python or pip in latter
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
   - mkdir -p ~/bin ~/local/bin
   - pyenv versions
   - if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then pyenv global 3.6; hash -r; fi
-  - python --version || true
+  - python --version
   # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
 
   # Install latest stable version of Go using gimme
@@ -266,6 +277,10 @@ before_install:
   - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
       bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
     fi
+  # Used by go, to do nothing
+  - if [ -f .ci/$TRAVIS_LANGUAGE.GNUMakefile ]; then
+      cp .ci/$TRAVIS_LANGUAGE.GNUMakefile ./GNUMakefile;
+    fi
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - printf '%s\n%s\n%s\n%s\n%s\n%s\n'
@@ -282,6 +297,7 @@ before_script:
   - mv requirements.orig requirements.txt
 
 script:
+  - bundle info puppet-lint || true
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # Ensure bear requirements are in sync with the bear PipRequirement
