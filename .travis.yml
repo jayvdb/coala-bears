@@ -331,9 +331,6 @@ before_install:
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
-  - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
-      python -m pip install --user tox-travis tox-backticks;
-    fi
   - ls -al requirements.txt GNUMakefile || true
 
 before_script:
@@ -353,6 +350,9 @@ script:
   # .ci/generate_bear_metadata.py --check --update
   # coala --non-interactive
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv global 3.6; fi
+  - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
+      python -m pip install --user tox-travis tox-backticks tox-pyenv tox-venv;
+    fi
   - python -m tox
   # codecov
   # python setup.py docs
