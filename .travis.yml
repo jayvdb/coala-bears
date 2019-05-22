@@ -136,17 +136,6 @@ jobs:
 
     - language: haskell
       ghc: 8.0.2
-      dist: precise
-      addons:
-        apt:
-          sources:
-            - deadsnakes
-            - hvr-ghc
-          packages:
-            - cabal-install-1.24
-            - ghc-8.0.2
-            - happy-1.19.3
-            - python3.4
 
     - stage: test-travis-other-langs-other-versions
       language: java
@@ -178,6 +167,20 @@ jobs:
           packages:
             - ocaml
             - opam
+
+    - language: haskell
+      ghc: 8.0.2
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            - cabal-install-1.24
+            - ghc-8.0.2
+            - happy-1.19.3
+            - python3.4
 
     - *check_moban
   allow_failures:

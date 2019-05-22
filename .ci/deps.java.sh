@@ -21,4 +21,4 @@ if [ ! -e ~/.local/tailor/tailor-latest ]; then
   ln -s ~/.local/tailor/tailor-* ~/.local/tailor/tailor-latest
 fi
 
-bash -e -x .ci/deps.coala-bears.sh
+#bash -e -x .ci/deps.coala-bears.sh
