@@ -308,7 +308,7 @@ before_script:
 script:
   - bundle info puppet-lint || true
   - which puppet-lint || true
-  - head $(which puppet-lint) || true
+  - head "$(which puppet-lint)" || true
   - gem update --system || true
   - gem install bundler -v 1.16.1 || true
   - puppet-lint --version || true
