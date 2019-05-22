@@ -103,7 +103,17 @@ jobs:
     - stage: test-main-langs-other-versions
 
       language: node_js
-      node_js: 4
+      node_js: 11
+    - language: node_js
+      node_js: 10
+    - language: node_js
+      node_js: 9
+    - language: node_js
+      node_js: 8
+    - language: node_js
+      node_js: 7
+    - language: node_js
+      node_js: 6
 
     - language: ruby
       rvm: 2.3
@@ -114,9 +124,6 @@ jobs:
 
     - language: go
       go: '1.10'
-      install: true
-    - language: go
-      go: 1.9
       install: true
 
     - stage: test-travis-other-langs
