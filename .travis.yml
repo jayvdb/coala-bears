@@ -13,11 +13,11 @@ sudo: false
   deploy: false
 
 stages:
-  - test-main-langs-other-versions
   - test-travis-other-langs-primary-version
   - test-travis-generic-langs
-  - test-main-langs-primary-version
   - test-python
+  - test-main-langs-primary-version
+  - test-main-langs-other-versions
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -103,8 +103,6 @@ jobs:
     - stage: test-main-langs-other-versions
 
       language: node_js
-      node_js: 11
-    - language: node_js
       node_js: 10
     - language: node_js
       node_js: 9
