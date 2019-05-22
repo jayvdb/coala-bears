@@ -2026,6 +2026,7 @@ TSLintBear:
   languages:
     - TypeScript
   tags:
+    - disabled
     - exe
     - npm
     - typescript
@@ -2098,6 +2099,7 @@ TextLintBear:
     - Markdown
     - reStructuredText
   tags:
+    - disabled
     - exe
     - general
     - npm
@@ -2255,6 +2257,7 @@ WriteGoodLintBear:
   languages:
     - Natural Language
   tags:
+    - disabled
     - exe
     - natural-language
     - npm
