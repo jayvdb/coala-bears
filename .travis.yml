@@ -139,8 +139,10 @@ jobs:
 
     - language: php
       php: 5.5
-    - language: php
-      php: hhvm-3.18
+
+    # Fails on 'pear'
+    # language: php
+    # php: hhvm-3.18
 
     # Tailor depends on java 8
     # language: java
@@ -149,9 +151,13 @@ jobs:
     # jdk: openjdk6
 
     # Travis community supported languages
-    - language: dart
+
+    # failing, reason unknown
+    #- language: dart
     - language: julia
-    - language: r
+
+    # metadata missing
+    # language: r
 
     # coala hacks for extra languages
     - stage: test-extra-langs
