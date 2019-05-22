@@ -29,6 +29,9 @@ from coalib.collecting.Collectors import collect_bears
 from dependency_management.requirements.AnyOneOfRequirements import (
     AnyOneOfRequirements,
 )
+from dependency_management.requirements.DistributionRequirement import (
+    DistributionRequirement,
+)
 from dependency_management.requirements.ExecutableRequirement import (
     ExecutableRequirement,
 )
@@ -191,11 +194,14 @@ def get_all_requirements(bears):
 def _to_entry(requirement, default_operator):
     entry = {}
 
+    if isinstance(requirement, DistributionRequirement):
+        entry['packages'] = requirement.packages
+
     if not requirement.version:
         requirement_type = requirement.__class__.__name__
         settings = REQUIREMENT_TYPES[requirement_type]
         if settings.get('allow_missing_version', False) is True:
-            return None
+            return entry or None
         else:
             raise RuntimeError(
                 '{}({}) has no version'.format(requirement_type,
@@ -273,12 +279,12 @@ def get_bear_tags(bear, metadata):
     impl_language = None
     requirements = metadata['requirements'] or {}
     for requirement_type, requirement_items in requirements.items():
-        if requirement_type == 'DistributionRequirement':
-            print(dir(requirement_items))
+        if requirement_type == 'distro':
+            for name, settings in requirement_items.items():
+                tags.add(name)
+                tags.update(settings['packages'].keys())
         elif 'default-jre' in requirement_items:
             tags.add('java')
-
-        requirement_type = requirement_type.replace('Requirement', '').lower()
 
         tags.add(requirement_type)
 
@@ -307,18 +313,24 @@ def get_metadata(bears, bear_requirements, bear_languages):
         name = str(bear.name)
         requirements = bear_requirements[name]
         requirement_metadata = get_bear_requirement_metadata(requirements)
-        if not requirement_metadata:
+        if requirement_metadata:
+            requirement_metadata = _create_sorted_commented_map(requirement_metadata)
+        else:
             requirement_metadata = None
         directory, filename = os.path.split(bear.source_location)
         bears_subdirs = directory[bear_dir_prefix_len:].split(os.path.sep)
+        language_metadata = bear_languages[name]
+        if language_metadata:
+            assert sorted(language_metadata) == language_metadata
         metadata[name] = {
+            'name': name,
             'subdir': '/'.join(bears_subdirs),
             'filename': filename,
             'requirements': requirement_metadata,
             'languages': bear_languages[name],
         }
         tags = get_bear_tags(bear, metadata[name])
-        metadata[name]['tags'] = list(tags)
+        metadata[name]['tags'] = sorted(tags)
 
     return metadata
 
