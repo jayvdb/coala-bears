@@ -270,7 +270,7 @@ before_install:
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
   - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
-      pip3 install tox-travis tox-backticks;
+      pip3 install --user tox-travis tox-backticks;
     fi
 
 before_script:
