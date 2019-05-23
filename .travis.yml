@@ -162,6 +162,11 @@ jobs:
       language: elm
       install: true  # bypass install of all package.json
     - language: julia
+      # default language is 0.6.4, and has problems with pre-installed Lint.jl
+      julia: 1.1
+    - language: julia
+      julia: 1.0.3
+
     - language: r
 
 
