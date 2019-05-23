@@ -156,6 +156,8 @@ jobs:
     # failing, reason unknown
     # language: dart
     - language: julia
+    - language: elm
+      install: true  # bypass install of all package.json
 
     # metadata missing
     # language: r
