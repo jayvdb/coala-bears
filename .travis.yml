@@ -16,9 +16,9 @@ python: 3.6
   deploy: false
 
 stages:
+  - test-apt
   - infer
   - test-travis-community-langs
-  - test-apt
   - test-extra-langs
   - test-python
   - test-main-langs-primary-version
@@ -456,6 +456,7 @@ script:
       pyenv global $(pyenv versions | fgrep '3.6' --max-count 1) 2.7;
       hash -r;
     fi
+  - python --version
   - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
       python -m pip install --user tox-travis tox-backticks tox-pyenv tox-venv;
     fi
