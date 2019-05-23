@@ -20,6 +20,7 @@ stages:
   - test-travis-other-langs-primary-version
   # test-travis-other-langs-other-versions
   - haskell
+  - opam
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -172,7 +173,8 @@ jobs:
           packages:
             - luarocks
 
-    - language: generic
+    - stage: opam
+      language: generic
       env: BEARS=opam
       addons:
         apt:

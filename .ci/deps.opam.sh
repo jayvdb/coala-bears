@@ -30,6 +30,12 @@ if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
 
   opam init -y --reinit --disable-sandboxing
 
+  cp ~/.opam/config ~/.opam/config.orig
+  cat ~/.opam/config
+  sed -i '/wrap-/d;/sandbox.sh/d' ~/.opam/config
+
+  eval $(opam env)
+
   opam install --deps-only --yes infer
   ./build-infer.sh java
 fi
