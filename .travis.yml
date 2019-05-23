@@ -166,10 +166,16 @@ jobs:
       install: true  # bypass install of all package.json
 
     - language: julia
+      julia: 0.5.2
+      env: JL_PKG=CoalaBears
+      install: *julia_install
+
+    - language: julia
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
       julia: 0.7.0
       env: JL_PKG=CoalaBears
-      install:
+      # install not provided https://github.com/travis-ci/travis-build/pull/1571
+      install: &julia_install
         - julia --color=yes .ci/deps.julia.jl
         - git diff JuliaProject.toml
         - cat Manifest.toml
@@ -390,9 +396,9 @@ before_install:
   # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
   - mkdir -p ~/bin ~/.local/bin
+
   - source .ci/deps.pyenv.sh
   - pyenv versions
-  - source .ci/deps.python36.sh
   # node-gpy needs py27
   - if [ "$TRAVIS_LANGUAGE" = "node_js" ]; then pyenv global 2.7; hash -r; fi
   - pyenv versions
@@ -420,7 +426,10 @@ before_install:
            > requirements.txt
   - ls -al requirements.txt GNUMakefile || true
 
-before_script:
+after_install:
+  - source .ci/deps.python36.sh
+  - pyenv versions
+  - python --version
   - mv requirements.orig requirements.txt
 
 script:
