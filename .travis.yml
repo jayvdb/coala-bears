@@ -170,6 +170,9 @@ jobs:
     - language: r
       # default version is 3.6.0, and it doesnt do DESCRIPTION
       r: oldrel
+      r_packages:
+        - lintr
+        - formatR
     - language: r
       r: release
     - language: r
