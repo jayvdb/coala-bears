@@ -43,7 +43,6 @@ DISABLED_BEARS = (
     'TSLintBear',
     'TextLintBear',
     'WriteGoodLintBear',
-    'InferBear',
 )
 
 yaml = YAML(typ='rt')

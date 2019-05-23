@@ -988,7 +988,6 @@ InferBear:
   languages:
     - Java
   tags:
-    - disabled
     - exe
     - opam
 InvalidLinkBear:

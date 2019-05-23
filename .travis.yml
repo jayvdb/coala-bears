@@ -16,6 +16,7 @@ python: 3.6
   deploy: false
 
 stages:
+  - infer
   - test-travis-community-langs
   - test-apt
   - test-extra-langs
@@ -25,7 +26,6 @@ stages:
   - test-travis-other-langs-primary-version
   # test-travis-other-langs-other-versions
   - haskell
-  - opam
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -215,17 +215,10 @@ jobs:
           packages:
             - luarocks
 
-    - stage: opam
+
+    - stage: infer
       language: generic
-      env: BEARS=opam
-      addons:
-        apt:
-          sources:
-            - avsm
-          packages:
-            - camlp4-extra
-            - ocaml
-            - opam
+      env: BEARS=infer
 
     - stage: haskell
       language: haskell
@@ -303,6 +296,18 @@ jobs:
     - *check_moban
   allow_failures:
     - *check_moban
+  not_used:
+    - stage: infer
+      language: generic
+      env: BEARS=opam
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - camlp4-extra
+            - ocaml
+            - opam
 
 dist: trusty
 
@@ -407,6 +412,7 @@ before_install:
   - pyenv versions
   # node-gpy needs py27
   - if [ "$TRAVIS_LANGUAGE" = "node_js" ]; then pyenv global 2.7; hash -r; fi
+  - if [ "$BEARS" = "infer" ]; then pyenv global 2.7; hash -r; fi
   - pyenv versions
   - python --version
   # if [[ -z "$TRAVIS_PYTHON_VERSION" ]]; then .ci/ensure_python3.sh; fi
@@ -447,7 +453,7 @@ script:
   # .ci/generate_bear_metadata.py --check --update
   # coala --non-interactive
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      pyenv global $(pyenv versions | fgrep '3.6' --max-count 1);
+      pyenv global $(pyenv versions | fgrep '3.6' --max-count 1) 2.7;
       hash -r;
     fi
   - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
