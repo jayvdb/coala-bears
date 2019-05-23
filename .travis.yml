@@ -299,13 +299,6 @@ jobs:
             # pyenv
             - verilator
 
-    - language: generic
-      env: DIST=xenial BEARS=apt_get
-      dist: xenial
-      sudo: required
-      addons:
-        - *all_apt
-
     - *check_moban
   allow_failures:
     - *check_moban
