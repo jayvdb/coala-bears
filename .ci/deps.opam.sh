@@ -5,8 +5,6 @@ set -x
 
 # Infer commands
 if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
-  rm -rf ~/.opam
-
   wget -nc -O ~/infer.tar.xz https://github.com/facebook/infer/releases/download/v0.7.0/infer-linux64-v0.7.0.tar.xz
   tar xf ~/infer.tar.xz -C ~/
   cd ~/infer-linux64-v0.7.0
@@ -26,7 +24,7 @@ if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
   # See https://github.com/coala/coala-bears/issues/1763
   opam pin add --yes --no-action reason 1.13.5
 
-  opam pin add --yes --no-action javalib 2.3.5
+  opam pin add --yes --no-action javalib 2.3.4
 
   opam pin add --yes --no-action infer .
 
