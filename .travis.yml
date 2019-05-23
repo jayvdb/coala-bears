@@ -168,7 +168,12 @@ jobs:
       julia: 1.0.3
 
     - language: r
-
+      # default version is 3.6.0, and it doesnt do DESCRIPTION
+      r: oldrel
+    - language: r
+      r: release
+    - language: r
+      r: devel
 
     # coala hacks for extra languages
     - stage: test-extra-langs

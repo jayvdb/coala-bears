@@ -2,6 +2,7 @@
 
 #julia -e "import Lint.lintfile"
 
-mkdir deps
-echo 'Pkg.add("Lint")' > deps/build.jl
+#mkdir deps
+#echo 'Pkg.add("Lint")' > deps/build.jl
 
+cat Manifest.toml || true
