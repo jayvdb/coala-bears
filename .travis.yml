@@ -166,26 +166,12 @@ jobs:
       install: true  # bypass install of all package.json
 
     - language: julia
-      julia: 0.5.2
-      env: JL_PKG=CoalaBears
-      install:
-        - julia --color=yes .ci/deps.julia.jl
-        - julia -e 'import Lint.lintfile'
-
-    - language: julia
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
-      julia: 0.6.4
-      env: JL_PKG=CoalaBears
-      install:
-        - julia --color=yes .ci/deps.julia.jl
-        - julia -e 'import Lint.lintfile'
-
-    - language: julia
-      # default language is 0.6.4, and has problems with pre-installed Lint.jl
+      # and `using` in .ci/deps.julia.jl also incompatible
       julia: 0.7.0
       env: JL_PKG=CoalaBears
       # install not provided https://github.com/travis-ci/travis-build/pull/1571
-      install: &julia_install
+      install:
         - julia --color=yes .ci/deps.julia.jl
         - git diff JuliaProject.toml
         - cat Manifest.toml
@@ -194,6 +180,14 @@ jobs:
     - language: julia
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
       julia: 1.0
+      env: JL_PKG=CoalaBears
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        - julia -e 'import Lint.lintfile'
+
+    - language: julia
+      # default language is 0.6.4, and has problems with pre-installed Lint.jl
+      julia: 1.1
       env: JL_PKG=CoalaBears
       install:
         - julia --color=yes .ci/deps.julia.jl
