@@ -246,6 +246,16 @@ jobs:
     - language: haskell
       ghc: 8.4.1
 
+    - stage: test-apt
+      language: generic
+      env: DIST=trusty BEARS=cabal
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - ghc-mod
+            - hlint
+
     # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
     # which is the old circle init
     - stage: test-apt
