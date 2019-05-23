@@ -1,0 +1,10 @@
+name = "coala-bears"
+uuid = "6344a49d-a50a-4848-8f08-86ec175de5a8"
+author = ["coala <info@coala.io>"]
+version = "0.11.0"
+
+[compat]
+julia = "1.0"
+
+[deps]
+Lint
