@@ -267,6 +267,7 @@ jobs:
           sources:
             - debian-sid
           packages:
+            - binutils
             - chktex
             - cppcheck
             - flawfinder
@@ -280,19 +281,19 @@ jobs:
             # php-codesniffer
     - language: generic
       env: DIST=xenial BEARS=apt_get
-      dist: trusty
+      dist: xenial
       sudo: required
       addons:
         - *all_apt
     - language: generic
       env: DIST=yakkety BEARS=apt_get
-      dist: trusty
+      dist: yakkety
       sudo: required
       addons:
         - *all_apt
     - language: generic
       env: DIST=zesty BEARS=apt_get
-      dist: trusty
+      dist: zesty
       sudo: required
       addons:
         - *all_apt
@@ -398,11 +399,7 @@ before_install:
   # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
   - mkdir -p ~/bin ~/.local/bin
-  - if [ -z "$(which pyenv)" ]; then
-      git clone https://github.com/pyenv/pyenv.git ~/.pyenv;
-      export PYENV_ROOT="$HOME/.pyenv";
-      export PATH="$PYENV_ROOT/bin:$PATH";
-    fi
+  - source .ci/deps.pyenv.sh
   - pyenv versions
   - if [ -z "$(pyenv versions | grep '3.6')" ]; then
       git clone https://github.com/s1341/pyenv-alias.git
