@@ -224,6 +224,9 @@ cabal_requirements:
     version: ==5.6.0.0
   hlint:
     version: ==1.9.27
+r_script_requirements:
+  formatR:
+  lintr:
 distro_requirements:
   astyle:
     packages:
@@ -352,6 +355,14 @@ distro_requirements:
     packages:
       apt_get: phpmd
       dnf: php-phpmd-PHP-PMD
+  r-base:
+    packages:
+      apt_get: r-base
+    version: '>=3.1.1'
+  r-cran-formatr:
+    packages:
+      apt_get: r-cran-formatr
+      zypper: R-formatR
   ruby:
     packages:
       apt_get: ruby
@@ -398,5 +409,4 @@ luarocks_requirements:
 conda_requirements:
   ruby:
     version: '>=2.2.3'
-r_script_requirements: {}
 exe_requirements: {}

@@ -31,10 +31,10 @@ ApertiumLintBear:
     exe:
       apertium_lint:
     pip:
-      apertium-lint:
-        version: ~=0.29
       lxml:
         version: ==3.6.0
+      apertium-lint:
+        version: ~=0.29
   languages:
     - Apertium
   tags:
@@ -169,6 +169,7 @@ CPDBear:
   tags:
     - general
     - java
+    - noreqs
 CPPCheckBear:
   name: CPPCheckBear
   subdir: c_languages
@@ -245,10 +246,10 @@ CSSAutoPrefixBear:
     exe:
       postcss:
     npm:
-      postcss-cli:
-        version: ~2
       autoprefixer:
         version: ~7.2.0
+      postcss-cli:
+        version: ~2
   languages:
     - CSS
   tags:
@@ -522,20 +523,20 @@ ESLintBear:
     exe:
       eslint:
     npm:
-      eslint:
-        version: ~3
-      babel-eslint:
-        version: ~8.0
-      eslint-plugin-import:
-        version: ~2
       typescript-eslint-parser:
         version: ~12.0.0
+      eslint-plugin-html:
+        version: ~3.2.2
+      eslint:
+        version: ~3
       eslint-plugin-typescript:
         version: ~0.8.1
       eslint-plugin-markdown:
         version: ~1.0.0-beta.6
-      eslint-plugin-html:
-        version: ~3.2.2
+      babel-eslint:
+        version: ~8.0
+      eslint-plugin-import:
+        version: ~2
   languages:
     - HTML
     - JSX
@@ -571,6 +572,30 @@ FilenameBear:
   tags:
     - general
     - noreqs
+FormatRBear:
+  name: FormatRBear
+  subdir: r
+  filename: FormatRBear.py
+  requirements:
+    distro:
+      r-cran-formatr:
+        packages:
+          apt_get: r-cran-formatr
+          zypper: R-formatR
+    exe:
+      Rscript:
+    r_script:
+      formatR:
+  languages:
+    - R
+  tags:
+    - apt_get
+    - distro
+    - exe
+    - r
+    - r-cran-formatr
+    - r_script
+    - zypper
 GNUIndentBear:
   name: GNUIndentBear
   subdir: c_languages
@@ -964,6 +989,8 @@ InferBear:
   languages:
     - Java
   tags:
+    - disabled
+    - exe
     - opam
 InvalidLinkBear:
   name: InvalidLinkBear
@@ -1091,9 +1118,9 @@ LanguageToolBear:
   languages:
     - Natural Language
   tags:
+    - java
     - natural-language
     - pip
-    - java
 LatexLintBear:
   name: LatexLintBear
   subdir: latex
@@ -1212,12 +1239,12 @@ MarkdownBear:
     exe:
       remark:
     npm:
+      remark-lint:
+        version: ~5
       remark-validate-links:
         version: ~5
       remark-cli:
         version: ~2
-      remark-lint:
-        version: ~5
   languages:
     - Markdown
   tags:
@@ -1286,10 +1313,10 @@ PEP8NotebookBear:
   filename: PEP8NotebookBear.py
   requirements:
     pip:
-      nbformat:
-        version: ~=4.1
       autopep8:
         version: ~=1.2
+      nbformat:
+        version: ~=4.1
   languages:
     - Python
     - Python 2
@@ -1361,9 +1388,9 @@ PHPMessDetectorBear:
   languages:
     - PHP
   tags:
-    - disabled
     - apt_get
     - composer
+    - disabled
     - distro
     - dnf
     - exe
@@ -1678,6 +1705,29 @@ RAMLLintBear:
     - exe
     - npm
     - yaml
+RLintBear:
+  name: RLintBear
+  subdir: r
+  filename: RLintBear.py
+  requirements:
+    distro:
+      r-base:
+        packages:
+          apt_get: r-base
+        version: '>=3.1.1'
+    exe:
+      Rscript:
+    r_script:
+      lintr:
+  languages:
+    - R
+  tags:
+    - apt_get
+    - distro
+    - exe
+    - r
+    - r-base
+    - r_script
 RSTcheckBear:
   name: RSTcheckBear
   subdir: rest
@@ -2053,6 +2103,8 @@ TextLintBear:
     exe:
       textlint:
     npm:
+      textlint-rule-write-good:
+        version: ~1.6.0
       textlint:
         version: ~7.3.0
       textlint-plugin-asciidoc-loose:
@@ -2091,8 +2143,6 @@ TextLintBear:
         version: ~1.4.5
       textlint-rule-unexpanded-acronym:
         version: ~1.2.1
-      textlint-rule-write-good:
-        version: ~1.6.0
     pip:
       docutils-ast-writer:
         version: ~=0.1.2

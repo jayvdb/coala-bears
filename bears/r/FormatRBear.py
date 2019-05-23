@@ -33,7 +33,7 @@ class FormatRBear:  # pragma nt: no cover
                 zypper='R-formatR',
              ),
              RscriptRequirement('formatR',
-                                version='>1.5'),
+                                ),
              ]
         )
     }

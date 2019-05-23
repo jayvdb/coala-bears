@@ -13,7 +13,8 @@ sudo: false
   deploy: false
 
 stages:
-  - apt
+  - test-travis-community-langs
+  - test-apt
   - test-extra-langs
   - test-python
   - test-main-langs-primary-version
@@ -157,12 +158,12 @@ jobs:
 
     # failing, reason unknown
     # language: dart
-    - language: julia
-    - language: elm
+    - stage: test-travis-community-langs
+      language: elm
       install: true  # bypass install of all package.json
+    - language: julia
+    - language: r
 
-    # metadata missing
-    # language: r
 
     # coala hacks for extra languages
     - stage: test-extra-langs
@@ -214,7 +215,7 @@ jobs:
 
     # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
     # which is the old circle init
-    - stage: apt
+    - stage: test-apt
       language: generic
       env: DIST=precise BEARS=apt_get
       dist: precise

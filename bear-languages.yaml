@@ -107,6 +107,8 @@ ESLintBear:
 ElmLintBear:
   - Elm
 FilenameBear:
+FormatRBear:
+  - R
 GNUIndentBear:
   - C
   - CPP
@@ -279,6 +281,8 @@ PythonPackageInitBear:
 QuotesBear:
 RAMLLintBear:
   - RAML
+RLintBear:
+  - R
 RSTcheckBear:
   - reStructuredText
 RadonBear:

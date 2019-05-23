@@ -17,6 +17,7 @@ import argparse
 import collections
 import copy
 import itertools
+import logging
 import os
 import sys
 
@@ -34,6 +35,15 @@ from dependency_management.requirements.DistributionRequirement import (
 )
 from dependency_management.requirements.ExecutableRequirement import (
     ExecutableRequirement,
+)
+
+DISABLED_BEARS = (
+    'GoReturnsBear',
+    'PHPMessDetectorBear',
+    'TSLintBear',
+    'TextLintBear',
+    'WriteGoodLintBear',
+    'InferBear',
 )
 
 yaml = YAML(typ='rt')
@@ -64,6 +74,8 @@ def get_args():
     parser.add_argument('--bear-dirs', '-d', nargs='+', metavar='DIR',
                         help='additional directories which may contain bears')
 
+    parser.add_argument('--debug', action='store_true',
+                        help='sets logging level to debug.')
     parser.add_argument('--check', '-c', action='store_true',
                         help='performs a dry run, and reports differences.')
     parser.add_argument('--update', '-u', action='store_true',
@@ -130,6 +142,7 @@ REQUIREMENT_TYPES = collections.OrderedDict({
     'RscriptRequirement': {
         'prefix': 'r_script',
         'version_operator': '>=',
+        'allow_missing_version': True,
     },
     'DistributionRequirement': {
         'prefix': 'distro',
@@ -316,6 +329,9 @@ def get_bear_tags(bear, metadata):
         # Has no requirements defined yet
         tags.add('java')
 
+    if bear.name in DISABLED_BEARS:
+        tags.add('disabled')
+
     return tags
 
 
@@ -411,6 +427,10 @@ YAML_MISSING = (
 
 if __name__ == '__main__':
     args = get_args()
+
+    logging.basicConfig(
+        level=logging.DEBUG if args.debug else logging.WARNING,
+    )
 
     bear_dirs = [PROJECT_BEAR_DIR]
 
