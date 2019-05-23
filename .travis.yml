@@ -165,7 +165,7 @@ jobs:
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
       julia: 1.1
       env: JL_PKG=CoalaBears
-      script: false
+      install: julia --color=yes .ci/deps.julia.jl
     # language: julia
     # julia: 1.0.3
 
