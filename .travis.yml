@@ -13,6 +13,7 @@ sudo: false
   deploy: false
 
 stages:
+  - apt
   - test-extra-langs
   - test-python
   - test-main-langs-primary-version
@@ -211,6 +212,90 @@ jobs:
     - language: haskell
       ghc: 8.4.1
 
+    # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
+    # which is the old circle init
+    - stage: apt
+      language: generic
+      env: DIST=precise BEARS=apt_get
+      dist: precise
+      addons:
+        apt:
+          sources:
+            - deadsnakes
+            - hvr-ghc
+          packages:
+            # These do not work on precise now
+            # cabal-install-1.24
+            # ghc-8.0.2
+            # happy-1.19.3
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            # php-codesniffer  # linter error?
+            - python3
+            - pyenv
+            - verilator
+
+    - language: generic
+      env: DIST=trusty BEARS=apt_get
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            - php-codesniffer
+            - pyenv
+            - verilator
+
+    - language: generic
+      env: DIST=debian-sid BEARS=apt_get
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - debian-sid
+          packages:
+            - chktex
+            - cppcheck
+            - flawfinder
+            - indent
+            - libxml2-utils
+            - verilator
+            # Causes error during apt-get install:
+            # libperl-critic-perl
+            # mono-mcs
+            # php5-cli
+            # php-codesniffer
+    - language: generic
+      env: DIST=xenial BEARS=apt_get
+      dist: trusty
+      sudo: required
+      addons:
+        - *all_apt
+    - language: generic
+      env: DIST=yakkety BEARS=apt_get
+      dist: trusty
+      sudo: required
+      addons:
+        - *all_apt
+    - language: generic
+      env: DIST=zesty BEARS=apt_get
+      dist: trusty
+      sudo: required
+      addons:
+        - *all_apt
 
     - *check_moban
   allow_failures:
@@ -235,7 +320,7 @@ dist: trusty
     key_url:
       https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
 
-all_addons:
+all_apt: &all_apt
   apt:
     sources: *apt_sources
     packages:
@@ -269,6 +354,8 @@ all_addons:
       # ocaml
       # opam
       - php-codesniffer
+      - python3
+      - pyenv
       - r-base
       - verilator
 
