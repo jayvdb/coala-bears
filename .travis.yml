@@ -164,20 +164,23 @@ jobs:
     - language: julia
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
       julia: 1.1
-      env: JL_PKG=coala-bears
+      env: JL_PKG=CoalaBears
     - language: julia
       julia: 1.0.3
 
     - language: r
       # default version is 3.6.0, and it doesnt do DESCRIPTION
       r: oldrel
-      r_packages:
-        - lintr
-        - formatR
+      python: 3.6
+      # r_packages:
+      #  - lintr
+      #  - formatR
     - language: r
       r: release
+      python: 3.6
     - language: r
       r: devel
+      python: 3.6
 
     # coala hacks for extra languages
     - stage: test-extra-langs
@@ -417,6 +420,7 @@ before_script:
   - mv requirements.orig requirements.txt
 
 script:
+  - echo "SCRIPT HERE"
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # Ensure bear requirements are in sync with the bear PipRequirement
