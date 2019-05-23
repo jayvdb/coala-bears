@@ -24,7 +24,7 @@ if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
   # See https://github.com/coala/coala-bears/issues/1763
   opam pin add --yes --no-action reason 1.13.5
 
-  opam pin add --yes --no-action javalib 2.3.4
+  opam pin add --yes --no-action javalib 2.3.1
 
   opam pin add --yes --no-action infer .
 
