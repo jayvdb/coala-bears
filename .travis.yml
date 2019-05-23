@@ -260,40 +260,8 @@ jobs:
             - verilator
 
     - language: generic
-      env: DIST=debian-sid BEARS=apt_get
-      dist: trusty
-      addons:
-        apt:
-          sources:
-            - debian-sid
-          packages:
-            - binutils
-            - chktex
-            - cppcheck
-            - flawfinder
-            - indent
-            - libxml2-utils
-            - verilator
-            # Causes error during apt-get install:
-            # libperl-critic-perl
-            # mono-mcs
-            # php5-cli
-            # php-codesniffer
-    - language: generic
       env: DIST=xenial BEARS=apt_get
       dist: xenial
-      sudo: required
-      addons:
-        - *all_apt
-    - language: generic
-      env: DIST=yakkety BEARS=apt_get
-      dist: yakkety
-      sudo: required
-      addons:
-        - *all_apt
-    - language: generic
-      env: DIST=zesty BEARS=apt_get
-      dist: zesty
       sudo: required
       addons:
         - *all_apt
