@@ -1,8 +1,11 @@
 sudo: false
 
+python: 3.6
+
 .disable_global: &disable_global
   addons: false
   cache: pip
+  python: false
   before_install: false
   install: false
   before_script: false
@@ -161,59 +164,26 @@ jobs:
     - stage: test-travis-community-langs
       language: elm
       install: true  # bypass install of all package.json
-    - language: julia
-      julia: 0.3.1
-      env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
 
-    - language: julia
-      julia: 0.3.12
-      env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
-
-    - language: julia
-      julia: 0.4.7
-      env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
     - language: julia
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
-      julia: 0.6.4
-      env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
-
-    - language: julia
-      julia: 0.5.2
-      env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
-
-    - language: julia
-      julia: 0.6.4
-      env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
-
-    - language: julia
       julia: 0.7.0
       env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
-
-    - language: julia
-      julia: 1.0.3
-      env: JL_PKG=CoalaBears
-      install: julia --color=yes .ci/deps.julia.jl
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        - git diff JuliaProject.toml
+        - cat Manifest.toml
 
     - language: r
       # default version is 3.6.0, and it doesnt do DESCRIPTION
       r: oldrel
-      python: 3.6
       # r_packages:
       #  - lintr
       #  - formatR
     - language: r
       r: release
-      python: 3.6
     - language: r
       r: devel
-      python: 3.6
 
     # coala hacks for extra languages
     - stage: test-extra-langs
