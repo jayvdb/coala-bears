@@ -28,6 +28,8 @@ if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
 
   opam pin add --yes --no-action infer .
 
+  opam init -y --reinit --disable-sandboxing
+
   opam install --deps-only --yes infer
   ./build-infer.sh java
 fi
