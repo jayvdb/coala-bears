@@ -169,7 +169,6 @@ CPDBear:
   tags:
     - general
     - java
-    - noreqs
 CPPCheckBear:
   name: CPPCheckBear
   subdir: c_languages
