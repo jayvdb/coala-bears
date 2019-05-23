@@ -170,8 +170,6 @@ jobs:
       env: JL_PKG=CoalaBears
       install:
         - julia --color=yes .ci/deps.julia.jl
-        - git diff JuliaProject.toml
-        - cat Manifest.toml
         - julia -e 'import Lint.lintfile'
 
     - language: julia
@@ -180,8 +178,6 @@ jobs:
       env: JL_PKG=CoalaBears
       install:
         - julia --color=yes .ci/deps.julia.jl
-        - git diff JuliaProject.toml
-        - cat Manifest.toml
         - julia -e 'import Lint.lintfile'
 
     - language: julia
