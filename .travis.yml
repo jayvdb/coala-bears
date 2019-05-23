@@ -154,7 +154,7 @@ jobs:
     # Travis community supported languages
 
     # failing, reason unknown
-    #- language: dart
+    # language: dart
     - language: julia
 
     # metadata missing
@@ -304,11 +304,12 @@ before_install:
 
   - printenv
   - python --version
-  # ~/bin is uncached; ~/local/bin is cached; we dont want python or pip in latter
+  # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
   - mkdir -p ~/bin ~/.local/bin
   - pyenv versions
-  - git clone https://github.com/s1341/pyenv-alias.git $(pyenv root)/plugins/pyenv-alias
+  - git clone https://github.com/s1341/pyenv-alias.git 
+      $(pyenv root)/plugins/pyenv-alias
   - if [ -z "$(pyenv versions | grep '3.6')" ]; then
       VERSION_ALIAS=3.6 pyenv install 3.6.3;
     fi
