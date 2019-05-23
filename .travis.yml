@@ -168,7 +168,14 @@ jobs:
     - language: julia
       julia: 0.5.2
       env: JL_PKG=CoalaBears
-      install: *julia_install
+      install:
+        - *julia_install
+    - language: julia
+      # default language is 0.6.4, and has problems with pre-installed Lint.jl
+      julia: 0.6.4
+      env: JL_PKG=CoalaBears
+      install:
+        - *julia_install
 
     - language: julia
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
@@ -426,8 +433,9 @@ before_install:
            > requirements.txt
   - ls -al requirements.txt GNUMakefile || true
 
-after_install:
+before_script:
   - source .ci/deps.python36.sh
+  - hash -r
   - pyenv versions
   - python --version
   - mv requirements.orig requirements.txt
