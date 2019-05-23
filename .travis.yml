@@ -173,6 +173,7 @@ jobs:
         - julia --color=yes .ci/deps.julia.jl
         - git diff JuliaProject.toml
         - cat Manifest.toml
+        - julia -e 'import Lint.lintfile'
 
     - language: r
       # default version is 3.6.0, and it doesnt do DESCRIPTION
