@@ -191,6 +191,7 @@ jobs:
       env: JL_PKG=CoalaBears
       install:
         - julia --color=yes .ci/deps.julia.jl
+        # Verify compilation works
         - julia -e 'import Lint.lintfile'
 
     - language: r
