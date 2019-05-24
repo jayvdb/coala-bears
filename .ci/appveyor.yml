@@ -43,8 +43,7 @@ install:
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "%CMD_IN_ENV% python -m pip install --upgrade setuptools==21 pip==9"
-  - "%CMD_IN_ENV% python -m pip install -r test-requirements.txt \
-    -r requirements.txt -r docs-requirements.txt"
+  - "%CMD_IN_ENV% python -m pip install tox-travis tox-backticks tox-venv"
   - ps: "Install-Product node ''"  # Use latest node v5.x.x
   - "npm config set loglevel warn"
   - "sed -i '/alex/d' package.json"
@@ -79,11 +78,7 @@ test_script:
   # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
   # https://github.com/appveyor/ci/issues/688
   - >
-    "%CMD_IN_ENV% python -m pytest
-    --cov -k "not ClangASTPrintBear and not ClangCloneDetectionBear and
-    not ClangComplexityBear and not ClangCountVectorCreator and
-    not ClangCountingConditions and not RuboCopBearTest and
-    not CSVLintBearTest"
+    "%CMD_IN_ENV% python -m tox
   - "%CMD_IN_ENV% python setup.py install"
   - "%CMD_IN_ENV% python -m pip install \
     git+https://github.com/coala/coala"
