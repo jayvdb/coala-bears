@@ -142,19 +142,16 @@ jobs:
     - language: ruby
       rvm: 2.1
 
-    - stage: test-current
-      language: go
+    - language: go
       go: '1.10'  # TODO .. which one?
       install: true
 
-    - stage: test-current
-      language: generic
+    - language: generic
       dist: xenial
-      go: 1.10.3  # CHECK
+      go: 1.11.1
       env: BEARS=disabled BEAR_LIST="goreturns" GOPATH="/home/travis/gopath"
 
-    - stage: test-current
-      language: php
+    - language: php
       php: hhvm-3.18
 
     - stage: other-versions
@@ -247,7 +244,7 @@ jobs:
             - ocaml
             - opam
 
-    - stage: test-current
+    - stage: test-failing
       language: generic
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       install: npm install
@@ -255,11 +252,11 @@ jobs:
     # https://travis-ci.org/jayvdb/coala-bears/builds/536871426
     # language: generic
     # dist: precise
-    # env: BEARS=disabled BEAR_LIST="goreturns phpmd" GOPATH="/home/travis/gopath"
+    # env: BEARS=disabled BEAR_LIST="goreturns" GOPATH="/home/travis/gopath"
 
     # language: generic
     # dist: trusty
-    # env: BEARS=disabled BEAR_LIST="phpmd goreturns" GOPATH="/home/travis/gopath"
+    # env: BEARS=disabled BEAR_LIST="goreturns" GOPATH="/home/travis/gopath"
 
     - stage: test-failing
       language: generic
