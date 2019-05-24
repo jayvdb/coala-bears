@@ -93,6 +93,11 @@ jobs:
       addons:
         apt:
           packages: clang-3.4
+    - language: python
+      python: 3.4
+      addons:
+        apt:
+          packages: clang-3.4
 
     - stage: test-languages
 
@@ -173,6 +178,23 @@ jobs:
       elm: 0.18.0
       install: true  # bypass install of all package.json
 
+    - language: julia
+      # default language is 0.6.4, and has problems with pre-installed Lint.jl
+      julia: 1.1
+      env: JL_PKG=CoalaBears
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        # Verify compilation works
+        - julia -e 'import Lint.lintfile'
+
+    - language: julia
+      # default language is 0.6.4, and has problems with pre-installed Lint.jl
+      julia: 1.0
+      env: JL_PKG=CoalaBears
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        - julia -e 'import Lint.lintfile'
+
     - stage: test-travis-community-langs
       language: julia
       # default language is 0.6.4, and has problems with pre-installed Lint.jl
@@ -186,30 +208,13 @@ jobs:
         - cat Manifest.toml
         - julia -e 'import Lint.lintfile'
 
-    - language: julia
-      # default language is 0.6.4, and has problems with pre-installed Lint.jl
-      julia: 1.0
-      env: JL_PKG=CoalaBears
-      install:
-        - julia --color=yes .ci/deps.julia.jl
-        - julia -e 'import Lint.lintfile'
-
-    - language: julia
-      # default language is 0.6.4, and has problems with pre-installed Lint.jl
-      julia: 1.1
-      env: JL_PKG=CoalaBears
-      install:
-        - julia --color=yes .ci/deps.julia.jl
-        # Verify compilation works
-        - julia -e 'import Lint.lintfile'
-
     - language: r
-      # default version is 3.6.0, and it doesnt do DESCRIPTION?
-      r: oldrel
+      r: devel
     - language: r
       r: release
     - language: r
-      r: devel
+      # default version is 3.6.0, and it doesnt do DESCRIPTION?
+      r: oldrel
 
     # coala hacks for extra languages
     - stage: test-manual-langs
@@ -220,6 +225,10 @@ jobs:
         apt:
           packages:
             - luarocks
+
+    - stage: test-failing
+      language: generic
+      env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
 
     - language: generic
       env: BEARS=opam INFER_VERSION=0.7.0 PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
@@ -232,11 +241,8 @@ jobs:
             - ocaml
             - opam
 
-    - stage: test-failing
+    - stage: test-current
       language: generic
-      env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
-
-    - language: generic
       env: BEARS=disabled BEAR_LIST="npm"
 
     - language: generic
@@ -251,7 +257,8 @@ jobs:
       dist: xenial
       env: BEARS=disabled BEAR_LIST="phpmd goreturns" GOPATH="/home/travis/gopath"
 
-    - language: generic
+    - stage: test-failing
+      language: generic
       ghc: 8.0.2
       env: TODO=update-apt-versions
       dist: precise
