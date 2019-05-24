@@ -312,6 +312,9 @@ def get_bear_tags(bear, metadata):
     if 'exe' in requirements:
         tags.update(requirements['exe'].keys())
 
+    if requirements.get('pip', {}).get('libclang-py3'):
+        tags.add('clang')
+
     if 'swift' in tags:
         tags.add('java')
 

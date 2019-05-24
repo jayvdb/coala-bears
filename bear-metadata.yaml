@@ -424,6 +424,7 @@ ClangASTPrintBear:
     - OpenMP
   tags:
     - c-languages-codeclone-detection
+    - clang
     - pip
 ClangBear:
   name: ClangBear
@@ -443,6 +444,7 @@ ClangBear:
     - OpenMP
   tags:
     - c-languages
+    - clang
     - pip
 ClangCloneDetectionBear:
   name: ClangCloneDetectionBear
@@ -462,6 +464,7 @@ ClangCloneDetectionBear:
     - OpenMP
   tags:
     - c-languages-codeclone-detection
+    - clang
     - pip
 ClangComplexityBear:
   name: ClangComplexityBear
@@ -481,6 +484,7 @@ ClangComplexityBear:
     - OpenMP
   tags:
     - c-languages
+    - clang
     - pip
 ClangFunctionDifferenceBear:
   name: ClangFunctionDifferenceBear
@@ -502,6 +506,7 @@ ClangFunctionDifferenceBear:
     - OpenMP
   tags:
     - c-languages-codeclone-detection
+    - clang
     - pip
 CoffeeLintBear:
   name: CoffeeLintBear
