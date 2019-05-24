@@ -38,10 +38,14 @@ pip_requirements:
     version: ~=4.2
   language-check:
     version: ~=1.0
+  libclang-py3:
+    version: ~=3.4.0
   lxml:
     version: ==3.6.0
   memento-client:
     version: ~=0.6.1
+  munkres3:
+    version: ~=1.0
   mypy:
     version: ==0.590
   nbformat:

@@ -393,6 +393,103 @@ CheckstyleBear:
     - distro
     - exe
     - java
+ClangASTPrintBear:
+  name: ClangASTPrintBear
+  subdir: c_languages/codeclone_detection
+  filename: ClangASTPrintBear.py
+  requirements:
+    pip:
+      libclang-py3:
+        version: ~=3.4.0
+  languages:
+    - C
+    - CPP
+    - CUDA
+    - Objective-C
+    - Objective-CPP
+    - OpenCL
+    - OpenMP
+  tags:
+    - c-languages-codeclone-detection
+    - pip
+ClangBear:
+  name: ClangBear
+  subdir: c_languages
+  filename: ClangBear.py
+  requirements:
+    pip:
+      libclang-py3:
+        version: ~=3.4.0
+  languages:
+    - C
+    - CPP
+    - CUDA
+    - Objective-C
+    - Objective-CPP
+    - OpenCL
+    - OpenMP
+  tags:
+    - c-languages
+    - pip
+ClangCloneDetectionBear:
+  name: ClangCloneDetectionBear
+  subdir: c_languages/codeclone_detection
+  filename: ClangCloneDetectionBear.py
+  requirements:
+    pip:
+      libclang-py3:
+        version: ~=3.4.0
+  languages:
+    - C
+    - CPP
+    - CUDA
+    - Objective-C
+    - Objective-CPP
+    - OpenCL
+    - OpenMP
+  tags:
+    - c-languages-codeclone-detection
+    - pip
+ClangComplexityBear:
+  name: ClangComplexityBear
+  subdir: c_languages
+  filename: ClangComplexityBear.py
+  requirements:
+    pip:
+      libclang-py3:
+        version: ~=3.4.0
+  languages:
+    - C
+    - CPP
+    - CUDA
+    - Objective-C
+    - Objective-CPP
+    - OpenCL
+    - OpenMP
+  tags:
+    - c-languages
+    - pip
+ClangFunctionDifferenceBear:
+  name: ClangFunctionDifferenceBear
+  subdir: c_languages/codeclone_detection
+  filename: ClangFunctionDifferenceBear.py
+  requirements:
+    pip:
+      munkres3:
+        version: ~=1.0
+      libclang-py3:
+        version: ~=3.4.0
+  languages:
+    - C
+    - CPP
+    - CUDA
+    - Objective-C
+    - Objective-CPP
+    - OpenCL
+    - OpenMP
+  tags:
+    - c-languages-codeclone-detection
+    - pip
 CoffeeLintBear:
   name: CoffeeLintBear
   subdir: coffee_script
