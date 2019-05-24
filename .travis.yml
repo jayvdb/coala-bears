@@ -16,13 +16,13 @@ python: 3.6
   deploy: false
 
 stages:
-  - test-failing
   - test-python
   - test-apt
   - test-languages
   - test-other-versions
   - test-travis-community-langs
   - test-manual-langs
+  - test-failing
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -113,13 +113,8 @@ jobs:
 
     - language: perl
 
-    - stage: test-failing
-      language: scala
-      scala: 2.11
-
     - language: scala
-      jdk: oraclejdk8
-      scala: 2.12.2
+      scala: 2.11
 
     - stage: test-other-versions
 
@@ -147,6 +142,10 @@ jobs:
 
     - language: php
       php: 5.5
+
+    - language: scala
+      jdk: oraclejdk8
+      scala: 2.12.2
 
     - stage: test-failing
       # Fails on 'pear'
