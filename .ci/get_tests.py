@@ -13,19 +13,21 @@ IS_WIN = os.name == 'nt'
 
 WINDOWS_BROKEN = set((
     'bandit',
+    'vint',
     'clang',
+    'csvlint',
     'sqlint',
     'alex',
     'coffeelint',
     'csscomb',
-    'docker',
+    'dockerfile_lint',
     'elm',
     'eslint',
     'gherkin',
     'jshint',
     'remark',
     'postcss',
-    'sass',
+    'sass-lint',
     'textlint',
     'tslint',
 ))
