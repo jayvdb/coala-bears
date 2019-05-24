@@ -249,10 +249,11 @@ jobs:
     - stage: test-apt
       language: generic
       dist: xenial
-      env: BEARS=adhoc BEAR_LIST="ghc-mod hlint shellcheck"
+      env: BEARS=adhoc BEAR_LIST="ghc-mod hlint"
       # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
       # ghc-mod needs cabal-install
       # hlint bear depends on --json, which isnt in trusty hlint
+      # shellcheck is failing in xenial; new features probably
       addons:
         apt:
           packages:
@@ -412,6 +413,7 @@ env:
 
 before_install:
   - printenv
+  - mkdir -p ~/bin ~/.local/bin
   # echo $TRAVIS_LANGUAGE
   - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
       bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
@@ -420,7 +422,6 @@ before_install:
   - python --version
   # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
-  - mkdir -p ~/bin ~/.local/bin
 
   - source .ci/deps.pyenv.sh
   - pyenv versions
