@@ -16,13 +16,13 @@ python: 3.6
   deploy: false
 
 stages:
-  - test-failing
   - test-python
   - test-apt
   - test-languages
   - test-other-versions
   - test-travis-community-langs
   - test-manual-langs
+  - test-failing
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
