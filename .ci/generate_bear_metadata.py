@@ -322,8 +322,8 @@ def get_bear_tags(bear, metadata):
 
     elif bear.name == 'CPDBear':
         # Has no requirements defined yet
+        tags.remove('noreqs')
         tags.add('java')
-        tags.remove('nodeps')
 
     elif bear.name == 'LanguageToolBear':
         # Has no requirements defined yet
