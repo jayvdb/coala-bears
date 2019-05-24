@@ -311,15 +311,8 @@ jobs:
       dist: precise
       addons:
         apt:
-          sources:
-            - deadsnakes
-            - hvr-ghc
           packages:
             - astyle
-            # These do not work on precise now
-            # cabal-install-1.24
-            # ghc-8.0.2
-            # happy-1.19.3
             - chktex
             - cppcheck
             - devscripts
