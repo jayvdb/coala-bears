@@ -353,7 +353,7 @@ jobs:
 
     - stage: test-failing
       language: generic
-      env: BEARS=phpcs DIST=precise
+      env: BEARS=adhoc BEAR_LIST=phpcs DIST=precise
       dist: precise
       addons:
         apt:
