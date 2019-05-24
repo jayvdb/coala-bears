@@ -113,6 +113,14 @@ jobs:
 
     - language: perl
 
+    - stage: test-failing
+      language: scala
+      scala: 2.11
+
+    - language: scala
+      jdk: oraclejdk8
+      scala: 2.12.2
+
     - stage: test-other-versions
 
       language: node_js
@@ -158,6 +166,13 @@ jobs:
     # Travis community supported languages
 
     - language: dart
+      dart: stable
+
+    - language: dart
+      dart: 1.15.0
+
+    - language: dart
+      dart: 1.14.2
 
     - stage: test-travis-community-langs
       language: elm
@@ -226,13 +241,15 @@ jobs:
       env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
 
     - language: generic
+      dist: precise
       env: BEARS=disabled BEAR_LIST="goreturns phpmd"
 
     - language: generic
       env: BEARS=disabled BEAR_LIST="npm"
 
-    - language: haskell
+    - language: generic
       ghc: 8.0.2
+      env: TODO=update-apt
       dist: precise
       addons:
         apt:
