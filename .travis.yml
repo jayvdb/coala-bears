@@ -16,8 +16,8 @@ python: 3.6
   deploy: false
 
 stages:
-  - test-python
   - test-apt
+  - test-python
   - infer
   - test-travis-community-langs
   - test-extra-langs
@@ -248,8 +248,7 @@ jobs:
 
     - stage: test-apt
       language: generic
-      env: DIST=trusty BEARS="adhoc ghc-mod hlint shellcheck"
-      dist: trusty
+      env: BEARS=adhoc BEAR_LIST="ghc-mod hlint shellcheck"
       addons:
         apt:
           packages:
@@ -286,8 +285,7 @@ jobs:
             - verilator
 
     - language: generic
-      env: DIST=trusty BEARS=apt_get
-      dist: trusty
+      env: BEARS=apt_get
       addons:
         apt:
           packages:
