@@ -163,12 +163,12 @@ jobs:
     - language: dart
       dart: 1.14.2
 
-    - stage: test-current
+    - stage: test-failing
       language: elm
       elm: 0.19.0
       install: true  # bypass install of all package.json
 
-    - stage: test-current
+    - stage: test-failing
       language: elm
       elm: 0.18.0
       install: true  # bypass install of all package.json
