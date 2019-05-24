@@ -69,11 +69,11 @@ test_script:
   # https://github.com/appveyor/ci/issues/688
   - "sed -i 's/^envlist.*$/envlist: py34-noreqs-pip-npm-gem-perl-java-win-skip-codecov/' tox.ini"
   - "%CMD_IN_ENV% python -m tox -e py34-noreqs-pip-npm-gem-perl-java-win-skip-codecov"
-  - "%CMD_IN_ENV% python setup.py install"
-  - "%CMD_IN_ENV% python -m pip install \
-    git+https://github.com/coala/coala"
-  - sed -i '/ShellCheckBear/d' .coafile
-  - "%CMD_IN_ENV% coala --ci"
+  # "%CMD_IN_ENV% python setup.py install"
+  # "%CMD_IN_ENV% python -m pip install \
+  # git+https://github.com/coala/coala"
+  # sed -i '/ShellCheckBear/d' .coafile
+  # "%CMD_IN_ENV% coala --ci"
 
 matrix:
   fast_finish: true
