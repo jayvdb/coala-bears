@@ -248,7 +248,7 @@ jobs:
 
     - stage: test-apt
       language: generic
-      env: DIST=trusty BEARS="ghc-mod hlint shellcheck"
+      env: DIST=trusty BEARS="adhoc ghc-mod hlint shellcheck"
       dist: trusty
       addons:
         apt:
