@@ -210,9 +210,8 @@ jobs:
           packages:
             - luarocks
 
-    - stage: test-failing
-      language: generic
-      env: BEARS=opam TODO=fixbuild
+    - language: generic
+      env: BEARS=opam INFER_VERSION=0.7.0
       addons:
         apt:
           sources:
@@ -224,7 +223,7 @@ jobs:
 
     - stage: test-failing
       language: generic
-      env: BEARS=infer TODO=fixtests
+      env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
 
     - language: haskell
       ghc: 8.0.2
@@ -401,7 +400,6 @@ env:
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
     - CABAL_VERSION=1.24
-    - INFER_VERSION=0.7.0
     - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v$INFER_VERSION/infer/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
 
 before_install:

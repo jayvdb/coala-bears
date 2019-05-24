@@ -1,4 +1,3 @@
-VERSION=0.16.0; \
-curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" \
-| sudo tar -C /opt -xJ && \
-ln -s "/opt/infer-linux64-v$VERSION/bin/infer" ~/bin/infer
+#!/bin/sh
+INFER_URL="https://github.com/facebook/infer/releases/download/v$INFER_VERSION/infer-linux64-v$INFER_VERSION.tar.xz"
+curl -sSL "$INFER_URRL" | tar -C ~/ -xJ
