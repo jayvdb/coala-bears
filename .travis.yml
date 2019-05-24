@@ -16,15 +16,13 @@ python: 3.6
   deploy: false
 
 stages:
-  - test-apt
   - test-python
-  - infer
+  - test-apt
+  - test-languages
+  - test-other-versions
   - test-travis-community-langs
-  - test-extra-langs
-  - test-main-langs-primary-version
-  - test-main-langs-other-versions
-  - test-travis-other-langs-primary-version
-  # test-travis-other-langs-other-versions
+  - test-manual-langs
+  - infer
   - haskell
   - moban
   - name: sentinel
@@ -96,7 +94,7 @@ jobs:
         apt:
           packages: clang-3.4
 
-    - stage: test-main-langs-primary-version
+    - stage: test-languages
 
       language: node_js
       node_js: 5
@@ -108,7 +106,15 @@ jobs:
       go: 1.11
       install: true
 
-    - stage: test-main-langs-other-versions
+    - language: php
+      php: 7.2
+
+    - language: java
+      jdk: oraclejdk8
+
+    - language: perl
+
+    - stage: test-other-versions
 
       language: node_js
       node_js: 10
@@ -131,18 +137,6 @@ jobs:
     - language: go
       go: '1.10'
       install: true
-
-    - stage: test-travis-other-langs-primary-version
-
-      language: php
-      php: 7.2
-
-    - language: java
-      jdk: oraclejdk8
-
-    - language: perl
-
-    # stage: test-travis-other-langs-other-versions
 
     - language: php
       php: 5.5
@@ -206,15 +200,14 @@ jobs:
       r: devel
 
     # coala hacks for extra languages
-    - stage: test-extra-langs
+    - stage: test-manual-langs
 
-      language: minimal
+      language: lua
       env: BEARS=lua
       addons:
         apt:
           packages:
             - luarocks
-
 
     - stage: infer
       language: generic
