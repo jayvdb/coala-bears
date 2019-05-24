@@ -19,6 +19,7 @@ WINDOWS_BROKEN = set((
     'csscomb',
     'docker',
     'elm',
+    'eslint',
     'gherkin',
     'jshint',
     'remark',
@@ -44,7 +45,7 @@ def get_bears(metadata, args, include_disabled=False):
         for bear in metadata.values():
             tags = set(bear['tags'])
             if IS_WIN and tags.intersection(WINDOWS_BROKEN):
-                tags.append('disabled')
+                tags.add('disabled')
 
             if arg in tags and (include_disabled or 'disabled' not in tags):
                 bears.append(bear)

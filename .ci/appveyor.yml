@@ -46,19 +46,11 @@ install:
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "%CMD_IN_ENV% python -m pip install --upgrade setuptools==21 pip==9"
   - "%CMD_IN_ENV% python -m pip install tox-appveyor tox-backticks tox-venv"
+
   - ps: "Install-Product node ''"  # Use latest node v5.x.x
   - "npm config set loglevel warn"
-  - "sed -i '/coffeelint/d' package.json"
-  - "sed -i '/elm/d' package.json"
-  - "sed -i '/gherkin/d' package.json"
-  - "sed -i '/remark/d' package.json"
-  - "sed -i '/postcss/d' package.json"
-  - "sed -i '/sass/d' package.json"
-  - "sed -i '/textlint/d' package.json"
-  - "sed -i '/tslint/d' package.json"
   - "npm install"
   - "SET PATH=node_modules\\.bin;%PATH%"
-  - "DEL node_modules\\.bin\\eslint*"
 
   # Commands for Ruby
   - "sed -i '/sqlint/d' Gemfile"
