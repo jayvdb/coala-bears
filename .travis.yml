@@ -142,22 +142,28 @@ jobs:
     - language: ruby
       rvm: 2.1
 
-    - language: go
-      go: '1.10'
+    - stage: test-current
+      language: go
+      go: '1.10'  # TODO .. which one?
       install: true
 
-    - language: php
+    - stage: test-current
+      language: generic
+      dist: xenial
+      go: 1.10.3  # CHECK
+      env: BEARS=disabled BEAR_LIST="goreturns" GOPATH="/home/travis/gopath"
+
+    - stage: test-current
+      language: php
+      php: hhvm-3.18
+
+    - stage: other-versions
+      language: php
       php: 5.5
 
     - language: scala
       jdk: oraclejdk8
       scala: 2.12.2
-
-    - stage: test-failing
-      # Fails on 'pear'
-      language: php
-      php: hhvm-3.18
-      env: TODO=fixpear
 
     # Travis community supported languages
 
@@ -244,6 +250,7 @@ jobs:
     - stage: test-current
       language: generic
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+      install: npm install
 
     # https://travis-ci.org/jayvdb/coala-bears/builds/536871426
     # language: generic
@@ -253,10 +260,6 @@ jobs:
     # language: generic
     # dist: trusty
     # env: BEARS=disabled BEAR_LIST="phpmd goreturns" GOPATH="/home/travis/gopath"
-
-    - language: generic
-      dist: xenial
-      env: BEARS=disabled BEAR_LIST="goreturns" GOPATH="/home/travis/gopath"
 
     - stage: test-failing
       language: generic
