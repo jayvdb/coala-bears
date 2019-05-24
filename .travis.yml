@@ -248,10 +248,14 @@ jobs:
 
     - stage: test-apt
       language: generic
+      dist: xenial
       env: BEARS=adhoc BEAR_LIST="ghc-mod hlint shellcheck"
+      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
+      # hlint bear depends on --json, which isnt in trusty hlint
       addons:
         apt:
           packages:
+            - ghc
             - ghc-mod
             - hlint
 
