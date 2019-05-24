@@ -1,5 +1,5 @@
 sudo: false
-
+dist: trusty
 python: 3.6
 
 .disable_global: &disable_global
@@ -16,9 +16,8 @@ python: 3.6
   deploy: false
 
 stages:
-  - test-current
-  - test-python
   - test-apt
+  - test-python
   - test-languages
   - test-other-versions
   - test-travis-community-langs
@@ -214,7 +213,6 @@ jobs:
             - luarocks
 
     - language: generic
-      stage: test-current
       env: BEARS=opam INFER_VERSION=0.7.0 PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
       addons:
         apt:
@@ -274,21 +272,28 @@ jobs:
       jdk: openjdk6
       env: TODO=disable-tailor-and-more
 
-    - stage: test-apt
-      language: generic
-      dist: xenial
-      env: BEARS=adhoc BEAR_LIST="ghc-mod hlint"
-      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
-      # ghc-mod needs cabal-install
-      # hlint bear depends on --json, which isnt in trusty hlint
-      # shellcheck is failing in xenial; new features probably
+    - language: generic
+      env: DIST=trusty BEARS=apt_get
       addons:
         apt:
+          sources:
+            - sourceline:  # astyle
+              deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
           packages:
-            - cabal-install
-            - ghc
-            - ghc-mod
-            - hlint
+            - astyle
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            - php-codesniffer
+            - pyenv
+            - shellcheck
+            - verilator
 
     # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
     # which is the old circle init
@@ -309,6 +314,7 @@ jobs:
             # happy-1.19.3
             - chktex
             - cppcheck
+            - devscripts
             - flawfinder
             - indent
             - libperl-critic-perl
@@ -317,26 +323,24 @@ jobs:
             - php5-cli
             # php-codesniffer  # linter error?
             - python3
-            # pyenv
+            - shellcheck
             - verilator
 
-    - language: generic
-      env: BEARS=apt_get
+    - stage: test-apt
+      language: generic
+      dist: xenial
+      env: BEARS=adhoc BEAR_LIST="ghc-mod hlint"
+      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
+      # ghc-mod needs cabal-install
+      # hlint bear depends on --json, which isnt in trusty hlint
+      # shellcheck is failing in xenial; new features probably
       addons:
         apt:
           packages:
-            - astyle
-            - chktex
-            - cppcheck
-            - flawfinder
-            - indent
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
-            - php5-cli
-            - php-codesniffer
-            # pyenv
-            - verilator
+            - cabal-install
+            - ghc
+            - ghc-mod
+            - hlint
 
     - stage: test-failing
       language: generic
@@ -350,75 +354,18 @@ jobs:
             - cppcheck
             - flawfinder
             - indent
+            - julia
             - libperl-critic-perl
             - libxml2-utils
             - mono-mcs
             - php5-cli
             - php-codesniffer
-            # pyenv
+            - pyenv
             - verilator
 
     - *check_moban
   allow_failures:
     - *check_moban
-
-dist: trusty
-
-.apt_sources: &apt_sources
-  - ubuntu-toolchain-r-test
-  # avsm  # OPAM stable
-  - hvr-ghc  # Haskell
-  - sourceline:  # R
-      deb https://cloud.r-project.org/bin/linux/ubuntu trusty-cran35/
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x51716619E084DAB9
-  - sourceline:  # Julia
-      deb http://ppa.launchpad.net/staticfloat/juliareleases/ubuntu trusty main
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCF979FFA3D3D3ACC
-  - sourceline:  # astyle
-      deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
-    key_url:
-      https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
-
-all_apt: &all_apt
-  apt:
-    sources: *apt_sources
-    packages:
-      - aspcud
-      - astyle
-      - cabal-install-1.24
-      - chktex
-      - clang-3.4
-      - cppcheck
-      - devscripts
-      - flawfinder
-      - gfortran
-      - ghc
-      - happy
-      - indent
-      - julia
-      - libarpack2
-      - libblas-dev
-      - libcolamd2.8.0
-      - libfftw3-3
-      - liblapack-dev
-      - libopenblas-base
-      - libpaper-utils
-      - libperl-critic-perl
-      - libumfpack5.6.2
-      - libxml2-utils
-      - luarocks
-      - mercurial
-      # menhir
-      - mono-mcs
-      # ocaml
-      # opam
-      - php-codesniffer
-      - python3
-      - pyenv
-      - r-base
-      - verilator
 
 cache:
   pip: true
