@@ -461,7 +461,8 @@ script:
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # coala --non-interactive
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      pyenv global $(pyenv versions | fgrep '3.6' --max-count 1) 2.7;
+      pyenv global $(pyenv versions | fgrep '3.6' --max-count 1)
+                   $(pyenv versions | fgrep '2.7' --max-count 1);
       hash -r;
     fi
   - python --version
