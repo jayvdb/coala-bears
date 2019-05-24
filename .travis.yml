@@ -467,7 +467,8 @@ script:
   - python --version
   # Ensure metadata files are in sync with the bear metadata in the source
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
-      .ci/generate_bear_metadata.py --debug --check --update;
+      .ci/generate_bear_metadata.py --debug --update;
+      git diff --exit-code;
     fi
   - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
       python -m pip install --user tox-travis tox-backticks tox-pyenv tox-venv;
