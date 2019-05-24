@@ -16,11 +16,11 @@ python: 3.6
   deploy: false
 
 stages:
+  - test-python
   - test-apt
   - infer
   - test-travis-community-langs
   - test-extra-langs
-  - test-python
   - test-main-langs-primary-version
   - test-main-langs-other-versions
   - test-travis-other-langs-primary-version
@@ -248,7 +248,7 @@ jobs:
 
     - stage: test-apt
       language: generic
-      env: DIST=trusty BEARS=cabal
+      env: DIST=trusty BEARS="ghc-mod hlint shellcheck"
       dist: trusty
       addons:
         apt:
@@ -459,8 +459,10 @@ script:
   - echo "SCRIPT HERE"
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
-  # Ensure bear requirements are in sync with the bear PipRequirement
-  # .ci/generate_bear_metadata.py --check --update
+  # Ensure metadata files are in sync with the bear metadata in the source
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      .ci/generate_bear_metadata.py --check --update;
+    fi
   # coala --non-interactive
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
       pyenv global $(pyenv versions | fgrep '3.6' --max-count 1) 2.7;
