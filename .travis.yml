@@ -299,7 +299,6 @@ jobs:
             - mono-mcs
             - php5-cli
             - php-codesniffer
-            - pyenv
             - shellcheck
             - verilator
 
@@ -312,7 +311,7 @@ jobs:
       addons:
         apt:
           packages:
-            - astyle
+            # astyle incompatible
             - chktex
             - cppcheck
             - devscripts
