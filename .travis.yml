@@ -251,10 +251,12 @@ jobs:
       dist: xenial
       env: BEARS=adhoc BEAR_LIST="ghc-mod hlint shellcheck"
       # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
+      # ghc-mod needs cabal-install
       # hlint bear depends on --json, which isnt in trusty hlint
       addons:
         apt:
           packages:
+            - cabal-install
             - ghc
             - ghc-mod
             - hlint
@@ -422,6 +424,7 @@ before_install:
 
   - source .ci/deps.pyenv.sh
   - pyenv versions
+  - pyenv versions --bare
   # node-gpy needs py27
   - if [ "$TRAVIS_LANGUAGE" = "node_js" ]; then pyenv global 2.7; hash -r; fi
   - if [ "$BEARS" = "infer" ]; then pyenv global 2.7; hash -r; fi
@@ -463,8 +466,8 @@ script:
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # coala --non-interactive
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      pyenv global $(pyenv versions | fgrep '3.6' --max-count 1)
-                   $(pyenv versions | fgrep '2.7' --max-count 1);
+      pyenv global $(pyenv versions --bare | fgrep '3.6' --max-count 1)
+                   $(pyenv versions --bare | fgrep '2.7' --max-count 1);
       hash -r;
     fi
   - python --version
