@@ -274,7 +274,6 @@ jobs:
       jdk: openjdk6
       env: TODO=disable-tailor-and-more
 
-
     - stage: test-apt
       language: generic
       dist: xenial
@@ -303,6 +302,7 @@ jobs:
             - deadsnakes
             - hvr-ghc
           packages:
+            - astyle
             # These do not work on precise now
             # cabal-install-1.24
             # ghc-8.0.2
@@ -325,6 +325,7 @@ jobs:
       addons:
         apt:
           packages:
+            - astyle
             - chktex
             - cppcheck
             - flawfinder
@@ -344,6 +345,7 @@ jobs:
       addons:
         apt:
           packages:
+            - astyle
             - chktex
             - cppcheck
             - flawfinder
