@@ -39,7 +39,6 @@ from dependency_management.requirements.ExecutableRequirement import (
 
 DISABLED_BEARS = (
     'GoReturnsBear',
-    'PHPMessDetectorBear',
     'TSLintBear',
     'TextLintBear',
     'WriteGoodLintBear',

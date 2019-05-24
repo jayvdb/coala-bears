@@ -1527,7 +1527,6 @@ PHPMessDetectorBear:
   tags:
     - apt_get
     - composer
-    - disabled
     - distro
     - dnf
     - exe
