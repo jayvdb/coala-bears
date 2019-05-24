@@ -9,6 +9,25 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
+IS_WIN = os.name == 'nt'
+
+WINDOWS_BROKEN = set((
+    'clang',
+    'sqlint',
+    'alex',
+    'coffeelint',
+    'csscomb',
+    'docker',
+    'elm',
+    'gherkin',
+    'jshint',
+    'remark',
+    'postcss',
+    'sass',
+    'textlint',
+    'tslint',
+))
+
 
 def get_metadata():
     with open('bear-metadata.yaml') as f:
@@ -23,7 +42,10 @@ def get_bears(metadata, args, include_disabled=False):
     for arg in args:
         matches = []
         for bear in metadata.values():
-            tags = bear['tags']
+            tags = set(bear['tags'])
+            if IS_WIN and tags.intersection(WINDOWS_BROKEN):
+                tags.append('disabled')
+
             if arg in tags and (include_disabled or 'disabled' not in tags):
                 bears.append(bear)
 
