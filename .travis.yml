@@ -16,14 +16,13 @@ python: 3.6
   deploy: false
 
 stages:
+  - test-failing
   - test-python
   - test-apt
   - test-languages
   - test-other-versions
   - test-travis-community-langs
   - test-manual-langs
-  - infer
-  - haskell
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -141,20 +140,25 @@ jobs:
     - language: php
       php: 5.5
 
-    # Fails on 'pear'
-    # language: php
-    # php: hhvm-3.18
+    - stage: test-failing
+      # Fails on 'pear'
+      language: php
+      php: hhvm-3.18
+      env: TODO=fixpear
 
-    # Tailor depends on java 8
-    # language: java
-    # jdk: openjdk7
-    # language: java
-    # jdk: openjdk6
+    - stage: test-failing
+      # Tailor depends on java 8
+      language: java
+      jdk: openjdk7
+      env: TODO=disable-tailor
+    - language: java
+      jdk: openjdk6
+      env: TODO=disable-tailor-and-more
 
     # Travis community supported languages
 
-    # failing, reason unknown
-    # language: dart
+    - language: dart
+
     - stage: test-travis-community-langs
       language: elm
       install: true  # bypass install of all package.json
@@ -189,11 +193,8 @@ jobs:
         - julia -e 'import Lint.lintfile'
 
     - language: r
-      # default version is 3.6.0, and it doesnt do DESCRIPTION
+      # default version is 3.6.0, and it doesnt do DESCRIPTION?
       r: oldrel
-      # r_packages:
-      #  - lintr
-      #  - formatR
     - language: r
       r: release
     - language: r
@@ -209,12 +210,23 @@ jobs:
           packages:
             - luarocks
 
-    - stage: infer
+    - stage: test-failing
       language: generic
-      env: BEARS=infer
+      env: BEARS=opam TODO=fixbuild
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - camlp4-extra
+            - ocaml
+            - opam
 
-    - stage: haskell
-      language: haskell
+    - stage: test-failing
+      language: generic
+      env: BEARS=infer TODO=fixtests
+
+    - language: haskell
       ghc: 8.0.2
       dist: precise
       addons:
@@ -304,18 +316,6 @@ jobs:
     - *check_moban
   allow_failures:
     - *check_moban
-  not_used:
-    - stage: infer
-      language: generic
-      env: BEARS=opam
-      addons:
-        apt:
-          sources:
-            - avsm
-          packages:
-            - camlp4-extra
-            - ocaml
-            - opam
 
 dist: trusty
 
