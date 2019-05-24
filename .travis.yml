@@ -16,6 +16,7 @@ python: 3.6
   deploy: false
 
 stages:
+  - test-current
   - test-python
   - test-apt
   - test-languages
@@ -213,7 +214,8 @@ jobs:
             - luarocks
 
     - language: generic
-      env: BEARS=opam INFER_VERSION=0.7.0
+      stage: test-current
+      env: BEARS=opam INFER_VERSION=0.7.0 PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
       addons:
         apt:
           sources:
@@ -433,6 +435,7 @@ cache:
     # coala managed data
     - ~/nltk_data
     # Installed linters
+    # Check this version works
     - ~/infer-linux64-v$INFER_VERSION
     - ~/.local/
 
@@ -442,7 +445,7 @@ env:
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
     - CABAL_VERSION=1.24
-    - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/infer-linux64-v$INFER_VERSION/infer/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
 
 before_install:
   - printenv
