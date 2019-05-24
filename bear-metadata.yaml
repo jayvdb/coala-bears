@@ -11,6 +11,7 @@ AlexBear:
   languages:
     - Natural Language
   tags:
+    - alex
     - exe
     - natural-language
     - npm
@@ -31,14 +32,15 @@ ApertiumLintBear:
     exe:
       apertium_lint:
     pip:
-      lxml:
-        version: ==3.6.0
       apertium-lint:
         version: ~=0.29
+      lxml:
+        version: ==3.6.0
   languages:
     - Apertium
   tags:
     - apertium
+    - apertium_lint
     - exe
     - pip
 ArtisticStyleBear:
@@ -81,6 +83,7 @@ BanditBear:
     - Python 2
     - Python 3
   tags:
+    - bandit
     - exe
     - pip
     - python
@@ -97,6 +100,7 @@ BashateBear:
   languages:
     - bash
   tags:
+    - bashate
     - exe
     - pip
     - shell
@@ -113,6 +117,7 @@ BootLintBear:
   languages:
     - HTML
   tags:
+    - bootlint
     - exe
     - hypertext
     - npm
@@ -140,6 +145,7 @@ CMakeLintBear:
     - CMake
   tags:
     - cmake
+    - cmakelint
     - exe
     - pip
 CPDBear:
@@ -219,6 +225,7 @@ CPPCleanBear:
     - CPP
   tags:
     - c-languages
+    - cppclean
     - exe
     - pip
 CPPLintBear:
@@ -235,6 +242,7 @@ CPPLintBear:
     - CPP
   tags:
     - c-languages
+    - cpplint
     - exe
     - pip
 CSSAutoPrefixBear:
@@ -245,16 +253,17 @@ CSSAutoPrefixBear:
     exe:
       postcss:
     npm:
-      autoprefixer:
-        version: ~7.2.0
       postcss-cli:
         version: ~2
+      autoprefixer:
+        version: ~7.2.0
   languages:
     - CSS
   tags:
     - css
     - exe
     - npm
+    - postcss
 CSSCombBear:
   name: CSSCombBear
   subdir: css
@@ -269,6 +278,7 @@ CSSCombBear:
     - CSS
   tags:
     - css
+    - csscomb
     - exe
     - npm
 CSSLintBear:
@@ -285,6 +295,7 @@ CSSLintBear:
     - CSS
   tags:
     - css
+    - csslint
     - exe
     - npm
 CSVLintBear:
@@ -301,6 +312,7 @@ CSVLintBear:
     - CSV
   tags:
     - csv
+    - csvlint
     - exe
     - gem
 CSecurityBear:
@@ -367,6 +379,7 @@ CSharpLintBear:
     - distro
     - dnf
     - exe
+    - mcs
     - mono
     - pacman
     - pkg
@@ -393,103 +406,6 @@ CheckstyleBear:
     - distro
     - exe
     - java
-ClangASTPrintBear:
-  name: ClangASTPrintBear
-  subdir: c_languages/codeclone_detection
-  filename: ClangASTPrintBear.py
-  requirements:
-    pip:
-      libclang-py3:
-        version: ~=3.4.0
-  languages:
-    - C
-    - CPP
-    - CUDA
-    - Objective-C
-    - Objective-CPP
-    - OpenCL
-    - OpenMP
-  tags:
-    - c-languages-codeclone-detection
-    - pip
-ClangBear:
-  name: ClangBear
-  subdir: c_languages
-  filename: ClangBear.py
-  requirements:
-    pip:
-      libclang-py3:
-        version: ~=3.4.0
-  languages:
-    - C
-    - CPP
-    - CUDA
-    - Objective-C
-    - Objective-CPP
-    - OpenCL
-    - OpenMP
-  tags:
-    - c-languages
-    - pip
-ClangCloneDetectionBear:
-  name: ClangCloneDetectionBear
-  subdir: c_languages/codeclone_detection
-  filename: ClangCloneDetectionBear.py
-  requirements:
-    pip:
-      libclang-py3:
-        version: ~=3.4.0
-  languages:
-    - C
-    - CPP
-    - CUDA
-    - Objective-C
-    - Objective-CPP
-    - OpenCL
-    - OpenMP
-  tags:
-    - c-languages-codeclone-detection
-    - pip
-ClangComplexityBear:
-  name: ClangComplexityBear
-  subdir: c_languages
-  filename: ClangComplexityBear.py
-  requirements:
-    pip:
-      libclang-py3:
-        version: ~=3.4.0
-  languages:
-    - C
-    - CPP
-    - CUDA
-    - Objective-C
-    - Objective-CPP
-    - OpenCL
-    - OpenMP
-  tags:
-    - c-languages
-    - pip
-ClangFunctionDifferenceBear:
-  name: ClangFunctionDifferenceBear
-  subdir: c_languages/codeclone_detection
-  filename: ClangFunctionDifferenceBear.py
-  requirements:
-    pip:
-      munkres3:
-        version: ~=1.0
-      libclang-py3:
-        version: ~=3.4.0
-  languages:
-    - C
-    - CPP
-    - CUDA
-    - Objective-C
-    - Objective-CPP
-    - OpenCL
-    - OpenMP
-  tags:
-    - c-languages-codeclone-detection
-    - pip
 CoffeeLintBear:
   name: CoffeeLintBear
   subdir: coffee_script
@@ -504,6 +420,7 @@ CoffeeLintBear:
     - CoffeeScript
   tags:
     - coffee-script
+    - coffeelint
     - exe
     - npm
 DartLintBear:
@@ -522,6 +439,7 @@ DartLintBear:
   tags:
     - brew
     - dart
+    - dartanalyzer
     - distro
     - exe
 DennisBear:
@@ -538,6 +456,7 @@ DennisBear:
     - po
     - pot
   tags:
+    - dennis-cmd
     - exe
     - gettext
     - pip
@@ -579,6 +498,7 @@ DockerfileLintBear:
     - Dockerfile
   tags:
     - configfiles
+    - dockerfile_lint
     - exe
     - npm
 DocumentationStyleBear:
@@ -621,10 +541,6 @@ ESLintBear:
     npm:
       typescript-eslint-parser:
         version: ~12.0.0
-      eslint-plugin-html:
-        version: ~3.2.2
-      eslint:
-        version: ~3
       eslint-plugin-typescript:
         version: ~0.8.1
       eslint-plugin-markdown:
@@ -633,6 +549,10 @@ ESLintBear:
         version: ~8.0
       eslint-plugin-import:
         version: ~2
+      eslint-plugin-html:
+        version: ~3.2.2
+      eslint:
+        version: ~3
   languages:
     - HTML
     - JSX
@@ -640,6 +560,7 @@ ESLintBear:
     - Markdown
     - Typescript
   tags:
+    - eslint
     - exe
     - js
     - npm
@@ -657,6 +578,7 @@ ElmLintBear:
     - Elm
   tags:
     - elm
+    - elm-format
     - exe
     - npm
 FilenameBear:
@@ -685,6 +607,7 @@ FormatRBear:
   languages:
     - R
   tags:
+    - Rscript
     - apt_get
     - distro
     - exe
@@ -782,6 +705,7 @@ GherkinLintBear:
   tags:
     - exe
     - gherkin
+    - gherkin-lint
     - npm
 GitCommitBear:
   name: GitCommitBear
@@ -789,10 +713,10 @@ GitCommitBear:
   filename: GitCommitBear.py
   requirements:
     pip:
-      nltk:
-        version: ~=3.2
       git-url-parse:
         version: ~=1.1
+      nltk:
+        version: ~=3.2
   languages:
     - Git
   tags:
@@ -850,6 +774,7 @@ GoErrCheckBear:
   languages:
     - Go
   tags:
+    - errcheck
     - exe
     - go
 GoImportsBear:
@@ -866,6 +791,7 @@ GoImportsBear:
   tags:
     - exe
     - go
+    - goimports
 GoLintBear:
   name: GoLintBear
   subdir: go
@@ -880,6 +806,7 @@ GoLintBear:
   tags:
     - exe
     - go
+    - golint
 GoReturnsBear:
   name: GoReturnsBear
   subdir: go
@@ -895,6 +822,7 @@ GoReturnsBear:
     - disabled
     - exe
     - go
+    - goreturns
 GoTypeBear:
   name: GoTypeBear
   subdir: go
@@ -909,6 +837,7 @@ GoTypeBear:
   tags:
     - exe
     - go
+    - gotype
 GoVetBear:
   name: GoVetBear
   subdir: go
@@ -937,6 +866,7 @@ GofmtBear:
   tags:
     - exe
     - go
+    - gofmt
 HAMLLintBear:
   name: HAMLLintBear
   subdir: haml
@@ -953,6 +883,7 @@ HAMLLintBear:
     - exe
     - gem
     - haml
+    - haml-lint
 HTMLHintBear:
   name: HTMLHintBear
   subdir: hypertext
@@ -967,6 +898,7 @@ HTMLHintBear:
     - HTML
   tags:
     - exe
+    - htmlhint
     - hypertext
     - npm
 HTMLLintBear:
@@ -984,6 +916,7 @@ HTMLLintBear:
     - Jinja2
     - PHP
   tags:
+    - /usr/bin/python3
     - exe
     - hypertext
     - pip
@@ -1010,6 +943,7 @@ HTTPoliceLintBear:
     - HAR
   tags:
     - exe
+    - httpolice
     - hypertext
     - pip
 HappinessLintBear:
@@ -1026,6 +960,7 @@ HappinessLintBear:
     - JavaScript
   tags:
     - exe
+    - happiness
     - js
     - npm
 HaskellLintBear:
@@ -1057,10 +992,10 @@ HgCommitBear:
   filename: HgCommitBear.py
   requirements:
     pip:
-      nltk:
-        version: ~=3.2
       git-url-parse:
         version: ~=1.1
+      nltk:
+        version: ~=3.2
   languages:
     - Hg
   tags:
@@ -1086,6 +1021,7 @@ InferBear:
     - Java
   tags:
     - exe
+    - infer
     - opam
 InvalidLinkBear:
   name: InvalidLinkBear
@@ -1109,6 +1045,7 @@ JSComplexityBear:
   languages:
     - JavaScript
   tags:
+    - cr
     - exe
     - js
     - npm
@@ -1127,6 +1064,7 @@ JSHintBear:
   tags:
     - exe
     - js
+    - jshint
     - npm
 JSONFormatBear:
   name: JSONFormatBear
@@ -1155,6 +1093,7 @@ JSStandardBear:
     - exe
     - js
     - npm
+    - standard
 JavaPMDBear:
   name: JavaPMDBear
   subdir: java
@@ -1165,6 +1104,7 @@ JavaPMDBear:
   languages:
     - Java
   tags:
+    - bash
     - exe
     - java
 Jinja2Bear:
@@ -1206,10 +1146,10 @@ LanguageToolBear:
   filename: LanguageToolBear.py
   requirements:
     pip:
-      language-check:
-        version: ~=1.0
       guess-language-spirit:
         version: ~=0.5.2
+      language-check:
+        version: ~=1.0
   languages:
     - Natural Language
   tags:
@@ -1273,6 +1213,7 @@ LicenseCheckBear:
     - dnf
     - exe
     - general
+    - licensecheck
     - portage
     - zypper
 LicenseHeaderBear:
@@ -1325,6 +1266,7 @@ LuaLintBear:
   tags:
     - exe
     - lua
+    - luacheck
     - luarocks
 MarkdownBear:
   name: MarkdownBear
@@ -1346,6 +1288,7 @@ MarkdownBear:
     - exe
     - markdown
     - npm
+    - remark
 MatlabIndentationBear:
   name: MatlabIndentationBear
   subdir: matlab
@@ -1384,6 +1327,7 @@ MypyBear:
     - Python 2
     - Python 3
   tags:
+    - /usr/bin/python3
     - exe
     - pip
     - python
@@ -1408,10 +1352,10 @@ PEP8NotebookBear:
   filename: PEP8NotebookBear.py
   requirements:
     pip:
-      autopep8:
-        version: ~=1.2
       nbformat:
         version: ~=4.1
+      autopep8:
+        version: ~=1.2
   languages:
     - Python
     - Python 2
@@ -1445,6 +1389,7 @@ PHPCodeSnifferBear:
     - exe
     - php
     - php-codesniffer
+    - phpcs
     - zypper
 PHPLintBear:
   name: PHPLintBear
@@ -1518,6 +1463,7 @@ PerlCriticBear:
     - exe
     - libperl-critic-perl
     - perl
+    - perlcritic
     - portage
     - xbps
     - yum
@@ -1558,6 +1504,7 @@ PrettierLintBear:
     - exe
     - js
     - npm
+    - prettier
 ProseLintBear:
   name: ProseLintBear
   subdir: natural_language
@@ -1574,6 +1521,7 @@ ProseLintBear:
     - exe
     - natural-language
     - pip
+    - proselint
 PugLintBear:
   name: PugLintBear
   subdir: pug
@@ -1590,6 +1538,7 @@ PugLintBear:
     - exe
     - npm
     - pug
+    - pug-lint
 PuppetLintBear:
   name: PuppetLintBear
   subdir: configfiles
@@ -1606,6 +1555,7 @@ PuppetLintBear:
     - configfiles
     - exe
     - gem
+    - puppet-lint
 PyCommentedCodeBear:
   name: PyCommentedCodeBear
   subdir: python
@@ -1638,6 +1588,7 @@ PyDocStyleBear:
   tags:
     - exe
     - pip
+    - pydocstyle
     - python
 PyFlakesBear:
   name: PyFlakesBear
@@ -1655,6 +1606,7 @@ PyFlakesBear:
   tags:
     - exe
     - pip
+    - pyflakes
     - python
 PyImportSortBear:
   name: PyImportSortBear
@@ -1688,6 +1640,7 @@ PyLintBear:
   tags:
     - exe
     - pip
+    - pylint
     - python
 PySafetyBear:
   name: PySafetyBear
@@ -1748,6 +1701,7 @@ PycodestyleBear:
   tags:
     - exe
     - pip
+    - pycodestyle
     - python
 PyromaBear:
   name: PyromaBear
@@ -1799,6 +1753,7 @@ RAMLLintBear:
   tags:
     - exe
     - npm
+    - ramllint
     - yaml
 RLintBear:
   name: RLintBear
@@ -1817,6 +1772,7 @@ RLintBear:
   languages:
     - R
   tags:
+    - Rscript
     - apt_get
     - distro
     - exe
@@ -1839,6 +1795,7 @@ RSTcheckBear:
     - exe
     - pip
     - rest
+    - rstcheck
 RadonBear:
   name: RadonBear
   subdir: python
@@ -1872,6 +1829,7 @@ RuboCopBear:
   tags:
     - exe
     - gem
+    - rubocop
     - ruby
 RubyFastererBear:
   name: RubyFastererBear
@@ -1887,6 +1845,7 @@ RubyFastererBear:
     - Ruby
   tags:
     - exe
+    - fasterer
     - gem
     - ruby
 RubySecurityBear:
@@ -1902,6 +1861,7 @@ RubySecurityBear:
   languages:
     - Ruby
   tags:
+    - brakeman
     - exe
     - gem
     - ruby
@@ -1920,6 +1880,7 @@ RubySmellBear:
   tags:
     - exe
     - gem
+    - reek
     - ruby
 RubySyntaxBear:
   name: RubySyntaxBear
@@ -1975,6 +1936,7 @@ SASSLintBear:
   tags:
     - exe
     - npm
+    - sass-lint
     - scss
 SCSSLintBear:
   name: SCSSLintBear
@@ -1995,6 +1957,7 @@ SCSSLintBear:
     - exe
     - gem
     - scss
+    - scss-lint
 SQLFormatBear:
   name: SQLFormatBear
   subdir: sql
@@ -2024,6 +1987,7 @@ SQLintBear:
     - exe
     - gem
     - sql
+    - sqlint
 ScalaLintBear:
   name: ScalaLintBear
   subdir: scala
@@ -2042,6 +2006,7 @@ ScalaLintBear:
     - default-jre
     - distro
     - exe
+    - java
     - scala
 ShellCheckBear:
   name: ShellCheckBear
@@ -2110,6 +2075,7 @@ SpellCheckBear:
     - exe
     - natural-language
     - pip
+    - scspell
 StyleLintBear:
   name: StyleLintBear
   subdir: css
@@ -2127,6 +2093,7 @@ StyleLintBear:
     - css
     - exe
     - npm
+    - stylelint
 StylintBear:
   name: StylintBear
   subdir: stylus
@@ -2142,6 +2109,7 @@ StylintBear:
   tags:
     - exe
     - npm
+    - stylint
     - stylus
 TOMLBear:
   name: TOMLBear
@@ -2158,6 +2126,7 @@ TOMLBear:
     - configfiles
     - exe
     - go
+    - tomlv
 TSLintBear:
   name: TSLintBear
   subdir: typescript
@@ -2176,6 +2145,7 @@ TSLintBear:
     - disabled
     - exe
     - npm
+    - tslint
     - typescript
 TailorBear:
   name: TailorBear
@@ -2190,6 +2160,7 @@ TailorBear:
     - exe
     - java
     - swift
+    - tailor
 TextLintBear:
   name: TextLintBear
   subdir: general
@@ -2250,6 +2221,7 @@ TextLintBear:
     - exe
     - general
     - npm
+    - textlint
 TravisLintBear:
   name: TravisLintBear
   subdir: yaml
@@ -2265,6 +2237,7 @@ TravisLintBear:
   tags:
     - exe
     - gem
+    - travis
     - yaml
 URLBear:
   name: URLBear
@@ -2377,6 +2350,7 @@ VintBear:
     - exe
     - pip
     - vimscript
+    - vint
 VultureBear:
   name: VultureBear
   subdir: python
@@ -2408,6 +2382,7 @@ WriteGoodLintBear:
     - exe
     - natural-language
     - npm
+    - write-good
 XMLBear:
   name: XMLBear
   subdir: xml2
@@ -2441,6 +2416,7 @@ XMLBear:
     - portage
     - xbps
     - xml2
+    - xmllint
     - yum
     - zypper
 YAMLLintBear:
@@ -2459,6 +2435,7 @@ YAMLLintBear:
     - exe
     - pip
     - yaml
+    - yamllint
 YapfBear:
   name: YapfBear
   subdir: python

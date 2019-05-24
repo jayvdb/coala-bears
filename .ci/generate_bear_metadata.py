@@ -310,6 +310,9 @@ def get_bear_tags(bear, metadata):
     if bear.name == 'VHDLLintBear':
         tags.add('perl')
 
+    if 'exe' in requirements:
+        tags.update(requirements['exe'].keys())
+
     if 'swift' in tags:
         tags.add('java')
 

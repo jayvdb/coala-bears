@@ -272,8 +272,14 @@ jobs:
       jdk: openjdk6
       env: TODO=disable-tailor-and-more
 
-    - language: generic
-      env: DIST=trusty BEARS=apt_get
+    - stage: test-apt
+      language: generic
+      env: DIST=trusty BEARS=apt_get BEAR_LIST="astyle chktex cppcheck default-jre flawfinder indent licensecheck perlcritic phpcs ruby xmllint verilator"
+      # php will pick language, and pre-install php-codesniffer
+      # maybe can disable in deps.php.sh
+      # better is move lang php to composer
+
+      # mcs is a disabled bear
       addons:
         apt:
           sources:
@@ -325,7 +331,6 @@ jobs:
             - php5-cli
             # php-codesniffer  # linter error?
             - python3
-            - shellcheck
             - verilator
 
     - stage: test-apt
@@ -363,6 +368,7 @@ jobs:
             - php5-cli
             - php-codesniffer
             - pyenv
+            - shellcheck
             - verilator
 
     - *check_moban
