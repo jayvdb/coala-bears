@@ -56,7 +56,7 @@ install:
   # "sed -i '/sqlint/d' Gemfile"
   - git clone -b 10-latest git://github.com/lfittl/libpg_query
   - cd libpg_query
-  - make
+  - gmake
   - cd ..
   - "SET PATH=C:\\Ruby%ruby_version%\\bin;%PATH%"
   - "bundle install"

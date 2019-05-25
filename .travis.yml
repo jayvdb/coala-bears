@@ -473,7 +473,8 @@ before_install:
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n'
-           "tox-travis" "tox-backticks" "tox-pyenv" "tox-venv"
+           "git+https://github.com/jayvdb/tox-travis@debug"
+           "tox-backticks" "tox-pyenv" "tox-venv"
            "$(cat test-requirements.txt)"
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
