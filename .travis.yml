@@ -292,23 +292,28 @@ jobs:
     - stage: test-current
       language: java
       jdk: oraclejdk11
+      env: DISABLE_BEARS=tailor
     - language: java
       jdk: oraclejdk10
+      env: DISABLE_BEARS=tailor
     - language: java
       jdk: oraclejdk9
+      env: DISABLE_BEARS=tailor
 
     - language: java
       jdk: openjdk11
+      env: DISABLE_BEARS=tailor
     - language: java
       jdk: openjdk10
+      env: DISABLE_BEARS=tailor
     - language: java
       jdk: openjdk9
+      env: DISABLE_BEARS=tailor
     - language: java
       jdk: openjdk8
     - language: java
       jdk: openjdk7
-    - language: java
-      jdk: openjdk6
+      env: DISABLE_BEARS=tailor
 
     # This is in manual languages, as language: haskell isnt working yet
     - stage: test-manual-langs
@@ -483,6 +488,8 @@ before_install:
     fi
 
   # echo $TRAVIS_LANGUAGE
+  # TODO: implement DISABLE_BEARS globally, esp deps.generic.sh
+
   - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
       bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
     fi

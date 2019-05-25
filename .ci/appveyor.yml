@@ -5,6 +5,8 @@ environment:
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
     PIP_CACHE_DIR: C:\pip_cache
+    DISABLE_BEARS: bandit vint clang csvlint sqlint alex coffeelint csscomb dockerfile_lint elm eslint gherkin jshint remark postcss sass-lint textlint tslint
+    GOPATH: c:\gopath
 
   matrix:
     - PYTHON: "C:\\Python34"
@@ -18,6 +20,8 @@ environment:
       PYTHON_ARCH: "64"
       ruby_version: "24-x64"
       TOX_APPVEYOR_X64: 1
+
+stack: go 1.10
 
 cache:
   - "C:\\pip_cache"
@@ -36,6 +40,10 @@ install:
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "SET PATH=C:\\Program\ Files\\Java\\jdk1.7.0\\bin;%PATH%"
+
+  - go get -u github.com/alecthomas/gometalinter
+  - gometalinter --install
+  - go get -u github.com/BurntSushi/toml/cmd/tomlv
 
   - if not exist "C:\strawberry" choco install strawberryperl -y
   - set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%

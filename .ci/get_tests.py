@@ -11,6 +11,7 @@ PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 IS_WIN = os.name == 'nt'
 
+# This could be moved to appveyor.yml, but can it be less ugly there?
 WINDOWS_BROKEN = set((
     # pip
     'bandit',
@@ -36,6 +37,9 @@ WINDOWS_BROKEN = set((
 ))
 
 
+DISABLE_BEARS = set(os.environ.get('DISABLE_BEARS', '').split(' '))
+
+
 def get_metadata():
     with open('bear-metadata.yaml') as f:
         metadata = yaml.load(f, Loader=yaml.BaseLoader)
@@ -50,6 +54,10 @@ def get_bears(metadata, args, include_disabled=False):
         matches = []
         for bear in metadata.values():
             tags = set(bear['tags'])
+
+            if tags.intersection(DISABLE_BEARS):
+                tags.add('disabled')
+
             if IS_WIN and tags.intersection(WINDOWS_BROKEN):
                 tags.add('disabled')
 
