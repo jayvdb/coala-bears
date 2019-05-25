@@ -505,7 +505,9 @@ script:
       git diff;
     fi
   - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
-      python -m pip install --user tox-travis tox-backticks tox-pyenv tox-venv;
+      python -m pip install --user
+        git+https://github.com/jayvdb/tox-travis@debug
+        tox-backticks tox-pyenv tox-venv;
     fi
   - python -m tox
   # codecov
