@@ -21,7 +21,6 @@ environment:
       PYTHON_ARCH: "32"
       TOX_APPVEYOR_X64: 0
       ruby_version: "24"
-      DISABLE_BEARS: pmd cpd
 
 stack: go 1.10
 

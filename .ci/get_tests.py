@@ -17,30 +17,33 @@ WINDOWS_BROKEN = set((
     # perl
     'bakalint',  # not installed
     'tailor',  # installer fails
+    'pmd', 'cpd',  # https://github.com/coala/coala-bears/issues/2908
     # pip
-    'apertium_lint',  # not installed
-    'bandit',
+    # 'apertium_lint',  # not installed
+    # 'bandit',
     'clang',  # lots of errors, and hangs
-    'cppclean',  # cppclean is not installed
+    # 'cppclean',  # cppclean is not installed
     'scspell',  # doesnt work on Windows
-    'vint',
+    # 'vint',
     # gem
-    #'csvlint',
-    'sqlint',  # libpg_query doesnt build
+    'csvlint',  # https://github.com/coala/coala-bears/issues/2909
+    'sqlint',  # libpg_query doesnt build on Windows
     # npm ; try different version
-    #'alex',
-    #'coffeelint',
-    #'csscomb',
-    #'dockerfile_lint',
-    #'elm',
-    #'eslint',
-    #'gherkin',
-    #'jshint',
-    #'remark',
-    #'postcss',
-    #'sass-lint',
-    #'textlint',
-    #'tslint',
+    'alex',  # The `alex` package could not be verified.
+    'coffeelint',  # Extra windows results
+    'csscomb',   # Linter errors
+    'dockerfile_lint',  # test case bug
+    'elm',  # elm-format is missing
+    'gherkin',  # result json decode exception
+    'jshint',  # test case bug
+    'remark',  # remark result text difference due to unicode
+    'postcss',  # Autoprefixer is not installed
+    'sass-lint',  # rule `!important not allowed` not trigger
+    'textlint',  # Unexpected extra result in test
+
+    # No information from linter bear
+    'eslint',  # Two of tests fail
+    'tslint',  # Half of tests fail
 ))
 
 

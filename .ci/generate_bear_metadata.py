@@ -338,6 +338,10 @@ def get_bear_tags(bear, metadata):
         # Has no executable defined
         tags.add('cpd')
 
+    elif bear.name == 'VHDLLintBear':
+        # Has no executable defined
+        tags.add('bakalint')
+
     if bear.name in DISABLED_BEARS:
         tags.add('disabled')
 
