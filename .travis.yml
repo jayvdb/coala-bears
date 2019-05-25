@@ -124,7 +124,14 @@ jobs:
 
     - stage: test-other-versions
 
-      language: node_js
+      # This is under other languages, as the only bear is tailor
+      # which is java, already covered above.  Listed first to schedule
+      # it early onto osx, as they take a while to spin up
+      language: objective_c
+      os: osx
+      dist: false
+
+    - language: node_js
       node_js: 10
     - language: node_js
       node_js: 9
@@ -154,17 +161,12 @@ jobs:
     - language: php
       php: hhvm-3.18
 
-    - stage: other-versions
-      language: php
+    - language: php
       php: 5.5
 
     - language: scala
       jdk: oraclejdk8
       scala: 2.12.2
-
-    - language: objective_c
-      os: osx
-      dist: false
 
     # Travis community supported languages
 
@@ -303,9 +305,54 @@ jobs:
       jdk: openjdk6
       env: TODO=disable-tailor-and-more
 
+    # This is in manual languages, as language: haskell isnt working yet
+    - stage: test-manual-langs
+      language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod hlint"
+      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
+      # ghc-mod needs cabal-install
+      # shellcheck is failing in xenial; new features probably
+      addons:
+        apt:
+          packages:
+            - cabal-install
+            - ghc
+            - ghc-mod
+            - hlint
+
+    # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
+    # which is the old circle init
     - stage: test-apt
       language: generic
-      env: DIST=trusty BEARS=apt_get BEAR_LIST="astyle bakalint chktex cppcheck default-jre flawfinder indent licensecheck mono perlcritic phpcs xmllint verilator"
+      dist: xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint chktex cppcheck default-jre flawfinder indent licensecheck mono perlcritic phpcs phpmd xmllint verilator"
+      # ruby will match rubocop which isnt available for xenial
+
+      # php will pick language, and pre-install php-codesniffer
+      # maybe can disable in deps.php.sh
+      # better is move lang php to composer
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php7.0-cli
+            - phpmd
+            - php-codesniffer
+            - verilator
+
+    - stage: test-apt
+      language: generic
+      env: DIST=trusty BEARS=apt_get
+      # BEAR_LIST="astyle bakalint chktex cppcheck default-jre flawfinder indent licensecheck mono perlcritic phpcs xmllint verilator"
+
       # php will pick language, and pre-install php-codesniffer
       # maybe can disable in deps.php.sh
       # better is move lang php to composer
@@ -332,8 +379,6 @@ jobs:
             - shellcheck
             - verilator
 
-    # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
-    # which is the old circle init
     - stage: test-apt
       language: generic
       env: DIST=precise BEARS=apt_get
@@ -341,7 +386,6 @@ jobs:
       addons:
         apt:
           packages:
-            # astyle incompatible
             - chktex
             - cppcheck
             - devscripts
@@ -351,64 +395,12 @@ jobs:
             - libxml2-utils
             - mono-mcs
             - php5-cli
-            # php-codesniffer  # linter error?
             - python3
             - verilator
 
-    - stage: test-current
-      language: generic
-      dist: xenial
-      env: BEARS=adhoc BEAR_LIST="bakalint chktex cppcheck default-jre flawfinder indent licensecheck mono perlcritic phpcs xmllint verilator"
-      # ruby will match rubocop whih isnt available for xenial
-
-      # php will pick language, and pre-install php-codesniffer
-      # maybe can disable in deps.php.sh
-      # better is move lang php to composer
-      addons:
-        apt:
-          packages:
-            - chktex
-            - cppcheck
-            - devscripts
-            - flawfinder
-            - indent
-            - julia
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
-            - php7.0-cli
-            - phpmd
-            - php-codesniffer
-            - verilator
-
-    - stage: test-apt
-      language: generic
-      dist: xenial
-      env: BEARS=adhoc BEAR_LIST="ghc-mod hlint"
-      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
-      # ghc-mod needs cabal-install
-      # hlint bear depends on --json, which isnt in trusty hlint
-      # shellcheck is failing in xenial; new features probably
-      addons:
-        apt:
-          packages:
-            - cabal-install
-            - ghc
-            - ghc-mod
-            - hlint
-
     - stage: test-failing
       language: generic
-      env: BEARS=adhoc BEAR_LIST=phpcs DIST=precise
-      dist: precise
-      addons:
-        apt:
-          packages:
-            - php-codesniffer
-
-    - stage: test-failing
-      language: generic
-      env: BEARS=apt_get DIST=xenial TODO=disable-shellcheck,debug-formatr
+      env: DIST=xenial BEARS=apt_get TODO=disable-shellcheck,debug-formatr
       dist: xenial
       addons:
         apt:
@@ -416,6 +408,27 @@ jobs:
             - astyle
             - r-cran-codetools
             - r-cran-formatr
+            - shellcheck
+
+    - stage: test-failing
+      language: generic
+      env: DIST=trusty BEARS=apt_get TODO=disable-shellcheck,debug-formatr
+      dist: trusty
+      # hlint bear depends on --json, which isnt in trusty hlint
+      addons:
+        apt:
+          packages:
+            - hlint
+            - shellcheck
+
+    - stage: test-failing
+      language: generic
+      env: DIST=precise BEARS=adhoc BEAR_LIST=phpcs
+      dist: precise
+      addons:
+        apt:
+          packages:
+            - php-codesniffer
             - shellcheck
 
     - *check_moban
