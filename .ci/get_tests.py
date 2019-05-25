@@ -60,7 +60,7 @@ def get_tests(bears):
     # Add 1 for the path separator after bears
     project_dir_prefix_len = len(PROJECT_DIR) + 1
 
-    tests = []
+    tests = set()
     for bear in bears:
         name = bear['name']
         if name.startswith('_'):
@@ -71,9 +71,20 @@ def get_tests(bears):
         testpath = os.path.join('tests', subdir, '{}*Test.py'.format(name))
         files = glob.glob(testpath)
         for filename in files:
-            relative = filename[project_dir_prefix_len:]
+            if filename.startswith('/'):
+                 filename = filename[project_dir_prefix_len:]
+            tests.add(filename)
 
-            tests.append(filename)
+        if subdir == 'c_languages/codeclone_detection':
+            tests.update([
+                'tests/c_languages/codeclone_detection/ClangCountingConditionsTest.py',
+                'tests/c_languages/codeclone_detection/ClangCountVectorCreatorTest.py',
+                'tests/c_languages/codeclone_detection/CountVectorTest.py',
+                'tests/c_languages/codeclone_detection/CloneDetectionRoutinesTest.py',
+            ])
+
+        elif subdir.startswith('vcs'):
+            tests.add('tests/vcs/CommitBearTest.py')
 
     return tests
 

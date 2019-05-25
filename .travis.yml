@@ -27,6 +27,8 @@ stages:
   - moban
   - name: sentinel
     if: branch != master OR type = pull_request
+  - name: test-master
+    if: branch = master AND type = push
   - name: unsupported
     if: branch = master AND type = push
 
@@ -122,7 +124,7 @@ jobs:
     - language: scala
       scala: 2.11
 
-    - stage: test-other-versions
+    - stage: test-master
 
       # This is under other languages, as the only bear is tailor
       # which is java, already covered above.  Listed first to schedule
@@ -130,6 +132,8 @@ jobs:
       language: objective_c
       os: osx
       dist: false
+
+    - stage: test-other-versions
 
     - language: node_js
       node_js: 10
@@ -237,10 +241,6 @@ jobs:
           packages:
             - luarocks
 
-    - stage: test-failing
-      language: generic
-      env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
-
     - language: generic
       env: BEARS=opam INFER_VERSION=0.7.0 PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
       addons:
@@ -251,6 +251,10 @@ jobs:
             - camlp4-extra
             - ocaml
             - opam
+
+    - stage: test-failing
+      language: generic
+      env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
 
     - stage: test-failing
       language: generic
