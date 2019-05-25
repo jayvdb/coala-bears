@@ -37,11 +37,7 @@ from dependency_management.requirements.ExecutableRequirement import (
     ExecutableRequirement,
 )
 
-DISABLED_BEARS = (
-    'TSLintBear',
-    'TextLintBear',
-    'WriteGoodLintBear',
-)
+DISABLED_BEARS = []
 
 yaml = YAML(typ='rt')
 yaml.default_flow_style = False

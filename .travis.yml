@@ -102,13 +102,15 @@ jobs:
           packages: clang-3.4
 
     - stage: test-current
-
-      language: node_js
-      node_js: 5
+      language: ruby
+      rvm: 2.4
 
     - stage: test-langages
 
-      language: ruby
+      language: node_js
+      node_js: 10
+
+    - language: ruby
       rvm: 2.4
 
     - language: go
@@ -135,10 +137,8 @@ jobs:
       os: osx
       dist: false
 
-    - stage: test-current
+    - stage: test-other-versions
 
-      language: node_js
-      node_js: 10
     - language: node_js
       node_js: 9
     - language: node_js
@@ -148,8 +148,7 @@ jobs:
     - language: node_js
       node_js: 6
 
-    - stage: test-other-versions
-      language: ruby
+    - language: ruby
       rvm: 2.3
     - language: ruby
       rvm: 2.2
@@ -255,19 +254,10 @@ jobs:
       language: generic
       env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
 
-    - stage: test-current
-      language: generic
-      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-      install: npm install
-
-    # https://travis-ci.org/jayvdb/coala-bears/builds/536871426
+    # stage: test-first
     # language: generic
-    # dist: precise
-    # env: BEARS=disabled BEAR_LIST="goreturns" GOPATH="/home/travis/gopath"
-
-    # language: generic
-    # dist: trusty
-    # env: BEARS=disabled BEAR_LIST="goreturns" GOPATH="/home/travis/gopath"
+    # env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+    # install: npm install
 
     - stage: test-failing
       language: generic
@@ -299,14 +289,26 @@ jobs:
     - language: dart
       dart: stable
 
-    - stage: test-failing
-      # Tailor depends on java 8
+    - stage: test-current
       language: java
+      jdk: oraclejdk11
+    - language: java
+      jdk: oraclejdk10
+    - language: java
+      jdk: oraclejdk9
+
+    - language: java
+      jdk: openjdk11
+    - language: java
+      jdk: openjdk10
+    - language: java
+      jdk: openjdk9
+    - language: java
+      jdk: openjdk8
+    - language: java
       jdk: openjdk7
-      env: TODO=disable-tailor
     - language: java
       jdk: openjdk6
-      env: TODO=disable-tailor-and-more
 
     # This is in manual languages, as language: haskell isnt working yet
     - stage: test-manual-langs
@@ -426,7 +428,12 @@ jobs:
 
     - stage: test-failing
       language: generic
-      env: DIST=precise BEARS=adhoc BEAR_LIST=phpcs
+      env: DIST=trusty BEARS=adhoc BEAR_LIST="goreturns"
+      dist: trusty
+
+    - stage: test-failing
+      language: generic
+      env: DIST=precise BEARS=adhoc BEAR_LIST="go phpcs"
       dist: precise
       addons:
         apt:
@@ -470,6 +477,11 @@ env:
 before_install:
   - printenv
   - mkdir -p ~/bin ~/.local/bin
+
+  - if [ -z "$GOPATH" ]; then
+      export GOPATH="/home/travis/gopath";
+    fi
+
   # echo $TRAVIS_LANGUAGE
   - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
       bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
@@ -517,9 +529,6 @@ before_script:
   - pyenv versions
   - python --version
   - mv requirements.orig requirements.txt
-  - if [ -z "$GOPATH" ]; then
-      export GOPATH="/home/travis/gopath";
-    fi
 
 script:
   - echo "SCRIPT HERE"

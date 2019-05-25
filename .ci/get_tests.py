@@ -12,11 +12,14 @@ PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 IS_WIN = os.name == 'nt'
 
 WINDOWS_BROKEN = set((
+    # pip
     'bandit',
     'vint',
     'clang',
+    # gem
     'csvlint',
     'sqlint',
+    # npm
     'alex',
     'coffeelint',
     'csscomb',

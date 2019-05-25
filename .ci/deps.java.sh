@@ -1,9 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
-set -x
+set -e -x
 
-.ci/deps.pmd.sh
-.ci/deps.tailor.sh
+if [ -n "$TRAVIS_JDK_VERSION" ]; then
+  jdk_version=${TRAVIS_JDK_VERSION#openjdk}
+  jdk_version=${jdk_version#oraclejdk}
+fi
+
+if [ -z "$jdk_version" -o $jdk_version -ge 8 ]; then
+  .ci/deps.tailor.sh
+fi
+
+if [ -z "$(which pmd || true)" ]; then
+  .ci/deps.pmd.sh
+fi
 
 #bash -e -x .ci/deps.coala-bears.sh
