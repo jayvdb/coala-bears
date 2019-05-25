@@ -100,6 +100,14 @@ jobs:
           packages: clang-3.4
 
     - stage: test-current
+      language: swift
+
+    - stage: test-current
+      # auto os: linux
+      language: objective_c
+
+    - stage: test-current
+      # auto os: osx
       language: objective-c
 
     - stage: test-languages
