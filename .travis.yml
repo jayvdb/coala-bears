@@ -99,21 +99,6 @@ jobs:
         apt:
           packages: clang-3.4
 
-    - stage: test-current
-      language: swift
-      os: osx
-      dist: false
-
-    - stage: test-current
-      # auto os: osx
-      language: objective_c
-      dist: false
-
-    - stage: test-current
-      # auto os: osx
-      language: objective-c
-      dist: false
-
     - stage: test-languages
 
       language: node_js
@@ -176,6 +161,10 @@ jobs:
     - language: scala
       jdk: oraclejdk8
       scala: 2.12.2
+
+    - language: objective_c
+      os: osx
+      dist: false
 
     # Travis community supported languages
 
@@ -368,6 +357,27 @@ jobs:
             - python3
             - verilator
 
+    - stage: test-current
+      language: generic
+      dist: xenial
+      env: BEARS=adhoc BEAR_LIST="astyle bakalint chktex cppcheck default-jre flawfinder indent licensecheck perlcritic phpcs ruby xmllint verilator"
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - julia
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php7.0-cli
+            - phpmd
+            - php-codesniffer
+            - verilator
+
     - stage: test-apt
       language: generic
       dist: xenial
@@ -393,28 +403,17 @@ jobs:
           packages:
             - php-codesniffer
 
-    - stage: test-current
+    - stage: test-failing
       language: generic
-      env: BEARS=apt_get DIST=xenial
+      env: BEARS=apt_get DIST=xenial TODO=disable-shellcheck,debug-formatr
       dist: xenial
       addons:
         apt:
           packages:
             - astyle
-            - chktex
-            - cppcheck
-            - flawfinder
-            - indent
-            - julia
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
-            - php7.0-cli
-            - php-codesniffer
             - r-cran-codetools
             - r-cran-formatr
             - shellcheck
-            - verilator
 
     - *check_moban
   allow_failures:
