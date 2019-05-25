@@ -36,8 +36,8 @@ install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "SET PATH=C:\\Program\ Files\\Java\\jdk1.7.0\\bin;%PATH%"
 
-  - cinst ruby2.devkit
-  - C:\DevKit2\devkitvars.bat
+  - if not exist "C:\strawberry" choco install strawberryperl -y
+  - set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
 
   - echo %PATH%
 

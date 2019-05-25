@@ -102,8 +102,6 @@ jobs:
     - stage: test-current
       language: objective_c
 
-    - language: csharp
-
     - stage: test-languages
 
       language: node_js
@@ -111,7 +109,6 @@ jobs:
 
     - language: ruby
       rvm: 2.4
-
 
     - language: go
       go: 1.11
@@ -171,7 +168,9 @@ jobs:
     # Travis community supported languages
 
     - stage: test-travis-community-langs
-      language: dart
+      language: csharp
+
+    - language: dart
       dart: 1.15.0
 
     - language: dart
