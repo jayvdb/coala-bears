@@ -463,7 +463,7 @@ before_install:
   # source setup_go_root.sh
   # nvm install 6.10.2
   # Remove Ruby directive from Gemfile as this image has 2.2.5
-  - sed -i '/^ruby/d' Gemfile
+  - sed -i.bak '/^ruby/d' Gemfile
 
   # Used by go, to do nothing
   - if [ -f .ci/$TRAVIS_LANGUAGE.GNUMakefile ]; then

@@ -22,6 +22,7 @@ environment:
 cache:
   - "C:\\pip_cache"
   - "node_modules"
+  - "C:\\strawberry"
   - "C:\\Users\\appveyor\\AppData\\Local\\coala-bears\\coala-bears"
   - "C:\\Users\\appveyor\\AppData\\Roaming\\nltk_data"
 
