@@ -39,7 +39,7 @@ install:
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.7.0\\bin;%PATH%"
+  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.7.0\\bin;C:\\gopath\\bin;%PATH%"
 
   - go get -u github.com/alecthomas/gometalinter
   - gometalinter --install
@@ -82,8 +82,8 @@ test_script:
   # Clang DLLs x64 were nowadays installed, but the x64 version hangs, so we
   # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
   # https://github.com/appveyor/ci/issues/688
-  - "sed -i 's/^envlist.*$/envlist: py34-noreqs-pip-npm-gem-perl-java-win-check-skip-codecov/' tox.ini"
-  - "%CMD_IN_ENV% python -m tox -e py34-noreqs-pip-npm-gem-perl-java-win-check-skip-codecov"
+  - "sed -i 's/^envlist.*$/envlist: py34-noreqs-pip-npm-gem-perl-java8-win-check-skip-codecov/' tox.ini"
+  - "%CMD_IN_ENV% python -m tox -e py34-noreqs-pip-npm-gem-perl-java8-win-check-skip-codecov"
   # "%CMD_IN_ENV% python setup.py install"
   # "%CMD_IN_ENV% python -m pip install \
   # git+https://github.com/coala/coala"

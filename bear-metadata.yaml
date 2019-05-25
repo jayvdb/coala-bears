@@ -1255,6 +1255,7 @@ LanguageToolBear:
     - Natural Language
   tags:
     - java
+    - languagetool
     - natural-language
     - pip
 LatexLintBear:

@@ -103,7 +103,7 @@ jobs:
 
     - stage: test-current
       language: ruby
-      rvm: 2.4
+      rvm: 2.5
 
     - stage: test-langages
 
@@ -125,10 +125,7 @@ jobs:
 
     - language: perl
 
-    - language: scala
-      scala: 2.11
-
-    - stage: test-master
+    - stage: test-current
 
       # This is under other languages, as the only bear is tailor
       # which is java, already covered above.  Listed first to schedule
@@ -136,6 +133,9 @@ jobs:
       language: objective_c
       os: osx
       dist: false
+
+    - language: scala
+      scala: 2.11
 
     - stage: test-other-versions
 
@@ -293,9 +293,7 @@ jobs:
       language: java
       jdk: oraclejdk11
       env: DISABLE_BEARS=tailor
-    - language: java
-      jdk: oraclejdk10
-      env: DISABLE_BEARS=tailor
+    # oraclejdk10 is EOL
     - language: java
       jdk: oraclejdk9
       env: DISABLE_BEARS=tailor

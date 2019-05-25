@@ -328,6 +328,7 @@ def get_bear_tags(bear, metadata):
     elif bear.name == 'LanguageToolBear':
         # Has no requirements defined yet
         tags.add('java')
+        tags.add('languagetool')
 
     if bear.name in DISABLED_BEARS:
         tags.add('disabled')
