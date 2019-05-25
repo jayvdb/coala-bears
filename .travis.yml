@@ -305,12 +305,11 @@ jobs:
 
     - stage: test-apt
       language: generic
-      env: DIST=trusty BEARS=apt_get BEAR_LIST="astyle bakalint chktex cppcheck default-jre flawfinder indent licensecheck perlcritic phpcs ruby xmllint verilator"
+      env: DIST=trusty BEARS=apt_get BEAR_LIST="astyle bakalint chktex cppcheck default-jre flawfinder indent licensecheck mono perlcritic phpcs xmllint verilator"
       # php will pick language, and pre-install php-codesniffer
       # maybe can disable in deps.php.sh
       # better is move lang php to composer
 
-      # mcs is a disabled bear
       addons:
         apt:
           sources:
@@ -318,7 +317,6 @@ jobs:
                 deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
               key_url:
                 https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
-              # also complaining about 6B05F25D762E3157
           packages:
             - astyle
             - chktex
@@ -360,7 +358,12 @@ jobs:
     - stage: test-current
       language: generic
       dist: xenial
-      env: BEARS=adhoc BEAR_LIST="astyle bakalint chktex cppcheck default-jre flawfinder indent licensecheck perlcritic phpcs ruby xmllint verilator"
+      env: BEARS=adhoc BEAR_LIST="bakalint chktex cppcheck default-jre flawfinder indent licensecheck mono perlcritic phpcs xmllint verilator"
+      # ruby will match rubocop whih isnt available for xenial
+
+      # php will pick language, and pre-install php-codesniffer
+      # maybe can disable in deps.php.sh
+      # better is move lang php to composer
       addons:
         apt:
           packages:
