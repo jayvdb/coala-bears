@@ -100,7 +100,7 @@ jobs:
           packages: clang-3.4
 
     - stage: test-current
-      language: objective_c
+      language: objective-c
 
     - stage: test-languages
 
@@ -504,7 +504,7 @@ script:
       git diff;
     fi
   - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
-      python -m pip install --user
+      python -m pip install --upgrade --user
         git+https://github.com/jayvdb/tox-travis@debug
         tox-backticks tox-pyenv tox-venv;
     fi
