@@ -59,12 +59,7 @@ install:
   - "SET PATH=node_modules\\.bin;%PATH%"
 
   # Commands for Ruby
-  # "sed -i '/sqlint/d' Gemfile"
-  - git clone -b windows git://github.com/jayvdb/libpg_query
-  - cd libpg_query
-  - set CC=gcc
-  - gmake
-  - cd ..
+  - "sed -i '/sqlint/d' Gemfile"
   - "SET PATH=C:\\Ruby%ruby_version%\\bin;%PATH%"
   - "bundle install"
 
