@@ -99,6 +99,11 @@ jobs:
         apt:
           packages: clang-3.4
 
+    - stage: test-current
+      language: objective_c
+
+    - language: csharp
+
     - stage: test-languages
 
       language: node_js
@@ -106,6 +111,7 @@ jobs:
 
     - language: ruby
       rvm: 2.4
+
 
     - language: go
       go: 1.11
@@ -376,7 +382,7 @@ jobs:
           packages:
             - php-codesniffer
 
-    - stage: test-failing
+    - stage: test-current
       language: generic
       env: BEARS=apt_get DIST=xenial
       dist: xenial
