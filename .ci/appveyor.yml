@@ -42,7 +42,8 @@ install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "SET PATH=C:\\Program\ Files\\Java\\jdk1.8.0\\bin;C:\\Ruby24\\bin;C:\\gopath\\bin;%PATH%"
 
-  - choco install --ignore-dependencies --yes pmd
+  # https://github.com/coala/coala-bears/issues/2908
+  # choco install --ignore-dependencies --yes pmd
   # doesnt work
   # ps: iex (new-object net.webclient).downloadstring('https://tailor.sh/install.ps1')
 

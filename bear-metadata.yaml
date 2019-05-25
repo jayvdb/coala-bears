@@ -2394,6 +2394,7 @@ VHDLLintBear:
     - VHDL
   tags:
     - apt_get
+    - bakalint
     - brew
     - distro
     - dnf
