@@ -104,6 +104,7 @@ jobs:
     - stage: test-current
       language: ruby
       rvm: 2.5
+      env: DISABLE_BEARS=csvlint
 
     - stage: test-langages
 
@@ -292,21 +293,21 @@ jobs:
     - stage: test-current
       language: java
       jdk: oraclejdk11
-      env: DISABLE_BEARS=tailor
+      env: DISABLE_BEARS="languagetool tailor"
     # oraclejdk10 is EOL
     - language: java
       jdk: oraclejdk9
-      env: DISABLE_BEARS=tailor
+      env: DISABLE_BEARS="languagetool tailor"
 
     - language: java
       jdk: openjdk11
-      env: DISABLE_BEARS=tailor
+      env: DISABLE_BEARS="languagetool tailor"
     - language: java
       jdk: openjdk10
-      env: DISABLE_BEARS=tailor
+      env: DISABLE_BEARS="languagetool tailor"
     - language: java
       jdk: openjdk9
-      env: DISABLE_BEARS=tailor
+      env: DISABLE_BEARS="languagetool tailor"
     - language: java
       jdk: openjdk8
     - language: java
