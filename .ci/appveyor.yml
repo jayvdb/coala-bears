@@ -51,8 +51,9 @@ install:
   - go get -u github.com/BurntSushi/toml/cmd/tomlv
   - go get -u sourcegraph.com/sqs/goreturns
 
-  # if not exist "C:\strawberry" choco install strawberryperl -y
-  # set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
+  # Default Perl doesnt include cpanm
+  - if not exist "C:\strawberry" choco install strawberryperl -y
+  - set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - cpanm --quiet --installdeps --with-develop --notest .
 
   - echo %PATH%
