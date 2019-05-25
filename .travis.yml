@@ -101,14 +101,18 @@ jobs:
 
     - stage: test-current
       language: swift
+      os: osx
+      dist: false
 
     - stage: test-current
-      # auto os: linux
+      # auto os: osx
       language: objective_c
+      dist: false
 
     - stage: test-current
       # auto os: osx
       language: objective-c
+      dist: false
 
     - stage: test-languages
 
@@ -407,6 +411,7 @@ jobs:
             - mono-mcs
             - php7.0-cli
             - php-codesniffer
+            - r-cran-codetools
             - r-cran-formatr
             - shellcheck
             - verilator
