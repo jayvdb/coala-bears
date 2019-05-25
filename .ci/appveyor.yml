@@ -72,6 +72,10 @@ install:
   - "SET PATH=C:\\Ruby%ruby_version%\\bin;%PATH%"
   - "bundle install"
 
+  - choco install -y pmd
+  - ps: iex (new-object net.webclient).downloadstring('https://tailor.sh/install.ps1')
+
+
 build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:

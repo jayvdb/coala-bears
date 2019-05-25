@@ -1,5 +1,6 @@
 import glob
 import os
+import os.path
 import sys
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -22,7 +23,7 @@ def main():
     if do_all or do_missing:
         all_bears = glob.glob('{}/**/*.py'.format(PROJECT_BEAR_DIR))
         all_bears = [
-            bear[len(PROJECT_DIR) + 1:]
+            bear[len(PROJECT_DIR) + 1:].replace(os.path.sep, '/')
             for bear in all_bears
             if not bear.endswith('__init__.py')
         ]

@@ -1,5 +1,6 @@
 import glob
 import os
+import os.path
 import sys
 import types
 
@@ -13,14 +14,19 @@ IS_WIN = os.name == 'nt'
 
 # This could be moved to appveyor.yml, but can it be less ugly there?
 WINDOWS_BROKEN = set((
+    # perl
+    'bakalint',  # not installed
     # pip
+    'apertium_lint',  # not installed
     'bandit',
+    'clang',  # lots of errors, and hangs
+    'cppclean',  # cppclean is not installed
+    'scspell',  # doesnt work on Windows
     'vint',
-    'clang',
     # gem
     'csvlint',
-    'sqlint',
-    # npm
+    'sqlint',  # libpg_query doesnt build
+    # npm ; try different version
     'alex',
     'coffeelint',
     'csscomb',
@@ -82,6 +88,7 @@ def get_tests(bears):
         testpath = os.path.join('tests', subdir, '{}*Test.py'.format(name))
         files = glob.glob(testpath)
         for filename in files:
+            filename = filename.replace(os.path.sep, '/')
             if filename.startswith('/'):
                  filename = filename[project_dir_prefix_len:]
             tests.add(filename)
