@@ -16,6 +16,7 @@ IS_WIN = os.name == 'nt'
 WINDOWS_BROKEN = set((
     # perl
     'bakalint',  # not installed
+    'tailor',  # installer fails
     # pip
     'apertium_lint',  # not installed
     'bandit',
@@ -24,7 +25,7 @@ WINDOWS_BROKEN = set((
     'scspell',  # doesnt work on Windows
     'vint',
     # gem
-    'csvlint',
+    #'csvlint',
     'sqlint',  # libpg_query doesnt build
     # npm ; try different version
     #'alex',

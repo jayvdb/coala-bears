@@ -40,18 +40,19 @@ install:
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.8.0\\bin;C:\\gopath\\bin;%PATH%"
+  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.8.0\\bin;C:\\Ruby24\\bin;C:\\gopath\\bin;%PATH%"
 
   - choco install -y pmd
-  - ps: iex (new-object net.webclient).downloadstring('https://tailor.sh/install.ps1')
+  # doesnt work
+  # ps: iex (new-object net.webclient).downloadstring('https://tailor.sh/install.ps1')
 
   - go get -u github.com/alecthomas/gometalinter
   - gometalinter --install
   - go get -u github.com/BurntSushi/toml/cmd/tomlv
   - go get -u sourcegraph.com/sqs/goreturns
 
-  - if not exist "C:\strawberry" choco install strawberryperl -y
-  - set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
+  # if not exist "C:\strawberry" choco install strawberryperl -y
+  # set PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - cpanm --quiet --installdeps --with-develop --notest .
 
   - echo %PATH%
