@@ -16,7 +16,7 @@ python: 3.6
   deploy: false
 
 stages:
-  - test-current
+  - test-first
   - test-apt
   - test-python
   - test-languages
@@ -83,6 +83,12 @@ jobs:
       after_failure: false
       if: branch = master AND type = push
 
+    # Example
+    # stage: test-first
+    # language: generic
+    # env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+    # install: npm install
+
     - stage: test-python
 
       language: python
@@ -100,11 +106,6 @@ jobs:
       addons:
         apt:
           packages: clang-3.4
-
-    - stage: test-current
-      language: ruby
-      rvm: 2.5
-      env: DISABLE_BEARS=csvlint
 
     - stage: test-langages
 
@@ -126,7 +127,7 @@ jobs:
 
     - language: perl
 
-    - stage: test-current
+    - stage: test-master
 
       # This is under other languages, as the only bear is tailor
       # which is java, already covered above.  Listed first to schedule
@@ -150,6 +151,9 @@ jobs:
       node_js: 6
 
     - language: ruby
+      rvm: 2.5
+      env: DISABLE_BEARS=csvlint
+    - language: ruby
       rvm: 2.3
     - language: ruby
       rvm: 2.2
@@ -162,13 +166,33 @@ jobs:
 
     - language: php
       php: hhvm-3.18
-
     - language: php
       php: 5.5
 
     - language: scala
       jdk: oraclejdk8
       scala: 2.12.2
+
+    - language: java
+      jdk: oraclejdk11
+      env: DISABLE_BEARS="languagetool tailor"
+    # oraclejdk10 is EOL
+    - language: java
+      jdk: oraclejdk9
+      env: DISABLE_BEARS="languagetool tailor"
+
+    - language: java
+      jdk: openjdk11
+      env: DISABLE_BEARS="languagetool tailor"
+    - language: java
+      jdk: openjdk10
+      env: DISABLE_BEARS="languagetool tailor"
+    - language: java
+      jdk: openjdk9
+      env: DISABLE_BEARS="languagetool tailor"
+    - language: java
+      jdk: openjdk7
+      env: DISABLE_BEARS=tailor
 
     # Travis community supported languages
 
@@ -255,11 +279,6 @@ jobs:
       language: generic
       env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
 
-    # stage: test-first
-    # language: generic
-    # env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-    # install: npm install
-
     - stage: test-failing
       language: generic
       ghc: 8.0.2
@@ -290,30 +309,6 @@ jobs:
     - language: dart
       dart: stable
 
-    - stage: test-current
-      language: java
-      jdk: oraclejdk11
-      env: DISABLE_BEARS="languagetool tailor"
-    # oraclejdk10 is EOL
-    - language: java
-      jdk: oraclejdk9
-      env: DISABLE_BEARS="languagetool tailor"
-
-    - language: java
-      jdk: openjdk11
-      env: DISABLE_BEARS="languagetool tailor"
-    - language: java
-      jdk: openjdk10
-      env: DISABLE_BEARS="languagetool tailor"
-    - language: java
-      jdk: openjdk9
-      env: DISABLE_BEARS="languagetool tailor"
-    - language: java
-      jdk: openjdk8
-    - language: java
-      jdk: openjdk7
-      env: DISABLE_BEARS=tailor
-
     # This is in manual languages, as language: haskell isnt working yet
     - stage: test-manual-langs
       language: generic
@@ -335,7 +330,29 @@ jobs:
     - stage: test-apt
       language: generic
       dist: xenial
-      env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint chktex cppcheck default-jre flawfinder go indent licensecheck mono perlcritic phpcs phpmd xmllint verilator"
+      env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php7.0-cli
+            - phpmd
+            - php-codesniffer
+            - verilator
+
+    # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
+    # which is the old circle init
+    - stage: test-apt
+      language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre go"
       # ruby will match rubocop which isnt available for xenial
 
       # php will pick language, and pre-install php-codesniffer
@@ -360,12 +377,6 @@ jobs:
     - stage: test-apt
       language: generic
       env: DIST=trusty BEARS=apt_get
-      # BEAR_LIST="astyle bakalint chktex cppcheck default-jre flawfinder go indent licensecheck mono perlcritic phpcs xmllint verilator"
-
-      # php will pick language, and pre-install php-codesniffer
-      # maybe can disable in deps.php.sh
-      # better is move lang php to composer
-
       addons:
         apt:
           sources:
@@ -409,7 +420,7 @@ jobs:
 
     - stage: test-failing
       language: generic
-      env: DIST=xenial BEARS=apt_get TODO=disable-shellcheck,debug-formatr
+      env: DIST=xenial BEARS=apt_get TODO=fix-shellcheck,debug-formatr
       dist: xenial
       addons:
         apt:
@@ -421,7 +432,7 @@ jobs:
 
     - stage: test-failing
       language: generic
-      env: DIST=trusty BEARS=apt_get TODO=disable-shellcheck,debug-formatr
+      env: DIST=trusty BEARS=apt_get TODO=disable-shellcheck,debug-formatr DISABLE_BEARS=shellcheck
       dist: trusty
       # hlint bear depends on --json, which isnt in trusty hlint
       addons:
