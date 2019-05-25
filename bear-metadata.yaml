@@ -173,6 +173,7 @@ CPDBear:
     - Scala
     - Swift
   tags:
+    - cpd
     - general
     - java
 CPPCheckBear:
@@ -1206,6 +1207,7 @@ JavaPMDBear:
     - Java
   tags:
     - bash
+    - pmd
     - exe
     - java
 Jinja2Bear:

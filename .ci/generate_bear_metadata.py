@@ -330,6 +330,14 @@ def get_bear_tags(bear, metadata):
         tags.add('java')
         tags.add('languagetool')
 
+    elif bear.name == 'JavaPMDBear':
+        # Has no executable defined
+        tags.add('pmd')
+
+    elif bear.name == 'CPDBear':
+        # Has no executable defined
+        tags.add('cpd')
+
     if bear.name in DISABLED_BEARS:
         tags.add('disabled')
 
