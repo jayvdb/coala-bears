@@ -5,6 +5,7 @@ environment:
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
     PIP_CACHE_DIR: C:\pip_cache
+    POSTGRESQL_VERSION: 10
 
   matrix:
     - PYTHON: "C:\\Python34"
@@ -59,6 +60,7 @@ install:
 
   # Commands for Ruby
   # "sed -i '/sqlint/d' Gemfile"
+  - ps: iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/smola/ci-tricks/master/get.ps1'))
   - git clone -b 10-latest git://github.com/lfittl/libpg_query
   - cd libpg_query
   - set CC=gcc
