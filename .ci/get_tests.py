@@ -27,19 +27,19 @@ WINDOWS_BROKEN = set((
     'csvlint',
     'sqlint',  # libpg_query doesnt build
     # npm ; try different version
-    'alex',
-    'coffeelint',
-    'csscomb',
-    'dockerfile_lint',
-    'elm',
-    'eslint',
-    'gherkin',
-    'jshint',
-    'remark',
-    'postcss',
-    'sass-lint',
-    'textlint',
-    'tslint',
+    #'alex',
+    #'coffeelint',
+    #'csscomb',
+    #'dockerfile_lint',
+    #'elm',
+    #'eslint',
+    #'gherkin',
+    #'jshint',
+    #'remark',
+    #'postcss',
+    #'sass-lint',
+    #'textlint',
+    #'tslint',
 ))
 
 

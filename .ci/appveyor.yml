@@ -1,4 +1,5 @@
 environment:
+  nodejs_version: "10"
   global:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
@@ -39,7 +40,10 @@ install:
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.7.0\\bin;C:\\gopath\\bin;%PATH%"
+  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.8.0\\bin;C:\\gopath\\bin;%PATH%"
+
+  - choco install -y pmd
+  - ps: iex (new-object net.webclient).downloadstring('https://tailor.sh/install.ps1')
 
   - go get -u github.com/alecthomas/gometalinter
   - gometalinter --install
@@ -62,7 +66,7 @@ install:
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "%CMD_IN_ENV% python -m pip install tox-appveyor tox-backticks tox-venv"
 
-  - ps: "Install-Product node ''"  # Use latest node v5.x.x
+  - ps: Install-Product node $env:nodejs_version
   - "npm config set loglevel warn"
   - "npm install"
   - "SET PATH=node_modules\\.bin;%PATH%"
@@ -71,10 +75,6 @@ install:
   - "sed -i '/sqlint/d' Gemfile"
   - "SET PATH=C:\\Ruby%ruby_version%\\bin;%PATH%"
   - "bundle install"
-
-  - choco install -y pmd
-  - ps: iex (new-object net.webclient).downloadstring('https://tailor.sh/install.ps1')
-
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
