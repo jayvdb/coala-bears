@@ -78,6 +78,10 @@ install:
   - go version
   - conda --version
 
+  - go.exe get -u gopkg.in/alecthomas/gometalinter.v2
+  - ls C:\gopath
+  - ls C:\gopath\bin
+
   - ps: fudge install
   - choco list --local-only
   - refreshenv

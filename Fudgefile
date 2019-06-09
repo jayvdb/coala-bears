@@ -20,9 +20,7 @@
         { "name": "bower" },
         { "name": "composer" },
         { "name": "julia" },
-        { "name": "haskell-stack" },
         { "name": "luarocks" },
-        { "name": "R.project" },
-        { "name": "rust" }
+        { "name": "R.project" }
     ]
 }

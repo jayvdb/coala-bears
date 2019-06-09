@@ -153,6 +153,13 @@ function PPM-Install-cpanm
 function Install-GoMetaLinter
 {
   go.exe get -u gopkg.in/alecthomas/gometalinter.v2
+
+  $list = Get-ChildItem -Recurse $env:GOPATH | Out-String
+  Write-Output ('go dir ' + $list)
+
+  $gometalinter_install_cmd = ($env:GOPATH + '\bin\gometalinter.v2.exe --install')
+
+  Invoke-Expression $gometalinter_install_cmd
 }
 
 function Install-GoPM
@@ -171,23 +178,23 @@ function Fixes
 
   Add-R-to-PATH
 
-  Update-Cabal
-
-  PPM-Install-cpanm
-
   Install-GoMetaLinter
-  # Install-GoPM
+  Install-GoPM
 
   go get -u github.com/BurntSushi/toml/cmd/tomlv
   go get -u sourcegraph.com/sqs/goreturns
+
+  sed -i '/sqlint/d' Gemfile
+  bundle install
+
+  Update-Cabal
+
+  PPM-Install-cpanm
 
   npm config set loglevel warn
   npm install
 
   cpanm --quiet --installdeps --with-develop --notest .
-
-  sed -i '/sqlint/d' Gemfile
-  bundle install
 
   return $LastExitCode
 }
