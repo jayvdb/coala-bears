@@ -11,7 +11,6 @@ DISCARD_KEYWORDS = tuple([
    'nunit',
    'odbc',
    'privateassemblies',
-   'python27',
    'ruby193',
    'service fabric',
    'sql',
