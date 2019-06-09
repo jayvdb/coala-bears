@@ -176,7 +176,18 @@ function Fixes
   PPM-Install-cpanm
 
   Install-GoMetaLinter
-  Install-GoPM
+  # Install-GoPM
+
+  go get -u github.com/BurntSushi/toml/cmd/tomlv
+  go get -u sourcegraph.com/sqs/goreturns
+
+  npm config set loglevel warn
+  npm install
+
+  cpanm --quiet --installdeps --with-develop --notest .
+
+  sed -i '/sqlint/d' Gemfile
+  bundle install
 
   return $LastExitCode
 }
