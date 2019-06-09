@@ -1,100 +1,144 @@
 environment:
-  nodejs_version: "10"
   global:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
     PIP_CACHE_DIR: C:\pip_cache
-    GOPATH: c:\gopath
-    PERLPATH: C:\strawberry\c\bin;C:\strawberry\perl\bin
-    PERLSITEPATH: C:\strawberry\perl\site\bin
+    NUGET_EXE_NO_PROMPT: 1
+    NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
+    CHOCO_CACHE_DIR: C:\choco_cache
+    PLATFORM: $(PLATFORM)
+    MSYS_ROOT: C:\msys64
+    MSYS_BIN: $(MSYS_ROOT)\usr\bin
+    GOPATH: C:\gopath
+    # Override the temp directory to avoid sed escaping issues
+    # See https://github.com/haskell/cabal/issues/5386
+    TMP: c:\tmp
+    # ActiveState Perl needs to be in path before msys' perl
+    PATH: >-
+      C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);
+      %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
+      $(GOPATH)\bin;
+      $(MSYS_BIN)\core_perl;
+      C:\ruby\bin;
+      C:\miniconda;C:\miniconda\Scripts
 
   matrix:
-    - PYTHON: "C:\\Python36-x64"
-      PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "64"
-      ruby_version: "24-x64"
-      TOX_APPVEYOR_X64: 1
+    - PYTHON_VERSION: 3.4.4
+    - PYTHON_VERSION: 3.6.8
 
-    - PYTHON: "C:\\Python36"
-      PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "32"
-      TOX_APPVEYOR_X64: 0
-      ruby_version: "24"
-
-stack: go 1.10
+platform:
+  - x64
+  - x86
 
 cache:
+  - C:\nuget_http_cache
+  - C:\choco_cache
   - "C:\\pip_cache"
-  - "node_modules"
-  - "C:\\strawberry"
-  - "C:\\Users\\appveyor\\AppData\\Local\\coala-bears\\coala-bears"
   - "C:\\Users\\appveyor\\AppData\\Roaming\\nltk_data"
+  - "%LOCALAPPDATA%\\Composer"
+  - C:\Users\appveyor\AppData\Roaming\cabal\
 
 branches:
   except:
     - /^sils\/.*/
 
 install:
-  # Prepend newly installed Python to the PATH of this build (this cannot be
-  # done from inside the powershell script as it would require to restart
-  # the parent CMD process).
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "SET PATH=C:\\Program\ Files\\Java\\jdk1.8.0\\bin;%PATH%"
-  - "SET PATH=C:\\gopath\\bin;%PATH%"
+  - python --version
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  - node --version
+  - which npm
+  - npm --version
+  - npm config get prefix
+  - go version
+  - ruby --version
 
-  # https://github.com/coala/coala-bears/issues/2908
-  # choco install --ignore-dependencies --yes pmd
-  # Also doesnt work
-  # ps: iex (new-object net.webclient).
-  #     downloadstring('https://tailor.sh/install.ps1')
+  - which bower & exit 0
+  - "%MSYS_BIN%\\find.exe C:\\Users\\appveyor\\AppData\\Roaming\\npm"
 
-  - go get -u github.com/alecthomas/gometalinter
-  - gometalinter --install
-  - go get -u github.com/BurntSushi/toml/cmd/tomlv
-  - go get -u sourcegraph.com/sqs/goreturns
+  - python .ci/fix_path.py
+  - refreshenv
+  - "%MSYS_BIN%\\date.exe"
+  - cp .ci/choco.config C:\ProgramData\chocolatey\config\chocolatey.config
 
-  # Default Perl doesnt include cpanm
-  - if not exist "C:\strawberry" choco install strawberryperl -y
-  - set PATH=%PERLPATH%;%PERLSITEPATH%;%PATH%;
-  - cpanm --quiet --installdeps --with-develop --notest .
-
+  - nuget install fudge -verbosity quiet
+  - ps: fudge install -FudgefilePath .ci/Fudgefile.appveyor
+  - choco list --local-only
+  - refreshenv
   - echo %PATH%
+
+  - python --version
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  - node --version
+  - which npm
+  - npm --version
+  - npm config get prefix
+  - ruby --version
+  - go version
+  - conda --version
+
+  - ps: fudge install
+  - choco list --local-only
+  - refreshenv
+  - echo %PATH%
+
+  - node --version
+  - which npm
+  - npm --version
+  - npm config get prefix
+  - ruby --version
+  - go version
+  - conda --version
+  - R --version
+  - "%MSYS_BIN%\\find.exe C:\\Users\\appveyor\\AppData\\Roaming\\npm"
+  - which bower
+  - bower --version
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  - "%CMD_IN_ENV% python -m pip install tox-appveyor tox-backticks tox-venv"
 
-  - ps: Install-Product node $env:nodejs_version
-  - "npm config set loglevel warn"
-  - "npm install"
-  - "SET PATH=node_modules\\.bin;%PATH%"
+  - "%MSYS_BIN%\\date.exe"
 
-  # Commands for Ruby
-  - "sed -i '/sqlint/d' Gemfile"
-  - "SET PATH=C:\\Ruby%ruby_version%\\bin;%PATH%"
-  - "bundle install"
+  - "%CMD_IN_ENV% python -m pip install --upgrade pip setuptools"
+  - "%CMD_IN_ENV% python -m pip install -r requirements.txt
+    -r test-requirements.txt
+    pytest-spec
+    "
+  - "%MSYS_BIN%\\date.exe"
+
+  # As installation to windows for these requirements are broken.
+  # Tests are still being skipped.
+  - rm
+        dependency_management/requirements/AptRequirement.py
+        dependency_management/requirements/BrewRequirement.py
+        dependency_management/requirements/PkgRequirement.py
+        dependency_management/requirements/PortageRequirement.py
+        dependency_management/requirements/ZypperRequirement.py
+        dependency_management/requirements/DnfRequirement.py
+        dependency_management/requirements/YumRequirement.py
+        tests/AptRequirementTest.py
+        tests/BrewRequirementTest.py
+        tests/PkgRequirementTest.py
+        tests/PortageRequirementTest.py
+        tests/ZypperRequirementTest.py
+        tests/DnfRequirementTest.py
+        tests/YumRequirementTest.py
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
-  # Force DOS format, as Checkstyle configs enable NewlineAtEndOfFile,
-  # which defaults to CRLF on Windows, and Appveyor CI ignores .gitattributes
-  # http://help.appveyor.com/discussions/problems/5687-gitattributes-changes-dont-have-any-effect
-  - unix2dos tests/java/test_files/CheckstyleGood.java
-  # Clang DLLs x64 were nowadays installed, but the x64 version hangs, so we
-  # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
-  # https://github.com/appveyor/ci/issues/688
-  - set TOXENV=py36-noreqs-pip-npm-gem-go-perl-java8-win-check-noskip-codecov
-  - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - "%CMD_IN_ENV% python -m tox"
-  # "%CMD_IN_ENV% python setup.py install"
-  # "%CMD_IN_ENV% python -m pip install \
-  # git+https://github.com/coala/coala"
-  # sed -i '/ShellCheckBear/d' .coafile
-  # "%CMD_IN_ENV% coala --ci"
+  - "%CMD_IN_ENV% python setup.py install"
+  - "%CMD_IN_ENV% py.test --cov-fail-under=100"
+  - "%CMD_IN_ENV% pip install coala-bears"
+  - "%CMD_IN_ENV% coala --ci"
+
+on_success:
+  - codecov
+
+on_failure:
+  - codecov & exit 0
 
 matrix:
   fast_finish: true

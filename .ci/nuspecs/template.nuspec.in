@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>{name}</id>
+    <version>{version}</version>
+    <title>{name} {version}</title>
+    <authors>{name}</authors>
+    <owners>appveyor</owners>
+    <licenseUrl>https://www.python.org/download/releases/3.4.0/license</licenseUrl>
+    <projectUrl>http://www.python.org/</projectUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/chocolatey/chocolatey-coreteampackages@edba4a5849ff756e767cba86641bea97ff5721fe/icons/python.svg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.</description>
+    <summary>.</summary>
+    <tags>python programming development foss cross-platform admin</tags>
+    <dependencies>
+      <dependency id="chocolatey"/>
+    </dependencies>
+  </metadata>
+</package>

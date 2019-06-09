@@ -1,0 +1,24 @@
+{
+    "scripts": {
+        "pre": {
+            "install": ". .ci/AppVeyor.ps1; Fix-AppVeyor"
+        }
+    },
+    "source": ".ci/nuspecs",
+    "packages": [
+        { "name": "python", "version": "3.6.8" },
+        { "name": "nodejs", "version": "11.13.0" },
+        { "name": "ruby", "version": "2.6.1.1" },
+        { "name": "golang", "version": "1.9.7" },
+        { "name": "StrawberryPerl", "version": "5.28.0.1" },
+        { "name": "miniconda3", "version": "4.5.12" }
+    ],
+    "pack": {
+        "python": ".ci/nuspecs/python.nuspec",
+        "nodejs": ".ci/nuspecs/nodejs.nuspec",
+        "ruby": ".ci/nuspecs/ruby.nuspec",
+        "golang": ".ci/nuspecs/golang.nuspec",
+        "StrawberryPerl": ".ci/nuspecs/StrawberryPerl.nuspec",
+        "miniconda3": ".ci/nuspecs/miniconda3.nuspec"
+    }
+}
