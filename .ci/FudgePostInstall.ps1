@@ -145,7 +145,12 @@ function Update-Cabal
   cabal update
 }
 
-function PPM-Install-cpanm
+function Install-Cabal-Deps
+{
+  cabal install --only-dependencies --avoid-reinstalls
+}
+
+function Install-PPM-cpanm
 {
   ppm install App-cpanminus
 }
@@ -188,8 +193,9 @@ function Fixes
   bundle install
 
   Update-Cabal
+  Install-Cabal-Deps
 
-  PPM-Install-cpanm
+  Install-PPM-cpanm
 
   npm config set loglevel warn
   npm install

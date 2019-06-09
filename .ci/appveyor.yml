@@ -12,6 +12,10 @@ environment:
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     GOPATH: C:\gopath
+    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-cabal-java8
+    # -codecov removed temporarily, in case that caused the builds to fail
+    # when php was added
+    TOXENV: $(TOXPREFIX)-noreqs-$(TOX_TEST_SELECTORS)-win-check-noskip-codecov
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
     TMP: c:\tmp
@@ -28,7 +32,9 @@ environment:
 
   matrix:
     - PYTHON_VERSION: 3.4.4
+      TOXPREFIX: py34
     - PYTHON_VERSION: 3.6.8
+      TOXPREFIX: py36
 
 platform:
   - x86
@@ -112,9 +118,6 @@ test_script:
   # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
   # https://github.com/appveyor/ci/issues/688
 
-  # -codecov removed temporarily, in case that caused the builds to fail
-  # when php was added
-  - set TOXENV=py36-noreqs-pip-npm-gem-go-perl-php-java8-win-check-noskip
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
   - "%CMD_IN_ENV% python -m tox"
 

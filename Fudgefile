@@ -20,6 +20,7 @@
         { "name": "composer" },
         { "name": "julia" },
         { "name": "luarocks" },
-        { "name": "R.project" }
+        { "name": "R.project" },
+        { "name": "ShellCheck" }
     ]
 }
