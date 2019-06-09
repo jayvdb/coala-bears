@@ -20,6 +20,8 @@ environment:
       C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
       $(GOPATH)\bin;
+      $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
+      $(APPVEYOR_BUILD_FOLDER)\vendor\bin;
       $(MSYS_BIN)\core_perl;
       C:\ruby\bin;
       C:\miniconda;C:\miniconda\Scripts
@@ -111,7 +113,13 @@ install:
 build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
+  # Force DOS format, as Checkstyle configs enable NewlineAtEndOfFile,
+  # which defaults to CRLF on Windows, and Appveyor CI ignores .gitattributes
+  # http://help.appveyor.com/discussions/problems/5687-gitattributes-changes-dont-have-any-effect
   - unix2dos tests/java/test_files/CheckstyleGood.java
+  # Clang DLLs x64 were nowadays installed, but the x64 version hangs, so we
+  # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
+  # https://github.com/appveyor/ci/issues/688
   - set TOXENV=py36-noreqs-pip-npm-gem-go-perl-java8-win-check-noskip-codecov
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
   - "%CMD_IN_ENV% python -m tox"
