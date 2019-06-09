@@ -12,10 +12,11 @@ environment:
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     GOPATH: C:\gopath
-    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-cabal-java8
+    BEAR_LIST: astyle xmllint
+    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-cabal-java8-julia-adhoc
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added
-    TOXENV: $(TOXPREFIX)-noreqs-$(TOX_TEST_SELECTORS)-win-check-noskip-codecov
+    TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-noskip-codecov
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
     TMP: c:\tmp

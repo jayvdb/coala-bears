@@ -204,5 +204,7 @@ function Fixes
 
   composer install
 
+  julia -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/tonyhffong/Lint.jl", rev="v0.6.0"))'
+
   return $LastExitCode
 }

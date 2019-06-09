@@ -21,6 +21,8 @@
         { "name": "julia" },
         { "name": "luarocks" },
         { "name": "R.project" },
+        { "name": "astyle" },
+        { "name": "xsltproc" },
         { "name": "ShellCheck" }
     ]
 }
