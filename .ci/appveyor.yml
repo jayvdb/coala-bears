@@ -91,7 +91,6 @@ install:
   - go version
   - conda --version
   - R --version
-  - "%MSYS_BIN%\\find.exe C:\\Users\\appveyor\\AppData\\Roaming\\npm"
   - which bower
   - bower --version
 
@@ -102,10 +101,7 @@ install:
   - "%MSYS_BIN%\\date.exe"
 
   - "%CMD_IN_ENV% python -m pip install --upgrade pip setuptools"
-  - "%CMD_IN_ENV% python -m pip install -r requirements.txt
-    -r test-requirements.txt
-    pytest-spec
-    "
+  - "%CMD_IN_ENV% python -m pip install tox-appveyor tox-backticks tox-venv"
   - "%MSYS_BIN%\\date.exe"
 
 build: false  # Not a C# project, build stuff at the test step instead.
