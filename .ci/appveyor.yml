@@ -56,9 +56,6 @@ install:
   - go version
   - ruby --version
 
-  - which bower & exit 0
-  - "%MSYS_BIN%\\find.exe C:\\Users\\appveyor\\AppData\\Roaming\\npm"
-
   - python .ci/fix_path.py
   - refreshenv
   - "%MSYS_BIN%\\date.exe"
@@ -97,8 +94,6 @@ install:
   - go version
   - conda --version
   - R --version
-  - which bower
-  - bower --version
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
@@ -120,7 +115,7 @@ test_script:
   # Clang DLLs x64 were nowadays installed, but the x64 version hangs, so we
   # exclude according tests. See https://github.com/appveyor/ci/issues/495 and
   # https://github.com/appveyor/ci/issues/688
-  - set TOXENV=py36-noreqs-pip-npm-gem-go-perl-java8-win-check-noskip-codecov
+  - set TOXENV=py36-noreqs-pip-npm-gem-go-perl-php-java8-win-check-noskip-codecov
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
   - "%CMD_IN_ENV% python -m tox"
 

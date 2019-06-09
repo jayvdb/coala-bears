@@ -172,7 +172,7 @@ function Fixes
 {
   $PHP_ROOT = Get-PHP-Root
 
-  Create-PHP-Ini $PHP_ROOT
+  # Create-PHP-Ini $PHP_ROOT
   Install-PEAR $PHP_ROOT
   Update-PEAR $PHP_ROOT
 
@@ -195,6 +195,8 @@ function Fixes
   npm install
 
   cpanm --quiet --installdeps --with-develop --notest .
+
+  composer install
 
   return $LastExitCode
 }
