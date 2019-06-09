@@ -31,8 +31,8 @@ environment:
     - PYTHON_VERSION: 3.6.8
 
 platform:
-  - x64
   - x86
+  - x64
 
 cache:
   - C:\nuget_http_cache
