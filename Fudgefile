@@ -16,7 +16,6 @@
         { "name": "golang", "version": "1.9.7" },
         { "name": "miniconda3", "version": "4.5.12" },
         { "name": "php" },
-        { "name": "ghc" },
         { "name": "composer" },
         { "name": "julia" },
         { "name": "luarocks" },

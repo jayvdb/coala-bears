@@ -194,9 +194,6 @@ function Fixes
   sed -i '/sqlint/d' Gemfile
   bundle install
 
-  Update-Cabal
-  Install-Cabal-Deps
-
   Install-PPM-cpanm
 
   npm config set loglevel warn
@@ -206,7 +203,10 @@ function Fixes
 
   composer install
 
-  julia -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/tonyhffong/Lint.jl", rev="v0.6.0"))'
+  luarocks install --local --deps-mode=none luacheck
+
+  $env:JL_PKG = 'CoalaBears'
+  julia --color=yes .ci/deps.julia.jl
 
   return $LastExitCode
 }
