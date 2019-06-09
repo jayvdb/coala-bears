@@ -17,8 +17,11 @@ IS_WIN = os.name == 'nt'
 WINDOWS_BROKEN = set((
     # perl
     'bakalint',  # not installed
-    'tailor',  # installer fails
+    # php
+    'phpcs',  # https://github.com/coala/coala-bears/issues/2916
+    # java/bash
     'pmd', 'cpd',  # https://github.com/coala/coala-bears/issues/2908
+    'tailor',  # installer fails
     # pip
     'apertium_lint',  # apertium_lint is not installed
     'bandit',  # RuntimeError: Unable to output report using 'json'
