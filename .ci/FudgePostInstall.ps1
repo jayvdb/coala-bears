@@ -155,7 +155,7 @@ function Install-GoMetaLinter
   go.exe get -u gopkg.in/alecthomas/gometalinter.v2
 
   $list = Get-ChildItem -Recurse $env:GOPATH | Out-String
-  Write-Output ('go dir ' + $list)
+  Write-Verbose ('go dir ' + $list)
 
   $gometalinter_install_cmd = ($env:GOPATH + '\bin\gometalinter.v2.exe --install')
 
