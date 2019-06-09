@@ -85,7 +85,6 @@ install:
   - conda --version
 
   - ps: fudge install
-  - choco list --local-only
   - refreshenv
   - echo %PATH%
 

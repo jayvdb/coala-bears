@@ -175,6 +175,8 @@ function Install-GoPM
 
 function Fixes
 {
+  choco list --local-only
+
   $PHP_ROOT = Get-PHP-Root
 
   # Create-PHP-Ini $PHP_ROOT
