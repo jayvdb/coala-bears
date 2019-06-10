@@ -134,8 +134,6 @@ function Add-R-to-PATH
   if ($R_ROOT) {
     dir $R_ROOT
 
-    Invoke-Expression "$R_BIN\R.exe -e path.expand(""~"")"
-
     cat "$R_ROOT\.Rprofile"
 
     echo "options(repos=structure(c(CRAN=""http://cran.us.r-project.org"")))" >> "$R_ROOT\.Rprofile"
