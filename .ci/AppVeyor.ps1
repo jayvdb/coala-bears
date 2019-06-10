@@ -8,4 +8,8 @@ function Fix-AppVeyor
   PackFakeNupkgs $config.packages
 
   Setup-Products $config.packages
+
+  npm config set msvs_version 2017
+  npm config set color false
+  npm config set python C:\python27\python.exe
 }
