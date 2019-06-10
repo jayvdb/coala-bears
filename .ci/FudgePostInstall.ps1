@@ -211,7 +211,5 @@ function Fixes
 
   cpanm --quiet --installdeps --with-develop --notest .
 
-  composer install
-
   return $LastExitCode
 }
