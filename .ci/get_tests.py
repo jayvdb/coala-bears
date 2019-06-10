@@ -24,12 +24,12 @@ WINDOWS_BROKEN = set((
     'mcs',  # choco mono isnt providing this in the PATH
     'tailor',  # installer fails
     # pip
-    'apertium_lint',  # apertium_lint is not installed
+    # 'apertium_lint',  # apertium_lint is not installed
     # 'bandit',  # RuntimeError: Unable to output report using 'json'
     #            # formatter: __enter__ ; passed on py34
     'clang',  # lots of errors, and hangs
-    'cppclean',  # cppclean is not installed
-    'scspell',  # doesnt work on Windows
+    'cppclean',  # https://github.com/myint/cppclean/issues/120
+    # 'scspell',  # doesnt work on Windows
     # 'vint',  # NotImplementedError: cannot instantiate 'PosixPath'
              # on your system; passed on py34
     # gem
