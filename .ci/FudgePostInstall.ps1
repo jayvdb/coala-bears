@@ -207,9 +207,11 @@ function Fixes
   Install-PPM-cpanm
 
   npm config set loglevel warn
+  # If gyp fails, use npm config python to help locate Python 2.7
   npm install
 
-  C:\ProgramData\ComposerSetup\bin\composer.exe install
+  dir C:\ProgramData\ComposerSetup\bin\
+  # C:\ProgramData\ComposerSetup\bin\composer install
 
   cpanm --quiet --installdeps --with-develop --notest .
 

@@ -118,6 +118,8 @@ install:
   - ls ./node_modules/.bin/
   - ./node_modules/.bin/postcss --use autoprefixer foo.css
 
+  - composer install
+
   # Check that we have the expected version and architecture for Python
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
