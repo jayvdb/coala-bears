@@ -1,9 +1,5 @@
 environment:
   global:
-    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
-    # /E:ON and /V:ON options are not enabled in the batch script intepreter
-    # See: http://stackoverflow.com/a/13751649/163740
-    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
     PIP_CACHE_DIR: C:\pip_cache
     NUGET_EXE_NO_PROMPT: 1
     NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
@@ -11,21 +7,29 @@ environment:
     PLATFORM: $(PLATFORM)
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
+    WIN71_SDK_ROOT: C:\Program Files\Microsoft SDKs\Windows\v7.1
+    VS14_VC: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC
+    VS2017: C:\Program Files (x86)\Microsoft Visual Studio\2017
+    VS2017_VC: $(VS2017)\Community\VC
     GOPATH: C:\gopath
     JL_PKG: CoalaBears
     JULIA_PROJECT: '@.'
     BEAR_LIST: astyle cppcheck xmllint shellcheck
-    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-java8-r-adhoc
+    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-java8-adhoc
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added
     TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-noskip
     TOX_PIP_VERSION: 9.0.3
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
-    TMP: c:\tmp
+    # TMP: c:\tmp
     # ActiveState Perl needs to be in path before msys' perl
+    MINGW_BIN: C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
+    R_COMPILE_AND_INSTALL_PACKAGES: never
+    # R compiler path
+    BINPREF: $(MINGW_BIN)\
     PATH: >-
-      C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);
+      C:\python;C:\python\Scripts;C:\Perl;$(MSYS_BIN);$(MINGW_BIN);$(PATH);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
@@ -41,8 +45,8 @@ environment:
       TOXPREFIX: py36
 
 platform:
-  - x64
   - x86
+  - x64
 
 cache:
   - C:\nuget_http_cache
@@ -65,9 +69,18 @@ install:
   - npm config get prefix
   - go version
   - ruby --version
+  # dir C:\mingw-w64\
+  # dir C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64
+  # dir C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
+  - gcc --version
+  # exit 1
 
   - python .ci/fix_path.py
   - refreshenv
+
+  - .ci\vs_appveyor.cmd
+  - which cl
+
   - "%MSYS_BIN%\\date.exe"
   - cp .ci/choco.config C:\ProgramData\chocolatey\config\chocolatey.config
 
@@ -99,7 +112,6 @@ install:
   - go version
   - conda --version
   - R --version
-  - R.exe -f .ci/deps.r
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
@@ -107,10 +119,8 @@ install:
 
   - "%MSYS_BIN%\\date.exe"
 
-  - "%CMD_IN_ENV% python -m pip install --upgrade pip==9.0.3 setuptools"
-  - "%CMD_IN_ENV% python -m pip install tox-backticks tox-venv tox-pip-version
-    tox-virtualenv-no-download
-    "
+  - python -m pip install --upgrade pip==9.0.3 setuptools
+  - python -m pip install tox-backticks tox-venv tox-pip-version
   - "%MSYS_BIN%\\date.exe"
 
 build: false  # Not a C# project, build stuff at the test step instead.
@@ -125,7 +135,7 @@ test_script:
   # https://github.com/appveyor/ci/issues/688
 
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - "%CMD_IN_ENV% python -m tox"
+  - python -m tox
 
 matrix:
   fast_finish: true

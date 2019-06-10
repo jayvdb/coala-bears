@@ -134,10 +134,20 @@ function Add-R-to-PATH
 
     Install-ChocolateyPath -PathToInstall $R_BIN
   }
-  if ($R_ROOT) {
-    return $R_ROOT
+  if (!$R_ROOT) {
+    throw ('R not found')
   }
-  throw ('R not found in ' + $list)
+
+  $cran_config = "
+local({r <- getOption('repos')
+       r['CRAN'] <- 'http://cran.r-project.org'
+       options(repos=r)})
+"
+  Set-Content "$R_ROOT\etc\Rprofile.site" $cran_config
+
+  $env:BINPREF = $env:BINPREF -replace '\\','/'
+
+  .ci/deps.r.cmd
 }
 
 function Update-Cabal
@@ -183,7 +193,7 @@ function Fixes
   Install-PEAR $PHP_ROOT
   Update-PEAR $PHP_ROOT
 
-  Add-R-to-PATH
+  # Add-R-to-PATH
 
   Install-GoMetaLinter
   Install-GoPM
@@ -200,8 +210,6 @@ function Fixes
   npm install
 
   cpanm --quiet --installdeps --with-develop --notest .
-
-  R.exe -f .ci/deps.r
 
   composer install
 
