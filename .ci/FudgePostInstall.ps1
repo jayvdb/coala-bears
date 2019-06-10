@@ -134,11 +134,11 @@ function Add-R-to-PATH
   if ($R_ROOT) {
     dir "$R_ROOT\etc"
 
-    cat "$R_ROOT\etc\.Rprofile"
+    cat "$R_ROOT\etc\Rprofile.site"
 
-    echo "options(repos=structure(c(CRAN=""http://cran.us.r-project.org"")))" >> "$R_ROOT\etc\.Rprofile"
+    echo "options(repos=structure(c(CRAN=""http://cran.us.r-project.org"")))" >> "$R_ROOT\etc\Rprofile.site"
 
-    cat "$R_ROOT\etc\.Rprofile"
+    cat "$R_ROOT\etc\Rprofile.site"
 
     return $R_ROOT
   }
