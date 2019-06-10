@@ -14,7 +14,7 @@ environment:
     GOPATH: C:\gopath
     JL_PKG: CoalaBears
     JULIA_PROJECT: '@.'
-    BEAR_LIST: astyle cppcheck mcs xmllint
+    BEAR_LIST: astyle cppcheck xmllint shellcheck
     TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-java8-r-adhoc
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added

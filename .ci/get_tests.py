@@ -21,13 +21,14 @@ WINDOWS_BROKEN = set((
     'phpcs',  # https://github.com/coala/coala-bears/issues/2916
     # java/bash
     'pmd', 'cpd',  # https://github.com/coala/coala-bears/issues/2908
+    'mcs',  # choco mono isnt providing this in the PATH
     'tailor',  # installer fails
     # pip
     'apertium_lint',  # apertium_lint is not installed
     # 'bandit',  # RuntimeError: Unable to output report using 'json'
     #            # formatter: __enter__ ; passed on py34
     'clang',  # lots of errors, and hangs
-    'cppclean',  # cppclean is not installed
+    # 'cppclean',  # cppclean is not installed
     'scspell',  # doesnt work on Windows
     # 'vint',  # NotImplementedError: cannot instantiate 'PosixPath'
              # on your system; passed on py34
@@ -43,7 +44,7 @@ WINDOWS_BROKEN = set((
     'gherkin',  # result json decode exception
     'jshint',  # test case bug
     'remark',  # remark result text difference due to unicode
-    'postcss',  # Autoprefixer is not installed
+    # 'postcss',  # Autoprefixer is not installed
     'sass-lint',  # rule `!important not allowed` not trigger
     'textlint',  # Unexpected extra result in test
 

@@ -20,7 +20,6 @@
         { "name": "R.project" },
         { "name": "astyle" },
         { "name": "cppcheck" },
-        { "name": "mono" },
         { "name": "xsltproc" },
         { "name": "ShellCheck" }
     ]
