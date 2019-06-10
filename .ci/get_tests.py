@@ -26,7 +26,7 @@ WINDOWS_BROKEN = set((
     'bandit',  # RuntimeError: Unable to output report using 'json' formatter
     'clang',  # lots of errors, and hangs
     'cppclean',  # https://github.com/myint/cppclean/issues/120
-    # 'scspell',  # doesnt work on Windows
+    'scspell',  # doesnt work on Windows
     'vint',  # https://github.com/Kuniwak/vint/issues/290
     # gem
     'csvlint',  # https://github.com/coala/coala-bears/issues/2909
