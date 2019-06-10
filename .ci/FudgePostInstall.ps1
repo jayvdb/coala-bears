@@ -140,11 +140,7 @@ function Add-R-to-PATH
 
     cat "$R_ROOT\etc\Rprofile.site"
 
-    echo R.exe -e "print(`"Hello World!`")"
-
-    R.exe -e "print(`"Hello World!`")"
-
-    echo R.exe -e "install.packages('formatR', repos='http://cran.us.r-project.org')"
+    .ci/deps.r.cmd
 
     return $R_ROOT
   }
@@ -189,9 +185,6 @@ function Fixes
   choco list --local-only
 
   Add-R-to-PATH
-
-  R.exe -e "install.packages(`"formatR`")"
-  R.exe -e "install.packages(`"lintr`")"
 
   Install-GoMetaLinter
   Install-GoPM
