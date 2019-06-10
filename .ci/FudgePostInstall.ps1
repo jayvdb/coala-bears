@@ -184,7 +184,8 @@ function Fixes
 
   Add-R-to-PATH
 
-  R.exe -f .ci/deps.r
+  R.exe -e "install.packages(""formatR"")"
+  R.exe -e "install.packages(""lintr"")"
 
   Install-GoMetaLinter
   Install-GoPM

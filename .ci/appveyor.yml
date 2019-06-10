@@ -99,7 +99,6 @@ install:
   - go version
   - conda --version
   - R --version
-  - R.exe -f .ci/deps.r
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
