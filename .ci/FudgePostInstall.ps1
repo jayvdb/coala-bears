@@ -136,7 +136,7 @@ function Add-R-to-PATH
 
     cat "$R_ROOT\etc\Rprofile.site"
 
-    echo "options(repos='http://cran.us.r-project.org')" >> "$R_ROOT\etc\Rprofile.site"
+    echo "options(repos='http://cran.us.r-project.org')" > "$R_ROOT\etc\Rprofile.site"
 
     cat "$R_ROOT\etc\Rprofile.site"
 
