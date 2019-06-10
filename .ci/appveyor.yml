@@ -69,6 +69,10 @@ install:
   - npm config get prefix
   - go version
   - ruby --version
+  - dir C:\mingw-w64\
+  - dir C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1
+  - dir C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\bin
+  - exit 1
 
   - python .ci/fix_path.py
   - refreshenv
