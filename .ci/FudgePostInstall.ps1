@@ -211,6 +211,8 @@ function Fixes
   npm config set python C:\python27\python.exe
   npm install
 
+  C:\ProgramData\ComposerSetup\bin\composer.exe install
+
   cpanm --quiet --installdeps --with-develop --notest .
 
   return $LastExitCode

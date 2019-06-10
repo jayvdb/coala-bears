@@ -114,9 +114,8 @@ install:
   - which composer
   - ppm --version
 
-  - composer install
   - touch foo.css
-  - dir ./node_modules/.bin/
+  - ls ./node_modules/.bin/
   - ./node_modules/.bin/postcss --use autoprefixer foo.css
 
   # Check that we have the expected version and architecture for Python
