@@ -28,7 +28,7 @@ environment:
     # R compiler path
     BINPREF: $(MINGW_BIN)\
     PATH: >-
-      C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);$(MINGW_BIN);
+      C:\python;C:\python\Scripts;C:\Perl;$(MSYS_BIN);$(MINGW_BIN);$(PATH);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
@@ -44,8 +44,8 @@ environment:
       TOXPREFIX: py36
 
 platform:
-  - x64
   - x86
+  - x64
 
 cache:
   - C:\nuget_http_cache

@@ -2,11 +2,13 @@ import os
 
 KEY = 'System\CurrentControlSet\Control\Session Manager\Environment'
 
+# Git contains cygwin binaries, which break if before Mingw
 DISCARD_KEYWORDS = tuple([
    'awscli',
    'azure',
    'coverity',
    'dnvm',
+   'git',
    'mspec',
    'nunit',
    'odbc',
