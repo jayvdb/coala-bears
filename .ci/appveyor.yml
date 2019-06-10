@@ -22,11 +22,15 @@ environment:
     TOX_PIP_VERSION: 9.0.3
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
-    TMP: c:\tmp
+    # TMP: c:\tmp
     # ActiveState Perl needs to be in path before msys' perl
+    MINGW_BIN: C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\bin
+    # R compiler path
+    BINPREF: $(MINGW_BIN)\
     PATH: >-
       C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
+      $(MINGW_BIN);
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
       $(APPVEYOR_BUILD_FOLDER)\vendor\bin;

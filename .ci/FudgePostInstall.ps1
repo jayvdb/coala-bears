@@ -134,9 +134,13 @@ function Add-R-to-PATH
   if ($R_ROOT) {
     dir "$R_ROOT\etc"
 
-    cat "$R_ROOT\etc\i386\Makeconf"
+    $makeconf = Get-Content "$R_ROOT\etc\i386\Makeconf"
 
-    cat "$R_ROOT\etc\x64\Makeconf"
+    # $makeconf = $makeconf -replace
+
+    # cat
+
+    # cat "$R_ROOT\etc\x64\Makeconf"
 
     # cat "$R_ROOT\etc\Rprofile.site"
 
@@ -148,7 +152,6 @@ function Add-R-to-PATH
 
     cat "$R_ROOT\etc\Rprofile.site"
 
-    $env:BINPREF = ''
     .ci/deps.r.cmd
 
     return $R_ROOT
