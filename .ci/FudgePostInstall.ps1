@@ -198,7 +198,8 @@ function Fixes
 {
   choco list --local-only
 
-  Add-R-to-PATH
+  npm config set loglevel info
+  npm install
 
   return $LastExitCode
 }
