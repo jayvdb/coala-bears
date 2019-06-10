@@ -1,9 +1,5 @@
 environment:
   global:
-    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
-    # /E:ON and /V:ON options are not enabled in the batch script intepreter
-    # See: http://stackoverflow.com/a/13751649/163740
-    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.ci\\run_with_env.cmd"
     PIP_CACHE_DIR: C:\pip_cache
     NUGET_EXE_NO_PROMPT: 1
     NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
@@ -11,6 +7,10 @@ environment:
     PLATFORM: $(PLATFORM)
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
+    WIN71_SDK_ROOT: C:\Program Files\Microsoft SDKs\Windows\v7.1
+    VS14_VC: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC
+    VS2017: C:\Program Files (x86)\Microsoft Visual Studio\2017
+    VS2017_VC: $(VS2017)\Community\VC
     GOPATH: C:\gopath
     JL_PKG: CoalaBears
     JULIA_PROJECT: '@.'
@@ -68,6 +68,10 @@ install:
 
   - python .ci/fix_path.py
   - refreshenv
+
+  - .ci\vs_appveyor.cmd
+  - which cl
+
   - "%MSYS_BIN%\\date.exe"
   - cp .ci/choco.config C:\ProgramData\chocolatey\config\chocolatey.config
 
@@ -106,10 +110,9 @@ install:
 
   - "%MSYS_BIN%\\date.exe"
 
-  - "%CMD_IN_ENV% python -m pip install --upgrade pip==9.0.3 setuptools"
-  - "%CMD_IN_ENV% python -m pip install tox-backticks tox-venv tox-pip-version
+  - python -m pip install --upgrade pip==9.0.3 setuptools
+  - python -m pip install tox-backticks tox-venv tox-pip-version
     tox-virtualenv-no-download
-    "
   - "%MSYS_BIN%\\date.exe"
 
 build: false  # Not a C# project, build stuff at the test step instead.
@@ -124,7 +127,7 @@ test_script:
   # https://github.com/appveyor/ci/issues/688
 
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - "%CMD_IN_ENV% python -m tox"
+  - python -m tox
 
 matrix:
   fast_finish: true
