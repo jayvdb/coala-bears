@@ -15,10 +15,10 @@ environment:
     JL_PKG: CoalaBears
     JULIA_PROJECT: '@.'
     BEAR_LIST: astyle cppcheck mcs xmllint
-    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-java8-julia-adhoc
+    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-java8-r-adhoc
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added
-    TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-noskip-codecov
+    TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-noskip
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
     TMP: c:\tmp
@@ -105,8 +105,10 @@ install:
 
   - "%MSYS_BIN%\\date.exe"
 
-  - "%CMD_IN_ENV% python -m pip install --upgrade pip setuptools"
-  - "%CMD_IN_ENV% python -m pip install tox-appveyor tox-backticks tox-venv"
+  - "%CMD_IN_ENV% python -m pip install --upgrade pip==9.0.3 setuptools"
+  - "%CMD_IN_ENV% python -m pip install tox-backticks tox-venv
+    tox-virtualenv-no-download
+    "
   - "%MSYS_BIN%\\date.exe"
 
 build: false  # Not a C# project, build stuff at the test step instead.

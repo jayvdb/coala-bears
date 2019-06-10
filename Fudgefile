@@ -17,7 +17,6 @@
         { "name": "miniconda3", "version": "4.5.12" },
         { "name": "php" },
         { "name": "composer" },
-        { "name": "julia" },
         { "name": "R.project" },
         { "name": "astyle" },
         { "name": "cppcheck" },

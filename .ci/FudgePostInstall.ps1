@@ -201,10 +201,9 @@ function Fixes
 
   cpanm --quiet --installdeps --with-develop --notest .
 
-  composer install
+  R.exe -q -e 'install.packages("formatR")'
 
-  $env:JL_PKG = 'CoalaBears'
-  julia --color=yes .ci/deps.julia.jl
+  composer install
 
   return $LastExitCode
 }
