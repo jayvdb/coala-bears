@@ -207,6 +207,8 @@ function Fixes
   Install-PPM-cpanm
 
   npm config set loglevel warn
+  npm config set msvs_version 2017
+  npm config set python C:\python27\python.exe
   npm install
 
   cpanm --quiet --installdeps --with-develop --notest .
