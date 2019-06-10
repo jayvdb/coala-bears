@@ -34,10 +34,10 @@ environment:
       C:\miniconda;C:\miniconda\Scripts
 
   matrix:
-    - PYTHON_VERSION: 3.6.8
-      TOXPREFIX: py36
     - PYTHON_VERSION: 3.4.4
       TOXPREFIX: py34
+    - PYTHON_VERSION: 3.6.8
+      TOXPREFIX: py36
 
 platform:
   - x64

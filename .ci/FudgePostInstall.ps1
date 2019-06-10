@@ -201,8 +201,8 @@ function Fixes
 
   cpanm --quiet --installdeps --with-develop --notest .
 
-  R.exe -q -e 'install.packages("formatR")'
-  R.exe -q -e 'install.packages("lintr")'
+  R.exe -e 'install.packages("formatR")'
+  R.exe -e 'install.packages("lintr")'
 
   composer install
 
