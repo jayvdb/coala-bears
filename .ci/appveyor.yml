@@ -24,12 +24,13 @@ environment:
     # See https://github.com/haskell/cabal/issues/5386
     # TMP: c:\tmp
     # ActiveState Perl needs to be in path before msys' perl
+    # MinGW also needs to be in the path before other cygwins
     MINGW_BIN: C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
     R_COMPILE_AND_INSTALL_PACKAGES: never
     # R compiler path
     BINPREF: $(MINGW_BIN)\
     PATH: >-
-      C:\python;C:\python\Scripts;C:\Perl;$(MSYS_BIN);$(MINGW_BIN);$(PATH);
+      C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
@@ -79,7 +80,7 @@ install:
   - refreshenv
 
   - .ci\vs_appveyor.cmd
-  - which cl
+  - cl
 
   - "%MSYS_BIN%\\date.exe"
   - cp .ci/choco.config C:\ProgramData\chocolatey\config\chocolatey.config
@@ -111,7 +112,7 @@ install:
   - ruby --version
   - go version
   - conda --version
-  - R --version
+  - ppm --version
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
