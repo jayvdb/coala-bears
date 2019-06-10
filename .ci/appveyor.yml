@@ -12,7 +12,8 @@ environment:
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     GOPATH: C:\gopath
-    BEAR_LIST: astyle xmllint
+    JL_PKG: CoalaBears
+    BEAR_LIST: astyle xmllint dartanalyzer
     TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-lua-java8-julia-adhoc
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added

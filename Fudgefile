@@ -22,6 +22,7 @@
         { "name": "R.project" },
         { "name": "astyle" },
         { "name": "xsltproc" },
+        { "name": "dart-sdk" },
         { "name": "ShellCheck" }
     ]
 }
