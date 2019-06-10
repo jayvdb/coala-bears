@@ -20,7 +20,6 @@
         { "name": "composer" },
         { "name": "astyle" },
         { "name": "cppcheck" },
-        { "name": "xsltproc" },
-        { "name": "ShellCheck" }
+        { "name": "xsltproc" }
     ]
 }

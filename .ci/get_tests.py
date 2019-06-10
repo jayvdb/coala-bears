@@ -15,23 +15,20 @@ IS_WIN = os.name == 'nt'
 
 # This could be moved to appveyor.yml, but can it be less ugly there?
 WINDOWS_BROKEN = set((
-    # perl
     'bakalint',  # not installed
-    # php
     'phpcs',  # https://github.com/coala/coala-bears/issues/2916
-    # java/bash
     'pmd', 'cpd',  # https://github.com/coala/coala-bears/issues/2908
     'mcs',  # choco mono isnt providing this in the PATH
     'tailor',  # installer fails
+    'shellcheck',  # https://github.com/coala/coala-bears/issues/2920
     # pip
-    # 'apertium_lint',  # apertium_lint is not installed
+    'apertium_lint',  # https://gitlab.com/jpsinghgoud/apertium-lint/issues/5
     # 'bandit',  # RuntimeError: Unable to output report using 'json'
     #            # formatter: __enter__ ; passed on py34
     'clang',  # lots of errors, and hangs
     'cppclean',  # https://github.com/myint/cppclean/issues/120
     # 'scspell',  # doesnt work on Windows
-    # 'vint',  # NotImplementedError: cannot instantiate 'PosixPath'
-             # on your system; passed on py34
+    'vint',  # https://github.com/Kuniwak/vint/issues/290
     # gem
     'csvlint',  # https://github.com/coala/coala-bears/issues/2909
     'sqlint',  # libpg_query doesnt build on Windows
