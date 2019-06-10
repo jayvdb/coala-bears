@@ -5,6 +5,7 @@ environment:
     NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
     CHOCO_CACHE_DIR: C:\choco_cache
     PLATFORM: $(PLATFORM)
+    NODE_ROOT: C:\Program Files (x86)\nodejs
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     WIN71_SDK_ROOT: C:\Program Files\Microsoft SDKs\Windows\v7.1
@@ -70,11 +71,7 @@ install:
   - npm config get prefix
   - go version
   - ruby --version
-  # dir C:\mingw-w64\
-  # dir C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64
-  # dir C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
   - gcc --version
-  # exit 1
 
   - python .ci/fix_path.py
   - refreshenv
