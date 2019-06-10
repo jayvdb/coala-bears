@@ -136,7 +136,7 @@ function Add-R-to-PATH
 
     cat "$R_ROOT\etc\Rprofile.site"
 
-    echo "options(repos=structure(c(CRAN=""http://cran.us.r-project.org"")))" >> "$R_ROOT\etc\Rprofile.site"
+    # echo "options(repos=structure(c(CRAN=""http://cran.us.r-project.org"")))" >> "$R_ROOT\etc\Rprofile.site"
 
     cat "$R_ROOT\etc\Rprofile.site"
 
@@ -184,8 +184,8 @@ function Fixes
 
   Add-R-to-PATH
 
-  R.exe -e "install.packages(""formatR"")"
-  R.exe -e "install.packages(""lintr"")"
+  R.exe -e "options(repos=structure(c(CRAN=""http://cran.us.r-project.org""))); install.packages(""formatR"")"
+  R.exe -e "options(repos=structure(c(CRAN=""http://cran.us.r-project.org""))); install.packages(""lintr"")"
 
   Install-GoMetaLinter
   Install-GoPM
