@@ -95,6 +95,8 @@ install:
   - refreshenv
   - echo %PATH%
 
+  - .ci/deps.r.cmd
+
   - node --version
   - which npm
   - npm --version

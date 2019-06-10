@@ -134,13 +134,13 @@ function Add-R-to-PATH
   if ($R_ROOT) {
     dir "$R_ROOT\etc"
 
-    cat "$R_ROOT\etc\Rprofile.site"
+    # cat "$R_ROOT\etc\Rprofile.site"
 
-    echo "options(repos='http://cran.us.r-project.org')" > "$R_ROOT\etc\Rprofile.site"
+    # echo "options(repos='http://cran.us.r-project.org')" > "$R_ROOT\etc\Rprofile.site"
+    # echo "" >> "$R_ROOT\etc\Rprofile.site"
+    # cat "$R_ROOT\etc\Rprofile.site"
 
-    cat "$R_ROOT\etc\Rprofile.site"
-
-    .ci/deps.r.cmd
+    # .ci/deps.r.cmd
 
     return $R_ROOT
   }
@@ -185,24 +185,6 @@ function Fixes
   choco list --local-only
 
   Add-R-to-PATH
-
-  Install-GoMetaLinter
-  Install-GoPM
-
-  go get -u github.com/BurntSushi/toml/cmd/tomlv
-  go get -u sourcegraph.com/sqs/goreturns
-
-  sed -i '/sqlint/d' Gemfile
-  bundle install
-
-  Install-PPM-cpanm
-
-  npm config set loglevel warn
-  npm install
-
-  cpanm --quiet --installdeps --with-develop --notest .
-
-  composer install
 
   return $LastExitCode
 }
