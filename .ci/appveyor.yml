@@ -13,8 +13,9 @@ environment:
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     GOPATH: C:\gopath
     JL_PKG: CoalaBears
-    BEAR_LIST: astyle xmllint dartanalyzer
-    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-lua-java8-julia-adhoc
+    JULIA_PROJECT: '@.'
+    BEAR_LIST: astyle cppcheck mcs xmllint
+    TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-java8-julia-adhoc
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added
     TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-noskip-codecov
@@ -33,14 +34,14 @@ environment:
       C:\miniconda;C:\miniconda\Scripts
 
   matrix:
-    - PYTHON_VERSION: 3.4.4
-      TOXPREFIX: py34
     - PYTHON_VERSION: 3.6.8
       TOXPREFIX: py36
+    - PYTHON_VERSION: 3.4.4
+      TOXPREFIX: py34
 
 platform:
-  - x86
   - x64
+  - x86
 
 cache:
   - C:\nuget_http_cache

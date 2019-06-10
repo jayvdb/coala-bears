@@ -18,11 +18,11 @@
         { "name": "php" },
         { "name": "composer" },
         { "name": "julia" },
-        { "name": "luarocks" },
         { "name": "R.project" },
         { "name": "astyle" },
+        { "name": "cppcheck" },
+        { "name": "mono" },
         { "name": "xsltproc" },
-        { "name": "dart-sdk" },
         { "name": "ShellCheck" }
     ]
 }

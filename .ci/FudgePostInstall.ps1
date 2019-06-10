@@ -203,8 +203,6 @@ function Fixes
 
   composer install
 
-  luarocks install --local luacheck
-
   $env:JL_PKG = 'CoalaBears'
   julia --color=yes .ci/deps.julia.jl
 
