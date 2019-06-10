@@ -134,13 +134,19 @@ function Add-R-to-PATH
   if ($R_ROOT) {
     dir "$R_ROOT\etc"
 
+    cat "$R_ROOT\etc\i386\Makeconf"
+
+    cat "$R_ROOT\etc\x64\Makeconf"
+
     # cat "$R_ROOT\etc\Rprofile.site"
 
-    # echo "options(repos='http://cran.us.r-project.org')" > "$R_ROOT\etc\Rprofile.site"
-    # echo "" >> "$R_ROOT\etc\Rprofile.site"
-    # cat "$R_ROOT\etc\Rprofile.site"
+    echo "local({r <- getOption('repos')" >> "$R_ROOT\etc\Rprofile.site"
+    echo "       r['CRAN'] <- 'http://cran.r-project.org'" >> "$R_ROOT\etc\Rprofile.site"
+    echo "       options(repos=r)})" >> "$R_ROOT\etc\Rprofile.site"
 
-    # .ci/deps.r.cmd
+    cat "$R_ROOT\etc\Rprofile.site"
+
+    .ci/deps.r.cmd
 
     return $R_ROOT
   }
