@@ -243,8 +243,9 @@ function Setup-Products
     $name = $pkg.name
     $version = $pkg.version
 
-    if ($name -eq 'StrawberryPerl') {
+    if (($name -eq 'StrawberryPerl') -or ($name -eq 'mingw')) {
       # Could be mapped to 'perl', but they are slightly different
+      # TODO: Mingw on AppVeyor is in complex directory names
       continue
     }
 
