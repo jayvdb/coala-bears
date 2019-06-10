@@ -201,7 +201,7 @@ function Fixes
 
   cpanm --quiet --installdeps --with-develop --notest .
 
-  R.exe .ci/deps.r
+  R.exe -f .ci/deps.r
 
   composer install
 

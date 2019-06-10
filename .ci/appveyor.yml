@@ -19,6 +19,7 @@ environment:
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added
     TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-noskip
+    TOX_PIP_VERSION: 9.0.3
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
     TMP: c:\tmp
@@ -98,6 +99,7 @@ install:
   - go version
   - conda --version
   - R --version
+  - R.exe -f .ci/deps.r
 
   # Check that we have the expected version and architecture for Python
   - "python --version"
@@ -106,7 +108,7 @@ install:
   - "%MSYS_BIN%\\date.exe"
 
   - "%CMD_IN_ENV% python -m pip install --upgrade pip==9.0.3 setuptools"
-  - "%CMD_IN_ENV% python -m pip install tox-backticks tox-venv
+  - "%CMD_IN_ENV% python -m pip install tox-backticks tox-venv tox-pip-version
     tox-virtualenv-no-download
     "
   - "%MSYS_BIN%\\date.exe"
