@@ -118,9 +118,6 @@ function Update-PEAR
 
 function Add-R-to-PATH
 {
-  $list = Get-ChildItem -Directory 'C:\Program Files\R' | Out-String
-  Write-Verbose $list
-
   Get-ChildItem -Directory 'C:\Program Files\R' | % {
     $R_ROOT = $_.FullName
 
@@ -135,6 +132,12 @@ function Add-R-to-PATH
     Install-ChocolateyPath -PathToInstall $R_BIN
   }
   if ($R_ROOT) {
+    dir $R_ROOT
+
+    cat "$R_ROOT\.Rprofile"
+
+    echo 'options(repos=structure(c(CRAN="http://cran.us.r-project.org")))' >> .Rprofile
+
     return $R_ROOT
   }
   throw ('R not found in ' + $list)
@@ -177,13 +180,9 @@ function Fixes
 {
   choco list --local-only
 
-  $PHP_ROOT = Get-PHP-Root
-
-  # Create-PHP-Ini $PHP_ROOT
-  Install-PEAR $PHP_ROOT
-  Update-PEAR $PHP_ROOT
-
   Add-R-to-PATH
+
+  R.exe -f .ci/deps.r
 
   Install-GoMetaLinter
   Install-GoPM
@@ -200,8 +199,6 @@ function Fixes
   npm install
 
   cpanm --quiet --installdeps --with-develop --notest .
-
-  R.exe -f .ci/deps.r
 
   composer install
 
