@@ -23,8 +23,7 @@ WINDOWS_BROKEN = set((
     'shellcheck',  # https://github.com/coala/coala-bears/issues/2920
     # pip
     'apertium_lint',  # https://gitlab.com/jpsinghgoud/apertium-lint/issues/5
-    # 'bandit',  # RuntimeError: Unable to output report using 'json'
-    #            # formatter: __enter__ ; passed on py34
+    'bandit',  # RuntimeError: Unable to output report using 'json' formatter
     'clang',  # lots of errors, and hangs
     'cppclean',  # https://github.com/myint/cppclean/issues/120
     # 'scspell',  # doesnt work on Windows
