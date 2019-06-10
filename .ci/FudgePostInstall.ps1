@@ -140,12 +140,15 @@ function Add-R-to-PATH
 
     # cat "$R_ROOT\etc\Rprofile.site"
 
-    echo "local({r <- getOption('repos')" >> "$R_ROOT\etc\Rprofile.site"
-    echo "       r['CRAN'] <- 'http://cran.r-project.org'" >> "$R_ROOT\etc\Rprofile.site"
-    echo "       options(repos=r)})" >> "$R_ROOT\etc\Rprofile.site"
+    $etc = "local({r <- getOption('repos')\n"
+    $etc = "$etc       r['CRAN'] <- 'http://cran.r-project.org'\n"
+    $etc = "$etc       options(repos=r)})\n"
+
+    Set-Content "$R_ROOT\etc\Rprofile.site" $etc
 
     cat "$R_ROOT\etc\Rprofile.site"
 
+    $env:BINPREF = ''
     .ci/deps.r.cmd
 
     return $R_ROOT
