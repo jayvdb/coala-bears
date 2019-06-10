@@ -152,6 +152,8 @@ function Add-R-to-PATH
 
     cat "$R_ROOT\etc\Rprofile.site"
 
+    $env:BINPREF = $env:BINPREF -replace '\\','/'
+
     .ci/deps.r.cmd
 
     return $R_ROOT
