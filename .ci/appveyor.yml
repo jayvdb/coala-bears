@@ -124,7 +124,7 @@ install:
   - "%MSYS_BIN%\\date.exe"
 
   - python -m pip install --upgrade pip==9.0.3 setuptools
-  - python -m pip install tox-backticks tox-pip-version
+  - python -m pip install tox-backticks tox-virtualenv-no-download
   - "%MSYS_BIN%\\date.exe"
 
 build: false  # Not a C# project, build stuff at the test step instead.
