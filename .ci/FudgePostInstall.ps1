@@ -10,244 +10,41 @@
 
 Set-StrictMode -Version latest
 
-
-function Get-PHP-Root
-{
-  $list = Get-ChildItem -Directory 'C:\tools\' | Out-String
-  Write-Verbose $list
-
-  Get-ChildItem -Directory 'C:\tools\' -filter 'php*' | % {
-    $PHP_ROOT = $_.FullName
-
-    Write-Host 'Setting PHP_ROOT='$PHP_ROOT
-
-    Set-ItemProperty -path 'HKCU:\Environment' -name 'PHP_ROOT' -value $PHP_ROOT
-  }
-  if ($PHP_ROOT) {
-    return $PHP_ROOT
-  }
-  throw ('php not found in ' + $list)
-}
-
-function Create-PHP-Ini
-{
-  param (
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]
-    $PHP_ROOT
-  )
-
-  $PHP_INI = ($PHP_ROOT + '\php.ini')
-
-  Write-Host 'Creating '$PHP_INI
-
-  cp ($PHP_INI + '-production') $PHP_INI
-  sed -i 's/;date.timezone =.*/date.timezone=UTC/' $PHP_INI
-
-  $list = Get-ChildItem -Recurse $PHP_ROOT | Out-String
-  Write-Verbose ('php dir ' + $list)
-
-  Write-Host 'Enabling PHP openssl ...'
-
-  $openssl_dll = ''
-
-  Get-ChildItem $PHP_ROOT -Recurse -filter '*openssl*.dll' | % {
-    $openssl_dll = $_.FullName
-    Write-Host ' found '$openssl_dll
-  }
-  if (! $openssl_dll) {
-    Write-Host ' not found'
-    throw ('openssl not found in ' + $list)
-  }
-
-  sed -i 's/;extension=openssl/extension=openssl/' $PHP_INI
-
-  $dir = Split-Path -Path $openssl_dll
-  Write-Host 'Setting extension directory: '$dir
-
-  (Get-Content $PHP_INI) | % {
-    $_ -replace ';extension_dir *=.*', ('extension_dir="' + $dir + '"')
-  } | Set-Content $PHP_INI
-
-  grep '^extension' $PHP_INI
-}
-
-function Install-PEAR
-{
-  param (
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]
-    $PHP_ROOT
-  )
-
-  $PHP = ($PHP_ROOT + '\php.exe')
-
-  Write-Host 'Installing PEAR'
-
-  $pear_install_url = 'http://pear.php.net/install-pear-nozlib.phar'
-  $phar = $env:TMP + '\install-pear.phar'
-
-  curl -o $phar $pear_install_url
-
-  $opts = ('-b ' + $PHP_ROOT + ' -d ' + $PHP_ROOT + ' -p ' + $PHP)
-
-  Invoke-Expression ($PHP + ' ' + $phar + ' ' + $opts)
-}
-
-function Update-PEAR
-{
-  param (
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]
-    $PHP_ROOT
-  )
-
-  $PHP = ($PHP_ROOT + '\php.exe')
-
-  Write-Host 'Updating PEAR channel pear.php.net'
-
-  $pearcmd = ($PHP_ROOT + '\pearcmd.php')
-
-  $pear_update_cmd = ($PHP + ' ' + $pearcmd + ' channel-update pear.php.net')
-
-  Invoke-Expression $pear_update_cmd
-}
-
-function Add-R-to-PATH
-{
-  $list = Get-ChildItem -Directory 'C:\Program Files\R' | Out-String
-  Write-Verbose $list
-
-  Get-ChildItem -Directory 'C:\Program Files\R' | % {
-    $R_ROOT = $_.FullName
-
-    # $R_ROOT = $R_ROOT -replace 'C:\\Program Files', '%ProgramFiles%'
-
-    Write-Host 'Setting R_ROOT='$R_ROOT
-
-    Set-ItemProperty -path 'HKCU:\Environment' -name 'R_ROOT' -value $R_ROOT
-
-    $R_BIN = ($R_ROOT + '\bin')
-
-    Install-ChocolateyPath -PathToInstall $R_BIN
-  }
-  if (!$R_ROOT) {
-    throw ('R not found')
-  }
-
-  $cran_config = "
-local({r <- getOption('repos')
-       r['CRAN'] <- 'http://cran.r-project.org'
-       options(repos=r)})
-"
-  Set-Content "$R_ROOT\etc\Rprofile.site" $cran_config
-
-  $env:BINPREF = $env:BINPREF -replace '\\','/'
-
-  .ci/deps.r.cmd
-}
-
-function Update-Cabal
-{
-  cabal update
-}
-
-function Install-Cabal-Deps
-{
-  cabal install --only-dependencies --avoid-reinstalls
-}
-
-function Install-PPM-cpanm
-{
-  ppm install App-cpanminus
-}
-
-function Install-GoMetaLinter
-{
-  go.exe get -u gopkg.in/alecthomas/gometalinter.v2
-
-  $list = Get-ChildItem -Recurse $env:GOPATH | Out-String
-  Write-Verbose ('go dir ' + $list)
-
-  $gometalinter_install_cmd = ($env:GOPATH + '\bin\gometalinter.v2.exe --install')
-
-  Invoke-Expression $gometalinter_install_cmd
-}
-
-function Install-GoPM
-{
-  go.exe get -u github.com/gpmgo/gopm
-  go.exe install github.com/gpmgo/gopm
-}
-
-function Run-Composer-Install
-{
-  param (
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]
-    $PHP_ROOT
-  )
-
-  $PHP = ($PHP_ROOT + '\php.exe')
-
-  $phar = "C:\ProgramData\ComposerSetup\bin\composer.phar"
-
-  Invoke-Expression "$PHP $phar install"
-}
-
-
-function Install-Elm-Format
-{
-  elm-compiler --version
-  wget https://github.com/avh4/elm-format/releases/download/0.8.1/elm-format-0.8.1-win-i386.zip
-  7z e elm-format-0.8.1-win-i386.zip
-  mv elm-format.exe ./node_modules/.bin
-  touch elm-package.json
-}
-
-function Fixes
+function Run-PostInstalls
 {
   choco list --local-only
 
-  $PHP_ROOT = Get-PHP-Root
+  Update-SessionEnvironment
 
-  # Create-PHP-Ini $PHP_ROOT
-  Install-PEAR $PHP_ROOT
-  Update-PEAR $PHP_ROOT
+  $config = Get-FudgefileContent Fudgefile
 
-  Run-Composer-Install $PHP_ROOT
+  foreach ($pkg in $config.Packages)
+  {
+    $name = $pkg.Name
 
-  # Add-R-to-PATH
+    $glob = ".ci/deps.$name.ps1"
+    if (Test-Path $glob)
+    {
+      Write-Host "Running post-install for $name"
 
-  Install-GoMetaLinter
-  Install-GoPM
+      . $glob
+      Do-PostInstall
+    }
+  }
 
-  go get -u github.com/BurntSushi/toml/cmd/tomlv
-  go get -u sourcegraph.com/sqs/goreturns
+  Update-SessionEnvironment
 
-  cp -force Gemfile Gemfile.bak
-  sed -i '/sqlint/d' Gemfile
-  bundle install
-  mv -force Gemfile.bak Gemfile
+  foreach ($pkg in $config.Packages)
+  {
+    $name = $pkg.Name
 
-  Install-PPM-cpanm
+    $glob = ".ci/deps.$name-packages.ps1"
+    if (Test-Path $glob)
+    {
+      Write-Host "Running $name package installation"
 
-  npm config set loglevel warn
-
-  cp -force package.json package.json.bak
-  # elm-platform should be added to Fudgefile
-  # https://github.com/coala/coala-bears/issues/2924
-  sed -i '/elm/d' package.json
-
-  # If gyp fails, use npm config python to help locate Python 2.7
-  npm install
-  mv -force package.json.bak package.json
-
-  cpanm --quiet --installdeps --with-develop --notest .
-
-  return $LastExitCode
+      . $glob
+      Do-Install-Packages
+    }
+  }
 }

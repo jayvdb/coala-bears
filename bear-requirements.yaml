@@ -1,6 +1,6 @@
 # This is an automatically generated file.
 # And should not be edited by hand.
-overrides: coala-build.yaml
+overrides: package-manager-requirements.yaml
 pip_requirements:
   HTTPolice:
     version: ~=0.5.2
