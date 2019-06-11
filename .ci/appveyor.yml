@@ -26,7 +26,7 @@ environment:
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
       $(APPVEYOR_BUILD_FOLDER)\vendor\bin;
     JL_PKG: CoalaBears
-    JULIA_PROJECT: @.
+    JULIA_PROJECT: '@.'
     BEAR_LIST: astyle cppcheck xmllint
     TOX_TEST_SELECTORS: pip-noreqs-npm-gem-go-perl-php-java8-adhoc
     TOX_FEATURES: check-noskip-codecov
