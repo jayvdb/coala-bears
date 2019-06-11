@@ -183,6 +183,23 @@ function Install-GoPM
   go.exe install github.com/gpmgo/gopm
 }
 
+function Run-Composer-Install
+{
+  param (
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $PHP_ROOT
+  )
+
+  $PHP = ($PHP_ROOT + '\php.exe')
+
+  $phar = "C:\ProgramData\ComposerSetup\bin\composer.phar"
+
+  Invoke-Expression "$PHP $phar install"
+}
+
+
 function Install-Elm-Format
 {
   elm-compiler --version
@@ -201,6 +218,8 @@ function Fixes
   # Create-PHP-Ini $PHP_ROOT
   Install-PEAR $PHP_ROOT
   Update-PEAR $PHP_ROOT
+
+  Run-Composer-Install $PHP_ROOT
 
   # Add-R-to-PATH
 
@@ -227,8 +246,6 @@ function Fixes
   # If gyp fails, use npm config python to help locate Python 2.7
   npm install
   mv -force package.json.bak package.json
-
-  C:\ProgramData\ComposerSetup\bin\composer.bat install
 
   cpanm --quiet --installdeps --with-develop --notest .
 
