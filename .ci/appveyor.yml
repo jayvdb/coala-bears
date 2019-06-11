@@ -20,7 +20,7 @@ environment:
     TOX_TEST_SELECTORS: pip-npm-gem-go-perl-php-java8-adhoc
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added
-    TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check
+    TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-codecov
     TOX_PIP_VERSION: 9.0.3
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
@@ -37,15 +37,14 @@ environment:
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
       $(APPVEYOR_BUILD_FOLDER)\vendor\bin;
-      $(MSYS_BIN)\core_perl;
       C:\ruby\bin;
       C:\miniconda;C:\miniconda\Scripts
 
   matrix:
+    - PYTHON_VERSION: 3.4.4
+      TOXPREFIX: py34-noskip
     - PYTHON_VERSION: 3.6.8
       TOXPREFIX: py36-noskip
-    - PYTHON_VERSION: 3.4.4
-      TOXPREFIX: py34-skip
 
 platform:
   - x86
@@ -113,10 +112,6 @@ install:
   - composer --version
   - which composer
   - ppm --version
-
-  - touch foo.css
-  - ls ./node_modules/.bin/
-  - ./node_modules/.bin/postcss --use autoprefixer foo.css
 
   - composer install
 
