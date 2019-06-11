@@ -21,6 +21,7 @@ environment:
     # -codecov removed temporarily, in case that caused the builds to fail
     # when php was added
     TOXENV: $(TOXPREFIX)-$(TOX_TEST_SELECTORS)-win-check-codecov
+    VIRTUALENV_NO_DOWNLOAD: 1
     TOX_PIP_VERSION: 9.0.3
     # Override the temp directory to avoid sed escaping issues
     # See https://github.com/haskell/cabal/issues/5386
@@ -140,7 +141,7 @@ test_script:
   # https://github.com/appveyor/ci/issues/688
 
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - python -m tox -vv
+  - python -m tox -vvv
 
 matrix:
   fast_finish: true
