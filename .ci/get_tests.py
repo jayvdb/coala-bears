@@ -36,7 +36,7 @@ WINDOWS_BROKEN = set((
     'coffeelint',  # Extra windows results
     'csscomb',   # Linter errors
     'dockerfile_lint',  # test case bug
-    # 'elm',  # elm-format is missing
+    'elm-format',  # https://github.com/coala/coala-bears/issues/2925
     'gherkin',  # result json decode exception
     'jshint',  # test case bug
     'remark',  # remark result text difference due to unicode

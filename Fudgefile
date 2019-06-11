@@ -18,7 +18,6 @@
         { "name": "mingw", "version": "8.1.0" },
         { "name": "php" },
         { "name": "composer" },
-        { "name": "elm-platform", "version": "0.18.0.20180222" },
         { "name": "astyle" },
         { "name": "cppcheck" },
         { "name": "xsltproc" }
