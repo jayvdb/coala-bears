@@ -30,7 +30,7 @@ WINDOWS_BROKEN = set((
     'vint',  # https://github.com/Kuniwak/vint/issues/290
     # gem
     'csvlint',  # https://github.com/coala/coala-bears/issues/2909
-    'sqlint',  # libpg_query doesnt build on Windows
+    'sqlint',  # https://github.com/coala/coala-bears/issues/2923
     # npm ; try different version
     'alex',  # https://github.com/coala/coala-bears/issues/2922
     'coffeelint',  # Extra windows results
