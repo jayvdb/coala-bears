@@ -201,22 +201,23 @@ function Fixes
   go get -u github.com/BurntSushi/toml/cmd/tomlv
   go get -u sourcegraph.com/sqs/goreturns
 
-  cp Gemfile Gemfile.bak
+  cp -force Gemfile Gemfile.bak
   sed -i '/sqlint/d' Gemfile
   bundle install
-  mv Gemfile.bak Gemfile
+  mv -force Gemfile.bak Gemfile
 
   Install-PPM-cpanm
 
   npm config set loglevel warn
-  cp package.json package.json.bak
+
+  cp -force package.json package.json.bak
   # elm-platform should be added to Fudgefile
   # https://github.com/coala/coala-bears/issues/2924
   sed -i '/elm/d' package.json
 
   # If gyp fails, use npm config python to help locate Python 2.7
   npm install
-  mv package.json.bak package.json
+  mv -force package.json.bak package.json
 
   dir C:\ProgramData\ComposerSetup\bin\
   # C:\ProgramData\ComposerSetup\bin\composer install
