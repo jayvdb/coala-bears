@@ -183,6 +183,15 @@ function Install-GoPM
   go.exe install github.com/gpmgo/gopm
 }
 
+function Install-Elm-Format
+{
+  elm-compiler --version
+  wget https://github.com/avh4/elm-format/releases/download/0.8.1/elm-format-0.8.1-win-i386.zip
+  7z e elm-format-0.8.1-win-i386.zip
+  mv elm-format.exe ./node_modules/.bin
+  touch elm-package.json
+}
+
 function Fixes
 {
   choco list --local-only
@@ -219,8 +228,7 @@ function Fixes
   npm install
   mv -force package.json.bak package.json
 
-  dir C:\ProgramData\ComposerSetup\bin\
-  # C:\ProgramData\ComposerSetup\bin\composer install
+  C:\ProgramData\ComposerSetup\bin\composer.bat install
 
   cpanm --quiet --installdeps --with-develop --notest .
 
