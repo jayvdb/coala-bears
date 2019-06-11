@@ -32,7 +32,7 @@ WINDOWS_BROKEN = set((
     'csvlint',  # https://github.com/coala/coala-bears/issues/2909
     'sqlint',  # libpg_query doesnt build on Windows
     # npm ; try different version
-    # 'alex',  # The `alex` package could not be verified.
+    'alex',  # https://github.com/coala/coala-bears/issues/2922
     'coffeelint',  # Extra windows results
     'csscomb',   # Linter errors
     'dockerfile_lint',  # test case bug
