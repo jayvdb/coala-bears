@@ -113,6 +113,11 @@ install:
   - which composer
   - ppm --version
 
+  - ls ./node_modules/.bin
+  - alex --help & exit 0
+  - elm-format --help & exit 0
+  - exit 1
+
   - composer install
 
   # Check that we have the expected version and architecture for Python
