@@ -210,10 +210,9 @@ function Fixes
 
   npm config set loglevel warn
   cp package.json package.json.bak
-  # Elm is provided by Fudgefile
+  # elm-platform should be added to Fudgefile
+  # https://github.com/coala/coala-bears/issues/2924
   sed -i '/elm/d' package.json
-
-  echo '{}' elm-package.json
 
   # If gyp fails, use npm config python to help locate Python 2.7
   npm install
