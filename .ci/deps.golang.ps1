@@ -1,3 +1,5 @@
+Set-StrictMode -Version latest
+
 function Install-GoPM
 {
   go.exe get -u github.com/gpmgo/gopm

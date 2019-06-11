@@ -1,3 +1,5 @@
+Set-StrictMode -Version latest
+
 function Get-PHP-Root
 {
   $PHP_ROOT = ''

@@ -13,7 +13,10 @@ PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 IS_WIN = os.name == 'nt'
 
-# This could be moved to appveyor.yml, but can it be less ugly there?
+# Clang DLLs x64 were nowadays installed, but the x64 version hangs, so we
+# exclude according tests. See https://github.com/appveyor/ci/issues/495 and
+# https://github.com/appveyor/ci/issues/688
+
 WINDOWS_BROKEN = set((
     'bakalint',  # not installed
     'phpcs',  # https://github.com/coala/coala-bears/issues/2916
@@ -24,7 +27,7 @@ WINDOWS_BROKEN = set((
     # pip
     'apertium_lint',  # https://gitlab.com/jpsinghgoud/apertium-lint/issues/5
     'bandit',  # RuntimeError: Unable to output report using 'json' formatter
-    'clang',  # lots of errors, and hangs
+    'clang',  # see note above
     'cppclean',  # https://github.com/myint/cppclean/issues/120
     'scspell',  # https://github.com/coala/coala-bears/issues/2926
     'vint',  # https://github.com/Kuniwak/vint/issues/290

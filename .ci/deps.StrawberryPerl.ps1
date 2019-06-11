@@ -1,3 +1,5 @@
+Set-StrictMode -Version latest
+
 function PPM-Install-cpanm
 {
   ppm install App-cpanminus

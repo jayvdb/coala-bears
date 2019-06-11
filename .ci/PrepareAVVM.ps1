@@ -108,32 +108,58 @@ function Add-Product
   }
 
   $installed = GetInstalledProductVersion $Product
-  if ($installed) {
-    if ($installed.version -eq $version) {
-      if ($installed.Platform -eq $env:platform) {
-        Write-Output "$product $version $env:platform already set up"
-        return;
-      }
+
+  $in_program_files = $false
+
+  $version_parts = Get-Version $version
+
+  if (($product -eq 'jdk') -or ($product -eq 'node'))
+  {
+    $in_program_files = $true
+
+    if (($product -eq 'jdk') -and ($version_parts.minor -gt 8)) {
+       # 1.9.0 -> 9
+       $shortver = $version_parts.minor
     }
+    else
+    {
+      $shortver = $version
+    }
+
+    if ($platform -eq 'x86')
+    {
+      $dir_name = "Program Files (x86)"
+    }
+    else {
+      $dir_name = "Program Files"
+    }
+    if ($product -eq 'jdk')
+    {
+      $dir_name = "$dir_name\Java"
+    }
+    $dir_name = "$dir_name\$name"
+  }
+  else {
+    $shortver = "{0}{1}" -f ($version_parts.major,$version_parts.minor)
+    $dir_name = $name
   }
 
-  $shortver = ($version.Split('.'))[0..1]
-  $shortver = "{0}{1}" -f ($shortver[0],$shortver[1])
-
-  $dir_name = $name;
 
   if (Test-Path "$PACKAGES_ROOT\$name\$version\") {
     Write-Output "$PACKAGES_ROOT\$name\$version exists; skipping"
 
-    $base = 'https://appveyordownloads.blob.core.windows.net/avvm'
-    $versions_content = (New-Object Net.WebClient).DownloadString("$base/$name-versions.txt")
-    Set-Content "$PACKAGES_ROOT\$name-versions.txt" $versions_content
-    return
+    if ($product -eq 'node')
+    {
+      $base = 'https://appveyordownloads.blob.core.windows.net/avvm'
+      $versions_content = (New-Object Net.WebClient).DownloadString("$base/$name-versions.txt")
+      Set-Content "$PACKAGES_ROOT\$name-versions.txt" $versions_content
+      return
+    }
   }
 
   if ($installed) {
     $current_version = $installed.version
-    if ((Get-Version $current_version).number -gt (Get-Version $version).number) {
+    if ((Get-Version $current_version).number -gt $version_parts.number) {
       $versions_content = "$current_version
 $version
 lts:$version
@@ -159,11 +185,26 @@ stable:$version
 
   Write-Output "Wrote $PACKAGES_ROOT\$name-versions.txt"
 
+  if ($product -eq 'MinGW')
+  {
+    dir C:\avvm\MinGW
+    return
+  }
+
+  if ($installed) {
+    if ($installed.version -eq $version) {
+      if ($installed.Platform -eq $platform) {
+        Write-Output "$product $version $env:platform already set up"
+        return;
+      }
+    }
+  }
+
   mkdir "$PACKAGES_ROOT\$name" -Force > $null
 
   mkdir "$PACKAGES_ROOT\$name\$version" -Force > $null
 
-  Write-Verbose "Looking for $shortver C:\$dir_name$shortver .."
+  Write-Verbose "Looking for C:\$dir_name$shortver .."
 
   if (!(Test-Path "C:\$dir_name$shortver")) {
     throw "Cant find $dir_name$shortver"
@@ -171,29 +212,35 @@ stable:$version
 
   mkdir "$PACKAGES_ROOT\$name\$version\$platform" -Force > $null
 
-  Write-Output "Looking for C:\$name$shortver-x64 .."
-
-  $dir = ''
-  if (Test-Path "C:\$dir_name$shortver-x64") {
-    if ($platform -eq "x64") {
-      $dir = "C:\$dir_name$shortver-x64"
-    }
-    else {
-      $dir = "C:\$dir_name$shortver"
-    }
+  if ($in_program_files)
+  {
+    $dir = "C:\$dir_name$shortver"
   }
+  else {
+    Write-Output "Looking for C:\$name$shortver-x64 .."
 
-  # TODO: Re-arrange to look only for the needed platform
-  if (!$dir) {
-    Write-Output "Looking for C:\$dir_name$shortver-x86 .."
-  }
-
-  if ((!($dir)) -and (Test-Path "C:\$dir_name$shortver-x86")) {
-    if ($platform -eq "x86") {
-      $dir = "C:\$dir_name$shortver-x86"
+    $dir = ''
+    if (Test-Path "C:\$dir_name$shortver-x64") {
+      if ($platform -eq "x64") {
+        $dir = "C:\$dir_name$shortver-x64"
+      }
+      else {
+        $dir = "C:\$dir_name$shortver"
+      }
     }
-    else {
-      $dir = "C:\$dir_name$shortver"
+
+    # TODO: Re-arrange to look only for the needed platform
+    if (!$dir) {
+      Write-Output "Looking for C:\$dir_name$shortver-x86 .."
+    }
+
+    if ((!($dir)) -and (Test-Path "C:\$dir_name$shortver-x86")) {
+      if ($platform -eq "x86") {
+        $dir = "C:\$dir_name$shortver-x86"
+      }
+      else {
+        $dir = "C:\$dir_name$shortver"
+      }
     }
   }
 
@@ -212,9 +259,9 @@ stable:$version
   $files_content = ('$files = @{ "' + $name + '" = "C:\' + $name + '" }')
   $files_path = "$PACKAGES_ROOT\$name\$version\$platform\files.ps1"
 
-  Write-Output "Creating $files_path"
-
   Set-Content $files_path $files_content
+
+  Write-Output "Wrote $files_path"
 }
 
 function Fix-Miniconda27
@@ -227,7 +274,7 @@ function Fix-Miniconda27
   Move-Item C:\Miniconda-x64 C:\Miniconda27-x64
 }
 
-function Setup-Preinstalled
+function Set-Default-Versions
 {
   # This tells Install-Product to load product versions from $PACKAGES_ROOT
   $env:AVVM_DOWNLOAD_URL = '../../avvm/'
@@ -236,9 +283,16 @@ function Setup-Preinstalled
   # node already set to 8.x
   SetInstalledProductVersion go 1.12.3 x64
 
+  # todo: Handle Python27 and Ruby193
+
   SetInstalledProductVersion miniconda 2.7.15 x86
   SetInstalledProductVersion miniconda3 3.7.0 x86
-  SetInstalledProductVersion perl 5.20.1.2000 x86
+
+  SetInstalledProductVersion jdk 1.6.0 x86
+  SetInstalledProductVersion perl 5.20.1 x86
+  SetInstalledProductVersion MinGW 5.3.0 x86
+
+  dir $PACKAGES_ROOT
 }
 
-Export-ModuleMember -Function Fix-Miniconda27, Setup-Preinstalled, Add-Product
+Export-ModuleMember -Function Fix-Miniconda27, Set-Default-Versions, Add-Product
