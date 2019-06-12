@@ -105,11 +105,10 @@ install:
   - vswhere -? & exit 0
   - vswhere -legacy & exit 0
 
-  - "python -m pip install --no-binary :all: lxml & exit 0"
-  - python -m pip uninstall lxml
-  - python -m pip install pip==9.0.3 setuptools==21.2.2
-  # pip uninstall lxml hangs with pip==9.0.3
-  - "python -m pip install --no-binary :all: lxml & exit 0"
+  - python -m pip install Cython
+  - git clone https://github.com/lxml/lxml
+  - cd lxml
+  - python setup.py build_ext -i --with-cython
 
   - exit 1
 
