@@ -110,8 +110,8 @@ install:
   - cd lxml
   - git checkout lxml-4.3
 
-  - echo %LIBS%
-  - set LIBS=legacy_stdio_definitions.lib 
+  - echo %LIBRARY%
+  - set LIBRARY=legacy_stdio_definitions.lib
 
   - python setup.py build_ext -i --static-deps --with-cython & exit 0
 
