@@ -135,9 +135,9 @@ install:
   - javac -version
   - conda --version
   # Newly installed versions
-  - which composer
-  - composer --version
-  - ppm --version
+  - which composer & exit 0
+  - composer --version & exit 0
+  - ppm --version & exit 0
 
   - "%MSYS_BIN%\\date.exe"
 
