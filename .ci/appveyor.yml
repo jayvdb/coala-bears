@@ -20,7 +20,8 @@ environment:
     PATH: >-
       C:\python;C:\python\Scripts;$(PATH);$(MINGW_BIN);$(MSYS_BIN);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
-      C:\ruby\bin;C:\jdk\bin;
+      C:\ruby\bin;
+      C:\jdk\bin;
       C:\miniconda;C:\miniconda\Scripts;
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
@@ -67,6 +68,10 @@ install:
   - perl --version
   - which gcc
   - gcc --version
+  - which java
+  - java -version
+  - which javac
+  - javac -version
 
   - .ci\vs_appveyor.cmd
   - which cl
@@ -97,6 +102,11 @@ install:
   - perl --version
   - which gcc
   - gcc --version
+  - which java
+  - java -version
+  - which javac
+  - javac -version
+
   - conda --version
 
   # Install remainer of the Fudgefile with chocolatey using Fudge
@@ -117,6 +127,10 @@ install:
   - perl --version
   - which gcc
   - gcc --version
+  - which java
+  - java -version
+  - which javac
+  - javac -version
   - conda --version
   # Newly installed versions
   - which composer
@@ -125,7 +139,7 @@ install:
 
   - "%MSYS_BIN%\\date.exe"
 
-  - python -m pip install --upgrade pip==9.0.3 setuptools
+  - python -m pip install --upgrade pip==9.0.3 setuptools Cython
   - python -m pip install tox-backticks tox-virtualenv-no-download
   - "%MSYS_BIN%\\date.exe"
 

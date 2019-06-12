@@ -14,8 +14,8 @@ docs_dir: docs
 test_prevent_skips: false
 appveyor_global_environment:
   # Needed for Julia
-  # JL_PKG: CoalaBears
-  # JULIA_PROJECT: '@.'
+  JL_PKG: CoalaBears
+  JULIA_PROJECT: "'@.'"
   BEAR_LIST: astyle cppcheck xmllint
   TOX_TEST_SELECTORS: pip-noreqs-npm-gem-go-perl-php-java8-adhoc
   TOX_FEATURES: check-noskip-codecov
