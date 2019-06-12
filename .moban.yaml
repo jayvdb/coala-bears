@@ -12,6 +12,7 @@ package_module: bears
 docs_source_dir: API
 docs_dir: docs
 test_prevent_skips: false
+pip_constraints_file: bear-requirements.txt
 appveyor_global_environment:
   # Needed for Julia
   JL_PKG: CoalaBears

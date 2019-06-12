@@ -17,6 +17,7 @@ environment:
     VIRTUALENV_NO_DOWNLOAD: 1
     VIRTUALENV_NO_PIP: 1
     VIRTUALENV_NO_SETUPTOOLS: 1
+    VIRTUALENV_VERBOSE: 1
     TOX_PIP_VERSION: 9.0.3
     GOPATH: C:\gopath
     PATH: >-
@@ -120,7 +121,6 @@ install:
 
   - python -m pip install
       --constraint bear-requirements.txt
-      pip==9.0.3 setuptools==21.2.2
       -r test-requirements.txt
       git+https://gitlab.com/coala/PyPrint#egg=PyPrint
       git+https://gitlab.com/coala/coala-utils#egg=coala-utils
@@ -170,7 +170,7 @@ build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - python -m tox
+  - python -m tox -vvv
   - python setup.py install
 
   - rm -rf .tox
