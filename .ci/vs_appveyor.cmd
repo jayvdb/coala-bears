@@ -16,7 +16,7 @@ IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (
     call "%VS14_VC%\vcvarsall.bat" x86
   )
 )
-ELSE (
+IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" (
   ECHO Setting up VS2017 %PLATFORM% for image %APPVEYOR_BUILD_WORKER_IMAGE%
 
   IF %PLATFORM% == x64 (
@@ -27,5 +27,3 @@ ELSE (
     call "%VS2017_VC%\Auxiliary\Build\vcvars32.bat"
   )
 )
-
-
