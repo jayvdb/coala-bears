@@ -141,7 +141,7 @@ install:
 
   - "%MSYS_BIN%\\date.exe"
 
-  - python -m pip install --upgrade pip==9.0.3 setuptools
+  - python -m pip install --upgrade pip==9.0.3 setuptools==38.7.0
   - python -m pip install tox-backticks tox-pip-version
   - "%MSYS_BIN%\\date.exe"
 
