@@ -20,7 +20,7 @@ environment:
     PATH: >-
       C:\python;C:\python\Scripts;$(PATH);$(MINGW_BIN);$(MSYS_BIN);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
-      C:\ruby\bin;
+      C:\ruby\bin;C:\jdk\bin;
       C:\miniconda;C:\miniconda\Scripts;
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
