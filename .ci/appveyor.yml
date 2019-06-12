@@ -14,7 +14,8 @@ environment:
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     MINGW_BIN: C:\MinGW\bin
-    WIN71_SDK_ROOT: C:\Program Files\Microsoft SDKs\Windows\v7.1
+    WINDOWS_SDK_VERSION: v7.1
+    WIN71_SDK_ROOT: C:\Program Files\Microsoft SDKs\Windows\%WINDOWS_SDK_VERSION%
     VS14_VC: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC
     VS2017: C:\Program Files (x86)\Microsoft Visual Studio\2017
     VS2017_VC: $(VS2017)\Community\VC
@@ -77,6 +78,10 @@ install:
   - which javac
   - javac -version
 
+  - SET DISTUTILS_USE_SDK=1
+  - SET MSSdk=1
+  - '"%WIN71_SDK_ROOT%\Setup\WindowsSdkVer.exe" -q -version:v71'
+
   - .ci\vs_appveyor.cmd
   - which cl
   - cl & exit 0
@@ -93,6 +98,8 @@ install:
   - choco list --local-only
   - refreshenv
   - echo %PATH%
+
+  - which cl
 
   - choco install vswhere
   - vswhere -? & exit 0
