@@ -272,7 +272,8 @@ jobs:
             - luarocks
 
     - language: generic
-      env: BEARS=opam INFER_VERSION=0.7.0 PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
+      env: BEARS=opam INFER_VERSION=0.7.0
+           PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
       addons:
         apt:
           sources:
@@ -437,7 +438,9 @@ jobs:
 
     - stage: test-failing
       language: generic
-      env: DIST=trusty BEARS=apt_get TODO=disable-shellcheck,debug-formatr DISABLE_BEARS=shellcheck
+      env: DIST=trusty BEARS=apt_get
+           TODO=disable-shellcheck,debug-formatr
+           DISABLE_BEARS=shellcheck
       dist: trusty
       # hlint bear depends on --json, which isnt in trusty hlint
       addons:

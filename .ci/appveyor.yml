@@ -161,7 +161,7 @@ test_script:
   - python -m tox
   - rm -rf .tox
   # python setup.py install
-
+  - rm MYMETA.yml
   - sed -i '/ShellCheckBear/d' .coafile
   - coala --ci
 
