@@ -141,7 +141,7 @@ install:
 
   - "%MSYS_BIN%\\date.exe"
 
-  - python -m pip install --upgrade pip==9.0.3 setuptools==38.7.0
+  - python -m pip install --upgrade pip==9.0.3 setuptools==21.2.2
   - python -m pip install tox-backticks tox-virtualenv-no-download
   - "%MSYS_BIN%\\date.exe"
 
