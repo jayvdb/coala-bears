@@ -3,6 +3,7 @@ image: Visual Studio 2015
 environment:
   global:
     PIP_CACHE_DIR: C:\pip_cache
+    PIP_YES: "true"
     # Needed for lxml to compile
     STATIC_DEPS: "true"
     NUGET_EXE_NO_PROMPT: 1
