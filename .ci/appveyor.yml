@@ -79,8 +79,13 @@ install:
   - dir %ChocolateyInstall%\lib\xsltproc\dist
   - dir %ChocolateyInstall%\lib\xsltproc\dist\bin
   - dir %ChocolateyInstall%\lib\xsltproc\dist\lib
+  - dir %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig
   - dir %ChocolateyInstall%\lib\xsltproc\dist\include
   - dir %ChocolateyInstall%\lib\xsltproc\dist\include\libxml2
+
+  - cat %ChocolateyInstall%\lib\xsltproc\dist\bin\xml2-config
+  - cat %ChocolateyInstall%\lib\xsltproc\dist\bin\xslt-config
+
   - exit 1
 
   - .ci\vs_appveyor.cmd
