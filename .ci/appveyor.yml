@@ -34,6 +34,7 @@ environment:
     TOX_TEST_SELECTORS: pip-noreqs-npm-gem-go-perl-php-java8-adhoc
     TOX_FEATURES: check-noskip-codecov
     TOXENV: py$(PYTHON_MINOR_NODOTS)-$(TOX_TEST_SELECTORS)-$(TOX_FEATURES)-win
+    STATIC_DEPS: "true"
 
   matrix:
     - PYTHON_VERSION: 3.4.4
@@ -80,7 +81,7 @@ install:
   - cl & exit 0
 
   - pacman -Syu --noconfirm
-  - pacman -S --noconfirm libxml2
+  - pacman -S --noconfirm libxml2 libxslt
 
   - python -m pip install --upgrade pip
   - "python -m pip install --no-binary :all: lxml & exit 0"
