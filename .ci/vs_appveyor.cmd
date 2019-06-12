@@ -8,7 +8,11 @@ IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (
   ECHO Setting up VS2015 %PLATFORM%
 
   IF %PLATFORM% == x64 (
+    ECHO Calling setenv
+
     call "%WIN71_SDK_ROOT%\Bin\SetEnv.cmd" /x64
+
+    ECHO Calling vcvarsall
 
     call "%VS14_VC%\vcvarsall.bat" x86_amd64
   )
