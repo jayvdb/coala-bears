@@ -112,7 +112,7 @@ install:
   - conda --version
 
   # Install remainer of the Fudgefile with chocolatey using Fudge
-  - ps: fudge install
+  # ps: fudge install
   - refreshenv
   - echo %PATH%
 
@@ -147,6 +147,12 @@ install:
       git+https://github.com/pglass/tox-pip-version@support-tox-venv
       tox-backticks
   - "%MSYS_BIN%\\date.exe"
+  - python -m pip install git+https://github.com/coala/coala
+  - python -m pip install Cython
+  - python -m pip install
+      pip==9.0.3 setuptools==21.2.2
+      .
+  - "%MSYS_BIN%\\date.exe"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
@@ -155,11 +161,7 @@ test_script:
   - python -m tox
   - rm -rf .tox
   # python setup.py install
-  - python -m pip install git+https://github.com/coala/coala
-  - python -m pip install Cython
-  - python -m pip install 
-      pip==9.0.3 setuptools==21.2.2
-      .
+
   - sed -i '/ShellCheckBear/d' .coafile
   - coala --ci
 
