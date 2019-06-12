@@ -126,7 +126,7 @@ install:
   - conda --version
 
   # Install remainer of the Fudgefile with chocolatey using Fudge
-  - ps: fudge install
+  # ps: fudge install
   - refreshenv
   - echo %PATH%
 
@@ -161,6 +161,7 @@ build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
+  - pip --version
   - python -m tox
   - rm -rf .tox
   # python setup.py install
