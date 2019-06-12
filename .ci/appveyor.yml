@@ -109,6 +109,8 @@ install:
 
   - conda --version
 
+  - choco install lxml --source python
+
   # Install remainer of the Fudgefile with chocolatey using Fudge
   - ps: fudge install
   - refreshenv
