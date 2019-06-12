@@ -17,6 +17,9 @@ environment:
     VS2017: C:\Program Files (x86)\Microsoft Visual Studio\2017
     VS2017_VC: $(VS2017)\Community\VC
     VIRTUALENV_NO_DOWNLOAD: 1
+    VIRTUALENV_NO_PIP: 1
+    VIRTUALENV_NO_SETUPTOOLS: 1
+    VIRTUALENV_VERBOSE: 1
     TOX_PIP_VERSION: 9.0.3
     GOPATH: C:\gopath
     PATH: >-
@@ -95,8 +98,7 @@ install:
   - python -m pip install --prefer-binary lxml
   - python -m pip install --upgrade pip==9.0.3 setuptools==21.2.2
   - python -m pip install --constraint bear-requirements.txt
-      tox-venv tox-backticks
-      git+https://github.com/pglass/tox-pip-version@support-tox-venv
+      tox tox-backticks
   - python -m pip install --constraint bear-requirements.txt
       pip==9.0.3 setuptools==21.2.2
       git+https://gitlab.com/coala/PyPrint#egg=PyPrint
@@ -162,7 +164,7 @@ build: false  # Not a C# project, build stuff at the test step instead.
 test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
   - pip --version
-  - python -m tox
+  - python -m tox -vvv
   - rm -rf .tox
   # python setup.py install
   - rm MYMETA.yml
