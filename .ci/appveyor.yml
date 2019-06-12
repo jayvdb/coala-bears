@@ -137,9 +137,10 @@ install:
   - composer --version
   - ppm --version
 
-  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist
-  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\lib
-  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\include
+  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist"
+  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\bin"
+  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\lib"
+  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\include"
 
   - "%MSYS_BIN%\\date.exe"
 
