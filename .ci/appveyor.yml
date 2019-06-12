@@ -75,6 +75,15 @@ install:
   - which javac
   - javac -version
 
+  - .ci\vs_appveyor.cmd
+  - which cl
+  - cl & exit 0
+
+  - pacman -Syu --noconfirm
+  - pacman -S --noconfirm libxml2
+
+  - python -m pip install --no-binary ':all:' lxml & exit 0
+
   - choco install xsltproc
   - dir %ChocolateyInstall%\lib\xsltproc\dist
   - dir %ChocolateyInstall%\lib\xsltproc\dist\bin
@@ -86,15 +95,11 @@ install:
   - cat %ChocolateyInstall%\lib\xsltproc\dist\bin\xml2-config
   - cat %ChocolateyInstall%\lib\xsltproc\dist\bin\xslt-config
 
-  - sed -i 's/^prefix=.*/prefix=\/c\/ProgramData\/chocolatey\/lib\/xsltproc\/dist\/' %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig\*.pc
+  - sed -i 's/^prefix=.*/prefix=\/c\/ProgramData\/chocolatey\/lib\/xsltproc\/dist/' %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig\*.pc
 
   - cat %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig\libxslt.pc
   - cat %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig\zlib.pc
   - cat %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig\libxml-2.0.pc
-
-  - .ci\vs_appveyor.cmd
-  - which cl
-  - cl & exit 0
 
   - export PATH=%ChocolateyInstall%\lib\xsltproc\dist\bin;%PATH%
   - export PKG_CONFIG_PATH=/c/ProgramData/chocolatey/lib/xsltproc/dist/lib/pkgconfig:;/c/ProgramData/chocolatey/lib/xsltproc/dist/lib/pkgconfig;%ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig;
