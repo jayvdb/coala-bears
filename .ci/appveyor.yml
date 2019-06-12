@@ -139,7 +139,7 @@ install:
 
   - "%MSYS_BIN%\\date.exe"
 
-  - python -m pip install --upgrade pip==9.0.3 setuptools Cython
+  - python -m pip install --upgrade pip==9.0.3 setuptools
   - python -m pip install tox-backticks tox-virtualenv-no-download
   - "%MSYS_BIN%\\date.exe"
 
@@ -148,9 +148,10 @@ build: false  # Not a C# project, build stuff at the test step instead.
 test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
   - python -m tox
-  - python setup.py install
+  # python setup.py install
   - python -m pip install git+https://github.com/coala/coala
-  - python -m pip install git+https://github.com/coala/coala-bears
+  - python -m pip install Cython
+  - python -m pip install .
   - sed -i '/ShellCheckBear/d' .coafile
   - coala --ci
 
