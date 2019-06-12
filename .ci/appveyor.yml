@@ -150,7 +150,7 @@ build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - python -m tox
+  - python -m tox -vvv
   # python setup.py install
   - python -m pip install git+https://github.com/coala/coala
   - python -m pip install Cython
