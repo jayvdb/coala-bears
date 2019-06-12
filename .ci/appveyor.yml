@@ -5,6 +5,8 @@ environment:
     PIP_CACHE_DIR: C:\pip_cache
     NUGET_EXE_NO_PROMPT: 1
     NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
+    # This is the same as $env:ChocolateyInstall
+    CHOCO_ROOT: C:\ProgramData\chocolatey
     CHOCO_CACHE_DIR: C:\choco_cache
     PLATFORM: $(PLATFORM)
     MSYS_ROOT: C:\msys64
@@ -73,7 +75,12 @@ install:
   - which javac
   - javac -version
 
-  - ps: dir ${Env:ChocolateyInstall}
+  - choco install xsltproc
+  - dir %ChocolateyInstall%\lib\xsltproc\dist
+  - dir %ChocolateyInstall%\lib\xsltproc\dist\bin
+  - dir %ChocolateyInstall%\lib\xsltproc\dist\lib
+  - dir %ChocolateyInstall%\lib\xsltproc\dist\include
+  - dir %ChocolateyInstall%\lib\xsltproc\dist\include\libxml2
   - exit 1
 
   - .ci\vs_appveyor.cmd
@@ -139,11 +146,6 @@ install:
   - which composer
   - composer --version
   - ppm --version
-
-  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist"
-  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\bin"
-  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\lib"
-  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\include"
 
   - "%MSYS_BIN%\\date.exe"
 
