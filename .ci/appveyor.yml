@@ -4,7 +4,7 @@ environment:
   global:
     PIP_CACHE_DIR: C:\pip_cache
     # Needed for lxml to compile
-    STATIC_DEPS: "true"
+    # STATIC_DEPS: "true"
     NUGET_EXE_NO_PROMPT: 1
     NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
     CHOCO_CACHE_DIR: C:\choco_cache
@@ -92,6 +92,7 @@ install:
   - refreshenv
   - echo %PATH%
 
+  - python -m pip install lxml & exit 0
   - python -m pip install --upgrade pip==9.0.3 setuptools==21.2.2
   - python -m pip install lxml
   - python -m pip install tox-venv
