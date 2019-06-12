@@ -121,7 +121,7 @@ install:
   - conda --version
 
   # Install remainer of the Fudgefile with chocolatey using Fudge
-  # ps: fudge install
+  - ps: fudge install
   - refreshenv
   - echo %PATH%
 
