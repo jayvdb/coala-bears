@@ -108,7 +108,8 @@ install:
   - python -m pip install Cython
   - git clone https://github.com/lxml/lxml
   - cd lxml
-  - python setup.py build_ext -i --with-cython
+  - git checkout 9204d64068c7c1aa84a1edfcbb1e204d6e11d6d9
+  - python setup.py build_ext -i --static-deps --with-cython
 
   - exit 1
 
