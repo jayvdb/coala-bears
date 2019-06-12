@@ -83,7 +83,7 @@ install:
   - pacman -S --noconfirm libxml2
 
   - python -m pip install --upgrade pip
-  - python -m pip install --no-binary :all: lxml & exit 0
+  - "python -m pip install --no-binary :all: lxml & exit 0"
 
   - choco install xsltproc
   - dir %ChocolateyInstall%\lib\xsltproc\dist
@@ -102,10 +102,10 @@ install:
   - cat %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig\zlib.pc
   - cat %ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig\libxml-2.0.pc
 
-  - export PATH=%ChocolateyInstall%\lib\xsltproc\dist\bin;%PATH%
-  - export PKG_CONFIG_PATH=/c/ProgramData/chocolatey/lib/xsltproc/dist/lib/pkgconfig:;/c/ProgramData/chocolatey/lib/xsltproc/dist/lib/pkgconfig;%ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig;
+  - set "PATH=%ChocolateyInstall%\lib\xsltproc\dist\bin;%PATH%"
+  - set "PKG_CONFIG_PATH=/c/ProgramData/chocolatey/lib/xsltproc/dist/lib/pkgconfig:;/c/ProgramData/chocolatey/lib/xsltproc/dist/lib/pkgconfig;%ChocolateyInstall%\lib\xsltproc\dist\lib\pkgconfig;"
 
-  - python -m pip install --no-binary :all: lxml
+  - "python -m pip install --no-binary :all: lxml"
 
   - exit 1
 
