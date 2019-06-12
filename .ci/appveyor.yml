@@ -137,6 +137,10 @@ install:
   - composer --version
   - ppm --version
 
+  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist
+  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\lib
+  - ps: dir ${Env:ChocolateyInstall} + "\lib\xsltproc\dist\include
+
   - "%MSYS_BIN%\\date.exe"
 
   - python -m pip install --upgrade pip==9.0.3 setuptools
@@ -147,10 +151,11 @@ build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - python -m tox
+  # python -m tox
   # python setup.py install
   - python -m pip install git+https://github.com/coala/coala
   - python -m pip install Cython
+  - python -m pip install lxml==4.2.1
   - python -m pip install .
   - sed -i '/ShellCheckBear/d' .coafile
   - coala --ci
