@@ -3,6 +3,7 @@ image: Visual Studio 2015
 environment:
   global:
     PIP_CACHE_DIR: C:\pip_cache
+    # Prevent pausing for user input
     PIP_YES: "true"
     # Needed for lxml to compile
     STATIC_DEPS: "true"
@@ -80,14 +81,6 @@ install:
   - which cl
   - cl & exit 0
 
-  - "python -m pip install --no-binary :all: lxml & exit 0"
-  # python -m pip install pip==9.0.3 setuptools==21.2.2
-  # pip uninstall lxml hangs with pip==9.0.3
-  - python -m pip uninstall lxml
-  - "python -m pip install --no-binary :all: lxml & exit 0"
-
-  - exit 1
-
   # Stores environment in registry, with minor tweaks
   - python .ci/fix_path.py
   - refreshenv
@@ -100,6 +93,14 @@ install:
   - choco list --local-only
   - refreshenv
   - echo %PATH%
+
+  - "python -m pip install --no-binary :all: lxml & exit 0"
+  - python -m pip uninstall lxml
+  - python -m pip install pip==9.0.3 setuptools==21.2.2
+  # pip uninstall lxml hangs with pip==9.0.3
+  - "python -m pip install --no-binary :all: lxml & exit 0"
+
+  - exit 1
 
   # Show updated SOE; versions should be as defined in top of the Fudgefile
   - python --version
