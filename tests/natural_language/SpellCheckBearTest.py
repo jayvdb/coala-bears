@@ -1,6 +1,3 @@
-import platform
-import unittest
-
 from bears.natural_language.SpellCheckBear import SpellCheckBear
 from coalib.testing.LocalBearTestHelper import verify_local_bear
 
