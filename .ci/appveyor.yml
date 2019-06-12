@@ -73,6 +73,9 @@ install:
   - which javac
   - javac -version
 
+  - ps: dir ${Env:ChocolateyInstall}
+  - exit 1
+
   - .ci\vs_appveyor.cmd
   - which cl
   - cl & exit 0
