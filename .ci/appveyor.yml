@@ -92,13 +92,12 @@ install:
   - refreshenv
   - echo %PATH%
 
-  - python -m pip install --upgrade
-      pip==9.0.3 setuptools==21.2.2
-      tox-venv
+  - python -m pip install --upgrade pip==9.0.3 setuptools==21.2.2
+  - python -m pip install tox-venv
       git+https://github.com/pglass/tox-pip-version@support-tox-venv
       tox-backticks
-      git+https://github.com/coala/coala#egg=coala
-      .
+  - python -m pip install git+https://github.com/coala/coala#egg=coala
+  - python -m pip install -e .
 
   # Show updated SOE; versions should be as defined in top of the Fudgefile
   - python --version
