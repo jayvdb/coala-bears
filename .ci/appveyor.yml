@@ -157,7 +157,9 @@ test_script:
   # python setup.py install
   - python -m pip install git+https://github.com/coala/coala
   - python -m pip install Cython
-  - python -m pip install .
+  - python -m pip install 
+      pip==9.0.3 setuptools==21.2.2
+      .
   - sed -i '/ShellCheckBear/d' .coafile
   - coala --ci
 
