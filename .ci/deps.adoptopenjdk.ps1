@@ -10,6 +10,7 @@ function unix2dos
   )
 
   Get-Content $filename |% {$_.replace("`n", "`r`n")} | Out-File -Filepath $filename
+}
 
 function Do-PostInstall
 {
