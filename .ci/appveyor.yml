@@ -3,18 +3,21 @@ image: Visual Studio 2015
 environment:
   global:
     PIP_CACHE_DIR: C:\pip_cache
+    # Needed if pip uninstall is used
+    PIP_YES: 1
     NUGET_EXE_NO_PROMPT: 1
     NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
     CHOCO_CACHE_DIR: C:\choco_cache
     PLATFORM: $(PLATFORM)
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
-    # MINGW_BIN: C:\MinGW\bin
+    MSSDK_ROOT: C:\Program Files\Microsoft SDKs
+    VS_ROOT: C:\Program Files (x86)\Microsoft Visual Studio
     VIRTUALENV_NO_DOWNLOAD: 1
     VIRTUALENV_NO_PIP: 1
     VIRTUALENV_NO_SETUPTOOLS: 1
-    VIRTUALENV_VERBOSE: 1
-    TOX_PIP_VERSION: 9.0.3
+    # Uncomment to debug tox venv problems
+    # VIRTUALENV_VERBOSE: 1
     GOPATH: C:\gopath
     PATH: >-
       C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);
@@ -33,11 +36,14 @@ environment:
     TOXENV: py$(PYTHON_MINOR_NODOTS)-$(TOX_TEST_SELECTORS)-$(TOX_FEATURES)-win
 
   matrix:
-    - PYTHON_VERSION: 3.4.4
-      PYTHON_MINOR_NODOTS: 34
-
     - PYTHON_VERSION: 3.6.8
       PYTHON_MINOR_NODOTS: 36
+
+    - PYTHON_VERSION: 3.5.4
+      PYTHON_MINOR_NODOTS: 35
+
+    - PYTHON_VERSION: 3.4.4
+      PYTHON_MINOR_NODOTS: 34
 
 platform:
   - x64
@@ -64,14 +70,13 @@ install:
   - npm config get prefix
   - go version
   - ruby --version
-  - perl --version
-  - which gcc
-  - gcc --version
   - which java
   - java -version
   - which javac
   - javac -version
-
+  - perl --version
+  - which gcc & exit 0
+  - gcc --version & exit 0
   - which cl & exit 0
   - cl & exit 0
 
@@ -81,17 +86,25 @@ install:
 
   - cp .ci/choco.config C:\ProgramData\chocolatey\config\chocolatey.config
 
+
   # Set up AppVeyor product versions, and install dummy choco entries for them
   - nuget install fudge -verbosity quiet
   - ps: fudge install -FudgefilePath .ci/Fudgefile.appveyor
   - choco list --local-only
   - refreshenv
   - echo %PATH%
+  # Avoid tools finding and using MinGW
+  - mv C:\MinGW %TEMP%
+  # Avoid tools finding and using Visual Studio
+  - ls -al "%MSSDK_ROOT%"
+  - rm -rf "%MSSDK_ROOT%"
+  - ls -al "%VS_ROOT%" & exit 0
+  - rm -rf "%VS_ROOT%" & exit 0
+  - ls -al "%VS_ROOT%"* & exit 0
+  - rm -rf (ls "%VS_ROOT%"*) & exit 0
 
   # Show updated SOE; versions should be as defined in top of the Fudgefile
   - python --version
-  - python -m pip --version
-  - python -c "import setuptools; print(setuptools.__version__)"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - node --version
   - which npm
@@ -99,53 +112,57 @@ install:
   - npm config get prefix
   - go version
   - ruby --version
-  - perl --version
-  - which gcc
-  - gcc --version
   - which java
   - java -version
   - which javac
   - javac -version
-
+  - perl --version
+  - which gcc & exit 0
+  - gcc --version & exit 0
   - conda --version
 
   - "%MSYS_BIN%\\date.exe"
-  # Disable cache is required to reject source tarballs in the cache?
   # Install lxml needed by for coala-bears as a wheel as libxml2 and libxslt
   # headers and library files are not available, and STATIC_DEPS=true often
   # results in linter problems due to different VS compilers and MS runtimes.
   - python -m pip install --prefer-binary lxml
-
   # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
   # https://github.com/tobgu/pyrsistent/issues/172
   # wrapt->astroid->pylint fails on old setuptools if no MS VC 9
   # https://github.com/GrahamDumpleton/wrapt/issues/135
   - python -m pip install -U setuptools
   - python -m pip install pyrsistent wrapt
+  - python -m pip install -U six pip==9.0.3 setuptools==21.2.2
 
-  - python -m pip install pip==9.0.3 setuptools==21.2.2
-
+  # Install dependencies
   - python -m pip install
       --constraint bear-requirements.txt
       git+https://gitlab.com/coala/PyPrint#egg=PyPrint
+
   - python -m pip install
       --constraint bear-requirements.txt
       git+https://gitlab.com/coala/coala-utils#egg=coala-utils
+
   - python -m pip install
+      --constraint bear-requirements.txt
+      git+https://github.com/coala/coala#egg=coala
+
+  - python -m pip install
+      --constraint bear-requirements.txt
       -r requirements.txt
 
   - python -m pip install
+      --constraint bear-requirements.txt
       pip==9.0.3 setuptools==21.2.2
       -e .
+
   - python -m pip freeze --all > constraints.txt
 
   - python -m pip install
       --constraint constraints.txt
       tox tox-backticks
-      -r docs-requirements.txt
 
   - "%MSYS_BIN%\\date.exe"
-
   # Install remainer of the Fudgefile with chocolatey using Fudge
   - ps: fudge install
   - refreshenv
@@ -162,8 +179,6 @@ install:
   - go version
   - ruby --version
   - perl --version
-  - which gcc
-  - gcc --version
   - which java
   - java -version
   - which javac
@@ -174,19 +189,18 @@ install:
   - composer --version & exit 0
   - ppm --version & exit 0
 
+
   - "%MSYS_BIN%\\date.exe"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
 test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
-  - python -m tox -vvv --sitepackages
+  - python -m tox --sitepackages
   - python setup.py install
 
   - rm -rf .tox
   - rm -f MYMETA.yml
-
-  - sed -i '/ShellCheckBear/d' .coafile
   - coala --ci
 
 matrix:

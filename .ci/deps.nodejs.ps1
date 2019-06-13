@@ -10,7 +10,9 @@ function Configure-NPM
     npm config set msvs_version 2015
   }
 
-  # TODO: Split 'python' in Fudgefile into python27 and python3
+  # TODO: Use a python27 which is specified in the Fudgefile,
+  # either split 'python' in Fudgefile into python27 and python3,
+  # or use msys or cygwin python2.
   if (Test-Path C:\python27\python.exe)
   {
     npm config set python C:\python27\python.exe

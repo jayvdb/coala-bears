@@ -13,7 +13,6 @@
         { "name": "adoptopenjdk", "version": "8.192", "appveyor": "jdk" },
         { "name": "StrawberryPerl", "version": "5.28.0.1" },
         { "name": "miniconda3", "version": "4.5.12", "appveyor": "miniconda" },
-        { "name": "MinGW", "version": "5.3.0", "appveyor": "MinGW" },
         { "name": "maven", "version": "3.5.4" }
     ],
     "pack": {
@@ -24,7 +23,6 @@
         "adoptopenjdk": ".ci/nuspecs/adoptopenjdk.nuspec",
         "StrawberryPerl": ".ci/nuspecs/StrawberryPerl.nuspec",
         "miniconda3": ".ci/nuspecs/miniconda3.nuspec",
-        "MinGW": ".ci/nuspecs/MinGW.nuspec",
         "maven": ".ci/nuspecs/maven.nuspec"
     }
 }

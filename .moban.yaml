@@ -37,6 +37,8 @@ choco_requirements:
   haskell-stack: false
   rust: false  # https://github.com/coala/coala-bears/issues/50
   bower: false
+  MinGW: false
+  visualstudio2017-workload-vctools: false
   # extra deps for bears
   elm-platform: false  # https://github.com/coala/coala-bears/issues/2925
   astyle: true
@@ -56,7 +58,7 @@ targets:
   # setup.py: bears-setup.py.jj2
   - setup.cfg: bears-setup.cfg.jj2
   - Fudgefile: Fudgefile.jj2
-  - .ci/Fudgefile.appveyor: Fudgefile.appveyor.jj2
+  - .ci/Fudgefile.appveyor: ci/Fudgefile.appveyor.jj2
   - requirements.txt: requirements.txt.jj2
   - test-requirements.txt: bears-test-requirements.txt.jj2
   - bears/VERSION: VERSION.jj2
