@@ -121,9 +121,6 @@ install:
 
   - python -m pip install
       --constraint bear-requirements.txt
-      -r test-requirements.txt
-      git+https://github.com/krkd/pytest-cov-threshold
-      pytest-error-for-skips
       git+https://gitlab.com/coala/PyPrint#egg=PyPrint
       git+https://gitlab.com/coala/coala-utils#egg=coala-utils
       -r requirements.txt
@@ -136,13 +133,11 @@ install:
   - python -m pip install
       --constraint bear-requirements.txt
       tox tox-backticks
-  - python -m pip install --upgrade
-      --constraint bear-requirements.txt
-      virtualenv
+
   - "%MSYS_BIN%\\date.exe"
 
   # Install remainer of the Fudgefile with chocolatey using Fudge
-  - ps: fudge install
+  # ps: fudge install
   - refreshenv
   - echo %PATH%
 
