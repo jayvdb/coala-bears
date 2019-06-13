@@ -87,7 +87,13 @@ jobs:
     - stage: test-first
       language: bash
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-      install: npm install
+      before_install:
+        - printenv
+        - choco install fudge
+      install:
+        - fudge install
+      before_script:
+        - echo before_script
 
     - stage: test-python
 
