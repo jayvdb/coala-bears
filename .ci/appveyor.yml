@@ -120,11 +120,13 @@ install:
   - python -m pip install pip==9.0.3 setuptools==21.2.2
 
   - python -m pip install
-      --constraint requirements.txt
+      --constraint bear-requirements.txt
       git+https://gitlab.com/coala/PyPrint#egg=PyPrint
+  - python -m pip install
+      --constraint bear-requirements.txt
       git+https://gitlab.com/coala/coala-utils#egg=coala-utils
+  - python -m pip install
       -r requirements.txt
-      -r docs-requirements.txt
 
   - python -m pip install
       pip==9.0.3 setuptools==21.2.2
@@ -133,6 +135,7 @@ install:
   - python -m pip install
       --constraint requirements.txt
       tox tox-backticks
+      -r docs-requirements.txt
 
   - coala --ci
 
