@@ -90,6 +90,8 @@ install:
 
   # Show updated SOE; versions should be as defined in top of the Fudgefile
   - python --version
+  - python -m pip --version
+  - python -c "import setuptools; print(setuptools.__version__)"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - node --version
   - which npm
@@ -108,11 +110,12 @@ install:
   - conda --version
 
   - "%MSYS_BIN%\\date.exe"
+  # Disable cache is required to reject source tarballs in the cache
   # Install lxml needed by for coala-bears as a wheel as libxml2 and libxslt
   # headers and library files are not available, and STATIC_DEPS=true often
   # results in linter problems due to different VS compilers and MS runtimes.
-  # pyrsistent also requires MS VC 9
-  - python -m pip install --only-binary lxml pyrsistent
+  # pyrsistent->jsonschema->nbformat also requires MS VC 9
+  - python -m pip install --no-cache-dir --only-binary lxml pyrsistent
   - python -m pip install pip==9.0.3 setuptools==21.2.2
 
   - python -m pip install
