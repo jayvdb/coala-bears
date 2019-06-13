@@ -1,5 +1,16 @@
 Set-StrictMode -Version latest
 
+function unix2dos
+{
+  param(
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $filename
+  )
+
+  Get-Content $filename |% {$_.replace("`n", "`r`n")} | Out-File -Filepath $filename
+
 function Do-PostInstall
 {
   # Force DOS format, as Checkstyle configs enable NewlineAtEndOfFile,
