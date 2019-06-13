@@ -91,6 +91,8 @@ jobs:
         - printenv
         - choco install nuget.commandline
         - nuget install fudge
+        - find $USERPROFILE/.nuget/packages/
+        - export PATH=$PATH:$USERPROFILE/.nuget/packages/fudge/1.3.0/tools
       install:
         - powershell -c "fudge install"
       before_script:
