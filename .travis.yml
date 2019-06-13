@@ -84,10 +84,10 @@ jobs:
       if: branch = master AND type = push
 
     # Example
-    # stage: test-first
-    # language: generic
-    # env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-    # install: npm install
+    - stage: test-first
+      language: bash
+      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+      install: npm install
 
     - stage: test-python
 
