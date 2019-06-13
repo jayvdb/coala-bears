@@ -10,10 +10,6 @@ environment:
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     MINGW_BIN: C:\MinGW\bin
-    WIN71_SDK_ROOT: C:\Program Files\Microsoft SDKs\Windows\v7.1
-    VS14_VC: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC
-    VS2017: C:\Program Files (x86)\Microsoft Visual Studio\2017
-    VS2017_VC: $(VS2017)\Community\VC
     VIRTUALENV_NO_DOWNLOAD: 1
     VIRTUALENV_NO_PIP: 1
     VIRTUALENV_NO_SETUPTOOLS: 1
@@ -76,8 +72,7 @@ install:
   - which javac
   - javac -version
 
-  - .ci\vs_appveyor.cmd
-  - which cl
+  - which cl & exit 0
   - cl & exit 0
 
   # Stores environment in registry, with minor tweaks
