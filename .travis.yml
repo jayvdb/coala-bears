@@ -1,5 +1,5 @@
 sudo: false
-dist: trusty
+os: windows
 python: 3.6
 
 .disable_global: &disable_global
