@@ -89,9 +89,9 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
         - printenv
-        - choco install fudge
+        - nuget install fudge -verbosity quiet
       install:
-        - fudge install
+        - powershell -c "fudge install"
       before_script:
         - echo before_script
 
