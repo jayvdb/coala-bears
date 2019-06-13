@@ -141,11 +141,13 @@ install:
 
   - sed -i '/sarge/d' requirements.txt
   - sed -i '/coala/d' requirements.txt
+  - sed -i '/+/d' requirements.txt
+  - sed -i '/[-]e/d' requirements.txt
 
   - "%MSYS_BIN%\\date.exe"
 
   # Install remainer of the Fudgefile with chocolatey using Fudge
-  # ps: fudge install
+  - ps: fudge install
   - refreshenv
   - echo %PATH%
 
