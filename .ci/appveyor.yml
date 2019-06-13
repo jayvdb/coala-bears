@@ -110,12 +110,17 @@ install:
   - conda --version
 
   - "%MSYS_BIN%\\date.exe"
-  # Disable cache is required to reject source tarballs in the cache
+  # Disable cache is required to reject source tarballs in the cache?
   # Install lxml needed by for coala-bears as a wheel as libxml2 and libxslt
   # headers and library files are not available, and STATIC_DEPS=true often
   # results in linter problems due to different VS compilers and MS runtimes.
-  # pyrsistent->jsonschema->nbformat also requires MS VC 9
-  - python -m pip install --no-cache-dir --only-binary lxml pyrsistent
+  - python -m pip install --prefer-binary lxml
+
+  # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
+  # https://github.com/tobgu/pyrsistent/issues/172
+  - python -m pip install -U setuptools
+  - python -m pip install pyrsistent
+
   - python -m pip install pip==9.0.3 setuptools==21.2.2
 
   - python -m pip install
