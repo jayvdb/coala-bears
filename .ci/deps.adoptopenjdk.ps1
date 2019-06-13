@@ -9,7 +9,9 @@ function unix2dos
     $filename
   )
 
-  Get-Content $filename |% {$_.replace("`n", "`r`n")} | Out-File -Filepath $filename
+  $result = Get-Content $filename |% {$_.replace("`n", "`r`n")}
+  $result = ($result + "`r`n")
+  Set-Content -Path $filename $result
 }
 
 function Do-PostInstall

@@ -118,6 +118,8 @@ install:
 
   # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
   # https://github.com/tobgu/pyrsistent/issues/172
+  # wrapt->astroid->pylint fails on old setuptools if no MS VC 9
+  # https://github.com/GrahamDumpleton/wrapt/issues/135
   - python -m pip install -U setuptools
   - python -m pip install pyrsistent wrapt
 
