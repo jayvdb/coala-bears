@@ -89,7 +89,7 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
         - printenv
-        - nuget install fudge -verbosity quiet
+        - nuget install fudge
       install:
         - powershell -c "fudge install"
       before_script:
