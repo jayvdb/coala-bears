@@ -11,7 +11,7 @@ if [ -z "$(which pyenv)" ]; then
 fi
 # https://github.com/doloopwhile/pyenv-register/pull/3
 git clone https://github.com/garyp/pyenv-register.git \
-  $(pyenv root)/plugins/pyenv-register
+  $PYENV_ROOT/plugins/pyenv-register
 
 SYSTEM_PYTHONS=$(ls /usr/bin/python[23] \
                     /usr/bin/python[23].[0-9] \
