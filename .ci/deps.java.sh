@@ -7,7 +7,7 @@ if [ -n "$TRAVIS_JDK_VERSION" ]; then
   jdk_version=${jdk_version#oraclejdk}
 fi
 
-if [ -z "$jdk_version" -o $jdk_version -eq 8 ]; then
+if [ -z "$jdk_version" ] || [ $jdk_version -eq 8 ]; then
   .ci/deps.tailor.sh
 fi
 
