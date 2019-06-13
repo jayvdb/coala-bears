@@ -111,7 +111,8 @@ install:
   # Install lxml needed by for coala-bears as a wheel as libxml2 and libxslt
   # headers and library files are not available, and STATIC_DEPS=true often
   # results in linter problems due to different VS compilers and MS runtimes.
-  - python -m pip install --prefer-binary lxml
+  # pyrsistent also requires MS VC 9
+  - python -m pip install --only-binary lxml pyrsistent
   - python -m pip install pip==9.0.3 setuptools==21.2.2
 
   - python -m pip install
