@@ -137,12 +137,10 @@ install:
       tox tox-backticks
       -r docs-requirements.txt
 
-  - coala --ci
-
   - "%MSYS_BIN%\\date.exe"
 
   # Install remainer of the Fudgefile with chocolatey using Fudge
-  # ps: fudge install
+  - ps: fudge install
   - refreshenv
   - echo %PATH%
 
