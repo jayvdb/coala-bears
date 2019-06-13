@@ -120,19 +120,21 @@ install:
   - python -m pip install pip==9.0.3 setuptools==21.2.2
 
   - python -m pip install
-      --constraint bear-requirements.txt
+      --constraint requirements.txt
       git+https://gitlab.com/coala/PyPrint#egg=PyPrint
       git+https://gitlab.com/coala/coala-utils#egg=coala-utils
       -r requirements.txt
       -r docs-requirements.txt
 
   - python -m pip install
-      --constraint bear-requirements.txt
       pip==9.0.3 setuptools==21.2.2
       -e .
+  - python -m pip freeze --all > requirements.txt
   - python -m pip install
-      --constraint bear-requirements.txt
+      --constraint requirements.txt
       tox tox-backticks
+
+  - coala --ci
 
   - "%MSYS_BIN%\\date.exe"
 
