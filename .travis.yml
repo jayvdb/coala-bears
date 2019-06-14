@@ -124,8 +124,9 @@ jobs:
       install:
         - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
         - export PATH="$PATH:/c/msys64/usr/bin"
-        - which ppm
         - powershell -c "fudge install" || true
+        - which ppm
+        - ppm set
         - ls /c/msys64/usr/bin
         - grep grep .ci/dep*ps1
       before_script:
