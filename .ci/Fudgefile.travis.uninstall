@@ -1,13 +1,11 @@
 {
     "packages": [
         { "name": "microsoft-build-tools" },
-        { "name": "visualstudio2017-workload-netcorebuildtools" },
         { "name": "visualstudio2017-workload-vctools" },
         { "name": "visualstudio2017-workload-webbuildtools" },
         { "name": "visualstudio-installer" },
         { "name": "visualstudio2017buildtools" },
         { "name": "visualstudio2017-installer" },
-        { "name": "dotnet4.6" },
         { "name": "chocolatey-visualstudio.extension" }
     ]
 }

@@ -188,9 +188,13 @@ jobs:
 
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
 
+        # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
 
         - powershell -c "fudge uninstall -FudgefilePath .ci/Fudgefile.travis.uninstall" || true
+        # TODO: check that none of the disabled choco_requirements are in choco list
+
+        - choco list --local-only
 
         - ls /C || true
         # Avoid tools finding and using Visual Studio
