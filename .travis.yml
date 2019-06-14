@@ -90,6 +90,8 @@ jobs:
       before_install:
         - uname -a
         - where.exe uname
+        - ls "/c/Program Files/Git/usr/bin" || true
+        - find "/c/Program Files/Git" || true
         - ls /c
         # Only ruby in /c/tools
         - ls /c/ProgramData
