@@ -107,6 +107,8 @@ install:
   - rm -rf "%VS_ROOT%" & exit 0
   - ls -al "%VS_ROOT%"* & exit 0
   - rm -rf (ls "%VS_ROOT%"*) & exit 0
+  - ls "/c/Program Files (x86)/MSBuild/14.0/Bin"
+  - rm -rf "/c/Program Files (x86)/MSBuild/14.0/Bin"
 
   - which msbuild & exit 0
   - msbuild --version & exit 0

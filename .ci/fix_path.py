@@ -10,6 +10,7 @@ DISCARD_KEYWORDS = tuple([
    'dnvm',
    'git',
    'mspec',
+   'msbuild',
    'nunit',
    'odbc',
    'privateassemblies',
