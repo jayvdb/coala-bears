@@ -90,6 +90,7 @@ jobs:
       before_install:
         - uname -a
         - ls /c
+        - find /c/tools
         - printenv
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
