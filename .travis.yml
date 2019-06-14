@@ -89,9 +89,10 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
         - uname -a
+        - where.exe uname
         - ls /c
         # Only ruby in /c/tools
-        - find /c/ProgramData
+        - ls /c/ProgramData
         - ls "/c/Program Files (x86)" || true
         - ls "/c/Program Files" || true
         - printenv
