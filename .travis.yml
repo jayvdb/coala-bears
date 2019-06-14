@@ -191,6 +191,10 @@ jobs:
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
 
+        - ls /c/msys64/usr/bin || true
+        - ls /c/msys64/ || true
+        - ls /c/tools/ || true
+
         - powershell -c "fudge uninstall -FudgefilePath .ci/Fudgefile.travis.uninstall" || true
         # TODO: check that none of the disabled choco_requirements are in choco list
 
@@ -199,18 +203,22 @@ jobs:
         - ls /C || true
         # Avoid tools finding and using Visual Studio
         - vswhere -? || true
-        - vswhere -legacy || true
+        - vswhere -all -legacy format value -property installationPath || true
+        - set VSLOC=$(vswhere -all -legacy -format value -property installationPath)
+        - ls "${VSLOC}" || true
+        - rm -rf "${VSLOC}" || true
         - set MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
         - set VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
         - rm -rf "$MSSDK_ROOT" || true
+        - ls "$VS_ROOT*" || true
         - rm -rf "$VS_ROOT*" || true
         - rm -rf /C/Windows/Microsoft.NET || true
+        - ls "/c/Program Files (x86)/"
 
-        - powershell -c "fudge install" || true
+        - powershell -c "fudge install"
 
         - printenv
         - which ppm || true
-        - ls /c/msys64/usr/bin
         - ls /c/Perl || true
         - ls /c/ActivePerl || true
         - ls /C/Users/travis/build/jayvdb/coala-bears/node_modules/oniguruma/build/oniguruma.vcxproj || true
