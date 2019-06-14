@@ -88,6 +88,7 @@ jobs:
       language: bash
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
+        - uname -a
         - printenv
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
