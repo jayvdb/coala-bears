@@ -89,6 +89,9 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
         - choco list --local-only
+        - which python
+        - python --version
+        - exit 1
         # choco update git.install
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - uname -a
