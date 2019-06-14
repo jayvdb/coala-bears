@@ -5,7 +5,8 @@ function Install-Node-Packages
   cp -force package.json package.json.bak
   # elm-platform should be added to Fudgefile
   # https://github.com/coala/coala-bears/issues/2924
-  sed -i '/elm/d' package.json
+
+  # sed -i '/elm/d' package.json
 
   # If gyp fails, use npm config python to help locate Python 2.7
   npm install
