@@ -132,7 +132,7 @@ install:
   # https://github.com/GrahamDumpleton/wrapt/issues/135
   - python -m pip install -U setuptools
   - python -m pip install pyrsistent wrapt
-  - python -m pip install -U six pip==9.0.3 setuptools==21.2.2
+  - python -m pip install -U six pip==9.0.1 setuptools==21.2.2
 
   # Install dependencies
   - python -m pip install
@@ -153,7 +153,7 @@ install:
 
   - python -m pip install
       --constraint bear-requirements.txt
-      pip==9.0.3 setuptools==21.2.2
+      pip==9.0.1 setuptools==21.2.2
       -e .
 
   - python -m pip freeze --all > constraints.txt
