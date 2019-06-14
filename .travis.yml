@@ -123,17 +123,27 @@ jobs:
       install:
         - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
         - export PATH="$PATH:/c/msys64/usr/bin"
-        - ls C:\ || true
+        - ls /C || true
+        # Avoid tools finding and using Visual Studio
+        - set MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
+        - set VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
+        - rm -rf "$MSSDK_ROOT" || true
+        - rm -rf "$VS_ROOT*" || true
+
         - powershell -c "fudge install" || true
         - which ppm || true
         - ls /c/msys64/usr/bin
-        - ls C:\Users\travis\build\jayvdb\coala-bears\node_modules\oniguruma\build\oniguruma.vcxproj || true
-        - cat C:\Users\travis\build\jayvdb\coala-bears\node_modules\oniguruma\build\oniguruma.vcxproj || true
-        - ls C:\ || true
-        - ls C:\Microsoft.Cpp.Default.props || true
+        - ls /c/Perl || true
+        - ls /c/ActivePerl || true
+        - ls /C/Users/travis/build/jayvdb/coala-bears/node_modules/oniguruma/build/oniguruma.vcxproj || true
+        - cat /C/Users/travis/build/jayvdb/coala-bears/node_modules/oniguruma/build/oniguruma.vcxproj || true
+        - ls /C || true
+        - ls /C/Microsoft.Cpp.Default.props || true
         - grep grep .ci/dep*ps1
       before_script:
         - echo before_script
+        - pyenv versions
+        - python --version
 
     - stage: test-python
 

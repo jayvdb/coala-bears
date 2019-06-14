@@ -16,6 +16,8 @@ function Run-PostInstalls
 
   Update-SessionEnvironment
 
+  cat $env:ChocolateyInstall\logs\chocolatey.log
+
   $config = Get-FudgefileContent Fudgefile
 
   foreach ($pkg in $config.Packages)
