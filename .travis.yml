@@ -203,16 +203,21 @@ jobs:
         - ls /C || true
         # Avoid tools finding and using Visual Studio
         - vswhere -? || true
-        - vswhere -all -legacy format value -property installationPath || true
-        - set VSLOC=$(vswhere -all -legacy -format value -property installationPath)
+        - vswhere -all -legacy -format value -property installationPath || true
+        - VSLOC=$(vswhere -all -legacy -format value -property installationPath)
+        - echo $VSLOC
         - ls "${VSLOC}" || true
-        - rm -rf "${VSLOC}" || true
-        - set MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
-        - set VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
-        - rm -rf "$MSSDK_ROOT" || true
+        - if [ "${VSLOC}"]; then rm -rf "${VSLOC}" || true ; fi
+        - MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
+        - VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
+        - ls "$MSSDK_ROOT" || true
         - ls "$VS_ROOT*" || true
-        - rm -rf "$VS_ROOT*" || true
-        - rm -rf /C/Windows/Microsoft.NET || true
+        - rm -rf
+            "/C/Windows/Microsoft.NET"
+            "/c/Program Files (x86)/Microsoft.NET"
+            "/c/Program Files (x86)/Microsoft Visual Studio 14.0/"
+            "/c/Program Files (x86)/Microsoft Visual Studio/"
+            || true
         - ls "/c/Program Files (x86)/"
 
         - powershell -c "fudge install"
