@@ -207,18 +207,21 @@ jobs:
         - VSLOC=$(vswhere -all -legacy -format value -property installationPath)
         - echo $VSLOC
         - ls "${VSLOC}" || true
-        - if [ "${VSLOC}"]; then rm -rf "${VSLOC}" || true ; fi
+        # if [ "${VSLOC}"]; then rm -rf "${VSLOC}" || true ; fi
         - MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
         - VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
         - ls "$MSSDK_ROOT" || true
         - ls "$VS_ROOT*" || true
         - rm -rf
-            "/C/Windows/Microsoft.NET"
-            "/c/Program Files (x86)/Microsoft.NET"
-            "/c/Program Files (x86)/Microsoft Visual Studio 14.0/"
-            "/c/Program Files (x86)/Microsoft Visual Studio/"
-            || true
+            "/c/Program Files (x86)/MSBuild"
+        #   "/C/Windows/Microsoft.NET"
+        #   "/c/Program Files (x86)/Microsoft.NET"
+        #   "/c/Program Files (x86)/Microsoft Visual Studio 14.0/"
+        #   "/c/Program Files (x86)/Microsoft Visual Studio/"
+        #   || true
         - ls "/c/Program Files (x86)/"
+
+        - ls .
 
         - powershell -c "fudge install"
 
