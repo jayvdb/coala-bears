@@ -79,10 +79,15 @@ install:
   - gcc --version & exit 0
   - which cl & exit 0
   - cl & exit 0
+  - which msbuild & exit 0
+  - msbuild --version & exit 0
 
   # Stores environment in registry, with minor tweaks
   - python .ci/fix_path.py
   - refreshenv
+
+  - which msbuild & exit 0
+  - msbuild --version & exit 0
 
   - cp .ci/choco.config C:\ProgramData\chocolatey\config\chocolatey.config
 
@@ -102,6 +107,9 @@ install:
   - rm -rf "%VS_ROOT%" & exit 0
   - ls -al "%VS_ROOT%"* & exit 0
   - rm -rf (ls "%VS_ROOT%"*) & exit 0
+
+  - which msbuild & exit 0
+  - msbuild --version & exit 0
 
   # Show updated SOE; versions should be as defined in top of the Fudgefile
   - python --version
