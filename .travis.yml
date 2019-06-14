@@ -198,6 +198,8 @@ jobs:
 
         - ls /C || true
         # Avoid tools finding and using Visual Studio
+        - vswhere -? || true
+        - vswhere -legacy || true
         - set MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
         - set VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
         - rm -rf "$MSSDK_ROOT" || true
