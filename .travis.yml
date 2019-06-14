@@ -214,6 +214,7 @@ jobs:
         - ls "$VS_ROOT*" || true
         - rm -rf
             "/c/Program Files (x86)/MSBuild"
+            /c/Windows/Microsoft.NET/Framework/v4.0.30319/msbuild.exe
         #   "/C/Windows/Microsoft.NET"
         #   "/c/Program Files (x86)/Microsoft.NET"
         #   "/c/Program Files (x86)/Microsoft Visual Studio 14.0/"
@@ -222,6 +223,8 @@ jobs:
         - ls "/c/Program Files (x86)/"
 
         - ls .
+
+        - which msbuild || true
 
         - powershell -c "fudge install"
 
