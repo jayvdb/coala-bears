@@ -15,6 +15,10 @@ function Configure-NPM
   {
     npm config set python C:\python27\python.exe
   }
+  else
+  {
+    npm config set python $env:ChocolateyInstall\bin\python.exe
+  }
 }
 
 function Do-PostInstall

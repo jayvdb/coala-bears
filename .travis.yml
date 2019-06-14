@@ -91,7 +91,6 @@ jobs:
         - choco list --local-only
         - which python
         - python --version
-        - exit 1
         # choco update git.install
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - uname -a
@@ -125,7 +124,8 @@ jobs:
       install:
         - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
         - export PATH="$PATH:/c/msys64/usr/bin"
-        - powershell -c "fudge install"
+        - which ppm
+        - powershell -c "fudge install" || true
         - ls /c/msys64/usr/bin
         - grep grep .ci/dep*ps1
       before_script:
