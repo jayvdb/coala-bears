@@ -91,6 +91,9 @@ jobs:
         - choco list --local-only
         - which python
         - python --version
+        - which go || true
+        - go version || true
+        - rust --version || true
         # choco update git.install
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - uname -a
