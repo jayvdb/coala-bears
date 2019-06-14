@@ -120,14 +120,17 @@ jobs:
         - printenv
         - ls /c/ProgramData/chocolatey/lib
         - ls /c/tools
-        - ls .nuget/packages/fudge/1.3.0/tools || true
       install:
         - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
         - export PATH="$PATH:/c/msys64/usr/bin"
+        - ls C:\ || true
         - powershell -c "fudge install" || true
-        - which ppm
-        - ppm set
+        - which ppm || true
         - ls /c/msys64/usr/bin
+        - ls C:\Users\travis\build\jayvdb\coala-bears\node_modules\oniguruma\build\oniguruma.vcxproj || true
+        - cat C:\Users\travis\build\jayvdb\coala-bears\node_modules\oniguruma\build\oniguruma.vcxproj || true
+        - ls C:\ || true
+        - ls C:\Microsoft.Cpp.Default.props || true
         - grep grep .ci/dep*ps1
       before_script:
         - echo before_script

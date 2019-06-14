@@ -15,6 +15,10 @@ function Configure-NPM
   {
     npm config set python C:\python27\python.exe
   }
+  elseif (Test-Path C:\msys64\usr\bin\python2.7.exe)
+  {
+    $python27 = C:\msys64\usr\bin\python2.7.exe
+  }
   else
   {
     npm config set python $env:ChocolateyInstall\bin\python.exe
