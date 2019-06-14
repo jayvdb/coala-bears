@@ -85,12 +85,81 @@ jobs:
 
     # Example
     - stage: test-first
+      language: go
+      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+      before_install:
+        - choco list --local-only
+        - which python
+        - python --version
+        - node --version || true
+        - which go || true
+        - go version || true
+        - rust --version || true
+        # choco update git.install
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+        - uname -a
+        - where.exe uname
+        - exit 1
+
+    - stage: test-first
+      language: ruby
+      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+      before_install:
+        - choco list --local-only
+        - which python
+        - python --version
+        - node --version || true
+        - which go || true
+        - go version || true
+        - rust --version || true
+        # choco update git.install
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+        - uname -a
+        - where.exe uname
+        - exit 1
+
+    - stage: test-first
+      language: node_js
+      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+      before_install:
+        - choco list --local-only
+        - which python
+        - python --version
+        - node --version || true
+        - which go || true
+        - go version || true
+        - rust --version || true
+        # choco update git.install
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+        - uname -a
+        - where.exe uname
+        - exit 1
+
+    - stage: test-first
+      language: rust
+      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+      before_install:
+        - choco list --local-only
+        - which python
+        - python --version
+        - node --version || true
+        - which go || true
+        - go version || true
+        - rust --version || true
+        # choco update git.install
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+        - uname -a
+        - where.exe uname
+        - exit 1
+
+    - stage: test-first
       language: bash
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
         - choco list --local-only
         - which python
         - python --version
+        - node --version || true
         - which go || true
         - go version || true
         - rust --version || true
@@ -132,6 +201,8 @@ jobs:
         - set VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
         - rm -rf "$MSSDK_ROOT" || true
         - rm -rf "$VS_ROOT*" || true
+
+        - .ci/choco.config $ChocolateyInstall/config/chocolatey.config
 
         - powershell -c "fudge install" || true
         - which ppm || true

@@ -16,7 +16,8 @@ function Run-PostInstalls
 
   Update-SessionEnvironment
 
-  cat $env:ChocolateyInstall\logs\chocolatey.log
+  grep "Path=" $env:ChocolateyInstall\logs\chocolatey.log
+  grep "PATH=" $env:ChocolateyInstall\logs\chocolatey.log
 
   $config = Get-FudgefileContent Fudgefile
 
