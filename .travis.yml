@@ -90,7 +90,10 @@ jobs:
       before_install:
         - uname -a
         - ls /c
-        - find /c/tools
+        # Only ruby in /c/tools
+        - find /c/ProgramData
+        - ls "/c/Program Files (x86)" || true
+        - ls "/c/Program Files" || true
         - printenv
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
