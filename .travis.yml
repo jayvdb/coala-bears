@@ -102,24 +102,8 @@ jobs:
         - exit 1
 
     - stage: test-first
-      language: ruby
-      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-      before_install:
-        - choco list --local-only
-        - which python
-        - python --version
-        - node --version || true
-        - which go || true
-        - go version || true
-        - rust --version || true
-        # choco update git.install
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-        - uname -a
-        - where.exe uname
-        - exit 1
-
-    - stage: test-first
       language: node_js
+      node_js: lts
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
         - choco list --local-only
