@@ -1,0 +1,12 @@
+{
+    "packages": [
+        { "name": "chocolatey-visualstudio.extension" },
+        { "name": "dotnet4" },
+        { "name": "microsoft-build-tools" },
+        { "name": "visualstudio2017buildtools" },
+        { "name": "visualstudio2017-installer" },
+        { "name": "visualstudio2017-workload-netcorebuildtools" },
+        { "name": "visualstudio2017-workload-vctools" },
+        { "name": "visualstudio2017-workload-webbuildtools" }
+    ]
+}

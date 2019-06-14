@@ -146,7 +146,6 @@ jobs:
       python: 3.6.8
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
            TRAVIS_PYTHON_VERSION=3.6.8
-      before_script: echo before_script here
       before_install:
         - choco list --local-only
         - which python
@@ -185,18 +184,25 @@ jobs:
       install:
         - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
         - export PATH="$PATH:/c/msys64/usr/bin"
+
+
+        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+
+        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+
+        - powershell -c "fudge uninstall -FudgefilePath .ci/Fudgefile.travis.uninstall" || true
+
         - ls /C || true
         # Avoid tools finding and using Visual Studio
         - set MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
         - set VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
         - rm -rf "$MSSDK_ROOT" || true
         - rm -rf "$VS_ROOT*" || true
-
-        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
-
-        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+        - rm -rf /C/Windows/Microsoft.NET || true
 
         - powershell -c "fudge install" || true
+
+        - printenv
         - which ppm || true
         - ls /c/msys64/usr/bin
         - ls /c/Perl || true
@@ -208,7 +214,7 @@ jobs:
         - grep grep .ci/dep*ps1
       before_script:
         - echo before_script
-        - pyenv versions
+        - pyenv versions || true
         - python --version
 
     - stage: test-python
