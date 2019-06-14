@@ -173,9 +173,10 @@ jobs:
         - printenv
         - powershell refreshenv
         - printenv
-        - choco install nuget.commandline || true
-        - nuget install fudge || true
-        - choco install fudge
+        - powershell -c 'Install-Package NuGet.CommandLine'
+        # choco install nuget.commandline || true
+        - nuget install fudge -verbosity quiet
+        # choco install fudge
         - powershell refreshenv
         - /c/ProgramData/chocolatey/bin/RefreshEnv.cmd
         - printenv
