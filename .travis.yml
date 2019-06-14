@@ -88,7 +88,8 @@ jobs:
       language: bash
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
-        - powershell refreshenv
+        - choco list --local-only
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Undefined -Scope LocalMachine"
         - uname -a
         - where.exe uname
         - ls "/c/Program Files/Git/usr/bin" || true
