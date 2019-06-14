@@ -84,7 +84,7 @@ jobs:
       if: branch = master AND type = push
 
     # Example
-    - stage: test-first
+    - stage: test-disabled
       language: go
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
@@ -93,6 +93,7 @@ jobs:
         - python --version
         - node --version || true
         - which go || true
+        # /c/Users/travis/.gimme/versions/go1.11.11.windows.amd64/bin/g
         - go version || true
         - rust --version || true
         # choco update git.install
@@ -101,7 +102,7 @@ jobs:
         - where.exe uname
         - exit 1
 
-    - stage: test-first
+    - stage: test-disabled
       language: node_js
       node_js: lts
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
@@ -109,17 +110,21 @@ jobs:
         - choco list --local-only
         - which python
         - python --version
+        - which node
+        # C:\ProgramData\nvs\node\10.16.0\x64
         - node --version || true
         - which go || true
         - go version || true
-        - rust --version || true
+        - ls ${TRAVIS_HOME}/.cargo/bin || true
+        - which rustc
+        - rustc --version || true
         # choco update git.install
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - uname -a
         - where.exe uname
         - exit 1
 
-    - stage: test-first
+    - stage: test-disabled
       language: rust
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
       before_install:
@@ -138,15 +143,16 @@ jobs:
 
     - stage: test-first
       language: bash
+      python: 3.6.8
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
+           TRAVIS_PYTHON_VERSION=3.6.8
+      before_script: echo before_script here
       before_install:
         - choco list --local-only
         - which python
         - python --version
-        - node --version || true
-        - which go || true
-        - go version || true
-        - rust --version || true
+        - which java || true
+        - which javac || true
         # choco update git.install
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - uname -a
@@ -186,7 +192,9 @@ jobs:
         - rm -rf "$MSSDK_ROOT" || true
         - rm -rf "$VS_ROOT*" || true
 
-        - .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+
+        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
 
         - powershell -c "fudge install" || true
         - which ppm || true
