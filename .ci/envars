@@ -16,10 +16,10 @@ for (( IDX=1 ; IDX<COUNT; IDX++ )) do
 	val=${val//\\/\/}
 	val=${val//\%/%%}
 	printf "$label %s $val \n" "${pad:${#label}}"
-	current=${$label}
+	current=${!label}
 	printf "$label = $current"
 	$label=$val
-	current=${$label}
+	current=${!label}
 	printf "$label = $current"
 	#echo -n $PAD
 	#echo -ne "\t"
