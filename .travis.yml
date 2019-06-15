@@ -157,11 +157,11 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
         - powershell -c "Import-Module PackageManagement; Find-PackageProvider"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocolateyGet"
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Force" || true
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocolateyGet -Force"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Pacman-Provider"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider 0install"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocoOneGet"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Force" || true
         # times out:
         # powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Scope CurrentUser" || true
         - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
