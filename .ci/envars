@@ -17,7 +17,10 @@ for (( IDX=1 ; IDX<COUNT; IDX++ )) do
 	val=${val//\%/%%}
 	printf "$label %s $val \n" "${pad:${#label}}"
 	current=${!label}
-	if [ "$current" != "$val" ]; then
+	if [ -z "$current" ]; then
+	  current=${!label}
+	  printf "set new $label to $current\n"
+	elif [ "$current" != "$val" ]; then
       printf "updating $label was $current\n"
       export $label="$val"
 	  current=${!label}

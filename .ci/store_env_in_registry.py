@@ -1,14 +1,12 @@
 import os
 
-KEY = 'System\CurrentControlSet\Control\Session Manager\Environment'
+KEY = 'System\\CurrentControlSet\\Control\\Session Manager\\Environment'
 
-# Git contains cygwin binaries, which break if before Mingw
 DISCARD_KEYWORDS = tuple([
    'awscli',
    'azure',
    'coverity',
    'dnvm',
-   'git',
    'mspec',
    'nunit',
    'odbc',
@@ -59,7 +57,7 @@ def get_tidy_path(original):
     return ';'.join(parts)
 
 
-def set_path_in_registry(value):
+def set_envvar_in_registry(envvar, value):
     try:
         import winreg
     except ImportError:
@@ -67,12 +65,15 @@ def set_path_in_registry(value):
 
     reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
     with winreg.OpenKey(reg, KEY, 0, winreg.KEY_ALL_ACCESS) as regkey:
-        winreg.SetValueEx(regkey, 'Path', 0, winreg.REG_EXPAND_SZ, value)
+        winreg.SetValueEx(regkey, envvar, 0, winreg.REG_EXPAND_SZ, value)
 
 
+def do_all_environ():
+    for key, value in os.environ.items():
+        if key.upper() in ['PATH']:
+            value = get_tidy_path(value)
+            print('PATH (len %d) set to:\n%s' % (len(value), value))
+        set_envvar_in_registry('PSModulePath', value)
 
 if __name__ == '__main__':
-    original = os.environ['PATH']
-    value = get_tidy_path(original)
-    print('PATH (len %d) set to:\n%s' % (len(value), value))
-    set_path_in_registry(value)
+    do_all_environ()
