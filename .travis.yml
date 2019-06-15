@@ -153,8 +153,13 @@ jobs:
         - ls "/c/Program Files (x86)/WindowsPowerShell/Modules" || true
         # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
         - powershell -c "Import-Module PackageManagement; Get-PackageSource"
+        - powershell -c "Import-Module PackageManagement; Get-PackageProvider"
         - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
+        - powershell -c "Import-Module PackageManagement; Find-PackageProvider"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget –Force"
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Scope CurrentUser" || true
+        - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
+        - powershell -c "Import-Module PackageManagement; Get-PackageSource"
         - powershell -c "Import-Module PackageManagement; Update-Module -Name PowerShellGet"
         # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
         - choco list --local-only
@@ -182,7 +187,8 @@ jobs:
         - printenv
         - powershell refreshenv
         - printenv
-        - powershell -c 'Install-Package NuGet.CommandLine'
+        - powershell -c 'Install-Package NuGet.CommandLine' || true
+        - dotnet add package NuGet.CommandLine || true
         # choco install nuget.commandline || true
         - nuget install fudge -verbosity quiet
         # choco install fudge
