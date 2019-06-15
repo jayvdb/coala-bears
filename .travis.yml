@@ -163,7 +163,7 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocolateyGet -Force" || true
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocoOneGet -Force" || true
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
-        - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force -Destination $env:ChocolateyInstall/lib/"
+        - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force -Destination C:\ProgramData\chocolatey\lib"
         - echo $HOME
         - echo $USERPROFILE
         - export PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools:$USERPROFILE/.nuget/packages/fudge/1.3.0/tools:$ChocolateyInstall/lib/fudge/tools/src"
