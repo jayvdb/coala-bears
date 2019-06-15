@@ -162,6 +162,14 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocoOneGet -Force" || true
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
         - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force"
+        - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
+
+        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+
+        # TODO: check the choco packages are the same versions as in this Fudgefile
+        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+
+
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyChocolatey -Location http://chocolatey.org/api/v2 -Provider PSModule -Trusted -Verbose"
         - powershell -c "Import-Module PackageManagement; Get-PackageSource"
         - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Import-PackageProvider chocolatey; Install-Package -ProviderName chocolatey -Name NuGet.CommandLine -Force"
