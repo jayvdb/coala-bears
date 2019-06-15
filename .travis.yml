@@ -147,6 +147,13 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
+        - powershell -c "$PSVersionTable"
+        - powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
+        - powershell -c "Get-PackageSource"
+        - powershell -c "Get-PackageProvider -ListAvailable"
+        - powershell -c "Install-PackageProvider Nuget –Force"
+        - powershell -c "Update-Module -Name PowerShellGet"
+        - powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
         - choco list --local-only
         - which python
         - python --version
