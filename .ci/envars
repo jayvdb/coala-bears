@@ -12,18 +12,34 @@ for (( IDX=1 ; IDX<COUNT; IDX++ )) do
 	#echo -n "${ARR1[$IDX]}"
 	PAD=$(printf '%20s' ${ARR1[$IDX]})
 	label=${ARR1[$IDX]}
-	val=${ARR2[$IDX]}
-	val=${val//\\/\/}
-	val=${val//\%/%%}
-	printf "$label %s $val \n" "${pad:${#label}}"
-	current=${!label}
+	if [ "$label" = "USERNAME" ]; then
+	  continue
+	fi
+	current="${!label}"
 	if [ -z "$current" ]; then
-	  current=${!label}
+	  upper_label=${label^^}
+	  current="${!upper_label}"
+    fi
+	raw="${ARR2[$IDX]}"
+	if [ -n "$current" ]; then
+      if [ "$current" = "$val" ]; then
+        echo $label not changed
+        continue
+      fi
+    fi
+    echo $label raw: $val
+    val="$raw"
+	val="${val//\\/\/}"
+    echo $label fiddle 1: $val
+	val="${val//\%/%%}"
+	printf "$label %s $val \n" "${pad:${#label}}"
+	if [ -z "$current" ]; then
+	  current="${!label}"
 	  printf "set new $label to $current\n"
 	elif [ "$current" != "$val" ]; then
       printf "updating $label was $current\n"
       export $label="$val"
-	  current=${!label}
+	  current="${!label}"
 	  printf "updating $label now $current\n"
 	fi
 	#echo -n $PAD

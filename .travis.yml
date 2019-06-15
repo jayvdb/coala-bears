@@ -151,6 +151,7 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
+        - bash --version
         - printenv
         - python .ci/store_env_in_registry.py
         - printenv
