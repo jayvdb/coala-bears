@@ -141,6 +141,8 @@ jobs:
         - where.exe uname
         - exit 1
 
+    # try travis_install_jdk
+
     - stage: test-first
       language: bash
       python: 3.6.8
@@ -199,8 +201,8 @@ jobs:
         - printenv
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
-        - powershell -c 'Install-Package NuGet.CommandLine' || true
-        - dotnet add package NuGet.CommandLine || true
+        - powershell -c 'Install-Package NuGet.CommandLine -force' || true
+        # dotnet add package NuGet.CommandLine || true
         # choco install nuget.commandline || true
         - nuget install fudge -verbosity quiet
         # choco install fudge
