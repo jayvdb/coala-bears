@@ -141,7 +141,7 @@ jobs:
         - where.exe uname
         - exit 1
 
-    # try travis_install_jdk
+    # try travis_install_jdk travis_setup_java
 
     - stage: test-first
       language: bash
@@ -202,9 +202,24 @@ jobs:
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
         - powershell -c 'Install-Package NuGet.CommandLine -force' || true
+
+        - .ci/envars || true
+        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
+        - reg query HKCU\\Environment || true
+
         # dotnet add package NuGet.CommandLine || true
-        # choco install nuget.commandline || true
-        - nuget install fudge -verbosity quiet
+        - choco install nuget.commandline || true
+
+        - .ci/envars || true
+        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
+        - reg query HKCU\\Environment || true
+
+        - nuget install fudge -verbosity quiet || true
+
+        - .ci/envars || true
+        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
+        - reg query HKCU\\Environment || true
+
         # choco install fudge
         - powershell refreshenv
         - /c/ProgramData/chocolatey/bin/RefreshEnv.cmd

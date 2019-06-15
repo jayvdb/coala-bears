@@ -1,6 +1,6 @@
 #!/usr/bin/bash
-VARS=$(Reg.exe query "HKCU\Environment" | sed "s/[[:space:]]\+/\t/g" | tail --lines=+3 | cut -f2)
-VALS=$(Reg.exe query "HKCU\Environment" | sed "s/[[:space:]]\+/\t/g" | tail --lines=+3 | cut -f4)
+VARS=$(Reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" | sed "s/[[:space:]]\+/\t/g" | tail --lines=+3 | cut -f2)
+VALS=$(Reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" | sed "s/[[:space:]]\+/\t/g" | tail --lines=+3 | cut -f4)
 #echo $VARS
 SAVEIFS=$IFS
 ARR1=($VARS)
@@ -16,6 +16,11 @@ for (( IDX=1 ; IDX<COUNT; IDX++ )) do
 	val=${val//\\/\/}
 	val=${val//\%/%%}
 	printf "$label %s $val \n" "${pad:${#label}}"
+	current=${$label}
+	printf "$label = $current"
+	$label=$val
+	current=${$label}
+	printf "$label = $current"
 	#echo -n $PAD
 	#echo -ne "\t"
 	#echo ${ARR2[$IDX]}
