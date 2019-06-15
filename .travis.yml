@@ -156,8 +156,11 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Get-PackageProvider"
         - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
         - powershell -c "Import-Module PackageManagement; Find-PackageProvider"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget –Force"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Scope CurrentUser" || true
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocoOneGet"
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Force" || true
+        # times out:
+        # powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Scope CurrentUser" || true
         - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
         - powershell -c "Import-Module PackageManagement; Get-PackageSource"
         - powershell -c "Import-Module PackageManagement; Update-Module -Name PowerShellGet"
