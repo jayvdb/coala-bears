@@ -152,6 +152,8 @@ jobs:
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
         - printenv
+        - python .ci/fix_path.py
+        - printenv
         - .ci/envars || true
         - powershell -c "$PSVersionTable"
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
