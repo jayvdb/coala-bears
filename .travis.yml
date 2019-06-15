@@ -198,6 +198,7 @@ jobs:
         - find "/c/Program Files/Git" | grep -i pacman || true
         - ls /c
         # Only ruby in /c/tools
+        - (find /c/tools/ruby25/bin | grep bundle) || true
         - ls /c/ProgramData
         - ls "/c/Program Files (x86)" || true
         - ls "/c/Program Files" || true
@@ -232,7 +233,7 @@ jobs:
         - reg query HKCU\\Environment || true
 
         - ls /c/ProgramData/chocolatey/lib
-        - ls /c/ProgramData/chocolatey/lib/fudge.1.3.0/tools/src
+        - find /c/ProgramData/chocolatey/lib/fudge.1.3.0/
         - ls /c/tools
       install:
         - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"

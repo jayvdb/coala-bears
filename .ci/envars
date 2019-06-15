@@ -17,10 +17,10 @@ for (( IDX=1 ; IDX<COUNT; IDX++ )) do
 	val=${val//\%/%%}
 	printf "$label %s $val \n" "${pad:${#label}}"
 	current=${!label}
-	printf "$label = $current"
+	printf "$label = $current\n"
 	$label=$val
 	current=${!label}
-	printf "$label = $current"
+	printf "$label = $current\n"
 	#echo -n $PAD
 	#echo -ne "\t"
 	#echo ${ARR2[$IDX]}
