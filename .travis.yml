@@ -286,6 +286,8 @@ jobs:
 
         - powershell -c "fudge install"
 
+        - source .ci/envars || true
+
         - printenv
         - which ppm || true
         - ls /c/Perl || true
@@ -299,7 +301,7 @@ jobs:
         - echo before_script
         - pyenv versions || true
         - python --version
-
+        - python3 -m pip install --upgrade --user tox-travis tox-backticks tox-pyenv tox-venv
     - stage: test-python
 
       language: python
