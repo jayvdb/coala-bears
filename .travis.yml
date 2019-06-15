@@ -162,26 +162,14 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocoOneGet -Force" || true
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
         - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force"
-        - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
+        - export PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools"
+        - ls "$HOME/.nuget/packages/fudge/1.3.0/tools"
 
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
 
         # TODO: check the choco packages are the same versions as in this Fudgefile
-        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis"
 
-
-        - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyChocolatey -Location http://chocolatey.org/api/v2 -Provider PSModule -Trusted -Verbose"
-        - powershell -c "Import-Module PackageManagement; Get-PackageSource"
-        - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Import-PackageProvider chocolatey; Install-Package -ProviderName chocolatey -Name NuGet.CommandLine -Force"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider GitHubProvider"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider Pacman-Provider"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider 0install"
-        # times out:
-        # powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Scope CurrentUser" || true
-        - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
-        - powershell -c "Import-Module PackageManagement; Get-PackageSource"
-        - powershell -c "Import-Module PackageManagement; Update-Module -Name PowerShellGet"
-        # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
         - choco list --local-only
         - which python
         - python --version
