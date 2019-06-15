@@ -149,9 +149,8 @@ jobs:
       before_install:
         - powershell -c "$PSVersionTable"
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-        - dotnet add package NuGet.CommandLine || true
+        # dotnet add package NuGet.CommandLine || true
         - choco install grep
-        - find . | grep -i nuget
         - ls "/c/Program Files/WindowsPowerShell/Modules" || true
         - ls "/c/Program Files (x86)/WindowsPowerShell/Modules" || true
         # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
