@@ -158,7 +158,7 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Find-PackageProvider"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Force" || true
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocolateyGet -Force -Force" || true
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocolateyGet -Force" || true
         - powershell -c "Import-Module PackageManagement; Get-PackageSource"
         - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Import-PackageProvider chocolatey; Install-Package -Name NuGet.CommandLine"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider GitHubProvider"
