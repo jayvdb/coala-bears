@@ -148,12 +148,14 @@ jobs:
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
         - powershell -c "$PSVersionTable"
-        - powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
-        - powershell -c "Get-PackageSource"
-        - powershell -c "Get-PackageProvider -ListAvailable"
-        - powershell -c "Install-PackageProvider Nuget –Force"
-        - powershell -c "Update-Module -Name PowerShellGet"
-        - powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
+        - ls "/c/Program Files/WindowsPowerShell/Modules" || true
+        - ls "/c/Program Files (x86)/WindowsPowerShell/Modules" || true
+        # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
+        - powershell -c "Import-Module PackageManagement; Get-PackageSource"
+        - powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget –Force"
+        - powershell -c "Import-Module PackageManagement; Update-Module -Name PowerShellGet"
+        # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
         - choco list --local-only
         - which python
         - python --version
