@@ -148,6 +148,7 @@ jobs:
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
         - powershell -c "$PSVersionTable"
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - ls "/c/Program Files/WindowsPowerShell/Modules" || true
         - ls "/c/Program Files (x86)/WindowsPowerShell/Modules" || true
         # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
@@ -162,7 +163,6 @@ jobs:
         - which java || true
         - which javac || true
         # choco update git.install
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - uname -a
         - where.exe uname
         - ls "/c/Program Files/Git/usr/bin" || true
