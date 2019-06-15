@@ -148,9 +148,7 @@ jobs:
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
         - printenv
-        - source .ci/win-get-environment.sh
-        - win-get-environment --global
-        - win-get-environment --global
+        - .ci/envars || true
         - powershell -c "$PSVersionTable"
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         # dotnet add package NuGet.CommandLine || true
@@ -169,7 +167,7 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
         - powershell -c "Import-Module PackageManagement; Get-PackageSource"
         - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force -Destination C:\ProgramData\chocolatey\lib"
-        - win-get-environment --global
+        - .ci/envars || true
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
         - echo $HOME
@@ -181,7 +179,7 @@ jobs:
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
 
         # TODO: check the choco packages are the same versions as in this Fudgefile
-        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis"
+        # powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis"
 
         - choco list --local-only
         - which python
@@ -201,13 +199,6 @@ jobs:
         - printenv
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
-        - find /c/ProgramData/chocolatey | grep -i RefreshEnv
-        - which refreshenv.cmd || true
-        - RefreshEnv || true
-        - /c/ProgramData/chocolatey/bin/RefreshEnv.cmd
-        - printenv
-        - powershell refreshenv
-        - printenv
         - powershell -c 'Install-Package NuGet.CommandLine' || true
         - dotnet add package NuGet.CommandLine || true
         # choco install nuget.commandline || true
@@ -216,6 +207,10 @@ jobs:
         - powershell refreshenv
         - /c/ProgramData/chocolatey/bin/RefreshEnv.cmd
         - printenv
+        - .ci/envars || true
+        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
+        - reg query HKCU\\Environment || true
+
         - ls /c/ProgramData/chocolatey/lib
         - ls /c/tools
       install:
@@ -227,6 +222,10 @@ jobs:
 
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+
+        - .ci/envars || true
+        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
+        - reg query HKCU\\Environment || true
 
         - ls /c/msys64/usr/bin || true
         - ls /c/msys64/ || true

@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+VARS=$(Reg.exe query "HKCU\Environment" | sed "s/[[:space:]]\+/\t/g" | tail --lines=+3 | cut -f2)
+VALS=$(Reg.exe query "HKCU\Environment" | sed "s/[[:space:]]\+/\t/g" | tail --lines=+3 | cut -f4)
+#echo $VARS
+SAVEIFS=$IFS
+ARR1=($VARS)
+ARR2=($VALS)
+COUNT=${#ARR1[*]}
+#read -ra ARR <<< "$VARS"
+pad='                             '
+for (( IDX=1 ; IDX<COUNT; IDX++ )) do
+	#echo -n "${ARR1[$IDX]}"
+	PAD=$(printf '%20s' ${ARR1[$IDX]})
+	label=${ARR1[$IDX]}
+	val=${ARR2[$IDX]}
+	val=${val//\\/\/}
+	val=${val//\%/%%}
+	printf "$label %s $val \n" "${pad:${#label}}"
+	#echo -n $PAD
+	#echo -ne "\t"
+	#echo ${ARR2[$IDX]}
+  done
