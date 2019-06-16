@@ -14,12 +14,12 @@ Get-ChildItem env:* | %{
     }
     Write-Output ("export " + $_.Name + "='" + $value + "'")
   }
-} | Out-File -Encoding ascii C:\TEMP\refreshenv.sh
+} | Out-File -Encoding ascii $env:TEMP\refreshenv.sh
 
 EOF
 
-  cat "/c/TEMP/refreshenv.sh"
-  source "/c/TEMP/refreshenv.sh"
+  cat "$TEMP/refreshenv.sh"
+  source "$TEMP/refreshenv.sh"
 }
 
 alias RefreshEnv=refreshenv

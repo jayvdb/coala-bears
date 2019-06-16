@@ -183,6 +183,8 @@ jobs:
 
         - where mingw32-make.exe || true
 
+        - set FOO="A ♡ heart"
+
         - python .ci/store_env_in_registry.py
 
         - source .ci/refreshenv.sh
@@ -309,8 +311,6 @@ jobs:
 
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
-
-        - setx FOO "A ♡ heart" /m
 
         - printenv
 
