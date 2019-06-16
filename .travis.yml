@@ -155,8 +155,9 @@ jobs:
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
-        - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name NuGet.CommandLine"
+        - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name NuGet.CommandLine -Force"
         - nuget -? || true
+        - nuget install fudge || true
         - bash --version
         - printenv
         - echo $PATH
