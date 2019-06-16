@@ -5,6 +5,10 @@ Update-SessionEnvironment
 # Round brackets in variable names cause problems with bash
 Get-ChildItem env:* | %{
   if (!($_.Name.Contains('('))) {
-    Write-Output ("export " + $_.Name + "='" + $_.Value + "'")
+    $value = $_.Value
+    if ($_.Name -eq 'PATH') {
+      $value = $value -replace ';',':'
+    }
+    Write-Output ("export " + $_.Name + "='" + $value + "'")
   }
 } | Out-File -Encoding ascii C:\TEMP\refreshenv.sh
