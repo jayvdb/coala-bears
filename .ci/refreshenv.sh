@@ -25,9 +25,6 @@ for (( IDX=0 ; IDX<COUNT; IDX++ )) do
 	#echo -n "${ARR1[$IDX]}"
 	PAD=$(printf '%20s' ${ARR1[$IDX]})
 	label=${ARR1[$IDX]}
-	if [ "$label" != "Path" ]; then
-	  continue
-	fi
 	if [ "$label" = "USERNAME" ]; then
 	  continue
 	fi

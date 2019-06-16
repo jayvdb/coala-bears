@@ -155,8 +155,9 @@ jobs:
         - printenv
         - python .ci/store_env_in_registry.py
         - printenv
-        - powershell -c 'Get-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
+        - powershell -c "Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | Foreach-Object { '{0}={1}' -f \$_.Key,\$_.Value }"
         - bash .ci/refreshenv.sh || true
+        - exit 1
         - powershell -c "$PSVersionTable"
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         # dotnet add package NuGet.CommandLine || true
