@@ -19,7 +19,7 @@ class TextLintBear:
 
     LANGUAGES = {'HTML', 'Markdown', 'reStructuredText'}
     REQUIREMENTS = {NpmRequirement('textlint', '7.3.0'),
-                    NpmRequirement('textlint-plugin-asciidoc-loose', '1.0.1'),
+                    NpmRequirement('textlint-plugin-asciidoctor', '1.0.3'),
                     NpmRequirement('textlint-plugin-html', '0.1.5'),
                     NpmRequirement('textlint-plugin-review', '0.3.3'),
                     NpmRequirement('textlint-plugin-rst', '0.1.1'),

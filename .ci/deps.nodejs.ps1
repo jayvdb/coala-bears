@@ -29,9 +29,16 @@ function Configure-NPM
   npm config set python $python27
 }
 
+function Install-PNPM
+{
+  npm install pnpm
+}
+
 function Do-PostInstall
 {
   Configure-NPM
+
+  Install-PNPM
 }
 
 Export-ModuleMember -Function Config-NPM, Do-PostInstall

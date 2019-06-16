@@ -9,7 +9,7 @@ function Install-Node-Packages
   # sed -i '/elm/d' package.json
 
   # If gyp fails, use npm config python to help locate Python 2.7
-  npm install
+  pnpm install
   mv -force package.json.bak package.json
 }
 
