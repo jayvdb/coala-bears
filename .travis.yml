@@ -194,43 +194,35 @@ jobs:
 
         - powershell -c ". .ci/gen_refreshenv.ps1"
 
-        - where find
-
         - cat "/c/TEMP/refreshenv.sh"
 
-        - where find
-
-        - echo $PATH
-
-        - bash -ex -c 'echo $PATH' || true
-
-        - bash -ex -c "export foo=bar; source /c/TEMP/refreshenv.sh"
+        - source "/c/TEMP/refreshenv.sh"
 
         - where find
 
         - printenv
-        - source .ci/refreshenv.sh || true
-        - printenv
-        - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"
+        # source .ci/refreshenv.sh || true
+        # printenv
+        # powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"
         - echo $PATH
-        - exit 1
+        # exit 1
         # dotnet add package NuGet.CommandLine || true
         - choco install grep
         - ls "/c/Program Files/WindowsPowerShell/Modules" || true
         - ls "/c/Program Files (x86)/WindowsPowerShell/Modules" || true
         # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
-        - powershell -c "Import-Module PackageManagement; Get-PackageSource"
+        # powershell -c "Import-Module PackageManagement; Get-PackageSource"
         # powershell -c "Import-Module PackageManagement; Get-PackageProvider"
         # powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
         # powershell -c "Import-Module PackageManagement; Find-PackageProvider"
-        - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
+        # powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
         # powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Force" || true
         # powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocolateyGet -Force" || true
         # powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocoOneGet -Force" || true
-        - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
-        - powershell -c "Import-Module PackageManagement; Get-PackageSource"
-        - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force -Destination C:\ProgramData\chocolatey\lib"
-        - source .ci/envars || true
+        # powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
+        # powershell -c "Import-Module PackageManagement; Get-PackageSource"
+        # powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force -Destination C:\ProgramData\chocolatey\lib"
+        # source .ci/envars || true
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
         - echo $HOME
@@ -264,47 +256,24 @@ jobs:
         - printenv
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
-        - powershell -c 'Install-Package NuGet.CommandLine -force' || true
 
-        - source .ci/refreshenv.sh || true
+        - powershell -c ". .ci/gen_refreshenv.ps1"
+        - source "/c/TEMP/refreshenv.sh"
+
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
 
-        # dotnet add package NuGet.CommandLine || true
-        - choco install nuget.commandline || true
-
-        - .ci/refreshenv.sh || true
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - reg query HKCU\\Environment || true
-
-        - nuget install fudge -verbosity quiet || true
-
-        - source .ci/refreshenv.sh || true
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - reg query HKCU\\Environment || true
-
-        # choco install fudge
-        - powershell refreshenv
-        - /c/ProgramData/chocolatey/bin/RefreshEnv.cmd
-        - printenv
-        - .ci/refreshenv.sh || true
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - reg query HKCU\\Environment || true
-
-        - ls /c/ProgramData/chocolatey/lib
-        - find /c/ProgramData/chocolatey/lib/fudge.1.3.0/
         - ls /c/tools
       install:
         - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
         - export PATH="$PATH:/c/msys64/usr/bin"
 
-
-        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
-
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
 
-        - .ci/refreshenv.sh || true
+        - powershell -c ". .ci/gen_refreshenv.ps1"
+        - source "/c/TEMP/refreshenv.sh"
+
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
 
@@ -347,7 +316,8 @@ jobs:
 
         - printenv
 
-        - source .ci/refreshenv.sh || true
+        - powershell -c ". .ci/gen_refreshenv.ps1"
+        - source "/c/TEMP/refreshenv.sh"
 
         - printenv
         - which ppm || true
@@ -362,7 +332,7 @@ jobs:
         - echo before_script
         - pyenv versions || true
         - python --version
-        - python3 -m pip install --upgrade --user tox-travis tox-backticks tox-pyenv tox-venv
+        - python -m pip install --upgrade --user tox-travis tox-backticks tox-pyenv tox-venv
     - stage: test-python
 
       language: python
