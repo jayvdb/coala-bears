@@ -151,27 +151,30 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
+        - bash --version
         - powershell -c "$PSVersionTable"
-        - cat C:\\Users\\travis\\.nuget\\NuGet.Config || true
+
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name NuGetOrg -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
         - powershell -c "Import-Module PackageManagement; Install-Package -Source NuGetOrg -Name NuGet.CommandLine -Force -ExcludeVersion -Destination C:\tools"
-        - cat $appdata/NuGet/NuGet.Config || true
-        - ls C:\\tools || true
-        - ls /C/tools/NuGet* || true
-        - find /c/tools/NuGet.CommandLine || true
-        - /c/tools/NuGet.CommandLine/tools/nuget config	|| true
-        - cat $appdata/NuGet/NuGet.Config || true
-        - export NUGET_EXE_NO_PROMPT=true
-        - /c/tools/NuGet.CommandLine/tools/nuget install fudge -NonInteractive -ExcludeVersion -OutputDirectory C:\\tools || true
+
         - /c/tools/NuGet.CommandLine/tools/nuget sources list
-        - ls C:\\tools || true
-        - ls /c/tools/fudge/tools/ || true
-        - ls
+
+        - export NUGET_EXE_NO_PROMPT=true
+
+        - /c/tools/NuGet.CommandLine/tools/nuget install fudge -NonInteractive -ExcludeVersion -OutputDirectory C:\\tools || true
+
+        - find /c/tools/fudge/tools/ || true
         - find C:\\Users\\travis\\.nuget\\packages || true
-        - find ./packages || true
-        - bash --version
+
+        - export PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools"
+
+        # TODO: check the choco packages are the same versions as in this Fudgefile
+        - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+
         - printenv
         - echo $PATH
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
@@ -218,7 +221,6 @@ jobs:
         - find "$HOME" -name .nuget || true
         - find "$HOME" | grep -i fudge || true
 
-        - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
 
         # TODO: check the choco packages are the same versions as in this Fudgefile
         # powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis"
