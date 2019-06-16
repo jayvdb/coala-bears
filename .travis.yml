@@ -175,20 +175,12 @@ jobs:
         # TODO: check the choco packages are the same versions as in this Fudgefile
         # powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
 
-        - printenv
-        - echo $PATH
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - python .ci/store_env_in_registry.py
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - echo $PATH
-        - export BEARS=foo
         - powershell -c "gci env:* | sort-object name" || true
-        - ls /c/ProgramData/chocolatey/helpers || true
         - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | sort-object name" || true
         - mkdir C:\\TEMP || true
         - powershell -c ". .ci/gen_refreshenv.ps1"
         - cat "/c/TEMP/refreshenv.sh"
-        - source "/c/TEMP/refreshenv.sh"
+        - bash -ex "/c/TEMP/refreshenv.sh"
         - printenv
         - source .ci/refreshenv.sh || true
         - printenv
