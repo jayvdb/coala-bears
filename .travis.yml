@@ -160,6 +160,7 @@ jobs:
         - cat C:\\Users\\travis\\.nuget\\NuGet.Config || true
         - ls C:\\tools || true
         - ls C:\\tools\\*NuGet*\\ || true
+        - find /c/tools/NuGet.CommandLine.5.0.2 || true
         - /c/tools/NuGet.CommandLine.5.0.2/nuget -? || true
         - /c/tools/NuGet.CommandLine.5.0.2/nuget install fudge || true
         - cat C:\\Users\\travis\\.nuget\\NuGet.Config || true
@@ -176,8 +177,9 @@ jobs:
         - export BEARS=foo
         - powershell -c "gci env:* | sort-object name" || true
         - ls /c/ProgramData/chocolatey/helpers || true
-        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; write-host $env:BEARS; gci env:* | sort-object name" || true
-        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; write-host $env:BEARS; gci env:* | ForEach-Object {write-host $_.Name ' = ' $_.Value}" || true
+        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | sort-object name" || true
+        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | %{write-host $_.Name ' = ' $_.Value}" > "$TEMP/refreshenv.sh"
+        - source "$TEMP/refreshenv.sh"
         - printenv
         - source .ci/refreshenv.sh || true
         - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"
