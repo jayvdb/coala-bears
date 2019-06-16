@@ -27,12 +27,12 @@ for (( IDX=0 ; IDX<COUNT; IDX++ )) do
 	PAD=$(printf '%20s' ${ARR1[$IDX]})
 	label=${ARR1[$IDX]}
 	if [ "$label" = "USERNAME" ]; then
-	  echo "Skipping $labal"
+	  echo "Skipping $label"
 	  continue
 	fi
-	if [ "${label/\(/}}" != "${label}" ]; then
+	if [ "${label/\(/}" != "${label}" ]; then
 	  # ( or ) in labels do not work in bash
-	  echo "Skipping $labal"
+	  echo "Skipping $label"
 	  continue
 	fi
 	current="${!label}"

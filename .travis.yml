@@ -152,16 +152,18 @@ jobs:
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
         - powershell -c "$PSVersionTable"
-        - cat C:\Users\travis\.nuget\NuGet.Config || true
+        - cat C:\\Users\\travis\\.nuget\\NuGet.Config || true
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name NuGetOrg -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
         - powershell -c "Import-Module PackageManagement; Install-Package -Source NuGetOrg -Name NuGet.CommandLine -Force -Destination C:\tools"
-        - ls C:\tools || true
-        - ls C:\tools\*nuget*\ || true
+        - cat C:\\Users\\travis\\.nuget\\NuGet.Config || true
+        - ls C:\\tools || true
+        - ls C:\\tools\\*nuget*\ || true
         - nuget -? || true
         - nuget install fudge || true
-        - find C:\Users\travis\.nuget\packages || true
+        - cat C:\\Users\\travis\\.nuget\\NuGet.Config || true
+        - find C:\\Users\\travis\\.nuget\\packages || true
         - find .\packages || true
         - bash --version
         - printenv
