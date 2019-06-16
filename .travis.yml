@@ -160,6 +160,8 @@ jobs:
         - python .ci/store_env_in_registry.py
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - echo $PATH
+        - powershell -c "write-host $env" || true
+        - powershell -c "refreshenv; write-host $env" || true
         - printenv
         - source .ci/refreshenv.sh || true
         - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"

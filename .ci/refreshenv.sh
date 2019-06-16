@@ -18,7 +18,7 @@ ARR2=($VALS)
 COUNT=${#ARR1[*]}
 COUNT2=${#ARR2[*]}
 echo $COUNT $COUNT2
-IFS=$_SAVEIFS
+IFS="${_SAVEIFS}"
 
 #read -ra ARR <<< "$VARS"
 pad='                             '
