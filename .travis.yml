@@ -188,6 +188,7 @@ jobs:
         - where find
 
         - python .ci/store_env_in_registry.py
+        - bash -ex -c 'echo $PATH' || true
 
         - where find
 
@@ -201,7 +202,7 @@ jobs:
 
         - echo $PATH
 
-        - bash -ex -c "echo $PATH"
+        - bash -ex -c 'echo $PATH' || true
 
         - bash -ex -c "export foo=bar; source /c/TEMP/refreshenv.sh"
 
