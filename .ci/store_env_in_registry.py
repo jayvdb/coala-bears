@@ -73,7 +73,7 @@ def do_all_environ():
         if key.upper() in ['PATH']:
             value = get_tidy_path(value)
             print('PATH (len %d) set to:\n%s' % (len(value), value))
-        set_envvar_in_registry('PSModulePath', value)
+        set_envvar_in_registry(key, value)
 
 if __name__ == '__main__':
     do_all_environ()

@@ -155,10 +155,13 @@ jobs:
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - bash --version
         - printenv
+        - echo $PATH
         - python .ci/store_env_in_registry.py
+        - echo $PATH
         - printenv
-        - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'"
-        - bash .ci/refreshenv.sh || true
+        - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ft property,value"
+        - source .ci/refreshenv.sh || true
+        - echo $PATH
         - exit 1
         # dotnet add package NuGet.CommandLine || true
         - choco install grep

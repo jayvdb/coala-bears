@@ -35,14 +35,14 @@ for (( IDX=0 ; IDX<COUNT; IDX++ )) do
       echo "$upper_label !! $current"
 	  upper_current="${!upper_label}"
 	  if [ -n "$upper_current" ]; then
-        label=$upper_label
-        current="$upper_current"
+        label=${upper_label}
+        current="${upper_current}"
       fi
     fi
 	raw="${ARR2[$IDX]}"
 	if [ -n "$current" ]; then
       if [ "$current" = "$raw" ]; then
-        echo $label not changed
+        echo "${label} not changed"
         continue
       fi
     fi
