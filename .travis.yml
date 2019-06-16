@@ -151,15 +151,15 @@ jobs:
       env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
            TRAVIS_PYTHON_VERSION=3.6.8
       before_install:
+        - powershell -c "$PSVersionTable"
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - bash --version
         - printenv
         - python .ci/store_env_in_registry.py
         - printenv
-        - powershell -c "Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | Foreach-Object { '{0}={1}' -f \$_.Key,\$_.Value }"
+        - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'"
         - bash .ci/refreshenv.sh || true
         - exit 1
-        - powershell -c "$PSVersionTable"
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         # dotnet add package NuGet.CommandLine || true
         - choco install grep
         - ls "/c/Program Files/WindowsPowerShell/Modules" || true

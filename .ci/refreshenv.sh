@@ -7,8 +7,8 @@ IFS="
 "
 _DATACMD='reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
 _DATACMD="cat reg.data"
-VARS=$(cat reg.data | sed "s/[[:space:]][[:space:]]\+/\t/g" | tail --lines=+3 | cut -d "	" -f2)
-VALS=$(cat reg.data | sed "s/[[:space:]][[:space:]]\+/\t/g" | tail --lines=+3 | cut -d "	" -f4)
+VARS=$(reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" | sed "s/[[:space:]][[:space:]]\+/\t/g" | tail --lines=+3 | cut -d "	" -f2)
+VALS=$(reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" | sed "s/[[:space:]][[:space:]]\+/\t/g" | tail --lines=+3 | cut -d "	" -f4)
 #echo $VARS
 #echo $VALS
 ARR1=($VARS)
