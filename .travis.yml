@@ -173,7 +173,7 @@ jobs:
 
         - export TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
 
-        - sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini
+        - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
 
         - head tox.ini
 
