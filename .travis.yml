@@ -184,6 +184,7 @@ jobs:
         - where mingw32-make.exe || true
 
         - set FOO="A ♡ heart"
+        - export FOO="A ♡ heart"
 
         - python .ci/store_env_in_registry.py
 
