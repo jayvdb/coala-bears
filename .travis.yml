@@ -342,7 +342,7 @@ jobs:
         - export TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
         - sed -i "s/^envlist.*$/envlist: $TOXENV/" tox.ini
 
-        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH
+        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
         - python -m pip install --upgrade --user tox-travis tox-backticks tox-pyenv tox-venv
 
     - stage: test-python
