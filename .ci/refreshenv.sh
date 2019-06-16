@@ -29,6 +29,10 @@ for (( IDX=0 ; IDX<COUNT; IDX++ )) do
 	if [ "$label" = "USERNAME" ]; then
 	  continue
 	fi
+	if [ "${label/\(/}}" != "${label}" ]; then
+	  # ( or ) in labels do not work in bash
+	  continue
+	fi
 	current="${!label}"
 	echo "$label !! $current"
 	if [ -z "$current" ]; then
