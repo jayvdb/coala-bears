@@ -7,4 +7,4 @@ Get-ChildItem env:* | %{
   if (!($_.Name -contains '(')) {
     Write-Output ("export " + $_.Name + "='" + $_.Value + "'")
   }
-} | Out-File -Encoding utf8 C:\TEMP\refreshenv.sh
+} | Out-File -Encoding ascii C:\TEMP\refreshenv.sh
