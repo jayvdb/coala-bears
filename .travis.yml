@@ -165,7 +165,7 @@ jobs:
         - cat $appdata/NuGet/NuGet.Config || true
         - export NUGET_EXE_NO_PROMPT=true
         - /c/tools/NuGet.CommandLine/tools/nuget install fudge -NonInteractive -ExcludeVersion -OutputDirectory C:\\tools || true
-        - /c/tools/NuGet.CommandLine/tools/nuget config	|| true
+        - /c/tools/NuGet.CommandLine/tools/nuget sources list
         - ls C:\\tools || true
         - ls /c/tools/fudge/tools/ || true
         - ls
@@ -182,7 +182,7 @@ jobs:
         - powershell -c "gci env:* | sort-object name" || true
         - ls /c/ProgramData/chocolatey/helpers || true
         - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | sort-object name" || true
-        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | Where-Object {$_.Name -not -contains '('} | %{write-host $_.Name ' = `'' $_.Value '`''} | Out-File $TEMP\refreshenv.sh"
+        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | Where-Object {$_.Name -not -contains '('} | %{write-host $_.Name ' = ''' $_.Value ''''} | Out-File $TEMP\refreshenv.sh"
         - source "$TEMP/refreshenv.sh"
         - printenv
         - source .ci/refreshenv.sh || true
