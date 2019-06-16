@@ -199,7 +199,11 @@ jobs:
 
         - where find
 
-        - bash -ex -c "source /c/TEMP/refreshenv.sh"
+        - echo $PATH
+
+        - bash -ex -c "echo $PATH"
+
+        - bash -ex -c "export foo=bar; source /c/TEMP/refreshenv.sh"
 
         - where find
 
