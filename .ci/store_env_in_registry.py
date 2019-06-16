@@ -70,6 +70,9 @@ def set_envvar_in_registry(envvar, value):
 
 def do_all_environ():
     for key, value in os.environ.items():
+        if key.upper() in ['PWD', 'OLDPWD', 'CWD']:
+            continue
+
         if key.upper() in ['PATH']:
             value = get_tidy_path(value)
             print('PATH (len %d) set to:\n%s' % (len(value), value))

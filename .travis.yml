@@ -313,6 +313,8 @@ jobs:
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
+        - setx FOO "A ♡ heart" /m
+
         - printenv
 
         - refreshenv
