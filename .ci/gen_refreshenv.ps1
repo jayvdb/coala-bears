@@ -2,6 +2,7 @@ Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1
 
 Update-SessionEnvironment
 
-Get-ChildItem env:* | where name -cNotContains '(' | %{
-  Write-Output "$_.Name='$_.Value'"
+# Round brackets in variable names cause problems with bash
+Get-ChildItem env:* | Where-Object Name -cNotContains '(' | %{
+  Write-Output ($_.Name + "='" + $_.Value + "'")
 } | Out-File C:\TEMP\refreshenv.sh
