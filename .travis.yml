@@ -153,6 +153,10 @@ jobs:
       before_install:
         - powershell -c "$PSVersionTable"
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+        - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
+        - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
+        - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name NuGet.CommandLine"
+        - nuget -? || true
         - bash --version
         - printenv
         - echo $PATH
@@ -163,7 +167,7 @@ jobs:
         - export BEARS=foo
         - powershell -c "gci env:* | sort-object name" || true
         - ls /c/ProgramData/chocolatey/helpers || true
-        - powershell -c ". C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | sort-object name" || true
+        - powershell -c ". C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; write-host $env:BEARS; gci env:* | sort-object name" || true
         - printenv
         - source .ci/refreshenv.sh || true
         - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"
