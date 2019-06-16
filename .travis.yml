@@ -171,29 +171,26 @@ jobs:
         - find /c/tools/fudge/tools/ || true
         - find C:\\Users\\travis\\.nuget\\packages || true
 
-        - where find
+        - export TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
+
+        - sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini
+
+        - head tox.ini
+
+        - where mingw32-make.exe || true
 
         - export PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools"
 
-        - where find
-
-        # TODO: check the choco packages are the same versions as in this Fudgefile
-        # powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
-
-        - powershell -c "gci env:* | sort-object name" || true
-        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | sort-object name" || true
-        - mkdir C:\\TEMP || true
-        - echo $PATH
-
-        - where find
+        - where mingw32-make.exe || true
 
         - python .ci/store_env_in_registry.py
 
         - source .ci/refreshenv.sh
 
-        - where find
+        - where mingw32-make.exe
 
         - refreshenv
+
 
         - where find
 
@@ -334,9 +331,6 @@ jobs:
         - echo before_script
         - pyenv versions || true
         - python --version
-
-        - export TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
-        - sed -i "s/^envlist.*$/envlist: $TOXENV/" tox.ini
 
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
         - python -m pip install --upgrade --user tox-travis tox-backticks tox-pyenv tox-venv
