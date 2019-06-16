@@ -1,72 +1,25 @@
-#!/usr/bin/bash
+function refreshenv
+{
+  powershell -NonInteractive - <<\EOF
+Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 
-echo PATH=$PATH
+Update-SessionEnvironment
 
-_SAVEIFS=$IFS
-IFS="
-"
-_DATACMD='reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
-_DATACMD="cat reg.data"
+# Round brackets in variable names cause problems with bash
+Get-ChildItem env:* | %{
+  if (!($_.Name.Contains('('))) {
+    $value = $_.Value
+    if ($_.Name -eq 'PATH') {
+      $value = $value -replace ';',':'
+    }
+    Write-Output ("export " + $_.Name + "='" + $value + "'")
+  }
+} | Out-File -Encoding ascii C:\TEMP\refreshenv.sh
 
-VARS=$(reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" | sed "s/[[:space:]][[:space:]]\+/\t/g" | tail --lines=+3 | cut -d "	" -f2)
-VALS=$(reg.exe query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" | sed "s/[[:space:]][[:space:]]\+/\t/g" | tail --lines=+3 | cut -d "	" -f4)
-#echo $VARS
-#echo $VALS
-ARR1=($VARS)
-ARR2=($VALS)
+EOF
 
-COUNT=${#ARR1[*]}
-COUNT2=${#ARR2[*]}
-echo $COUNT $COUNT2
-IFS="${_SAVEIFS}"
+  cat "/c/TEMP/refreshenv.sh"
+  source "/c/TEMP/refreshenv.sh"
+}
 
-#read -ra ARR <<< "$VARS"
-pad='                             '
-for (( IDX=0 ; IDX<COUNT; IDX++ )) do
-	#echo -n "${ARR1[$IDX]}"
-	PAD=$(printf '%20s' ${ARR1[$IDX]})
-	label=${ARR1[$IDX]}
-	if [ "$label" = "USERNAME" ]; then
-	  echo "Skipping $label"
-	  continue
-	fi
-	if [ "${label/\(/}" != "${label}" ]; then
-	  # ( or ) in labels do not work in bash
-	  echo "Skipping $label"
-	  continue
-	fi
-	current="${!label}"
-	echo "$label !! $current"
-	if [ -z "$current" ]; then
-	  upper_label=${label^^}
-      echo "$upper_label !! $current"
-	  upper_current="${!upper_label}"
-	  if [ -n "$upper_current" ]; then
-        label=${upper_label}
-        current="${upper_current}"
-      fi
-    fi
-	raw="${ARR2[$IDX]}"
-	if [ -n "$current" ]; then
-      if [ "$current" = "$raw" ]; then
-        echo "${label} not changed"
-        continue
-      fi
-    fi
-    val="$raw"
-	unixslashes="${val//\\/\/}"
-	printfable="${unixslashes//\%/%%}"
-	echo "$label ^^ $raw"
-
-	if [ -z "$current" ]; then
-	  declare "$label"="$raw"
-	  new="${!label}"
-	  echo "set new $label to $new"
-	elif [ "$current" != "$val" ]; then
-      echo "updating $label was $current"
-      declare "${label}"="$val"
-	  new="${!label}"
-	  echo "updating $label now $new"
-	fi
-	echo "----"
-  done
+alias RefreshEnv=refreshenv

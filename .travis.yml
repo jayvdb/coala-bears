@@ -188,15 +188,12 @@ jobs:
         - where find
 
         - python .ci/store_env_in_registry.py
-        - bash -ex -c 'echo $PATH' || true
+
+        - source .ci/refreshenv.sh
 
         - where find
 
-        - powershell -c ". .ci/gen_refreshenv.ps1"
-
-        - cat "/c/TEMP/refreshenv.sh"
-
-        - source "/c/TEMP/refreshenv.sh"
+        - refreshenv
 
         - where find
 
@@ -257,8 +254,7 @@ jobs:
         - file /c/Users/travis/.travis/functions
         - cat /c/Users/travis/.travis/functions
 
-        - powershell -c ". .ci/gen_refreshenv.ps1"
-        - source "/c/TEMP/refreshenv.sh"
+        - refreshenv
 
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
@@ -271,8 +267,7 @@ jobs:
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
 
-        - powershell -c ". .ci/gen_refreshenv.ps1"
-        - source "/c/TEMP/refreshenv.sh"
+        - refreshenv
 
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
@@ -316,15 +311,14 @@ jobs:
 
 
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
-        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH
+        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
         - printenv
 
-        - powershell -c ". .ci/gen_refreshenv.ps1"
-        - source "/c/TEMP/refreshenv.sh"
+        - refreshenv
 
         - printenv
-        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH
+        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
         - which ppm || true
         - ls /c/Perl || true
