@@ -183,7 +183,7 @@ jobs:
         - ls /c/ProgramData/chocolatey/helpers || true
         - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | sort-object name" || true
         - mkdir C:\\TEMP || true
-        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | Where-Object {$_.Name -not -contains '('} | %{write-host $_.Name ' = ''' $_.Value ''''} | Out-File C:\TEMP\refreshenv.sh"
+        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; gci env:* | where name -cNotContains '(' | %{write-Output $_.Name ' = ''' $_.Value ''''} | Out-File C:\TEMP\refreshenv.sh"
         - cat "/c/TEMP/refreshenv.sh"
         - source "/c/TEMP/refreshenv.sh"
         - printenv
