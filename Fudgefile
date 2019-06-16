@@ -12,7 +12,10 @@
         { "name": "ruby", "version": "2.5.3.1" },
         { "name": "golang", "version": "1.9.7" },
         { "name": "adoptopenjdk", "version": "8.192" },
+        { "name": "StrawberryPerl", "version": "5.28.0.1" },
         { "name": "php" },
-        { "name": "composer" }
+        { "name": "composer" },
+        { "name": "R.Project" },
+        { "name": "ShellCheck" }
     ]
 }
