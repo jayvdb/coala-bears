@@ -158,6 +158,8 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name NuGet.CommandLine -Force"
         - nuget -? || true
         - nuget install fudge || true
+        - ls C:\Users\travis\.nuget\packages || true
+        - find C:\Users\travis\.nuget\packages || true
         - bash --version
         - printenv
         - echo $PATH
@@ -168,7 +170,7 @@ jobs:
         - export BEARS=foo
         - powershell -c "gci env:* | sort-object name" || true
         - ls /c/ProgramData/chocolatey/helpers || true
-        - powershell -c ". C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; write-host $env:BEARS; gci env:* | sort-object name" || true
+        - powershell -c "Import-Module C:\ProgramData\chocolatey\helpers\chocolateyProfile.psm1; Update-SessionEnvironment; write-host $env:BEARS; gci env:* | sort-object name" || true
         - printenv
         - source .ci/refreshenv.sh || true
         - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"
