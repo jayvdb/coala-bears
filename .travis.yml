@@ -156,11 +156,13 @@ jobs:
         - bash --version
         - printenv
         - echo $PATH
+        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - python .ci/store_env_in_registry.py
+        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - echo $PATH
         - printenv
-        - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ft property,value"
         - source .ci/refreshenv.sh || true
+        - powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"
         - echo $PATH
         - exit 1
         # dotnet add package NuGet.CommandLine || true
