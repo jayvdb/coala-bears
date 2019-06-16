@@ -155,7 +155,8 @@ jobs:
         - printenv
         - python .ci/store_env_in_registry.py
         - printenv
-        - source .ci/envars || true
+        - powershell -c 'Get-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
+        - bash .ci/refreshenv.sh || true
         - powershell -c "$PSVersionTable"
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         # dotnet add package NuGet.CommandLine || true
@@ -211,20 +212,20 @@ jobs:
         - cat /c/Users/travis/.travis/functions
         - powershell -c 'Install-Package NuGet.CommandLine -force' || true
 
-        - source .ci/envars || true
+        - source .ci/refreshenv.sh || true
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
 
         # dotnet add package NuGet.CommandLine || true
         - choco install nuget.commandline || true
 
-        - .ci/envars || true
+        - .ci/refreshenv.sh || true
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
 
         - nuget install fudge -verbosity quiet || true
 
-        - source .ci/envars || true
+        - source .ci/refreshenv.sh || true
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
 
@@ -232,7 +233,7 @@ jobs:
         - powershell refreshenv
         - /c/ProgramData/chocolatey/bin/RefreshEnv.cmd
         - printenv
-        - .ci/envars || true
+        - .ci/refreshenv.sh || true
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
 
@@ -249,7 +250,7 @@ jobs:
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
 
-        - .ci/envars || true
+        - .ci/refreshenv.sh || true
         - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
         - reg query HKCU\\Environment || true
 
@@ -292,7 +293,7 @@ jobs:
 
         - printenv
 
-        - source .ci/envars || true
+        - source .ci/refreshenv.sh || true
 
         - printenv
         - which ppm || true

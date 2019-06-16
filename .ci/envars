@@ -30,7 +30,9 @@ for (( IDX=1 ; IDX<COUNT; IDX++ )) do
     echo $label raw: $val
     val="$raw"
 	val="${val//\\/\/}"
-    echo $label fiddle 1: $val
+	if [ "$raw" != "$val" ]; then
+      echo $label fiddle 1: $val
+    fi
 	val="${val//\%/%%}"
 	printf "$label %s $val \n" "${pad:${#label}}"
 	if [ -z "$current" ]; then
