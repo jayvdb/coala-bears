@@ -153,6 +153,10 @@ jobs:
       before_install:
         - bash --version
         - powershell -c "$PSVersionTable"
+        - powershell -command 'Set-MpPreference -DisableRealtimeMonitoring $true'
+        - powershell -command 'Set-MpPreference -DisableArchiveScanning $true'
+        - powershell -command 'Set-MpPreference -DisableBehaviorMonitoring $true'
+
         - printenv
 
         - echo $TRAVIS_JOB_NAME
@@ -166,25 +170,7 @@ jobs:
         - which gcc
         - which mingw32-make
         - which make || true
-        - ls /c/tools/
-        - ls /c/tools/ruby25
-        - ls /c/tools/ruby25/bin
-        - ruby --version
-        - find /c/tools/ruby25 | grep ruby.h
-        - echo $PATH
-        - choco install msys2
-        - choco install ruby2.devkit --version 4.7.2.2013022403
-        - ruby --version
-        - ls /c/tools/DevKit2/bin
-        - find /c/tools/DevKit2 | grep ruby.h || true
-        - find /c/tools/DevKit2 | grep gmp || true
-        - echo $PATH
-        - old_PATH="$PATH"
-        - export PATH="/c/tools/DevKit2/bin:$PATH"
-        # v0.4.0 did not depend on json
-        - gem install bundler
-        - bundler install
-        - export PATH="$old_PATH"
+
         # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
@@ -302,6 +288,8 @@ jobs:
 
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+
+        - taskkill -IM "gpg-agent.exe" || true
 
         - refreshenv
 
