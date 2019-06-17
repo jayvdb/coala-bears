@@ -13,7 +13,7 @@
         { "name": "ruby2.devkit", "version": "4.7.2.2013022403" },
         { "name": "golang", "version": "1.9.7", "appveyor": "go" },
         { "name": "adoptopenjdk", "version": "8.192", "appveyor": "jdk" },
-        { "name": "ActivePerl", "version": "5.24.1.2402" },
+        { "name": "ActivePerl", "version": "5.24.3.2404" },
         { "name": "maven", "version": "3.5.4" }
     ],
     "pack": {
