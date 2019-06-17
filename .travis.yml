@@ -155,9 +155,18 @@ jobs:
         - powershell -c "$PSVersionTable"
         - printenv
 
+        - echo $TRAVIS_JOB_NAME
+
+        - PYVER="import sys ; print('py{}{}'.format(*sys.version_info))"
+        - TOXENV=${TOXENV:-$(python -c "$PYVER")}  # Longwinded...
+        - TOXENV=${TOXENV:-"py$(echo $TRAVIS_JOB_NAME | tr -d -c 0-9)"}  # Sensitive to 'name:'
+        - TOXENV=${TOXENV:-"py$(echo $TRAVIS_PYTHON_VERSION | tr -d -c 0-9)"}  # Linux only
+        - echo "TOXENV is $TOXENV"
+
         - which gcc
         - which mingw32-make
         - which make || true
+        - cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
