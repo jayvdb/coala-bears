@@ -46,6 +46,9 @@ WINDOWS_BROKEN = set((
     'postcss',  # https://github.com/coala/coala-bears/issues/2921
     'sass-lint',  # rule `!important not allowed` not trigger
     'textlint',  # Unexpected extra result in test
+    # Also textlint plugin for asciidoc requires a compiler.
+    # and should be replaced with plugin asciidoctor which does
+    # not need a compiler
 
     # No information from linter bear
     'eslint',  # Two of tests fail
