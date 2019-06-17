@@ -351,12 +351,21 @@ jobs:
         - python -m pip install
             --constraint bear-requirements.txt
             git+https://gitlab.com/coala/PyPrint#egg=PyPrint
+
+
         - python -m pip install
             --constraint bear-requirements.txt
             git+https://gitlab.com/coala/coala-utils#egg=coala-utils
 
-        - python -m pip freeze --all > constraints.txt
+        - python -m pip install
+            --constraint bear-requirements.txt
+            git+https://gitlab.com/coala/package_manager#egg=dependency-management-0.6.0
 
+        - python -m pip install
+            --constraint bear-requirements.txt
+            git+https://github.com/coala/coala
+
+        - python -m pip freeze --all > constraints.txt
 
         - python -m pip install
             --constraint bear-requirements.txt --constraint constraints.txt
@@ -380,6 +389,7 @@ jobs:
         - export VIRTUALENV_VERBOSE=1
 
       script:
+        - echo $PATH
         - python -m tox --sitepackages
 
     - stage: test-python
