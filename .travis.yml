@@ -224,12 +224,13 @@ jobs:
 
         - powershell -c "fudge install"
 
+        - refreshenv
+
         # TODO: move into post-install
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
-
+        - echo $PATH
         - python .ci/store_env_in_registry.py
-        - refreshenv
 
         - which ppm || true
         - ppm --version || true
@@ -237,7 +238,7 @@ jobs:
         - ls /c/ActivePerl || true
 
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
-
+        - echo $PATH
         - python -m pip install --prefer-binary lxml
 
         # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
