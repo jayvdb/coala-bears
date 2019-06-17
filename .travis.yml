@@ -174,9 +174,9 @@ jobs:
         - echo $PATH
         - choco install ruby2.devkit --version 4.7.2.2013022403
         - ruby --version
-        - find /c/tools/DevKit2
+        - ls /c/tools/DevKit2/bin
         - echo $PATH
-        - exit 1
+        - export PATH="/c/tools/DevKit2/bin/:/c/tools/DevKit2/mingw/bin/:$PATH"
         # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
@@ -334,6 +334,8 @@ jobs:
         - ls .
 
         - which msbuild || true
+
+        - export PATH="/c/tools/DevKit2/bin/:$PATH"
 
         - powershell -c "fudge install"
 
