@@ -59,7 +59,7 @@ function Create-PHP-Ini
     $_ -replace ';extension_dir *=.*', ('extension_dir="' + $dir + '"')
   } | Set-Content $PHP_INI
 
-  # grep '^extension' $PHP_INI
+  grep '^extension' $PHP_INI
 }
 
 function Install-PEAR
@@ -73,7 +73,7 @@ function Install-PEAR
 
   $PHP_INI = "$PHP_ROOT\php.ini"
 
-  # grep '^extension' $PHP_INI
+  grep '^extension' $PHP_INI
 
   $PHP = "$PHP_ROOT\php.exe"
 
