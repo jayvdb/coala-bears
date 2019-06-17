@@ -15,7 +15,7 @@
         { "name": "adoptopenjdk", "version": "8.192" },
         { "name": "ActivePerl", "version": "5.24.3.2404" },
         { "name": "maven", "version": "3.5.4" },
-        { "name": "php" },
+        { "name": "php", "version": "7.3.5" },
         { "name": "composer" },
         { "name": "astyle" },
         { "name": "cppcheck" },
