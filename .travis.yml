@@ -367,9 +367,10 @@ jobs:
 
         - python -m pip freeze --all > constraints.txt
 
+        # Do not install requirements.txt here, as it contains a vcs link
         - python -m pip install
             --constraint bear-requirements.txt --constraint constraints.txt
-            -r requirements.txt
+            -r bear-requirements.txt
 
         - python -m pip freeze --all > constraints.txt
 
