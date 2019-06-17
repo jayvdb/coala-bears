@@ -13,6 +13,7 @@
         { "name": "ruby2.devkit", "version": "4.7.2.2013022403" },
         { "name": "golang", "version": "1.9.7" },
         { "name": "adoptopenjdk", "version": "8.192" },
+        { "name": "ActivePerl", "version": "5.24.1.2402" },
         { "name": "hg", "version": "5.0" },
         { "name": "MinGW", "version": "8.1.0" },
         { "name": "visualstudio2017-workload-vctools", "version": "1.3.0" },
