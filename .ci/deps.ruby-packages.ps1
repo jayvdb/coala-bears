@@ -9,7 +9,8 @@ function Install-Gems
 
   # pusher-client 0.4.0 doesnt depend on json, which requires
   # a compiler and the GMP library
-  echo 'gem "pusher-client", "~>0.4.0", require: false' >> Gemfile
+  echo 'gem "pusher-client", "~>0.4.0", require: false' | Out-File -FilePath Gemfile -Append -Encoding ascii
+  cat Gemfile
 
   # The build crawls if DevKit is included in the PATH
   $old_PATH = $env:PATH

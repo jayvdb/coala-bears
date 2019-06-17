@@ -159,20 +159,6 @@ jobs:
 
         - printenv
 
-        - echo $TRAVIS_JOB_NAME
-
-        - PYVER="import sys ; print('py{}{}'.format(*sys.version_info))"
-        - TOXENV=${TOXENV:-$(python -c "$PYVER")}  # Longwinded...
-        - TOXENV=${TOXENV:-"py$(echo $TRAVIS_JOB_NAME | tr -d -c 0-9)"}  # Sensitive to 'name:'
-        - TOXENV=${TOXENV:-"py$(echo $TRAVIS_PYTHON_VERSION | tr -d -c 0-9)"}  # Linux only
-        - echo "TOXENV is $TOXENV"
-
-        - which gcc
-        - which mingw32-make
-        - which make || true
-
-        # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
-
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
 
@@ -186,126 +172,33 @@ jobs:
 
         - /c/tools/NuGet.CommandLine/tools/nuget install fudge -NonInteractive -ExcludeVersion -OutputDirectory C:\\tools || true
 
-        - find /c/tools/fudge/tools/ || true
-        - find C:\\Users\\travis\\.nuget\\packages || true
-
         - export TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
         - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
 
         - export FudgeCI="${PWD}/.ci/"
 
-        - head tox.ini
-
-        - where mingw32-make.exe || true
-
         - export PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools"
-
-        - where mingw32-make.exe || true
-
-        - set FOO="A ♡ heart"
-        - export FOO="A ♡ heart"
 
         - python .ci/store_env_in_registry.py
 
-        # Debug unicode
-        # powershell -c 'Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment; write-host $env:FOO'
-
         - source .ci/refreshenv.sh
 
-        - where mingw32-make.exe
-
         - refreshenv
-
-
-        - where find
-
-        - printenv
-        # source .ci/refreshenv.sh || true
-        # printenv
-        # powershell -c ". .ci/get_reg.ps1; Get-RegistryKeyPropertiesAndValues -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' | ForEach-Object {write-host $_.property ' = ' $_.value}"
-        - echo $PATH
-        # exit 1
-        # dotnet add package NuGet.CommandLine || true
-        - choco install grep
-        - ls "/c/Program Files/WindowsPowerShell/Modules" || true
-        - ls "/c/Program Files (x86)/WindowsPowerShell/Modules" || true
-        # powershell -c "ls $env:ProgramFiles\\WindowsPowerShell\\Modules" || true
-        # powershell -c "Import-Module PackageManagement; Get-PackageSource"
-        # powershell -c "Import-Module PackageManagement; Get-PackageProvider"
-        # powershell -c "Import-Module PackageManagement; Get-PackageProvider -ListAvailable"
-        # powershell -c "Import-Module PackageManagement; Find-PackageProvider"
-        # powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
-        # powershell -c "Import-Module PackageManagement; Install-PackageProvider chocolatey -Force" || true
-        # powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocolateyGet -Force" || true
-        # powershell -c "Import-Module PackageManagement; Install-PackageProvider ChocoOneGet -Force" || true
-        # powershell -c "Import-Module PackageManagement; Register-PackageSource -Name MyNuGet -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
-        # powershell -c "Import-Module PackageManagement; Get-PackageSource"
-        # powershell -c "Import-Module PackageManagement; Import-PackageProvider Nuget; Install-Package -Source MyNuGet -Name Fudge -Force -Destination C:\ProgramData\chocolatey\lib"
-        # source .ci/envars || true
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - reg query HKCU\\Environment || true
-        - echo $HOME
-        - echo $USERPROFILE
-        - ls /c/Users/travis/.rvm || true
-        - export PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools:$USERPROFILE/.nuget/packages/fudge/1.3.0/tools:$ChocolateyInstall/lib/fudge/tools/src"
-        - find "$HOME" -name .nuget || true
-        - find "$HOME" | grep -i fudge || true
-
-
-        # TODO: check the choco packages are the same versions as in this Fudgefile
-        # powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis"
 
         - choco list --local-only
-        - which python
-        - python --version
-        - which java || true
-        - which javac || true
-        # choco update git.install
-        - uname -a
-        - where.exe uname
-        - ls /c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin || true
-        - ls "/c/Program Files/Git/usr/bin" || true
-        - find "/c/Program Files/Git" | grep -i pacman || true
-        - ls /c
-        # Only ruby in /c/tools
-        - (find /c/tools/ruby25/bin | grep bundle) || true
-        - ls /c/ProgramData
-        - ls "/c/Program Files (x86)" || true
-        - ls "/c/Program Files" || true
-        - printenv
-        - file /c/Users/travis/.travis/functions
-        - cat /c/Users/travis/.travis/functions
-
-        - refreshenv
-
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - reg query HKCU\\Environment || true
-
-        - ls /c/tools
-      install:
-        - export PATH="$PATH:$ChocolateyInstall/lib/fudge/tools/src"
-        - export PATH="$PATH:/c/msys64/usr/bin"
 
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
+        - export PATH="$PATH:/c/msys64/usr/bin"
 
         - taskkill -IM "gpg-agent.exe" || true
 
         - refreshenv
 
-        - reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" || true
-        - reg query HKCU\\Environment || true
-
-        - ls /c/msys64/usr/bin || true
-        - ls /c/msys64/ || true
-        - ls /c/tools/ || true
-
         - powershell -c "fudge uninstall -FudgefilePath .ci/Fudgefile.travis.uninstall" || true
         # TODO: check that none of the disabled choco_requirements are in choco list
 
-        - choco list --local-only
-
-        - ls /C || true
+      install:
         # Avoid tools finding and using Visual Studio
         - vswhere -? || true
         - vswhere -all -legacy -format value -property installationPath || true
@@ -327,35 +220,21 @@ jobs:
         #   || true
         - ls "/c/Program Files (x86)/"
 
-        - ls .
-
         - which msbuild || true
 
         - powershell -c "fudge install"
 
-
+        # TODO: move into post-install
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
-        - printenv
-
+        - python .ci/store_env_in_registry.py
         - refreshenv
-
-        - printenv
-        - which gcc
-        - which mingw32-make
-        - which make
-        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
         - which ppm || true
         - ppm --version || true
         - ls /c/Perl || true
         - ls /c/ActivePerl || true
-        - ls /C/Users/travis/build/jayvdb/coala-bears/node_modules/oniguruma/build/oniguruma.vcxproj || true
-        - cat /C/Users/travis/build/jayvdb/coala-bears/node_modules/oniguruma/build/oniguruma.vcxproj || true
-        - ls /C || true
-        - ls /C/Microsoft.Cpp.Default.props || true
-        - grep grep .ci/dep*ps1
 
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
@@ -401,11 +280,8 @@ jobs:
           --constraint constraints.txt
           tox tox-backticks
           -r docs-requirements.txt
-        # python -m pip install --upgrade --user tox-venv
 
       before_script:
-        - echo before_script
-        - pyenv versions || true
         - python --version
         - export VIRTUALENV_NO_DOWNLOAD=1
         - export VIRTUALENV_NO_PIP=1
