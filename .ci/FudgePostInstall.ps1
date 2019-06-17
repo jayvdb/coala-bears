@@ -18,6 +18,8 @@ function Run-PostInstalls
 
   Update-SessionEnvironment
 
+  Write-Host "PATH = $env:PATH"
+
   $config = Get-FudgefileContent Fudgefile
 
   foreach ($pkg in $config.Packages)

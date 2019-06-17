@@ -3,6 +3,12 @@
 
 Set-StrictMode -Version latest
 
+function Fix-MinGW
+{
+  # TODO: Handle versions other than 8.1.0
+  Move-Item C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64 C:\MinGW81-x64
+}
+
 function Choose-Preinstalled-Products
 {
   param(
@@ -26,6 +32,10 @@ function Choose-Preinstalled-Products
     {
       # 8 -> 1.8.0
       $version = "1." + $version_parts[0] + ".0"
+    }
+    elseif ($product -eq 'MinGW')
+    {
+      Fix-MinGW
     }
     elseif ($product -eq 'miniconda')
     {
@@ -58,7 +68,15 @@ function Choose-Preinstalled-Products
     }
     elseif (Test-Path "C:\avvm\$product\$version")
     {
-      Install-Product $product $version
+      if ($env:PLATFORM -eq 'x86')
+      {
+        $platform = 'x64'
+      }
+      else
+      {
+        $platform = 'x86'
+      }
+      Install-Product $product $version $platform
     }
   }
 }

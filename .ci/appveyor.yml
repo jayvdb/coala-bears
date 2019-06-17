@@ -12,15 +12,9 @@ environment:
     PLATFORM: $(PLATFORM)
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
-    MINGW_BIN: C:\MinGW\bin
     JAVA_HOME: C:\jdk
     MSSDK_ROOT: C:\Program Files\Microsoft SDKs
     VS_ROOT: C:\Program Files (x86)\Microsoft Visual Studio
-    # TODO: Use choco vswhere to locate suitable compiler
-    # https://github.com/microsoft/vswhere/issues/187
-    WIN71_SDK_ROOT: $(MSSDK_ROOT)\Windows\v7.1
-    VS14_VC: $(VS_ROOT) 14.0\VC
-    VS2017_VC: $(VS_ROOT)\2017\Community\VC
     VIRTUALENV_NO_DOWNLOAD: 1
     VIRTUALENV_NO_PIP: 1
     VIRTUALENV_NO_SETUPTOOLS: 1
@@ -28,11 +22,10 @@ environment:
     # VIRTUALENV_VERBOSE: 1
     GOPATH: C:\gopath
     PATH: >-
-      C:\python;C:\python\Scripts;$(PATH);$(MINGW_BIN);$(MSYS_BIN);
+      C:\python;C:\python\Scripts;$(PATH);$(MSYS_BIN);
       %USERPROFILE%\.nuget\packages\fudge\1.3.0\tools;
       C:\ruby\bin;
       C:\jdk\bin;
-      C:\miniconda;C:\miniconda\Scripts;
       $(GOPATH)\bin;
       $(APPVEYOR_BUILD_FOLDER)\node_modules\.bin;
       $(APPVEYOR_BUILD_FOLDER)\vendor\bin;
@@ -91,13 +84,15 @@ install:
   # JAVA_HOME set above is not populated yet
   - echo %JAVA_HOME%
   - ls %JAVA_HOME%/bin/java & exit 0
+  - which perl
   - perl --version
-  - which gcc
-  - gcc --version
+  - which gcc & exit 0
+  - gcc --version & exit 0
 
   - .ci\vs_appveyor.cmd
   - which cl
-  - cl
+  # cl.exe often exits with non-zero exit status when given no arguments
+  - cl & exit 0
 
   # Stores environment in registry, with minor tweaks
   - python .ci/store_env_in_registry.py
@@ -112,6 +107,11 @@ install:
   - choco list --local-only
   - refreshenv
   - echo %PATH%
+  # Avoid tools finding and using MinGW
+  - mv C:\MinGW %TEMP%
+  # Avoid tools finding and using Visual Studio
+  # rm -rf %MSSDK_ROOT%
+  # rm -rf %VS_ROOT%*
 
   # Show updated SOE; versions should be as defined in top of the Fudgefile
   - python --version
@@ -130,9 +130,8 @@ install:
   - perl --version
   - which ppm
   - ppm --version
-  - which gcc
-  - gcc --version
-  - conda --version
+  - which gcc & exit 0
+  - gcc --version & exit 0
 
   - "%MSYS_BIN%\\date.exe"
   # Install lxml needed by for coala-bears as a wheel as libxml2 and libxslt
@@ -195,19 +194,15 @@ install:
   - go version
   - ruby --version
   - perl --version
-  - which gcc
-  - gcc --version
   - which java
   - java -version
   - which javac
   - javac -version
   - ls %JAVA_HOME%/bin/java
-  - conda --version
   # Newly installed versions
   - which composer & exit 0
   - composer --version & exit 0
   - ppm --version & exit 0
-
 
   - "%MSYS_BIN%\\date.exe"
 
@@ -222,7 +217,7 @@ test_script:
   - python setup.py install
 
   - rm -rf .tox
-  - rm -f MYMETA.yml
+  - rm -f MYMETA.yml shrinkwrap.yaml pnpm-lock.yaml .ci/refreshenv.sh
   - coala --ci
 
 matrix:

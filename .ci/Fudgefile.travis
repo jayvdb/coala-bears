@@ -1,9 +1,6 @@
 {
     "packages": [
         { "name": "msys2", "params": "/InstallDir:C:\\msys64 /NoUpdate" },
-        { "name": "python2", "version": "2.7.16" },
-        { "name": "ruby", "version": "2.5.3.1", "travis": "ruby" },
-        { "name": "MinGW", "version": "8.1.0", "travis": "MinGW" },
         { "name": "vswhere" },
         { "name": "sed" },
         { "name": "grep" }
