@@ -174,7 +174,9 @@ jobs:
         - echo $PATH
         - choco install ruby2.devkit --version 4.7.2.2013022403
         - ruby --version
+        - find /c/tools/DevKit2
         - echo $PATH
+        - exit 1
         # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
