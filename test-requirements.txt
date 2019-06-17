@@ -29,3 +29,5 @@ wheel~=0.29
 ruamel.yaml==0.15.42
 pytest-pythonpath~=0.7.0
 twine~=1.7.4
+pytest-error-for-skips
+git+https://github.com/krkd/pytest-cov-threshold ; python_version > '3.4'
