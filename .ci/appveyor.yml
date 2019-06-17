@@ -226,6 +226,7 @@ test_script:
 
   - rm -rf .tox
   - rm -f MYMETA.yml shrinkwrap.yaml pnpm-lock.yaml
+     .travis.yml .ci/deps.java.sh .ci/deps.generic.sh .ci/refreshenv.sh
   - coala --ci
 
 matrix:
