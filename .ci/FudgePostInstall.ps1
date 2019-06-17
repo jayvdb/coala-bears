@@ -37,7 +37,7 @@ function Run-PostInstalls
 
   Update-SessionEnvironment
 
-  WriteHost "PATH = $env:PATH"
+  Write-Host "PATH = $env:PATH"
 
   foreach ($pkg in $config.Packages)
   {
