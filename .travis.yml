@@ -155,6 +155,10 @@ jobs:
         - powershell -c "$PSVersionTable"
         - printenv
 
+        - which gcc
+        - which mingw32-make
+        - which make || true
+
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
 
@@ -322,6 +326,9 @@ jobs:
         - refreshenv
 
         - printenv
+        - which gcc
+        - which mingw32-make
+        - which make
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
         - which ppm || true
