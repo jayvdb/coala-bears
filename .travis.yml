@@ -166,7 +166,7 @@ jobs:
         - which gcc
         - which mingw32-make
         - which make || true
-        - cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
+        # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
