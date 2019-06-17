@@ -176,7 +176,6 @@ jobs:
         - ruby --version
         - ls /c/tools/DevKit2/bin
         - echo $PATH
-        - export PATH="/c/tools/DevKit2/bin/:/c/tools/DevKit2/mingw/bin/:$PATH"
         # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
@@ -334,8 +333,6 @@ jobs:
         - ls .
 
         - which msbuild || true
-
-        - export PATH="/c/tools/DevKit2/bin/:$PATH"
 
         - powershell -c "fudge install"
 

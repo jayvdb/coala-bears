@@ -7,7 +7,14 @@ function Install-Gems
   # https://github.com/coala/coala-bears/issues/2909
   sed -i '/csvlint/d' Gemfile
 
+  # The build crawls if DevKit is included in the PATH
+  $old_PATH = $env:PATH
+  $env:PATH = ($env:ChocolateyToolsLocation + '\DevKit2\bin;' + $env:PATH)
+
   bundle install
+
+  $env:PATH = $old_PATH
+
   mv -force Gemfile.bak Gemfile
 }
 
