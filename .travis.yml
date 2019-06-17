@@ -175,8 +175,8 @@ jobs:
         - choco install ruby2.devkit --version 4.7.2.2013022403
         - ruby --version
         - ls /c/tools/DevKit2/bin
-        - find /c/tools/DevKit2 | grep ruby.h
-        - find /c/tools/DevKit2 | grep gmp
+        - find /c/tools/DevKit2 | grep ruby.h || true
+        - find /c/tools/DevKit2 | grep gmp || true
         - echo $PATH
         - old_PATH="$PATH"
         - export PATH="/c/tools/DevKit2/bin:$PATH"
