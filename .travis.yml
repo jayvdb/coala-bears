@@ -169,7 +169,12 @@ jobs:
         - ls /c/tools/
         - ls /c/tools/ruby25
         - ls /c/tools/ruby25/bin
+        - ruby --version
         - find /c/tools/ruby25 | grep ruby.h
+        - echo $PATH
+        - choco install ruby2.devkit --version 4.7.2.2013022403
+        - ruby --version
+        - echo $PATH
         # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
