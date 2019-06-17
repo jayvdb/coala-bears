@@ -2,6 +2,9 @@ function Install-Node-Packages
 {
   npm config set loglevel warn
 
+  # pnpm setting
+  npm config set reporter silent
+
   cp -force package.json package.json.bak
 
   # elm-platform should be added to Fudgefile
@@ -15,6 +18,8 @@ function Install-Node-Packages
   # If gyp fails, use npm config python to help locate Python 2.7
   pnpm install
   mv -force package.json.bak package.json
+
+  npm config set reporter default
 }
 
 function Do-Install-Packages
