@@ -330,13 +330,48 @@ jobs:
         - ls /C || true
         - ls /C/Microsoft.Cpp.Default.props || true
         - grep grep .ci/dep*ps1
+
+        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
+
+        - python -m pip install --prefer-binary lxml
+
+        # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
+        # https://github.com/tobgu/pyrsistent/issues/172
+        # wrapt->astroid->pylint fails on old setuptools if no MS VC 9
+        # https://github.com/GrahamDumpleton/wrapt/issues/135
+        - python -m pip install -U setuptools
+        - python -m pip install pyrsistent wrapt
+
+        - python -m pip install pip==9.0.3 setuptools==21.2.2
+
+
+        - python -m pip install
+            --constraint bear-requirements.txt
+            git+https://gitlab.com/coala/PyPrint#egg=PyPrint
+        - python -m pip install
+            --constraint bear-requirements.txt
+            git+https://gitlab.com/coala/coala-utils#egg=coala-utils
+
+        - python -m pip freeze --all > constraints.txt
+
+
+        - python -m pip install
+            --constraint bear-requirements.txt --constraint constraints.txt
+            -r requirements.txt
+
+        - python -m pip freeze --all > constraints.txt
+
+        - python -m pip install
+          --constraint constraints.txt
+          tox tox-backticks
+          -r docs-requirements.txt
+        # python -m pip install --upgrade --user tox-venv
+
       before_script:
         - echo before_script
         - pyenv versions || true
         - python --version
 
-        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
-        - python -m pip install --upgrade --user tox-travis tox-backticks tox-pyenv tox-venv
 
     - stage: test-python
 
@@ -814,7 +849,7 @@ script:
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
       git diff;
     fi
-  - if [ "$TRAVIS_LANGUAGE" != "python" ]; then
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
       python -m pip install --upgrade --user
         tox-travis tox-backticks tox-pyenv tox-venv;
     fi

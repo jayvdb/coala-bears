@@ -31,7 +31,7 @@ function Configure-NPM
 
 function Install-PNPM
 {
-  npm install pnpm
+  npm install --global pnpm
 }
 
 function Do-PostInstall
