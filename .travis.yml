@@ -188,6 +188,8 @@ jobs:
 
         - python .ci/store_env_in_registry.py
 
+        - powershell -c 'Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment; write-host $env:FOO'
+
         - source .ci/refreshenv.sh
 
         - where mingw32-make.exe
