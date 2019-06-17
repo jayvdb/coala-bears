@@ -187,8 +187,11 @@ stable:$version
 
   if ($product -eq 'MinGW')
   {
-    dir C:\avvm\MinGW
-    return
+    if (Test-Path C:\avvm\MinGW) {
+      # This is only needed for 5.3.0 x86, only vs2015 image
+      Write-Output "Deleting pre-existing C:\avvm\MinGW ..."
+      Remove-Item C:\avvm\MinGW
+    }
   }
 
   if ($installed) {
@@ -206,8 +209,15 @@ stable:$version
 
   Write-Verbose "Looking for C:\$dir_name$shortver .."
 
-  if (!(Test-Path "C:\$dir_name$shortver")) {
-    throw "Cant find $dir_name$shortver"
+  if (!(Test-Path "C:\$dir_name$shortver"))
+  {
+    if (!(Test-Path "C:\$dir_name$shortver-x64"))
+    {
+      throw "Cant find $dir_name$shortver or C:\$dir_name$shortver-x64"
+    }
+
+    # Use x64 if x86 not available
+    $platform = 'x64'
   }
 
   mkdir "$PACKAGES_ROOT\$name\$version\$platform" -Force > $null
@@ -292,7 +302,8 @@ function Set-Default-Versions
 
   SetInstalledProductVersion jdk 1.6.0 x86
   SetInstalledProductVersion perl 5.20.1 x86
-  SetInstalledProductVersion MinGW 5.3.0 x86
+  # /C/MinGW is only set on vs2013 and vs2015 images, and it isnt desirable
+  # SetInstalledProductVersion MinGW 5.3.0 x86
 }
 
 Export-ModuleMember -Function Fix-Miniconda27, Set-Default-Versions, Add-Product

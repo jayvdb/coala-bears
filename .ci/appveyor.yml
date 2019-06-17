@@ -91,9 +91,12 @@ install:
   # JAVA_HOME set above is not populated yet
   - echo %JAVA_HOME%
   - ls %JAVA_HOME%/bin/java & exit 0
+  - which perl
   - perl --version
   - which gcc
   - gcc --version
+  - which mingw32-make.exe
+  - mingw32-make.exe --version
 
   - .ci\vs_appveyor.cmd
   - which cl
