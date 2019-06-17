@@ -359,7 +359,7 @@ jobs:
 
         - python -m pip install
             --constraint bear-requirements.txt
-            git+https://gitlab.com/coala/package_manager#egg=dependency-management-0.6.0
+            git+https://gitlab.com/coala/package_manager@jayvdb/use-fudge#egg=dependency-management-0.6.0
 
         - python -m pip install
             --constraint bear-requirements.txt
