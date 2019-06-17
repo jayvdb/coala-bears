@@ -43,8 +43,6 @@ environment:
       PYTHON_MINOR_NODOTS: 35
     - PYTHON_VERSION: 3.6
       PYTHON_MINOR_NODOTS: 36
-    - PYTHON_VERSION: 3.7
-      PYTHON_MINOR_NODOTS: 37
 
 platform:
   - x86
@@ -88,10 +86,7 @@ install:
   - perl --version
   - which gcc & exit 0
   - gcc --version & exit 0
-
-  - .ci\vs_appveyor.cmd
-  - which cl
-  # cl.exe often exits with non-zero exit status when given no arguments
+  - which cl & exit 0
   - cl & exit 0
 
   # Stores environment in registry, with minor tweaks
