@@ -170,6 +170,7 @@ install:
 
   - python -m pip install
       --constraint constraints.txt
+      -r test-requirements.txt
       tox tox-backticks
 
   - "%MSYS_BIN%\\date.exe"
