@@ -65,7 +65,7 @@ targets:
   - package.json: package.json.jj2
   - bear-requirements.txt: bear-requirements.txt.jj2
   - .ci/appveyor.yml: ci/appveyor.yml.jj2
-  - .ci/AppVeyor.ps1: fudge/FudgeAppVeyor.ps1
+  - .ci/FudgeAppVeyor.ps1: fudge/FudgeAppVeyor.ps1
   - .ci/PrepareAVVM.ps1: fudge/PrepareAVVM.ps1
   - .ci/FudgePostInstall.ps1: fudge/FudgePostInstall.ps1
   - .ci/deps.nodejs.ps1: fudge/deps.nodejs.ps1
