@@ -175,7 +175,15 @@ jobs:
         - choco install ruby2.devkit --version 4.7.2.2013022403
         - ruby --version
         - ls /c/tools/DevKit2/bin
+        - find /c/tools/DevKit2 | grep ruby.h
+        - find /c/tools/DevKit2 | grep gmp
         - echo $PATH
+        - old_PATH="$PATH"
+        - export PATH="/c/tools/DevKit2/bin:$PATH"
+        # v0.4.0 did not depend on json
+        - gem install pusher-client:0.4.0
+        - gem install travis
+        - export PATH="$old_PATH"
         # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
