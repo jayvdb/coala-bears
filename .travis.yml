@@ -172,6 +172,7 @@ jobs:
         - ruby --version
         - find /c/tools/ruby25 | grep ruby.h
         - echo $PATH
+        - choco install msys2
         - choco install ruby2.devkit --version 4.7.2.2013022403
         - ruby --version
         - ls /c/tools/DevKit2/bin
