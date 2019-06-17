@@ -371,7 +371,10 @@ jobs:
         - echo before_script
         - pyenv versions || true
         - python --version
-
+        - export VIRTUALENV_NO_DOWNLOAD=1
+        - export VIRTUALENV_NO_PIP=1
+        - export VIRTUALENV_NO_SETUPTOOLS=1
+        - export VIRTUALENV_VERBOSE=1
 
     - stage: test-python
 
