@@ -166,6 +166,10 @@ jobs:
         - which gcc
         - which mingw32-make
         - which make || true
+        - ls /c/tools/
+        - ls /c/tools/ruby25
+        - ls /c/tools/ruby25/bin
+        - find /c/tools/ruby25 | grep ruby.h
         # cp /c/ProgramData/chocolatey/bin/mingw32-make.exe /c/ProgramData/chocolatey/bin/make.exe
 
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
