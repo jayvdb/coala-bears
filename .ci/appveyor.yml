@@ -100,7 +100,7 @@ install:
 
   - .ci\vs_appveyor.cmd
   - which cl
-  - cl
+  - cl & exit 0
 
   # Stores environment in registry, with minor tweaks
   - python .ci/store_env_in_registry.py
