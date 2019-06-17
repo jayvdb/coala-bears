@@ -225,7 +225,7 @@ test_script:
   - python setup.py install
 
   - rm -rf .tox
-  - rm -f MYMETA.yml
+  - rm -f MYMETA.yml shrinkwrap.yaml pnpm-lock.yaml
   - coala --ci
 
 matrix:
