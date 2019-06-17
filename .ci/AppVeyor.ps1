@@ -1,5 +1,5 @@
-. .ci/FudgeGenerateFake.ps1
-. .ci/PrepareAVVM.ps1
+. $env:FudgeCI/FudgeGenerateFake.ps1
+. $env:FudgeCI/PrepareAVVM.ps1
 
 Set-StrictMode -Version latest
 
@@ -73,3 +73,5 @@ function Fix-AppVeyor
 
   Choose-Preinstalled-Products $config.packages
 }
+
+Export-ModuleMember -Function Fix-AppVeyor

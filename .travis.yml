@@ -172,8 +172,9 @@ jobs:
         - find C:\\Users\\travis\\.nuget\\packages || true
 
         - export TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
-
         - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
+
+        - export FudgeCI="${PWD}/.ci/"
 
         - head tox.ini
 
@@ -188,7 +189,8 @@ jobs:
 
         - python .ci/store_env_in_registry.py
 
-        - powershell -c 'Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment; write-host $env:FOO'
+        # Debug unicode
+        # powershell -c 'Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment; write-host $env:FOO'
 
         - source .ci/refreshenv.sh
 
@@ -323,6 +325,7 @@ jobs:
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
 
         - which ppm || true
+        - ppm --version || true
         - ls /c/Perl || true
         - ls /c/ActivePerl || true
         - ls /C/Users/travis/build/jayvdb/coala-bears/node_modules/oniguruma/build/oniguruma.vcxproj || true
@@ -375,6 +378,9 @@ jobs:
         - export VIRTUALENV_NO_PIP=1
         - export VIRTUALENV_NO_SETUPTOOLS=1
         - export VIRTUALENV_VERBOSE=1
+
+      script:
+        - python -m tox --sitepackages
 
     - stage: test-python
 

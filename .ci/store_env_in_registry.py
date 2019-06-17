@@ -11,6 +11,7 @@ DISCARD_KEYWORDS = tuple([
    'nunit',
    'odbc',
    'privateassemblies',
+   'python27',
    'ruby193',
    'service fabric',
    'sql',
@@ -24,6 +25,7 @@ DISCARD_KEYWORDS = tuple([
 #   merge them with the current PATH which AppVeyor has populated
 # - also fetch and filter user env vars, also de-duplicate wrt system vars
 #   (see https://github.com/reider-roque/pathvar)
+# - Convert to Windows path names, not /c/foo/bar
 # - Replace \\ and \.\ with \
 
 

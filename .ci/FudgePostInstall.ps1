@@ -10,14 +10,13 @@
 
 Set-StrictMode -Version latest
 
+$deps_base = $env:FudgeCI
+
 function Run-PostInstalls
 {
   choco list --local-only
 
   Update-SessionEnvironment
-
-  grep "Path=" $env:ChocolateyInstall\logs\chocolatey.log
-  grep "PATH=" $env:ChocolateyInstall\logs\chocolatey.log
 
   $config = Get-FudgefileContent Fudgefile
 
@@ -25,7 +24,8 @@ function Run-PostInstalls
   {
     $name = $pkg.Name
 
-    $glob = ".ci/deps.$name.ps1"
+    $glob = "$deps_base/deps.$name.ps1"
+
     if (Test-Path $glob)
     {
       Write-Host "Running post-install for $name"
@@ -51,3 +51,5 @@ function Run-PostInstalls
     }
   }
 }
+
+Export-ModuleMember -Function Run-PostInstalls

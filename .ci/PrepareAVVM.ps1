@@ -276,6 +276,8 @@ function Fix-Miniconda27
 
 function Set-Default-Versions
 {
+  # TODO: Only set up default versions for products which are needed
+
   # This tells Install-Product to load product versions from $PACKAGES_ROOT
   $env:AVVM_DOWNLOAD_URL = '../../avvm/'
   Set-ItemProperty -Path 'HKCU:\Environment' -Name 'AVVM_DOWNLOAD_URL' -Value $env:AVVM_DOWNLOAD_URL
@@ -291,8 +293,6 @@ function Set-Default-Versions
   SetInstalledProductVersion jdk 1.6.0 x86
   SetInstalledProductVersion perl 5.20.1 x86
   SetInstalledProductVersion MinGW 5.3.0 x86
-
-  dir $PACKAGES_ROOT
 }
 
 Export-ModuleMember -Function Fix-Miniconda27, Set-Default-Versions, Add-Product

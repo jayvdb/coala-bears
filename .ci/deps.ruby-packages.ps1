@@ -1,7 +1,7 @@
 function Install-Gems
 {
   cp -force Gemfile Gemfile.bak
-  # sed -i '/sqlint/d' Gemfile
+  sed -i '/sqlint/d' Gemfile
   bundle install
   mv -force Gemfile.bak Gemfile
 }
