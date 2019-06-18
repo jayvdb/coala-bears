@@ -68,7 +68,8 @@ function Install-coala-Packages
 
         if (!(Test-Path $env:TEMP/pm-master))
         {
-          git clone https://gitlab.com/coala/package_manager $env:TEMP/pm-master
+          $PM_URL = "https://gitlab.com/coala/package_manager.git/"
+          git clone $PM_URL $env:TEMP/pm-master
         }
         rm $env:TEMP/pm-master/test-requirements.txt
         rm $env:TEMP/pm-master/requirements.txt
@@ -150,7 +151,7 @@ function Install-Test-Packages
   {
     {python @Args} | % Invoke @(
       '-m', 'pip', '--disable-pip-version-check', 'install',
-      '--constraint', 'constraints.txt'
+      '--constraint', 'constraints.txt',
       'tox', 'tox-backticks'
     )
   }
