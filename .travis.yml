@@ -151,6 +151,11 @@ jobs:
       env:
         BEAR_LIST="astyle cppcheck xmllint"
         TOX_TEST_SELECTORS=pip-noreqs-npm-gem-go-perl-php-java8-adhoc
+      cache:
+        directories:
+          - C:\nuget_http_cache
+          - C:\choco_cache
+          - C:\pip_cache
       before_install:
         - bash --version
         - powershell -c "$PSVersionTable"
@@ -158,10 +163,14 @@ jobs:
         - powershell -command 'Set-MpPreference -DisableArchiveScanning $true'
         - powershell -command 'Set-MpPreference -DisableBehaviorMonitoring $true'
 
+        - export PIP_CACHE_DIR=/C/pip_cache
+        - export NUGET_HTTP_CACHE_PATH=/C/nuget_http_cache
+        - export CHOCO_CACHE_DIR=/C/choco_cache
+
         - printenv
 
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
 
         - powershell -c "Import-Module PackageManagement; Install-PackageProvider Nuget"
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name NuGetOrg -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
