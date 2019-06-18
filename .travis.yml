@@ -1,5 +1,4 @@
 sudo: false
-os: windows
 python: 3.6
 
 .disable_global: &disable_global
@@ -146,10 +145,18 @@ jobs:
     # go C:\ProgramData\GooGet
 
     - stage: test-first
+      os: windows
       language: bash
       python: 3.6.8
-      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-           TRAVIS_PYTHON_VERSION=3.6.8
+      env:
+        NUGET_EXE_NO_PROMPT=true
+        TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
+        VIRTUALENV_NO_DOWNLOAD=1
+        VIRTUALENV_NO_PIP=1
+        VIRTUALENV_NO_SETUPTOOLS=1
+        VIRTUALENV_VERBOSE=1
+        FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
+        PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin"
       before_install:
         - bash --version
         - powershell -c "$PSVersionTable"
@@ -166,18 +173,9 @@ jobs:
         - powershell -c "Import-Module PackageManagement; Register-PackageSource -Name NuGetOrg -Location https://www.nuget.org/api/v2 -ProviderName NuGet"
         - powershell -c "Import-Module PackageManagement; Install-Package -Source NuGetOrg -Name NuGet.CommandLine -Force -ExcludeVersion -Destination C:\tools"
 
-        - /c/tools/NuGet.CommandLine/tools/nuget sources list
-
-        - export NUGET_EXE_NO_PROMPT=true
-
         - /c/tools/NuGet.CommandLine/tools/nuget install fudge -NonInteractive -ExcludeVersion -OutputDirectory C:\\tools || true
 
-        - export TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
-        - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
-
         - export FudgeCI="${PWD}/.ci/"
-
-        - export PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools"
 
         - python .ci/store_env_in_registry.py
 
@@ -187,77 +185,76 @@ jobs:
 
         - choco list --local-only
 
+        - choco install ActivePerl --version 5.24.3.2404
+
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
-        - export PATH="$PATH:/c/msys64/usr/bin"
 
         - taskkill -IM "gpg-agent.exe" || true
 
         - refreshenv
 
+        - which perl
+        - perl --version || true
+        - which ppm || true
+        - ppm --version || true
+
         - powershell -c "fudge uninstall -FudgefilePath .ci/Fudgefile.travis.uninstall" || true
         # TODO: check that none of the disabled choco_requirements are in choco list
+        # which will fail because uninstalling vctools fails
 
-      install:
         # Avoid tools finding and using Visual Studio
-        - vswhere -? || true
-        - vswhere -all -legacy -format value -property installationPath || true
-        - VSLOC=$(vswhere -all -legacy -format value -property installationPath)
-        - echo $VSLOC
-        - ls "${VSLOC}" || true
-        # if [ "${VSLOC}"]; then rm -rf "${VSLOC}" || true ; fi
-        - MSSDK_ROOT="/c/Program Files/Microsoft SDKs/"
-        - VS_ROOT="/c/Program Files (x86)/Microsoft Visual Studio"
-        - ls "$MSSDK_ROOT" || true
-        - ls "$VS_ROOT*" || true
+        - VSLOC="$(vswhere -all -legacy -format value -property installationPath || true)"
+        - if [ "${VSLOC}" ]; then rm -rf "${VSLOC}"; fi
         - rm -rf
             "/c/Program Files (x86)/MSBuild"
             /c/Windows/Microsoft.NET/Framework/v4.0.30319/msbuild.exe
-        #   "/C/Windows/Microsoft.NET"
-        #   "/c/Program Files (x86)/Microsoft.NET"
-        #   "/c/Program Files (x86)/Microsoft Visual Studio 14.0/"
-        #   "/c/Program Files (x86)/Microsoft Visual Studio/"
-        #   || true
+        - ls "/C/Windows/Microsoft.NET/"
+           "/c/Program Files (x86)/Microsoft.NET/"
+           "/c/Program Files (x86)/Microsoft Visual Studio/"
+           || true
         - ls "/c/Program Files (x86)/"
 
         - which msbuild || true
 
+      install:
         - powershell -c "fudge install"
 
         - refreshenv
+        - taskkill -IM "gpg-agent.exe" || true
+
+        - which perl
+        - perl --version || true
+        - which ppm || true
+        - ppm --version || true
 
         # TODO: move into post-install
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts/
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
         - echo $PATH
         - python .ci/store_env_in_registry.py
 
-        - which php
-        - php -l -n -d display_errors=On -d log_errors=Off tests/php/test_files/phplint_test1.php || true
-
-        - which ppm || true
-        - ppm --version || true
-        - ls /c/Perl || true
-        - ls /c/ActivePerl || true
-
+        # Move into Fudge post-install
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
         - echo $PATH
         - python -m pip install --prefer-binary lxml
 
         # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
         # https://github.com/tobgu/pyrsistent/issues/172
-        # wrapt->astroid->pylint fails on old setuptools if no MS VC 9
-        # https://github.com/GrahamDumpleton/wrapt/issues/135
         - python -m pip install -U setuptools
-        - python -m pip install pyrsistent wrapt
+        - python -m pip install pyrsistent
 
         - python -m pip install pip==9.0.3 setuptools==21.2.2
 
+        # wrapt->astroid->pylint fails on old setuptools if no MS VC 9
+        # https://github.com/GrahamDumpleton/wrapt/issues/135
+        - python -m pip install wrapt
 
         - python -m pip install
             --constraint bear-requirements.txt
             git+https://gitlab.com/coala/PyPrint#egg=PyPrint
-
 
         - python -m pip install
             --constraint bear-requirements.txt
@@ -285,12 +282,12 @@ jobs:
           tox tox-backticks
           -r docs-requirements.txt
 
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts
+
       before_script:
         - python --version
-        - export VIRTUALENV_NO_DOWNLOAD=1
-        - export VIRTUALENV_NO_PIP=1
-        - export VIRTUALENV_NO_SETUPTOOLS=1
-        - export VIRTUALENV_VERBOSE=1
+        - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
 
       script:
         - echo $PATH
