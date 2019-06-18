@@ -127,6 +127,7 @@ install:
   - ppm --version
   - which gcc & exit 0
   - gcc --version & exit 0
+  - which msbuild & exit 0
 
   - "%MSYS_BIN%\\date.exe"
   # Install lxml needed by for coala-bears as a wheel as libxml2 and libxslt
