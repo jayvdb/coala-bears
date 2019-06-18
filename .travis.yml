@@ -219,16 +219,6 @@ jobs:
         - which msbuild || true
 
       install:
-        - powershell -c "fudge install"
-
-        - refreshenv
-        - taskkill -IM "gpg-agent.exe" || true
-
-        - which perl
-        - perl --version || true
-        - which ppm || true
-        - ppm --version || true
-
         # TODO: move into post-install
         # These are empty at this stage, and probably not used at all
         # but pip complains about them not being in the PATH, which might
@@ -242,55 +232,15 @@ jobs:
         - echo $PATH
         - python .ci/store_env_in_registry.py
 
-        # Move into Fudge post-install
-        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
-        - echo $PATH
-        - python -m pip install --prefer-binary lxml
+        - powershell -c "fudge install"
 
-        # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
-        # https://github.com/tobgu/pyrsistent/issues/172
-        - python -m pip install -U setuptools
-        - python -m pip install pyrsistent
+        - refreshenv
+        - taskkill -IM "gpg-agent.exe" || true
 
-        - python -m pip install pip==9.0.3 setuptools==21.2.2
-
-        # wrapt->astroid->pylint fails on old setuptools if no MS VC 9
-        # https://github.com/GrahamDumpleton/wrapt/issues/135
-        - python -m pip install wrapt
-
-        - python -m pip install
-            --constraint bear-requirements.txt
-            git+https://gitlab.com/coala/PyPrint#egg=PyPrint
-
-        - python -m pip install
-            --constraint bear-requirements.txt
-            git+https://gitlab.com/coala/coala-utils#egg=coala-utils
-
-        - python -m pip install
-            --constraint bear-requirements.txt
-            git+https://gitlab.com/coala/package_manager@jayvdb/use-fudge#egg=dependency-management-0.6.0
-
-        - python -m pip install
-            --constraint bear-requirements.txt
-            git+https://github.com/coala/coala
-
-        - python -m pip freeze --all > constraints.txt
-
-        # Do not install requirements.txt here, as it contains a vcs link
-        - python -m pip install
-            --constraint bear-requirements.txt --constraint constraints.txt
-            -r bear-requirements.txt
-
-        - python -m pip freeze --all > constraints.txt
-
-        - python -m pip install
-          --constraint constraints.txt
-          tox tox-backticks
-          -r docs-requirements.txt
-
-        - ls /C/Users/travis/AppData/Roaming/Python/ || true
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/ || true
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts || true
+        - which perl
+        - perl --version || true
+        - which ppm || true
+        - ppm --version || true
 
       before_script:
         - python --version
@@ -714,6 +664,8 @@ env:
     - VIRTUALENV_NO_PIP=1
     - VIRTUALENV_NO_SETUPTOOLS=1
     - VIRTUALENV_VERBOSE=1
+    - PIP_DISABLE_PIP_VERSION_CHECK=1
+    - PIP_YES=1
     - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
     - TOX_FEATURES=check-noskip-codecov
 
