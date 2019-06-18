@@ -149,6 +149,10 @@ function Install-Test-Packages
 
   if ($name -eq 'coala-bears')
   {
+    python -m pip install -U setuptools
+
+    python -m pip freeze --all > constraints.txt
+
     {python @Args} | % Invoke @(
       '-m', 'pip', '--disable-pip-version-check', 'install',
       '--constraint', 'constraints.txt',
