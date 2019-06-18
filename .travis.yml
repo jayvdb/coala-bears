@@ -149,14 +149,8 @@ jobs:
       language: bash
       python: 3.6.8
       env:
-        NUGET_EXE_NO_PROMPT=true
-        TOXENV=py36-pip-noreqs-npm-gem-go-perl-php-java8-adhoc-win-check-noskip-codecov
-        VIRTUALENV_NO_DOWNLOAD=1
-        VIRTUALENV_NO_PIP=1
-        VIRTUALENV_NO_SETUPTOOLS=1
-        VIRTUALENV_VERBOSE=1
-        FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
-        PATH="$PATH:$HOME/.nuget/packages/fudge/1.3.0/tools:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin"
+        BEAR_LIST="astyle cppcheck xmllint"
+        TOX_TEST_SELECTORS=pip-noreqs-npm-gem-go-perl-php-java8-adhoc
       before_install:
         - bash --version
         - powershell -c "$PSVersionTable"
@@ -175,8 +169,6 @@ jobs:
 
         - /c/tools/NuGet.CommandLine/tools/nuget install fudge -NonInteractive -ExcludeVersion -OutputDirectory C:\\tools || true
 
-        - export FudgeCI="${PWD}/.ci/"
-
         - python .ci/store_env_in_registry.py
 
         - source .ci/refreshenv.sh
@@ -184,8 +176,6 @@ jobs:
         - refreshenv
 
         - choco list --local-only
-
-        - choco install ActivePerl --version 5.24.3.2404
 
         # TODO: check the choco packages are the same versions as in this Fudgefile
         - powershell -c "fudge install -FudgefilePath .ci/Fudgefile.travis" || true
@@ -229,8 +219,8 @@ jobs:
         - ppm --version || true
 
         # TODO: move into post-install
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts/
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/ || true
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts/ || true
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
         - echo $PATH
@@ -287,6 +277,7 @@ jobs:
 
       before_script:
         - python --version
+        - export TOXENV=py36-${TOX_TEST_SELECTORS}-${TOX_FEATURES}-win
         - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
 
       script:
@@ -699,7 +690,15 @@ env:
     - R_LIB_USER=~/R/Library
     - LINTR_COMMENT_BOT=false
     - CABAL_VERSION=1.24
-    - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    - PATH="$HOME/.nuget/packages/fudge/1.3.0/tools:$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    # These are only needed by Windows
+    - NUGET_EXE_NO_PROMPT=true
+    - VIRTUALENV_NO_DOWNLOAD=1
+    - VIRTUALENV_NO_PIP=1
+    - VIRTUALENV_NO_SETUPTOOLS=1
+    - VIRTUALENV_VERBOSE=1
+    - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
+    - TOX_FEATURES=check-noskip-codecov
 
 before_install:
   - printenv
