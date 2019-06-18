@@ -226,13 +226,14 @@ jobs:
 
         - refreshenv
 
-        - php -l -n -d display_errors=On -d log_errors=Off tests/php/test_files/phplint_test1.php
-
         # TODO: move into post-install
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
         - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
         - echo $PATH
         - python .ci/store_env_in_registry.py
+
+        - which php
+        - php -l -n -d display_errors=On -d log_errors=Off tests/php/test_files/phplint_test1.php || true
 
         - which ppm || true
         - ppm --version || true
