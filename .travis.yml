@@ -219,6 +219,11 @@ jobs:
         - ppm --version || true
 
         # TODO: move into post-install
+        # These are empty at this stage, and probably not used at all
+        # but pip complains about them not being in the PATH, which might
+        # be for --user support
+        - ls /C/Users/travis/AppData/Roaming/ || true
+        - ls /C/Users/travis/AppData/Roaming/Python/ || true
         - ls /C/Users/travis/AppData/Roaming/Python/Python36/ || true
         - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts/ || true
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
@@ -272,8 +277,9 @@ jobs:
           tox tox-backticks
           -r docs-requirements.txt
 
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts
+        - ls /C/Users/travis/AppData/Roaming/Python/ || true
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/ || true
+        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts || true
 
       before_script:
         - python --version
