@@ -212,6 +212,8 @@ jobs:
            "/c/Program Files (x86)/Microsoft.NET/"
            "/c/Program Files (x86)/Microsoft Visual Studio/"
            || true
+        - VSLOC="$(vswhere -all -legacy -format value -property installationPath || true)"
+        - echo VSLOC2="${VSLOC}"
         - ls "/c/Program Files (x86)/"
 
         - which msbuild || true
