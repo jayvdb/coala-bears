@@ -1,8 +1,6 @@
 {
     "packages": [
         { "name": "msys2", "params": "/InstallDir:C:\\msys64 /NoUpdate" },
-        { "name": "vswhere" },
-        { "name": "sed" },
-        { "name": "grep" }
+        { "name": "vswhere" }
     ]
 }
