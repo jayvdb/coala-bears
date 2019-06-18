@@ -224,9 +224,9 @@ jobs:
 
         - powershell -c "fudge install"
 
-        - php -l -n -d display_errors=On -d log_errors=Off tests/php/test_files/phplint_test1.php
-
         - refreshenv
+
+        - php -l -n -d display_errors=On -d log_errors=Off tests/php/test_files/phplint_test1.php
 
         # TODO: move into post-install
         - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
