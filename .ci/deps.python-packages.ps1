@@ -1,4 +1,11 @@
-. $env:FudgeCI/constants.ps1
+$ci_directory = $env:FudgeCI
+
+if (!($ci_directory))
+{
+  $ci_directory = '.ci'
+}
+
+. $ci_directory/constants.ps1
 
 function Install-Binary-Packages
 {
