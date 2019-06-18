@@ -12,13 +12,7 @@ function Install-Gems
   echo 'gem "pusher-client", "~>0.4.0", require: false' | Out-File -FilePath Gemfile -Append -Encoding ascii
   cat Gemfile
 
-  # The build crawls if DevKit is included in the PATH
-  $old_PATH = $env:PATH
-  $env:PATH = ($env:ChocolateyToolsLocation + '\DevKit2\bin;' + $env:PATH)
-
   bundle install
-
-  $env:PATH = $old_PATH
 
   mv -force Gemfile.bak Gemfile
 }
