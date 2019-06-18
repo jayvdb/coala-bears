@@ -153,9 +153,9 @@ jobs:
         TOX_TEST_SELECTORS=pip-noreqs-npm-gem-go-perl-php-java8-adhoc
       cache:
         directories:
-          - C:\nuget_http_cache
-          - C:\choco_cache
-          - C:\pip_cache
+          - /C/nuget_http_cache
+          - /C/choco_cache
+          - /C/pip_cache
       before_install:
         - bash --version
         - powershell -c "$PSVersionTable"
@@ -163,9 +163,9 @@ jobs:
         - powershell -command 'Set-MpPreference -DisableArchiveScanning $true'
         - powershell -command 'Set-MpPreference -DisableBehaviorMonitoring $true'
 
-        - export PIP_CACHE_DIR=/C/pip_cache
         - export NUGET_HTTP_CACHE_PATH=/C/nuget_http_cache
         - export CHOCO_CACHE_DIR=/C/choco_cache
+        - export PIP_CACHE_DIR=/C/pip_cache
 
         - printenv
 
