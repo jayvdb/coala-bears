@@ -156,7 +156,7 @@ function Install-Test-Packages
 
   if ($name -eq 'coala-bears')
   {
-    python -m pip install -U setuptools
+    python -m pip install -U setuptools virtualenv
 
     python -m pip freeze --all > constraints.txt
 
