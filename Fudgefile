@@ -6,7 +6,7 @@
     },
     "packages": [
         { "name": "msys2", "params": "/InstallDir:C:\\msys64 /NoUpdate" },
-        { "name": "hg", "version": "4.2" },
+        { "name": "hg", "version": "5.0" },
         { "name": "python", "version": "3.6.8" },
         { "name": "nodejs", "version": "11.13.0" },
         { "name": "ruby", "version": "2.5.3.1" },
