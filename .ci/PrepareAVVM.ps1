@@ -68,9 +68,14 @@ function SetInstalledProductVersion {
     )
 
     $productRegPath = "$REGISTRY_ROOT\$product"
-    New-Item $productRegPath -Force | Out-Null
-    New-ItemProperty -Path $productRegPath -Name Version -PropertyType String -Value $version -Force | Out-Null
-    New-ItemProperty -Path $productRegPath -Name Platform -PropertyType String -Value $platform -Force | Out-Null
+    New-Item $productRegPath -Force |
+        Out-Null
+
+    New-ItemProperty -Path $productRegPath -Name Version -PropertyType String -Value $version -Force |
+        Out-Null
+
+    New-ItemProperty -Path $productRegPath -Name Platform -PropertyType String -Value $platform -Force |
+        Out-Null
 
     Write-Output "Creating $PACKAGES_ROOT\$product\$version\$platform"
 
