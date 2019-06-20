@@ -30,10 +30,12 @@ if ($ScriptAnalyzerResult) {
 }
 
 $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+
 Get-ChildItem -Recurse -Force '*.ps*' | ForEach-Object {
-    # Ignore imported files, and ignore templates
+    # Ignore .git, virtualenv activate.ps1, copies, and templates
     if (!($_.Name -eq 'Export-NUnitXml.psm1' -or
             $_.FullName.Contains('.git') -or
+            $_.Name -eq 'activate.ps1' -or
             $_.Name -eq 'install.ps1' -or
             $_.Name -eq 'Invoke-DbatoolsFormatter.ps1' -or
             $_.Name -eq 'Stop-Function.ps1' -or

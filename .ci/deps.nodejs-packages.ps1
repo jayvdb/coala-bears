@@ -1,28 +1,26 @@
-function Install-Node-Packages
-{
-  npm config set loglevel warn
+function Install-Node-Packages {
+    npm config set loglevel warn
 
-  # pnpm setting
-  npm config set reporter silent
+    # pnpm setting
+    npm config set reporter silent
 
-  cp -force package.json package.json.bak
+    cp -force package.json package.json.bak
 
-  # elm-platform should be added to Fudgefile
-  # https://github.com/coala/coala-bears/issues/2924
-  sed -i '/elm/d' package.json
+    # elm-platform should be added to Fudgefile
+    # https://github.com/coala/coala-bears/issues/2924
+    sed -i '/elm/d' package.json
 
-  # textlint-plugin-asciidoc-loose requires a compiler
-  # and should be replaced with textlint-plugin-asciidoctor
-  sed -i '/textlint-plugin-asciidoc-loose/d' package.json
+    # textlint-plugin-asciidoc-loose requires a compiler
+    # and should be replaced with textlint-plugin-asciidoctor
+    sed -i '/textlint-plugin-asciidoc-loose/d' package.json
 
-  # If gyp fails, use npm config python to help locate Python 2.7
-  npm install
-  mv -force package.json.bak package.json
+    # If gyp fails, use npm config python to help locate Python 2.7
+    npm install
+    mv -force package.json.bak package.json
 
-  npm config set reporter default
+    npm config set reporter default
 }
 
-function Do-Install-Packages
-{
-  Install-Node-Packages
+function Do-Install-Packages {
+    Install-Node-Packages
 }

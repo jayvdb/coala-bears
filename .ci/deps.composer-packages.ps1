@@ -1,13 +1,9 @@
-function Run-Composer-Install
-{
-  $PHP = ($env:PHP_ROOT + '\php.exe')
+function Run-Composer-Install {
+    $phar = "C:\ProgramData\ComposerSetup\bin\composer.phar"
 
-  $phar = "C:\ProgramData\ComposerSetup\bin\composer.phar"
-
-  Invoke-Expression "$PHP $phar install"
+    php.exe $phar install
 }
 
-function Do-Install-Packages
-{
-  Run-Composer-Install
+function Do-Install-Packages {
+    Run-Composer-Install
 }
