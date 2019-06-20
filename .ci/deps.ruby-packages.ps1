@@ -1,4 +1,4 @@
-function Install-Gems {
+function Install-Gemfile {
     cp -force Gemfile Gemfile.bak
 
     # Unbuildable on Windows
@@ -23,5 +23,5 @@ function Install-Gems {
 }
 
 function Do-Install-Packages {
-    Install-Gems
+    Install-Gemfile
 }

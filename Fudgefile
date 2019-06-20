@@ -17,6 +17,7 @@
         { "name": "maven", "version": "3.5.4" },
         { "name": "php" },
         { "name": "composer" },
+        { "name": "PSScriptAnalyzer" },
         { "name": "astyle" },
         { "name": "cppcheck" },
         { "name": "xsltproc" },

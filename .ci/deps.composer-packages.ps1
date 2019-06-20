@@ -1,7 +1,7 @@
 function Run-Composer-Install {
-    $phar = "C:\ProgramData\ComposerSetup\bin\composer.phar"
+    $composer_phar = "C:\ProgramData\ComposerSetup\bin\composer.phar"
 
-    php.exe $phar install
+    php.exe $composer_phar install
 }
 
 function Do-Install-Packages {

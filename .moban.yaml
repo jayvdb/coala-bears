@@ -22,6 +22,11 @@ appveyor_global_environment:
   TOX_FEATURES: check-noskip-codecov
   TOXENV: py$(PYTHON_MINOR_NODOTS)-$(TOX_TEST_SELECTORS)-$(TOX_FEATURES)-win
 
+python_versions:
+  - 3.6
+  - 3.5
+  - 3.4.4
+
 tox: true
 
 entry_points:
