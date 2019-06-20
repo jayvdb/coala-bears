@@ -6,7 +6,7 @@
     },
     "source": ".ci/nuspecs",
     "packages": [
-        { "name": "hg", "version": "4.2" },
+        { "name": "hg", "version": "5.0" },
         { "name": "python", "version": "3.6.8", "appveyor": "python" },
         { "name": "nodejs", "version": "11.13.0", "appveyor": "node" },
         { "name": "ruby", "version": "2.5.3.1", "appveyor": "ruby" },

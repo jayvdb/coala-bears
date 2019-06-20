@@ -12,48 +12,43 @@ Set-StrictMode -Version latest
 
 $deps_base = $env:FudgeCI
 
-function Run-PostInstalls
-{
-  choco list --local-only
+function Run-PostInstall {
+    choco list --local-only
 
-  Update-SessionEnvironment
+    Update-SessionEnvironment
 
-  Write-Host "PATH = $env:PATH"
+    Write-Host "PATH = $env:PATH"
 
-  $config = Get-FudgefileContent Fudgefile
+    $config = Get-FudgefileContent Fudgefile
 
-  foreach ($pkg in $config.Packages)
-  {
-    $name = $pkg.Name
+    foreach ($pkg in $config.Packages) {
+        $name = $pkg.Name
 
-    $glob = "$deps_base/deps.$name.ps1"
+        $glob = "$deps_base/deps.$name.ps1"
 
-    if (Test-Path $glob)
-    {
-      Write-Host "Running post-install for $name"
+        if (Test-Path $glob) {
+            Write-Host "Running post-install for $name"
 
-      . $glob
-      Do-PostInstall
+            . $glob
+            Do-PostInstall
+        }
     }
-  }
 
-  Update-SessionEnvironment
+    Update-SessionEnvironment
 
-  Write-Host "PATH = $env:PATH"
+    Write-Host "PATH = $env:PATH"
 
-  foreach ($pkg in $config.Packages)
-  {
-    $name = $pkg.Name
+    foreach ($pkg in $config.Packages) {
+        $name = $pkg.Name
 
-    $glob = ".ci/deps.$name-packages.ps1"
-    if (Test-Path $glob)
-    {
-      Write-Host "Running $name package installation"
+        $glob = "$deps_base/deps.$name-packages.ps1"
+        if (Test-Path $glob) {
+            Write-Host "Running $name package installation"
 
-      . $glob
-      Do-Install-Packages
+            . $glob
+            Do-Install-Packages
+        }
     }
-  }
 }
 
-Export-ModuleMember -Function Run-PostInstalls
+Export-ModuleMember -Function Run-PostInstall
