@@ -63,6 +63,8 @@ branches:
   except:
     - /^sils\/.*/
 
+init: git config --global core.autocrlf false
+
 install:
   # Show initial state
   - powershell -c "$PSVersionTable"
