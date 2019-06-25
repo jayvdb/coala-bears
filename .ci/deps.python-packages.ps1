@@ -7,6 +7,8 @@ if (!($ci_directory)) {
 . $ci_directory/constants.ps1
 
 function Freeze-Pip-Constraints {
+    Write-Output "Freezing pip package list .."
+
     python -m pip freeze --all > constraints.txt
 }
 
@@ -16,6 +18,8 @@ function Install-Pip-Requirement {
         [string]
         $requirement
     )
+
+    Write-Output "Installing $requirement .."
 
     if ($requirement.EndsWith('.txt')) {
         { python @Args } |
