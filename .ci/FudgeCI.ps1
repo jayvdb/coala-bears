@@ -86,7 +86,7 @@ function Prepare-AppVeyorFakeChocoPackage {
 
     New-Item -ItemType Directory -Force ($env:FudgeCI + '\\nuspecs\\') > $null
 
-    Remove-Item ./assets/fudge/nuspecs/*.nupkg -Force > $null
+    Remove-Item "$env:FudgeCI/nuspecs/*.nupkg" -Force > $null
 
     foreach ($pkg in $packages) {
         . $env:FudgeCI/FudgeGenerateFake.ps1
