@@ -218,10 +218,11 @@ jobs:
         - refreshenv
         - taskkill -IM "gpg-agent.exe" || true
 
+        - echo $PERL5LIB
         - which perl
         - perl --version || true
         - which ppm || true
-        - ppm --version || true
+        - ppm --version
 
       before_script:
         - python --version
@@ -230,7 +231,7 @@ jobs:
 
       script:
         - echo $PATH
-        - python -m tox --sitepackages
+        - python -m tox --sitepackages -vvv
 
     - stage: test-python
 
