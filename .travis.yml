@@ -222,7 +222,8 @@ jobs:
         - which perl
         - perl --version || true
         - which ppm || true
-        - ls /c/Perl64/
+        - ls /c/Perl64/lib
+        - ls /c/Perl64/bin
         - export PERL5LIB=/c/Perl64/bin:/c/Perl64/core_perl:/c/Perl64/site_perl:/c/Perl64/vendir_perl
         - ppm --version
 
