@@ -80,7 +80,7 @@ function SetInstalledProductVersion {
     Write-Output "Creating $PACKAGES_ROOT\$product\$version\$platform"
 
     if (!(Test-Path "$PACKAGES_ROOT\$product\$version\$platform")) {
-        mkdir "$PACKAGES_ROOT\$product\$version\$platform" -Force > $null
+        New-Item -ItemType Directory "$PACKAGES_ROOT\$product\$version\$platform" -Force > $null
     }
 
     if (!(Test-Path "$PACKAGES_ROOT\$product\$version\$platform")) {
@@ -196,9 +196,9 @@ stable:$version
         }
     }
 
-    mkdir "$PACKAGES_ROOT\$name" -Force > $null
+    New-Item -ItemType Directory "$PACKAGES_ROOT\$name" -Force > $null
 
-    mkdir "$PACKAGES_ROOT\$name\$version" -Force > $null
+    New-Item -ItemType Directory "$PACKAGES_ROOT\$name\$version" -Force > $null
 
     Write-Verbose "Looking for C:\$dir_name$shortver .."
 
@@ -211,7 +211,7 @@ stable:$version
         $platform = 'x64'
     }
 
-    mkdir "$PACKAGES_ROOT\$name\$version\$platform" -Force > $null
+    New-Item -ItemType Directory "$PACKAGES_ROOT\$name\$version\$platform" -Force > $null
 
     if ($in_program_files) {
         $dir = "C:\$dir_name$shortver"
@@ -294,4 +294,7 @@ function SetDefaultVersions {
     # and is instead reported as 5.0
 }
 
+$old_EAP = $ErrorActionPreference
+$ErrorActionPreference = 'SilentlyContinue';
 Export-ModuleMember -Function Fix-Miniconda27, SetDefaultVersions, Add-Product
+$ErrorActionPreference = $old_EAP;

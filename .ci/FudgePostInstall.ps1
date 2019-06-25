@@ -19,8 +19,6 @@ function Run-PostInstall {
 
     Write-Host "PATH = $env:PATH"
 
-    $config = Get-FudgefileContent Fudgefile
-
     foreach ($pkg in $config.Packages) {
         $name = $pkg.Name
 

@@ -6,6 +6,34 @@ if (!($ci_directory)) {
 
 . $ci_directory/constants.ps1
 
+function Freeze-Pip-Constraints {
+    python -m pip freeze --all > constraints.txt
+}
+
+function Install-Pip-Requirement {
+    param (
+        [parameter(Mandatory, ValueFromPipeline)]
+        [string]
+        $requirement
+    )
+
+    if ($requirement.EndsWith('.txt')) {
+        { python @Args } |
+            ForEach-Object Invoke @(
+                '-m', 'pip', 'install',
+                '--constraint', 'constraints.txt',
+                '-r', $requirement
+            )
+    } else {
+        { python @Args } |
+            ForEach-Object Invoke @(
+                '-m', 'pip', 'install',
+                '--constraint', 'constraints.txt',
+                $requirement
+            )
+    }
+}
+
 function Install-Binary-Packages {
     # Install lxml needed by for coala-bears as a wheel as libxml2 and libxslt
     # headers and library files are not available, and STATIC_DEPS=true often
@@ -17,53 +45,43 @@ function Install-Binary-Packages {
     python -m pip --verbose install pycparser
     # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
     # https://github.com/tobgu/pyrsistent/issues/172
-    # wrapt->astroid->pylint fails on old setuptools if no MS VC 9
-    # https://github.com/GrahamDumpleton/wrapt/issues/135
     python -m pip install -U setuptools
     python -m pip install pyrsistent
 }
 
-function Install-coala-Packages {
+function Install-coala {
+    param (
+        [string]
+        $stop_at
+    )
+
     python -m pip install -U six pip==$pip_version setuptools==$setuptools_version
 
-    if ($name -eq 'coala-bears') {
-        cp bear-requirements.txt constraints.txt
-    } elseif (Test-Path 'requirements.txt') {
-        cp requirements.txt constraints.txt
-    } else {
-        touch constraints.txt
+    if (!(Test-Path constraints.txt)) {
+        if ($stop_at -eq 'coala-bears') {
+            cp bear-requirements.txt constraints.txt
+        } elseif (Test-Path 'requirements.txt') {
+            cp requirements.txt constraints.txt
+        } else {
+            Freeze-Pip-Constraints
+        }
     }
 
-    if (!($name -eq 'PyPrint')) {
+    if (!($stop_at -eq 'PyPrint')) {
         Write-Output "Installing PyPrint"
-        { python @Args } |
-            ForEach-Object Invoke @(
-                '-m', 'pip', '--disable-pip-version-check', 'install',
-                '--constraint', 'constraints.txt',
-                'git+https://gitlab.com/coala/PyPrint#egg=PyPrint'
-            )
+        Install-Pip-Requirement 'git+https://gitlab.com/coala/PyPrint#egg=PyPrint'
 
-        if (!($name -eq 'coala_utils')) {
+        if (!($stop_at -eq 'coala_utils')) {
             Write-Output "Installing coala_utils"
 
-            python -m pip freeze --all > constraints.txt
+            Freeze-Pip-Constraints
 
-            { python @Args } |
-                ForEach-Object Invoke @(
-                    '-m', 'pip', '--disable-pip-version-check', 'install',
-                    '--constraint', 'constraints.txt',
-                    'git+https://gitlab.com/coala/coala-utils#egg=coala-utils'
-                )
+            Install-Pip-Requirement 'git+https://gitlab.com/coala/coala-utils#egg=coala-utils'
 
-            if (!($name -eq 'dependency-management')) {
+            if (!($stop_at -eq 'dependency-management')) {
                 Write-Output "Installing sarge with Windows support"
 
-                { python @Args } |
-                    ForEach-Object Invoke @(
-                        '-m', 'pip', '--disable-pip-version-check', 'install',
-                        '--constraint', 'constraints.txt',
-                        'hg+https://bitbucket.org/jayvdb/sarge@win-reg-lookup#egg=sarge'
-                    )
+                Install-Pip-Requirement 'hg+https://bitbucket.org/jayvdb/sarge@win-reg-lookup#egg=sarge'
 
                 if (!(Test-Path $env:TEMP/pm-master)) {
                     $PM_URL = "https://gitlab.com/coala/package_manager.git/"
@@ -74,60 +92,42 @@ function Install-coala-Packages {
                 touch $env:TEMP/pm-master/test-requirements.txt
                 touch $env:TEMP/pm-master/requirements.txt
 
-                { python @Args } |
-                    ForEach-Object Invoke @(
-                        '-m', 'pip', '--disable-pip-version-check', 'install',
-                        '--constraint', 'constraints.txt',
-                        "$env:TEMP/pm-master"
-                    )
+                Install-Pip-Requirement "$env:TEMP/pm-master"
 
-                if (!($name -eq 'coala')) {
+                if (!($stop_at -eq 'coala')) {
                     Write-Output "Installing coala"
 
-                    python -m pip freeze --all > constraints.txt
+                    Freeze-Pip-Constraints
 
-                    { python @Args } |
-                        ForEach-Object Invoke @(
-                            '-m', 'pip', '--disable-pip-version-check', 'install',
-                            '--constraint', 'constraints.txt',
-                            'git+https://github.com/coala/coala#egg=coala'
-                        )
+                    Install-Pip-Requirement 'git+https://github.com/coala/coala#egg=coala'
 
-                    if (!($name -eq 'coala-bears')) {
+                    if (!($stop_at -eq 'coala-bears')) {
                         Write-Output "Installing coala-bears"
 
-                        python -m pip freeze --all > constraints.txt
+                        Freeze-Pip-Constraints
 
-                        { python @Args } |
-                            ForEach-Object Invoke @(
-                                '-m', 'pip', '--disable-pip-version-check', 'install',
-                                '--constraint', 'constraints.txt',
-                                'git+https://github.com/coala/coala-bears#egg=coala-bears'
-                            )
+                        Install-Pip-Requirement 'git+https://github.com/coala/coala-bears#egg=coala-bears'
                     }
                 }
             }
         }
     }
+}
 
+function Install-Project-Dependency-Packages {
+    Install-coala $name
+}
+
+function Install-Project {
     if (Test-Path 'requirements.txt') {
         Write-Output "Installing requirements.txt"
-        { python @Args } |
-            ForEach-Object Invoke @(
-                '-m', 'pip', '--disable-pip-version-check', 'install',
-                '--constraint', 'constraints.txt',
-                '-r', 'requirements.txt'
-            )
+
+        Install-Pip-Requirement 'requirements.txt'
     }
 
     if (Test-Path 'setup.py') {
         Write-Output "Installing setup.py"
-        { python @Args } |
-            ForEach-Object Invoke @(
-                '-m', 'pip', '--disable-pip-version-check', 'install',
-                '--constraint', 'constraints.txt',
-                '-e', '.'
-            )
+        Install-Pip-Requirement '.'
     }
 }
 
@@ -135,53 +135,54 @@ function Install-Test-Packages {
     if (Test-Path docs-requirements.txt) {
         Write-Output "Installing docs-requirements.txt"
 
-        python -m pip freeze --all > constraints.txt
+        Freeze-Pip-Constraints
 
-        { python @Args } |
-            ForEach-Object Invoke @(
-                '-m', 'pip', '--disable-pip-version-check', 'install',
-                '--constraint', 'constraints.txt',
-                '-r', 'docs-requirements.txt',
-                'pytest-spec'
-            )
+        Install-Pip-Requirement 'docs-requirements.txt'
     }
 
-    python -m pip freeze --all > constraints.txt
+    Freeze-Pip-Constraints
 
     Write-Output "Installing test-requirements.txt"
 
-    { python @Args } |
-        ForEach-Object Invoke @(
-            '-m', 'pip', '--disable-pip-version-check', 'install',
-            '--constraint', 'constraints.txt',
-            '-r', 'test-requirements.txt',
-            'pytest-spec'
-        )
+    Install-Pip-Requirement 'test-requirements.txt'
+    Install-Pip-Requirement 'pytest-spec'
 
     if ($name -eq 'coala-bears') {
         Write-Output "Installing tox"
 
         python -m pip install -U setuptools
 
-        python -m pip freeze --all > constraints.txt
+        Freeze-Pip-Constraints
 
-        { python @Args } |
-            ForEach-Object Invoke @(
-                '-m', 'pip', '--disable-pip-version-check', 'install',
-                '--constraint', 'constraints.txt',
-                'tox', 'tox-backticks'
-            )
+        Install-Pip-Requirement 'tox-backticks'
     }
 }
 
 function Do-Install-Packages {
+
+    $old_pip_check_flag = 0
+    if ($env:PIP_DISABLE_PIP_VERSION_CHECK) {
+        $old_pip_check_flag = 1
+    }
+    $env:PIP_DISABLE_PIP_VERSION_CHECK = 1
+
     Install-Binary-Packages
 
     if (!($env:PYTHON_VERSION -eq '2.7')) {
-        Install-coala-Packages
+        Install-Project-Dependency-Packages
     }
 
+    Install-Project
+
     Install-Test-Packages
+
+    if (Test-Path constraints.txt) {
+        Move-Item constraints.txt $env:TEMP -Force
+    }
+
+    if (!$old_pip_check_flag) {
+        Remove-Item Env:\PIP_DISABLE_PIP_VERSION_CHECK
+    }
 }
 
 $ErrorActionPreference = 'SilentlyContinue';

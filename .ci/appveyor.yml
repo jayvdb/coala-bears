@@ -11,7 +11,6 @@ environment:
     NUGET_EXE_NO_PROMPT: 1
     NUGET_HTTP_CACHE_PATH: C:\nuget_http_cache
     CHOCO_CACHE_DIR: C:\choco_cache
-    PLATFORM: $(PLATFORM)
     MSYS_ROOT: C:\msys64
     MSYS_BIN: $(MSYS_ROOT)\usr\bin
     JAVA_HOME: C:\jdk
@@ -23,6 +22,7 @@ environment:
     # Uncomment to debug tox venv problems
     # VIRTUALENV_VERBOSE: 1
     GOPATH: C:\gopath
+    # A problem with store_env_in_registry.py means this needs to be explicit
     PSModulePath: >-
       $(PSModulePath);C:\Program Files (x86)\WindowsPowerShell\Modules;
     PATH: >-
@@ -56,6 +56,8 @@ cache:
   - C:\nuget_http_cache
   - C:\choco_cache
   - "C:\\pip_cache"
+  - "node_modules"
+  - "C:\\Users\\appveyor\\AppData\\Local\\coala-bears\\coala-bears"
   - "C:\\Users\\appveyor\\AppData\\Roaming\\nltk_data"
   - "%LOCALAPPDATA%\\Composer"
 
@@ -63,6 +65,8 @@ branches:
   except:
     - /^sils\/.*/
 
+# This forces unix style line endings in the clone, which is necessary to
+# avoid warning regarding EOLs when running git diff on Windows
 init: git config --global core.autocrlf false
 
 install:
@@ -98,24 +102,13 @@ install:
   - python .ci/store_env_in_registry.py
   - refreshenv
 
-  - cp .ci/choco.config
-      C:\ProgramData\chocolatey\config\chocolatey.config
-
-  - nuget install fudge
-     -Verbosity quiet
-     -OutputDirectory C:\tools -ExcludeVersion
-
-
   # Set up AppVeyor product versions, and install dummy choco entries for them
-  - ps: fudge install -FudgefilePath .ci/Fudgefile.appveyor
-  - choco list --local-only
+  - ps: . .ci/FudgeCI.ps1; Prepare-AppVeyor-AVVM
   - refreshenv
   - echo %PATH%
   # Avoid tools finding and using MinGW
   - mv C:\MinGW %TEMP%
-  # Avoid tools finding and using Visual Studio
-  - rm -rf %MSSDK_ROOT%
-  - rm -rf %VS_ROOT%*
+  # TODO: Avoid tools finding and using Visual Studio
 
   # Show updated SOE; versions should be as defined in top of the Fudgefile
   - python --version
@@ -138,15 +131,17 @@ install:
   - gcc --version & exit 0
 
   - "%MSYS_BIN%\\date.exe"
+  - cp .ci/choco.config
+      %ChocolateyInstall%\config\chocolatey.config
   # Install remainer of the Fudgefile with chocolatey using Fudge
-  - ps: fudge install
+  - ps: . .ci/Fudge.ps1 install
   - refreshenv
   - echo %PATH%
 
-  - ps: if ($env:APPVEYOR_JOB_NUMBER -eq 1) { . .ci/AppVeyorPSLint.ps1 }
+  - ps: if ($env:APPVEYOR_JOB_NUMBER -eq 1) { . .ci/PSLint.ps1 }
 
   # Check that we have the expected version and architecture for Python
-  - python --version
+  - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   # Confirm other versions
   - node --version
@@ -177,11 +172,12 @@ test_script:
 
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
   - python -m tox --sitepackages
+
   - python setup.py install
+
 
   - rm -rf .tox
   - rm -f MYMETA.yml shrinkwrap.yaml pnpm-lock.yaml
-      .ci/refreshenv.sh
       .travis.yml
 
   - coala --ci

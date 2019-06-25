@@ -65,16 +65,22 @@ targets:
   # setup.cfg: bears-setup.cfg.jj2
   - Fudgefile: Fudgefile.jj2
   # Powershell Linting
-  - .ci/AppVeyorPSLint.ps1: ci/AppVeyorPSLint.ps1
+  - .ci/PSLint.ps1: ci/PSLint.ps1
   - .ci/PSScriptAnalyzerSettings.psd1: ci/PSScriptAnalyzerSettings.psd1
   - .ci/Invoke-DbatoolsFormatter.ps1: ci/Invoke-DbatoolsFormatter.ps1
   - .ci/Stop-Function.ps1: ci/Stop-Function.ps1
   - .ci/Test-FunctionInterrupt.ps1: ci/Test-FunctionInterrupt.ps1
   - .ci/Export-NUnitXml.psm1: ci/Export-NUnitXml.psm1
-  # Other stuff
+  # Fudge
+  - .ci/Fudge.ps1: fudge/Fudge.ps1
+  - .ci/Modules/FudgeTools.psm1: fudge/Modules/FudgeTools.psm1
+  - .ci/FudgeCI.ps1: fudge/FudgeCI.ps1
+  - .ci/PrepareAVVM.ps1: fudge/PrepareAVVM.ps1
+  - .ci/FudgeGenerateFake.ps1: fudge/FudgeGenerateFake.ps1
+  - .ci/FudgePostInstall.ps1: fudge/FudgePostInstall.ps1
+  - .ci/store_env_in_registry.py: ci/store_env_in_registry.py
   - .ci/constants.ps1: constants.ps1.jj2
   - .ci/deps.python-packages.ps1: fudge/deps.python-packages.ps1
-  - .ci/Fudgefile.appveyor: ci/Fudgefile.appveyor.jj2
   - requirements.txt: requirements.txt.jj2
   # test-requirements.txt: bears-test-requirements.txt.jj2
   - bears/VERSION: VERSION.jj2
@@ -85,15 +91,11 @@ targets:
   # package.json: package.json.jj2
   # bear-requirements.txt: bear-requirements.txt.jj2
   - .ci/appveyor.yml: ci/appveyor.yml.jj2
-  - .ci/store_env_in_registry.py: ci/store_env_in_registry.py
-  - .ci/FudgeAppVeyor.ps1: fudge/FudgeAppVeyor.ps1
-  - .ci/PrepareAVVM.ps1: fudge/PrepareAVVM.ps1
-  - .ci/FudgeGenerateFake.ps1: fudge/FudgeGenerateFake.ps1
-  - .ci/FudgePostInstall.ps1: fudge/FudgePostInstall.ps1
   # from package manager
   - .ci/deps.golang.ps1: deps.golang.ps1
   - .ci/deps.ActivePerl.ps1: deps.ActivePerl.ps1
   - .ci/deps.php.ps1: deps.php.ps1
+  # Other
   - .ci/check_unsupported.sh: ci/check_unsupported.sh.jj2
   - runtime.txt: runtime.txt
   - netlify.toml: docs/netlify.toml
