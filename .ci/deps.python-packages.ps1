@@ -12,7 +12,7 @@ function Freeze-Pip-Constraints {
 
 function Install-Pip-Requirement {
     param (
-        [parameter(Mandatory, ValueFromPipeline)]
+        [parameter(Mandatory)]
         [string]
         $requirement
     )
@@ -150,7 +150,9 @@ function Install-Test-Packages {
     if ($name -eq 'coala-bears') {
         Write-Output "Installing tox"
 
-        python -m pip install -U setuptools
+        # Avoid previous cache entry for setuptools, as it
+        # causes a deserialisation error
+        python -m pip install -U --no-cache-dir setuptools
 
         Freeze-Pip-Constraints
 
