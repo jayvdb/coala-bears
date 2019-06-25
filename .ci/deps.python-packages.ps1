@@ -154,7 +154,8 @@ function Install-Test-Packages {
 
         Freeze-Pip-Constraints
 
-        Install-Pip-Requirement 'tox-backticks'
+        # tox 3.13 uses pluggy 0.12.0 which is incompatible with a pytest 3.6.4
+        Install-Pip-Requirement 'tox=~3.12.0 tox-backticks'
     }
 }
 
