@@ -63,11 +63,12 @@ function Create-PHP-Ini {
 
     Write-Host 'Setting extension directory: '$dir
 
-    (Get-Content $PHP_INI) |
+    $content = (Get-Content $PHP_INI) |
         ForEach-Object {
             $_ -replace ';extension_dir *=.*', ('extension_dir="' + $dir + '"')
-        } |
-            Set-Content $PHP_INI
+        }
+
+    Set-Content $PHP_INI $content
 
     grep '^extension' $PHP_INI
 }

@@ -1,8 +1,7 @@
 if (!($env:FudgeCI)) {
     if (Test-Path 'assets/fudge/FudgeCI.ps1') {
         $env:FudgeCI = 'assets/fudge/'
-    }
-    elseif (Test-Path '.ci/FudgeCI.ps1') {
+    } elseif (Test-Path '.ci/FudgeCI.ps1') {
         $env:FudgeCI = '.ci/'
     }
 }
