@@ -33,7 +33,7 @@ function Install-Pip-Requirement {
             ForEach-Object Invoke @(
                 '-m', 'pip', 'install',
                 '--constraint', 'constraints.txt',
-                $requirement
+                $requirement.Split()
             )
     }
 }
