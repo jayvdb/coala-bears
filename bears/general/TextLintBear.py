@@ -227,7 +227,7 @@ class TextLintBear:
 
             parent_config = {
                 'rules': options,
-                'plugins': ['asciidoc-loose', 'html', 'review', 'rst']
+                'plugins': ['asciidoctor', 'html', 'review', 'rst']
             }
 
             return json.dumps(parent_config)
