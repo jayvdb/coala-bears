@@ -143,12 +143,14 @@ function Install-Test-Packages {
 
     if ($project_name -eq 'coala-bears') {
         Write-Output "Installing tox"
-
-        python -m pip install -U setuptools
+        # Avoid previous cache entry for setuptools, as it
+        # causes a deserialisation error
+        python -m pip install -U --no-cache-dir setuptools
 
         Checkpoint-Pip-Constraints
 
-        Install-Pip-Requirement 'tox-backticks'
+        # tox 3.13 uses pluggy 0.12.0 which is incompatible with a pytest 3.6.4
+        Install-Pip-Requirement 'tox~=3.12.0 tox-backticks'
     }
 }
 
