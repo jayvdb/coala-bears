@@ -1,3 +1,6 @@
+# shellcheck disable=SC2059,SC2154
+# as shellcheck believes the $ in the heredoc are shell variables
+
 function refreshenv
 {
   powershell -NonInteractive - <<\EOF
@@ -18,7 +21,8 @@ Get-ChildItem env:* | %{
 
 EOF
 
-  cat "$TEMP/refreshenv.sh"
+  # shellcheck disable=SC1090
+  # as shellcheck can not follow this `source`
   source "$TEMP/refreshenv.sh"
 }
 

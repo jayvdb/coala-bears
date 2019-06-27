@@ -76,6 +76,7 @@ targets:
   - .ci/FudgeGenerateFake.ps1: fudge/FudgeGenerateFake.ps1
   - .ci/FudgePostInstall.ps1: fudge/FudgePostInstall.ps1
   - .ci/store_env_in_registry.py: ci/store_env_in_registry.py
+  - .ci/refreshenv.sh: ci/refreshenv.sh
   - .ci/constants.ps1: constants.ps1.jj2
   - .ci/deps.python-packages.ps1: fudge/deps.python-packages.ps1
   - requirements.txt: requirements.txt.jj2
