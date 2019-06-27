@@ -224,9 +224,9 @@ jobs:
         - which ppm || true
         - ls /c/Perl64/lib
         - ls /c/Perl64/bin
+        - cat /c/Perl64/lib/Config.pm
         - export PERL5LIB=/c/Perl64/bin:/c/Perl64/lib
         - ppm --version
-        - cat /c/Perl64/lib/Config.pm
 
       before_script:
         - python --version
