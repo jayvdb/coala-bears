@@ -9,10 +9,10 @@ function Install-GoMetaLinter {
     go.exe get -u gopkg.in/alecthomas/gometalinter.v2
 }
 
-function Do-PostInstall {
+function Complete-Install {
     Install-GoMetaLinter
 
     Install-GoPM
 }
 
-Export-ModuleMember -Function Install-GoPM, Install-GoMetaLinter, Do-PostInstall
+Export-ModuleMember -Function Install-GoPM, Install-GoMetaLinter, Complete-Install

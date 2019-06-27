@@ -22,6 +22,6 @@ function Install-Gemfile {
     mv -force Gemfile.bak Gemfile
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
     Install-Gemfile
 }

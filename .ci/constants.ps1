@@ -1,6 +1,7 @@
-$name = 'coala-bears'
-$pip_version = '9.0.1'
-$setuptools_version = '21.2.2'
+
+New-Variable -Scope global -Name name -Value 'coala-bears'
+New-Variable -Scope global -Name pip_version -Value '9.0.1'
+New-Variable -Scope global -Name setuptools_version -Value '21.2.2'
 
 $old_EAP = $ErrorActionPreference
 $ErrorActionPreference = 'SilentlyContinue'

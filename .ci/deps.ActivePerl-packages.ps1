@@ -2,6 +2,6 @@ function Install-Perl-Modules {
     cpanm --quiet --installdeps --with-develop --notest .
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
     Install-Perl-Modules
 }

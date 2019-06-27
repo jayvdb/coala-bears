@@ -4,8 +4,8 @@ function PPM-Install-cpanm {
     ppm install App-cpanminus
 }
 
-function Do-PostInstall {
+function Complete-Install {
     PPM-Install-cpanm
 }
 
-Export-ModuleMember -Function PPM-Install-cpanm, Do-PostInstall
+Export-ModuleMember -Function PPM-Install-cpanm, Complete-Install

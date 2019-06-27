@@ -6,35 +6,22 @@ if (!($ci_directory)) {
 
 . $ci_directory/constants.ps1
 
-function Freeze-Pip-Constraints {
-    Write-Output "Freezing pip package list .."
-
+function Checkpoint-Pip-Constraints {
     python -m pip freeze --all > constraints.txt
 }
 
 function Install-Pip-Requirement {
     param (
-        [parameter(Mandatory)]
+        [parameter(Mandatory, ValueFromPipeline)]
         [string]
         $requirement
     )
 
-    Write-Output "Installing $requirement .."
-
     if ($requirement.EndsWith('.txt')) {
-        { python @Args } |
-            ForEach-Object Invoke @(
-                '-m', 'pip', 'install',
-                '--constraint', 'constraints.txt',
-                '-r', $requirement
-            )
-    } else {
-        { python @Args } |
-            ForEach-Object Invoke @(
-                '-m', 'pip', 'install',
-                '--constraint', 'constraints.txt',
-                $requirement.Split()
-            )
+        python -m pip install --constraint constraints.txt -r $requirement
+    }
+    else {
+        python -m pip install --constraint constraints.txt $requirement.Split()
     }
 }
 
@@ -64,10 +51,12 @@ function Install-coala {
     if (!(Test-Path constraints.txt)) {
         if ($stop_at -eq 'coala-bears') {
             cp bear-requirements.txt constraints.txt
-        } elseif (Test-Path 'requirements.txt') {
+        }
+        elseif (Test-Path 'requirements.txt') {
             cp requirements.txt constraints.txt
-        } else {
-            Freeze-Pip-Constraints
+        }
+        else {
+            Checkpoint-Pip-Constraints
         }
     }
 
@@ -78,7 +67,7 @@ function Install-coala {
         if (!($stop_at -eq 'coala_utils')) {
             Write-Output "Installing coala_utils"
 
-            Freeze-Pip-Constraints
+            Checkpoint-Pip-Constraints
 
             Install-Pip-Requirement 'git+https://gitlab.com/coala/coala-utils#egg=coala-utils'
 
@@ -101,14 +90,14 @@ function Install-coala {
                 if (!($stop_at -eq 'coala')) {
                     Write-Output "Installing coala"
 
-                    Freeze-Pip-Constraints
+                    Checkpoint-Pip-Constraints
 
                     Install-Pip-Requirement 'git+https://github.com/coala/coala#egg=coala'
 
                     if (!($stop_at -eq 'coala-bears')) {
                         Write-Output "Installing coala-bears"
 
-                        Freeze-Pip-Constraints
+                        Checkpoint-Pip-Constraints
 
                         Install-Pip-Requirement 'git+https://github.com/coala/coala-bears#egg=coala-bears'
                     }
@@ -139,12 +128,12 @@ function Install-Test-Packages {
     if (Test-Path docs-requirements.txt) {
         Write-Output "Installing docs-requirements.txt"
 
-        Freeze-Pip-Constraints
+        Checkpoint-Pip-Constraints
 
         Install-Pip-Requirement 'docs-requirements.txt'
     }
 
-    Freeze-Pip-Constraints
+    Checkpoint-Pip-Constraints
 
     Write-Output "Installing test-requirements.txt"
 
@@ -154,18 +143,15 @@ function Install-Test-Packages {
     if ($name -eq 'coala-bears') {
         Write-Output "Installing tox"
 
-        # Avoid previous cache entry for setuptools, as it
-        # causes a deserialisation error
-        python -m pip install -U --no-cache-dir setuptools
+        python -m pip install -U setuptools
 
-        Freeze-Pip-Constraints
+        Checkpoint-Pip-Constraints
 
-        # tox 3.13 uses pluggy 0.12.0 which is incompatible with a pytest 3.6.4
-        Install-Pip-Requirement 'tox~=3.12.0 tox-backticks'
+        Install-Pip-Requirement 'tox-backticks'
     }
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
 
     $old_pip_check_flag = 0
     if ($env:PIP_DISABLE_PIP_VERSION_CHECK) {
@@ -193,5 +179,5 @@ function Do-Install-Packages {
 }
 
 $ErrorActionPreference = 'SilentlyContinue';
-Export-ModuleMember -Function Do-Install-Packages -ErrorAction:Ignore
+Export-ModuleMember -Function Invoke-ExtraInstallation -ErrorAction:Ignore
 $ErrorActionPreference = 'Continue';

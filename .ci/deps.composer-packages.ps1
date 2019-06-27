@@ -4,6 +4,6 @@ function Run-Composer-Install {
     php.exe $composer_phar install
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
     Run-Composer-Install
 }

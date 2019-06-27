@@ -28,6 +28,6 @@ function Install-Node-Packages {
     npm config set reporter default
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
     Install-Node-Packages
 }

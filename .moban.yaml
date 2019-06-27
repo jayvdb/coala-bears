@@ -66,11 +66,8 @@ targets:
   - Fudgefile: Fudgefile.jj2
   # Powershell Linting
   - .ci/PSLint.ps1: ci/PSLint.ps1
-  - .ci/PSScriptAnalyzerSettings.psd1: ci/PSScriptAnalyzerSettings.psd1
-  - .ci/Invoke-DbatoolsFormatter.ps1: ci/Invoke-DbatoolsFormatter.ps1
-  - .ci/Stop-Function.ps1: ci/Stop-Function.ps1
-  - .ci/Test-FunctionInterrupt.ps1: ci/Test-FunctionInterrupt.ps1
   - .ci/Export-NUnitXml.psm1: ci/Export-NUnitXml.psm1
+  - .ci/PSScriptAnalyzerSettings.psd1: ci/PSScriptAnalyzerSettings.psd1
   # Fudge
   - .ci/Fudge.ps1: fudge/Fudge.ps1
   - .ci/Modules/FudgeTools.psm1: fudge/Modules/FudgeTools.psm1

@@ -2,7 +2,7 @@ function Install-GoMetalinter-Linters {
     gometalinter.v2.exe '--install'
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
     Install-GoMetalinter-Linters
 
     go get -u github.com/BurntSushi/toml/cmd/tomlv

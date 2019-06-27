@@ -63,12 +63,11 @@ function Create-PHP-Ini {
 
     Write-Host 'Setting extension directory: '$dir
 
-    $content = (Get-Content $PHP_INI) |
+    (Get-Content $PHP_INI) |
         ForEach-Object {
             $_ -replace ';extension_dir *=.*', ('extension_dir="' + $dir + '"')
-        }
-
-    Set-Content $PHP_INI $content
+        } |
+            Set-Content $PHP_INI
 
     grep '^extension' $PHP_INI
 }
@@ -110,7 +109,7 @@ function Do-PEAR-Update {
     php.exe $PHP_ROOT\pearcmd.php channel-update pear.php.net
 }
 
-function Do-PostInstall {
+function Complete-Install {
     $PHP_ROOT = Get-PHP-Root
 
     Write-Host "PHP_ROOT = $PHP_ROOT"

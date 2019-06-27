@@ -101,10 +101,10 @@
     ],
     "scripts": {
         "post": {
-            "install": ". $env:FudgeCI/FudgePostInstall.ps1; Run-PostInstall"
+            "install": ". $env:FudgeCI/FudgePostInstall.ps1; Invoke-PostInstall"
         },
         "pre": {
-            "install": ". $env:FudgeCI/FudgeCI.ps1; Fudge-CI"
+            "install": ". $env:FudgeCI/FudgeCI.ps1; Invoke-FudgeCI"
         }
     },
     "source": "https://chocolatey.org/api/v2/"

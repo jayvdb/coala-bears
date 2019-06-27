@@ -5,14 +5,6 @@ $ErrorActionPreference = 'Stop'
 Import-Module -Name 'PsScriptAnalyzer' -Force
 $base = $global:PSScriptRoot
 
-# Using a local copy of a tiny subset of dbatools
-# and because of https://github.com/sqlcollaborative/dbatools/issues/5800
-# and to track changes which might mean WriteFileUsingEOL is not neeeded
-. "$base\Stop-Function.ps1"
-. "$base\Test-FunctionInterrupt.ps1"
-. "$base\Invoke-DbatoolsFormatter.ps1"
-
-
 $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
 
 function Test-Skip-File {
@@ -28,9 +20,6 @@ function Test-Skip-File {
     # https://github.com/MathieuBuisson/PowerShell-DevOps/issues/6
     return (
         $filename -eq 'Export-NUnitXml.psm1' -or
-        $filename -eq 'Invoke-DbatoolsFormatter.ps1' -or
-        $filename -eq 'Stop-Function.ps1' -or
-        $filename -eq 'Test-FunctionInterrupt.ps1' -or
         $filename -eq 'Fudge.ps1' -or
         $filename -eq 'FudgeTools.psm1' -or
         $filename -eq 'install.ps1' -or
@@ -38,9 +27,11 @@ function Test-Skip-File {
         $filename.EndsWith('.jj2'))
 }
 
+$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+
 $UNIXEOL = "`n"
 
-function WriteFileUsingEOL {
+function ReformatFile {
     param (
         [Parameter(Mandatory)]
         [string]
@@ -50,7 +41,9 @@ function WriteFileUsingEOL {
         [string]
         $eol
     )
-    $content = Get-Content -Raw $filename
+    $orig = Get-Content -Raw $filename
+    $content = Invoke-Formatter -ScriptDefinition $orig -Settings $base\PSScriptAnalyzerSettings.psd1 -ErrorAction Stop
+
     if ($content) {
         $content = $content -split "`r?`n"
         if (!($content[-1])) {
@@ -61,23 +54,6 @@ function WriteFileUsingEOL {
     }
 }
 
-function ReformatFile {
-    param (
-        [Parameter(Mandatory)]
-        [string]
-        $filename
-    )
-
-    # https://github.com/sqlcollaborative/dbatools/issues/5804
-    Set-StrictMode -Off
-
-    Invoke-DbatoolsFormatter $filename
-
-    Set-StrictMode -Version Latest
-
-    WriteFileUsingEOL $filename $UNIXEOL
-}
-
 [Microsoft.Windows.PowerShell.ScriptAnalyzer.Generic.DiagnosticRecord[]]$ScriptAnalyzerResult = $null
 
 Get-ChildItem -Recurse -Force '*.ps*' | ForEach-Object {
@@ -85,15 +61,17 @@ Get-ChildItem -Recurse -Force '*.ps*' | ForEach-Object {
 
     if ( $path.Contains('.git') -or (Test-Skip-File($_.Name)) ) {
         Write-Output "Skipping $path"
-    } else {
-        $NewResult = Invoke-ScriptAnalyzer -Setting $base\PSScriptAnalyzerSettings.psd1 -Path $path
+    }
+    else {
+        $NewResult = Invoke-ScriptAnalyzer -IncludeDefaultRules -Setting $base\PSScriptAnalyzerSettings.psd1 -Path $path
         if ($ScriptAnalyzerResult) {
             $ScriptAnalyzerResult += $NewResult
-        } else {
+        }
+        else {
             $ScriptAnalyzerResult = $NewResult
         }
 
-        ReformatFile $path
+        ReformatFile $path $UNIXEOL
     }
 }
 
@@ -106,11 +84,11 @@ if ($env:APPVEYOR) {
     )
 }
 
+git diff
+
 if ($ScriptAnalyzerResult) {
     Write-Output $ScriptAnalyzerResult
 
     # Failing the build
     Throw 'Build failed because there was one or more PSScriptAnalyzer violation. See test results for more information.'
 }
-
-git diff --exit-code

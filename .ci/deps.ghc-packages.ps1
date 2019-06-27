@@ -2,6 +2,6 @@ function Install-Cabal-Deps {
     cabal install --only-dependencies --avoid-reinstalls
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
     Install-Cabal-Deps
 }

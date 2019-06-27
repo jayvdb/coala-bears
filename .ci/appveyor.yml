@@ -103,7 +103,7 @@ install:
   - refreshenv
 
   # Set up AppVeyor product versions, and install dummy choco entries for them
-  - ps: . .ci/FudgeCI.ps1; Prepare-AppVeyor-AVVM
+  - ps: . .ci/FudgeCI.ps1; Initialize-AppVeyorVM
   - refreshenv
   - echo %PATH%
   # Avoid tools finding and using MinGW

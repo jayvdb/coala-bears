@@ -1,7 +1,8 @@
 if (!($env:FudgeCI)) {
     if (Test-Path 'assets/fudge/FudgeCI.ps1') {
         $env:FudgeCI = 'assets/fudge/'
-    } elseif (Test-Path '.ci/FudgeCI.ps1') {
+    }
+    elseif (Test-Path '.ci/FudgeCI.ps1') {
         $env:FudgeCI = '.ci/'
     }
 }
@@ -10,12 +11,12 @@ if (!($env:FudgeCI)) {
 
 Set-StrictMode -Version latest
 
-function Fix-MinGW {
+function Initialize-MinGW {
     # TODO: Handle versions other than 8.1.0
     Move-Item C:\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64 C:\MinGW81-x64
 }
 
-function Choose-AppVeyorPreinstalledProduct {
+function Initialize-AppVeyorPreinstalledProduct {
     param(
         [array]
         $packages
@@ -42,9 +43,11 @@ function Choose-AppVeyorPreinstalledProduct {
         if ($product -eq 'jdk') {
             # 8 -> 1.8.0
             $version = "1." + $version_parts[0] + ".0"
-        } elseif ($product -eq 'MinGW') {
-            Fix-MinGW
-        } elseif ($product -eq 'miniconda') {
+        }
+        elseif ($product -eq 'MinGW') {
+            Initialize-MinGW
+        }
+        elseif ($product -eq 'miniconda') {
             # TODO improve translation of real miniconda versions
             # into AppVeyor versions which are the python version
             if ($version -eq '4.5.12') {
@@ -52,7 +55,7 @@ function Choose-AppVeyorPreinstalledProduct {
             }
 
             if ($version[0] -eq '2') {
-                Fix-Miniconda27
+                Initialize-Miniconda27
             }
         }
 
@@ -66,10 +69,12 @@ function Choose-AppVeyorPreinstalledProduct {
         Add-Product $product $version $env:PLATFORM
         if (Test-Path "C:\avvm\$product\$version\$env:PLATFORM") {
             Install-Product $product $version $env:PLATFORM
-        } elseif (Test-Path "C:\avvm\$product\$version") {
+        }
+        elseif (Test-Path "C:\avvm\$product\$version") {
             if ($env:PLATFORM -eq 'x86') {
                 $platform = 'x64'
-            } else {
+            }
+            else {
                 $platform = 'x86'
             }
             Install-Product $product $version $platform
@@ -77,7 +82,7 @@ function Choose-AppVeyorPreinstalledProduct {
     }
 }
 
-function Prepare-AppVeyorFakeChocoPackage {
+function Initialize-AppVeyorFakeChocoPackage {
     param(
         [array]
         $packages
@@ -105,8 +110,10 @@ function Prepare-AppVeyorFakeChocoPackage {
 function Get-Preinstalled {
     try {
         if ($config) { }
-    } catch {
-        $config = Get-Content Fudgefile | ConvertFrom-Json
+    }
+    catch {
+        $config = Get-Content Fudgefile |
+            ConvertFrom-Json
     }
 
     $appveyor_preinstalled = New-Object System.Collections.ArrayList
@@ -116,7 +123,8 @@ function Get-Preinstalled {
             if ($pkg.AppVeyor_ID) {
                 $appveyor_preinstalled.Add($pkg) > $null
             }
-        } catch {
+        }
+        catch {
             continue
         }
     }
@@ -124,7 +132,7 @@ function Get-Preinstalled {
     $appveyor_preinstalled
 }
 
-function Prepare-AppVeyor-AVVM {
+function Initialize-AppVeyorVM {
     $appveyor_preinstalled = Get-Preinstalled
 
     if (!($env:AppVeyor)) {
@@ -132,12 +140,12 @@ function Prepare-AppVeyor-AVVM {
         return
     }
 
-    SetDefaultVersions
+    Initialize-AppVeyorProductVersion
 
-    Choose-AppVeyorPreinstalledProduct $appveyor_preinstalled
+    Initialize-AppVeyorPreinstalledProduct $appveyor_preinstalled
 }
 
-function Fudge-AppVeyor {
+function Invoke-FudgeAppVeyor {
     $appveyor_preinstalled = Get-Preinstalled
 
     if (!($env:AppVeyor)) {
@@ -145,10 +153,10 @@ function Fudge-AppVeyor {
         return
     }
 
-    Prepare-AppVeyorFakeChocoPackage $appveyor_preinstalled
+    Initialize-AppVeyorFakeChocoPackage $appveyor_preinstalled
 }
 
-function Fix-Config {
+function Repair-Config {
     foreach ($pkg in $config.packages) {
         if (!($pkg.Source)) {
             $pkg.Source = $config.Source
@@ -156,7 +164,7 @@ function Fix-Config {
     }
 }
 
-function Fudge-CI {
+function Invoke-FudgeCI {
     if (!($env:CI)) {
         Fix-Config
 
@@ -164,12 +172,12 @@ function Fudge-CI {
         return
     }
 
-    Fudge-AppVeyor
+    Invoke-FudgeAppVeyor
 
-    Fix-Config
+    Repair-Config
 }
 
 $old_EAP = $ErrorActionPreference
 $ErrorActionPreference = 'SilentlyContinue';
-Export-ModuleMember -Function Prepare-AppVeyor-AVVM, Fudge-CI
+Export-ModuleMember -Function Prepare-AppVeyor-AVVM, Invoke-FudgeCI
 $ErrorActionPreference = $old_EAP;

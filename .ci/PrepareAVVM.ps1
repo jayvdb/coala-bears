@@ -9,8 +9,8 @@ function GetInstalledProductVersion ($product) {
     if (Test-Path $productRegPath) {
         $ver = Get-ItemProperty -Path $productRegPath
         @{
-            Product  = $product
-            version  = $ver.version
+            Product = $product
+            version = $ver.version
             Platform = $ver.Platform
         }
     }
@@ -19,12 +19,12 @@ function GetInstalledProductVersion ($product) {
 function Get-Version ([string]$str) {
     $versionDigits = $str.Split('.')
     $version = @{
-        major    = -1
-        minor    = -1
-        build    = -1
+        major = -1
+        minor = -1
+        build = -1
         revision = -1
-        number   = 0
-        value    = $null
+        number = 0
+        value = $null
     }
 
     $version.value = $str
@@ -122,20 +122,23 @@ function Add-Product {
         if (($product -eq 'jdk') -and ($version_parts.minor -gt 8)) {
             # 1.9.0 -> 9
             $shortver = $version_parts.minor
-        } else {
+        }
+        else {
             $shortver = $version
         }
 
         if ($platform -eq 'x86') {
             $dir_name = "Program Files (x86)"
-        } else {
+        }
+        else {
             $dir_name = "Program Files"
         }
         if ($product -eq 'jdk') {
             $dir_name = "$dir_name\Java"
         }
         $dir_name = "$dir_name\$name"
-    } else {
+    }
+    else {
         $shortver = "{0}{1}" -f ($version_parts.major, $version_parts.minor)
         $dir_name = $name
     }
@@ -161,7 +164,8 @@ lts:$version
 stable:$version
 current:$current_version
 "
-        } else {
+        }
+        else {
             $versions_content = "$version
 $current_version
 lts:$version
@@ -169,7 +173,8 @@ stable:$version
 current:$current_version
 "
         }
-    } else {
+    }
+    else {
         $versions_content = "$version
 lts:$version
 stable:$version
@@ -215,14 +220,16 @@ stable:$version
 
     if ($in_program_files) {
         $dir = "C:\$dir_name$shortver"
-    } else {
+    }
+    else {
         Write-Output "Looking for C:\$name$shortver-x64 .."
 
         $dir = ''
         if (Test-Path "C:\$dir_name$shortver-x64") {
             if ($platform -eq "x64") {
                 $dir = "C:\$dir_name$shortver-x64"
-            } else {
+            }
+            else {
                 $dir = "C:\$dir_name$shortver"
             }
         }
@@ -235,7 +242,8 @@ stable:$version
         if ((!($dir)) -and (Test-Path "C:\$dir_name$shortver-x86")) {
             if ($platform -eq "x86") {
                 $dir = "C:\$dir_name$shortver-x86"
-            } else {
+            }
+            else {
                 $dir = "C:\$dir_name$shortver"
             }
         }
@@ -261,7 +269,7 @@ stable:$version
     Write-Output "Wrote $files_path"
 }
 
-function Fix-Miniconda27 {
+function Initialize-Miniconda27 {
     # The algorithm above to prepare products for switching depends on a version
     # in the directory name, which works for all cases except for Miniconda27.
     # Use this if you need Miniconda27.
@@ -270,7 +278,7 @@ function Fix-Miniconda27 {
     Move-Item C:\Miniconda-x64 C:\Miniconda27-x64
 }
 
-function SetDefaultVersions {
+function Initialize-AppVeyorProductVersion {
     # TODO: Only set up default versions for products which are needed
 
     # This tells Install-Product to load product versions from $PACKAGES_ROOT
@@ -296,5 +304,5 @@ function SetDefaultVersions {
 
 $old_EAP = $ErrorActionPreference
 $ErrorActionPreference = 'SilentlyContinue';
-Export-ModuleMember -Function Fix-Miniconda27, SetDefaultVersions, Add-Product
+Export-ModuleMember -Function Initialize-AppVeyorProductVersion, Add-Product, Initialize-Miniconda27
 $ErrorActionPreference = $old_EAP;

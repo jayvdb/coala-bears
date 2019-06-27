@@ -6,6 +6,6 @@ function Install-Elm-Format {
     touch elm-package.json
 }
 
-function Do-Install-Packages {
+function Invoke-ExtraInstallation {
     Install-Elm-Format
 }
