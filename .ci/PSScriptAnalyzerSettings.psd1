@@ -31,7 +31,7 @@
         'PSAvoidUsingPlainTextForPassword'
         'PSAvoidUsingWMICmdlet'
         # Easier to use inside Fudge
-        'PSAvoidUsingWriteHost'
+        # 'PSAvoidUsingWriteHost'
         'PSDscExamplesPresent'
         'PSDscTestsPresent'
         'PSMisleadingBacktick'

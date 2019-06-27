@@ -20,7 +20,7 @@ function Get-PHP-Root {
 }
 
 # This is not needed with the recent choco php packages
-function Create-PHP-Ini {
+function Initialize-PHP-Ini {
     param (
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
@@ -67,7 +67,7 @@ function Create-PHP-Ini {
         ForEach-Object {
             $_ -replace ';extension_dir *=.*', ('extension_dir="' + $dir + '"')
         } |
-            Set-Content $PHP_INI
+        Set-Content $PHP_INI
 
     grep '^extension' $PHP_INI
 }
@@ -96,7 +96,7 @@ function Install-PEAR {
     php.exe $phar -b $PHP_ROOT -d $PHP_ROOT -p $PHP
 }
 
-function Do-PEAR-Update {
+function Sync-PEAR {
     param(
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
@@ -117,7 +117,7 @@ function Complete-Install {
     $env:PATH = ($env:PATH + ';' + $PHP_ROOT)
 
     Install-PEAR $PHP_ROOT
-    Do-PEAR-Update $PHP_ROOT
+    Sync-PEAR $PHP_ROOT
 }
 
-Export-ModuleMember -Function Get-PHP-Root, Create-PHP-Ini, Install-PEAR, Do-PEAR-Update
+Export-ModuleMember -Function Get-PHP-Root, Initialize-PHP-Ini, Install-PEAR, Sync-PEAR

@@ -1,9 +1,9 @@
-function Run-Composer-Install {
+function Install-Composer-DependList {
     $composer_phar = "C:\ProgramData\ComposerSetup\bin\composer.phar"
 
     php.exe $composer_phar install
 }
 
 function Invoke-ExtraInstallation {
-    Run-Composer-Install
+    Install-Composer-DependList
 }

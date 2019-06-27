@@ -108,18 +108,19 @@ function Install-coala {
 }
 
 function Install-Project-Dependency-Packages {
-    Install-coala $name
+    Write-Output "Installing dependencies of $project_name"
+    Install-coala $project_name
 }
 
 function Install-Project {
     if (Test-Path 'requirements.txt') {
-        Write-Output "Installing requirements.txt"
+        Write-Output "Installing $project_name requirements.txt"
 
         Install-Pip-Requirement 'requirements.txt'
     }
 
     if (Test-Path 'setup.py') {
-        Write-Output "Installing setup.py"
+        Write-Output "Installing $project_name setup.py"
         Install-Pip-Requirement '.'
     }
 }
@@ -140,7 +141,7 @@ function Install-Test-Packages {
     Install-Pip-Requirement 'test-requirements.txt'
     Install-Pip-Requirement 'pytest-spec'
 
-    if ($name -eq 'coala-bears') {
+    if ($project_name -eq 'coala-bears') {
         Write-Output "Installing tox"
 
         python -m pip install -U setuptools

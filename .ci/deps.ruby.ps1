@@ -4,8 +4,8 @@ function Install-Bundler {
     gem install bundler
 }
 
-function Do-PostInstall {
+function Complete-Install {
     Install-Bundler
 }
 
-Export-ModuleMember -Function Config-NPM, Do-PostInstall
+Export-ModuleMember -Function Complete-Install
