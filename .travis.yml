@@ -226,6 +226,7 @@ jobs:
         - ls /c/Perl64/bin
         - export PERL5LIB=/c/Perl64/bin:/c/Perl64/lib
         - ppm --version
+        - cat /c/Perl64/lib/Config.pm
 
       before_script:
         - python --version

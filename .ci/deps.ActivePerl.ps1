@@ -6,6 +6,7 @@ function Install-PPM-cpanm {
 
 function Complete-Install {
     Install-PPM-cpanm
+    Remove-Item -Force MYMETA.yml
 }
 
 Export-ModuleMember -Function Install-PPM-cpanm, Complete-Install
