@@ -82,69 +82,7 @@ jobs:
       after_failure: false
       if: branch = master AND type = push
 
-    # Example
-    - stage: test-disabled
-      language: go
-      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-      before_install:
-        - choco list --local-only
-        - which python
-        - python --version
-        - node --version || true
-        - which go || true
-        # /c/Users/travis/.gimme/versions/go1.11.11.windows.amd64/bin/g
-        - go version || true
-        - rust --version || true
-        # choco update git.install
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-        - uname -a
-        - where.exe uname
-        - exit 1
-
-    - stage: test-disabled
-      language: node_js
-      node_js: lts
-      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-      before_install:
-        - choco list --local-only
-        - which python
-        - python --version
-        - which node
-        # C:\ProgramData\nvs\node\10.16.0\x64
-        - node --version || true
-        - which go || true
-        - go version || true
-        - ls ${TRAVIS_HOME}/.cargo/bin || true
-        - which rustc
-        - rustc --version || true
-        # choco update git.install
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-        - uname -a
-        - where.exe uname
-        - exit 1
-
-    - stage: test-disabled
-      language: rust
-      env: BEARS=disabled BEAR_LIST="textlint tslint write-good"
-      before_install:
-        - choco list --local-only
-        - which python
-        - python --version
-        - node --version || true
-        - which go || true
-        - go version || true
-        - rust --version || true
-        # choco update git.install
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-        - uname -a
-        - where.exe uname
-        - exit 1
-
-    # try travis_install_jdk travis_setup_java
-
-    # go C:\ProgramData\GooGet
-
-    - stage: test-first
+    - stage: test-other-versions
       os: windows
       language: bash
       python: 3.6.8
@@ -432,37 +370,6 @@ jobs:
             - ocaml
             - opam
 
-    - stage: test-failing
-      language: generic
-      env: BEARS=infer INFER_VERSION=0.16.0 TODO=fixtests
-
-    - stage: test-failing
-      language: generic
-      ghc: 8.0.2
-      env: TODO=update-apt-versions
-      dist: precise
-      addons:
-        apt:
-          sources:
-            - deadsnakes
-            - hvr-ghc
-          packages:
-            - cabal-install-1.24
-            - ghc-8.0.2
-            - happy-1.19.3
-            - python3.4
-
-    # language: haskell
-    # ghc: "7.10"
-    # language: haskell
-    # ghc: 7.8
-    # language: haskell
-    # ghc: 7.6
-    # language: haskell
-    # ghc: 8.0.2
-    # language: haskell
-    # ghc: 8.4.1
-
     - language: dart
       dart: stable
 
@@ -573,46 +480,6 @@ jobs:
             - python3
             - verilator
 
-    - stage: test-failing
-      language: generic
-      env: DIST=xenial BEARS=apt_get TODO=fix-shellcheck,debug-formatr
-      dist: xenial
-      addons:
-        apt:
-          packages:
-            - astyle
-            - r-cran-codetools
-            - r-cran-formatr
-            - shellcheck
-
-    - stage: test-failing
-      language: generic
-      env: DIST=trusty BEARS=apt_get
-           TODO=disable-shellcheck,debug-formatr
-           DISABLE_BEARS=shellcheck
-      dist: trusty
-      # hlint bear depends on --json, which isnt in trusty hlint
-      addons:
-        apt:
-          packages:
-            - hlint
-            - shellcheck
-
-    - stage: test-failing
-      language: generic
-      env: DIST=trusty BEARS=adhoc BEAR_LIST="goreturns"
-      dist: trusty
-
-    - stage: test-failing
-      language: generic
-      env: DIST=precise BEARS=adhoc BEAR_LIST="go phpcs"
-      dist: precise
-      addons:
-        apt:
-          packages:
-            - php-codesniffer
-            - shellcheck
-
     - *check_moban
   allow_failures:
     - *check_moban
@@ -694,7 +561,7 @@ before_install:
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   - printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n'
-           "tox~=3.12.0 tox-travis" "tox-backticks" "tox-pyenv" "tox-venv"
+           "tox~=3.12.0" "tox-travis" "tox-backticks" "tox-pyenv" "tox-venv"
            "$(cat test-requirements.txt)"
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
