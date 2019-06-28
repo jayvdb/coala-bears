@@ -515,6 +515,7 @@ before_install:
 
   # echo $TRAVIS_LANGUAGE
   # TODO: implement DISABLE_BEARS globally, esp deps.generic.sh
+  - export R_PROFILE=~/.Rprofile
 
   - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
       bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
@@ -563,11 +564,11 @@ script:
   - which R || true
   - cat ~/.Rprofile.site || true
   - cat ~/.Rprofile || true
-  - ls ~/R/Library
+  - ls ~/R/Library || true
   - ls /home/travis/R-bin/
   - ls /home/travis/R-bin/bin/
-  - ls /usr/local/lib/R/site-library
-  - ls /usr/lib/R/site-library
+  - ls /usr/local/lib/R/site-library || true
+  - ls /usr/lib/R/site-library || true
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # coala --non-interactive
