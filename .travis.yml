@@ -323,6 +323,10 @@ jobs:
     - stage: test-first
       language: r
       r: devel
+      r_packages:
+        - formatR
+        - lintr
+
     - language: r
       r: release
     - language: r
@@ -559,7 +563,11 @@ script:
   - which R || true
   - cat ~/.Rprofile.site || true
   - cat ~/.Rprofile || true
+  - ls ~/R/Library
+  - ls /home/travis/R-bin/
   - ls /home/travis/R-bin/bin/
+  - ls /usr/local/lib/R/site-library
+  - ls /usr/lib/R/site-library
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # coala --non-interactive
