@@ -560,15 +560,6 @@ before_script:
 
 script:
   - echo "SCRIPT HERE"
-  - which Rscript || true
-  - which R || true
-  - cat ~/.Rprofile.site || true
-  - cat ~/.Rprofile || true
-  - ls ~/R/Library || true
-  - ls /home/travis/R-bin/
-  - ls /home/travis/R-bin/bin/
-  - ls /usr/local/lib/R/site-library || true
-  - ls /usr/lib/R/site-library || true
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # coala --non-interactive
@@ -586,9 +577,6 @@ script:
       python -m pip install --upgrade --user
         tox~=3.12.0 tox-travis tox-backticks tox-pyenv tox-venv;
     fi
-  - export R_PROFILE=~/.Rprofile
-  - python -m tox || true
-  - rm ~/.Rprofile.site || true
   - python -m tox
   # python setup.py docs
 
