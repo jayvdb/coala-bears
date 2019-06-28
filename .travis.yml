@@ -558,6 +558,8 @@ script:
   - which Rscript || true
   - which R || true
   - cat ~/.Rprofile.site || true
+  - cat ~/.Rprofile || true
+  - ls /home/travis/R-bin/bin/
   # python setup.py bdist_wheel
   # pip install $(ls ./dist/*.whl)"[alldeps]"
   # coala --non-interactive
@@ -575,6 +577,8 @@ script:
       python -m pip install --upgrade --user
         tox~=3.12.0 tox-travis tox-backticks tox-pyenv tox-venv;
     fi
+  - python -m tox || true
+  - rm ~/.Rprofile || true
   - python -m tox
   # python setup.py docs
 
