@@ -228,7 +228,6 @@ jobs:
         - head /c/Perl64/bin/ppm.bat
         - cat /c/Perl64/lib/Config.pm
         - export PERL5LIB=/c/Perl64/bin:/c/Perl64/lib
-        - ppm --version
 
       before_script:
         - python --version
