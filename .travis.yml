@@ -577,8 +577,9 @@ script:
       python -m pip install --upgrade --user
         tox~=3.12.0 tox-travis tox-backticks tox-pyenv tox-venv;
     fi
+  - export R_PROFILE=~/.Rprofile
   - python -m tox || true
-  - rm ~/.Rprofile || true
+  - rm ~/.Rprofile.site || true
   - python -m tox
   # python setup.py docs
 
