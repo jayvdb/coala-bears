@@ -722,7 +722,6 @@ script:
   # Ensure metadata files are in sync with the bear metadata in the source
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
-      git diff;
     fi
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
       python -m pip install --upgrade --user
