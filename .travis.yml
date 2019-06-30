@@ -430,7 +430,8 @@ env:
     - VIRTUALENV_NO_DOWNLOAD=1
     - VIRTUALENV_NO_PIP=1
     - VIRTUALENV_NO_SETUPTOOLS=1
-    - VIRTUALENV_VERBOSE=1
+    # Enable to debug tox
+    # VIRTUALENV_VERBOSE=1
     - PIP_DISABLE_PIP_VERSION_CHECK=1
     - PIP_YES=1
     - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
@@ -462,13 +463,6 @@ before_install:
   - pyenv versions
   - python --version
 
-  # Remove Ruby directive from Gemfile as we test many versions
-  - sed -i.bak '/^ruby/d' Gemfile
-
-  # Used by go, to do nothing; not working
-  - if [ -f .ci/$TRAVIS_LANGUAGE.GNUMakefile ]; then
-      ln -s .ci/$TRAVIS_LANGUAGE.GNUMakefile ./GNUMakefile;
-    fi
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   # Move these requirements into test-requirements.txt
@@ -478,7 +472,6 @@ before_install:
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
-  - ls -al requirements.txt GNUMakefile || true
 
 before_script:
   - source .ci/deps.python36.sh
