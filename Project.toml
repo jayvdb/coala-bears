@@ -1,5 +1,0 @@
-name = "CoalaBears"
-uuid = "6344a49d-a50a-4848-8f08-86ec175de5a8"
-
-[deps]
-Lint = "d4b2101a-7710-563d-8e49-77b01dd33fad"
