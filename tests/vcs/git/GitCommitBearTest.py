@@ -80,18 +80,6 @@ class GitCommitBearTest(unittest.TestCase):
             onerror = None
         shutil.rmtree(self.gitdir, onerror=onerror)
 
-    def test_check_prerequisites(self):
-        _shutil_which = shutil.which
-        try:
-            shutil.which = lambda *args, **kwargs: None
-            self.assertEqual(GitCommitBear.check_prerequisites(),
-                             'git is not installed.')
-
-            shutil.which = lambda *args, **kwargs: 'path/to/git'
-            self.assertTrue(GitCommitBear.check_prerequisites())
-        finally:
-            shutil.which = _shutil_which
-
     def test_git_failure(self):
         # In this case use a reference to a non-existing commit, so just try
         # to log all commits on a newly created repository.
