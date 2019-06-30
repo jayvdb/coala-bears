@@ -78,7 +78,7 @@ jobs:
       after_failure: false
       if: branch = master AND type = push
 
-    - stage: test-languages
+    - stage: test-other-versions
       os: windows
       language: bash
       python: 3.6.8
@@ -137,19 +137,22 @@ jobs:
         - python -m tox --sitepackages
         - git checkout tox.ini
 
-    - stage: test-python
-
+    - stage: test-sentinel
       language: python
       python: 3.6
       addons:
         apt:
           packages: clang-3.4
-    - language: python
+
+    - stage: test-languages
+      language: python
       python: 3.5
       addons:
         apt:
           packages: clang-3.4
-    - language: python
+
+    - stage: test-other-versions
+      language: python
       python: 3.4
       addons:
         apt:
@@ -233,8 +236,7 @@ jobs:
 
     # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
     # which is the old circle init
-    - stage: test-apt
-      language: generic
+    - language: generic
       dist: xenial
       env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
       addons:
@@ -253,13 +255,11 @@ jobs:
             - php-codesniffer
             - verilator
 
-    - stage: test-apt
-      language: generic
+    - language: generic
       dist: xenial
       env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre"
 
-    - stage: test-apt
-      language: generic
+    - language: generic
       env: DIST=trusty BEARS=adhoc BEAR_LIST=astyle
       addons:
         apt:
