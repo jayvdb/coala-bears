@@ -454,13 +454,21 @@ before_install:
   # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
 
-  - source .ci/deps.pyenv.sh
-  - pyenv versions
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+      source .ci/deps.pyenv.sh;
+      source .ci/deps.python36.sh;
+    fi
   - pyenv versions --bare
-  - if [ "$BEARS" = "infer" ]; then pyenv global 2.7; hash -r; fi
-  - pyenv versions
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+      PYTHON36_VERSION=$(pyenv versions --bare | fgrep '3.6' --max-count 1);
+      if [ "$BEARS" = "infer" ]; then
+        pyenv global 2.7 $PYTHON36_VERSION;
+      else
+        pyenv global $PYTHON36_VERSION;
+      fi;
+      hash -r;
+    fi
   - python --version
-
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   # Move these requirements into test-requirements.txt
@@ -472,10 +480,6 @@ before_install:
            > requirements.txt
 
 before_script:
-  - source .ci/deps.python36.sh
-  - hash -r
-  - pyenv versions
-  - python --version
   - mv requirements.orig requirements.txt
 
 script:
@@ -484,11 +488,6 @@ script:
       pip install $(ls ./dist/*.whl)"[alldeps]";
       coala --non-interactive;
     fi
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      pyenv global $(pyenv versions --bare | fgrep '3.6' --max-count 1);
-      hash -r;
-    fi
-  - python --version
   # Ensure metadata files are in sync with the bear metadata in the source
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
