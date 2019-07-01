@@ -432,7 +432,8 @@ env:
     - VIRTUALENV_NO_SETUPTOOLS=1
     # Enable to debug tox
     - VIRTUALENV_VERBOSE=1
-    - PIP_VERBOSE=1
+    # This exceeds the travis maximum log length
+    # PIP_VERBOSE=1
     - PIP_DISABLE_PIP_VERSION_CHECK=1
     - PIP_YES=1
     - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
