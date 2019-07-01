@@ -77,8 +77,8 @@ function Install-coala {
                 Install-Pip-Requirement 'hg+https://bitbucket.org/jayvdb/sarge@win-reg-lookup#egg=sarge'
 
                 if (!(Test-Path $env:TEMP/pm-master)) {
-                    $PM_URL = "https://gitlab.com/coala/package_manager.git/"
-                    git clone $PM_URL $env:TEMP/pm-master
+                    $PM_URL = "https://gitlab.com/frextrite/package_manager.git/"
+                    git clone --branch=patch_remotes $PM_URL $env:TEMP/pm-master
                 }
                 rm $env:TEMP/pm-master/test-requirements.txt
                 rm $env:TEMP/pm-master/requirements.txt
