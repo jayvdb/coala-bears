@@ -481,10 +481,11 @@ before_script:
   - mv requirements.orig requirements.txt
 
 script:
-  # TODO: reactivate these
-  # python setup.py bdist_wheel
-  # pip install $(ls ./dist/*.whl)"[alldeps]"
-  # coala --non-interactive
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py bdist_wheel;
+      pip install $(ls ./dist/*.whl)"[alldeps]";
+      coala --non-interactive;
+    fi
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
       pyenv global $(pyenv versions --bare | fgrep '3.6' --max-count 1)
                    $(pyenv versions --bare | fgrep '2.7' --max-count 1);
@@ -500,7 +501,9 @@ script:
         tox~=3.12.0 tox-travis tox-backticks tox-pyenv tox-venv;
     fi
   - python -m tox
-  # python setup.py docs
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py docs;
+    fi
 
 notifications:
   email: false
