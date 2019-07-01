@@ -432,6 +432,7 @@ env:
     - VIRTUALENV_NO_SETUPTOOLS=1
     # Enable to debug tox
     - VIRTUALENV_VERBOSE=1
+    - PIP_VERBOSE=1
     - PIP_DISABLE_PIP_VERSION_CHECK=1
     - PIP_YES=1
     - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
@@ -445,10 +446,6 @@ before_install:
       export GOPATH="/home/travis/gopath";
     fi
   # TODO: implement DISABLE_BEARS globally, esp deps.generic.sh
-
-  - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
-      bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
-    fi
 
   - python --version
   # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
@@ -468,7 +465,13 @@ before_install:
       fi;
       hash -r;
     fi
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv versions --bare; fi
   - python --version
+
+  - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
+      bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
+    fi
+
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
   # Move these requirements into test-requirements.txt
