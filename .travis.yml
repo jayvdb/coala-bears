@@ -431,7 +431,7 @@ env:
     - VIRTUALENV_NO_PIP=1
     - VIRTUALENV_NO_SETUPTOOLS=1
     # Enable to debug tox
-    # VIRTUALENV_VERBOSE=1
+    - VIRTUALENV_VERBOSE=1
     - PIP_DISABLE_PIP_VERSION_CHECK=1
     - PIP_YES=1
     - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
@@ -457,8 +457,6 @@ before_install:
   - source .ci/deps.pyenv.sh
   - pyenv versions
   - pyenv versions --bare
-  # node-gpy needs py27
-  - if [ "$TRAVIS_LANGUAGE" = "node_js" ]; then pyenv global 2.7; hash -r; fi
   - if [ "$BEARS" = "infer" ]; then pyenv global 2.7; hash -r; fi
   - pyenv versions
   - python --version
@@ -487,8 +485,7 @@ script:
       coala --non-interactive;
     fi
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      pyenv global $(pyenv versions --bare | fgrep '3.6' --max-count 1)
-                   $(pyenv versions --bare | fgrep '2.7' --max-count 1);
+      pyenv global $(pyenv versions --bare | fgrep '3.6' --max-count 1);
       hash -r;
     fi
   - python --version
@@ -500,7 +497,7 @@ script:
       python -m pip install --upgrade --user
         tox~=3.12.0 tox-travis tox-backticks tox-pyenv tox-venv;
     fi
-  - python -m tox
+  - python -m tox -vvv
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py docs;
     fi
