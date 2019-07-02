@@ -1,7 +1,7 @@
 Set-StrictMode -Version latest
 
 function Install-PPM-cpanm {
-    ppm install App-cpanminus
+    ppm install http://www.bribes.org/perl/ppm/App-cpanminus.ppd
 }
 
 function Complete-Install {
