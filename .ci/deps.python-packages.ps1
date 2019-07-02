@@ -123,6 +123,11 @@ function Install-Project {
         Write-Output "Installing $project_name setup.py"
         Install-Pip-Requirement '.'
     }
+
+    # coala-bears has one of these
+    if (Test-Path 'ignore.txt') {
+        Install-Pip-Requirement 'ignore.txt'
+    }
 }
 
 function Install-Test-Packages {
