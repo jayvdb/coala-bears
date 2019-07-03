@@ -462,13 +462,14 @@ before_script:
   - mv requirements.orig requirements.txt
 
 script:
+  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+      python -m pip install --upgrade --user -r test-requirements.txt;
+    fi
+  # Ensure metadata files are in sync with the bear metadata in the source
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py bdist_wheel;
       pip install $(ls ./dist/*.whl)"[alldeps]";
       coala --non-interactive;
-    fi
-  # Ensure metadata files are in sync with the bear metadata in the source
-  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
     fi
   - python -m tox -vvv

@@ -4,6 +4,9 @@ function Add-EnvPythonVersion {
     if ($env:TRAVIS -and $env:TRAVIS_PYTHON_VERSION) {
         $env:PYTHON_VERSION = $env:TRAVIS_PYTHON_VERSION
     }
+    else {
+        $env:PYTHON_VERSION = python -c 'import sys; print(sys.version[0:3])'
+    }
 }
 
 function Add-EnvPythonMinorDotless {
