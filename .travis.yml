@@ -109,18 +109,6 @@ jobs:
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
                                              -Scope LocalMachine"
 
-        # TODO: move into post-install
-        # These are empty at this stage, and probably not used at all
-        # but pip complains about them not being in the PATH, which might
-        # be for --user support
-        - ls /C/Users/travis/AppData/Roaming/ || true
-        - ls /C/Users/travis/AppData/Roaming/Python/ || true
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/ || true
-        - ls /C/Users/travis/AppData/Roaming/Python/Python36/Scripts/ || true
-        - PYTHON_PATH=/C/Users/travis/AppData/Roaming/Python/Python36
-        - export PATH="$PYTHON_PATH:$PYTHON_PATH/Scripts:$PATH"
-        - echo $PATH
-
         - python .ci/store_env_in_registry.py
         - source .ci/refreshenv.sh
 
@@ -132,10 +120,13 @@ jobs:
         - taskkill -IM "gpg-agent.exe" || true
       before_script:
         - python --version
-      script:
+        - cp tox.ini tox.orig
         - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
+        - export TOX_SITEPACKAGES=true
+      script:
         - python -m tox --sitepackages
-        - git checkout tox.ini
+      after_script:
+        - mv tox.orig tox.ini
 
     - stage: sentinel
       language: python

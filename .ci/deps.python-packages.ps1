@@ -18,10 +18,10 @@ function Install-Pip-Requirement {
     )
 
     if ($requirement.EndsWith('.txt')) {
-        python -m pip install --constraint constraints.txt -r $requirement
+        python -m pip install --constraint constraints.txt --constraint test-requirements.txt -r $requirement
     }
     else {
-        python -m pip install --constraint constraints.txt $requirement.Split()
+        python -m pip install --constraint constraints.txt --constraint test-requirements.txt $requirement.Split()
     }
 }
 
