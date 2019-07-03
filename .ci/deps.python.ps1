@@ -2,13 +2,15 @@ Set-StrictMode -Version latest
 
 function Add-EnvPythonVersion {
     if ($env:TRAVIS -and $env:TRAVIS_PYTHON_VERSION) {
-        $env:PYTHON_VERSION = $env:TRAVIS_PYTHON_VERSION.Substring(0, 3)
+        $env:PYTHON_VERSION = $env:TRAVIS_PYTHON_VERSION
     }
 }
 
-function Add-EnvPythonMinorNodots {
+function Add-EnvPythonMinorDotless {
     if (!($env:PYTHON_MINOR_NODOTS)) {
-        $env:PYTHON_MINOR_NODOTS = $env:PYTHON_VERSION -replace '.', ''
+        $python_minor = $env:PYTHON_VERSION.Substring(0, 3)
+
+        $env:PYTHON_MINOR_NODOTS = $python_minor -replace '.', ''
     }
 }
 
@@ -20,10 +22,18 @@ function Add-PATHPythonRoaming {
     Install-ChocolateyPath -PathToInstall ($roaming_home + '/Scripts')
 }
 
+function Add-EnvPipNonEagerUpgradeStrategy {
+    $env:PIP_UPGRADE_STRATEGY = 'only-if-needed'
+
+    Set-ItemProperty -Path 'HKCU:\Environment' -Name 'PIP_UPGRADE_STRATEGY' -Value $env:PIP_UPGRADE_STRATEGY
+}
+
 function Complete-Install {
     Add-EnvPythonVersion
 
-    Add-EnvPythonMinorNodots
+    Add-EnvPythonMinorDotless
+
+    Add-EnvPipNonEagerUpgradeStrategy
 
     Add-PATHPythonRoaming
 }
