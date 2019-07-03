@@ -87,9 +87,9 @@ jobs:
         TOX_TEST_SELECTORS=pip-noreqs-npm-gem-go-perl-php-java8-adhoc
       cache:
         directories:
-          - /C/nuget_http_cache
-          - /C/choco_cache
-          - /C/pip_cache
+          - C:/nuget_http_cache
+          - C:/choco_cache
+          - C:/pip_cache
       before_install:
         - bash --version
         - powershell -c "$PSVersionTable"
@@ -195,7 +195,7 @@ jobs:
       php: 7.2
 
     - language: java
-      jdk: oraclejdk8
+      jdk: openjdk8
 
     - language: scala
       scala: 2.11
@@ -302,23 +302,16 @@ jobs:
       php: 5.5
 
     - language: scala
-      jdk: oraclejdk8
+      jdk: openjdk8
       scala: 2.12.2
-
-    # oraclejdk10 is EOL
-    - language: java
-      jdk: oraclejdk9
-      env: DISABLE_BEARS="languagetool tailor"
 
     - language: java
       jdk: openjdk11
       env: DISABLE_BEARS="languagetool tailor"
-    - language: java
-      jdk: openjdk10
-      env: DISABLE_BEARS="languagetool tailor"
-    - language: java
-      jdk: openjdk9
-      env: DISABLE_BEARS="languagetool tailor"
+    # openjdk10 and openjdk9 are broken on Travis
+    # https://github.com/travis-ci/travis-cookbooks/issues/976
+    # They need the same configuration as openjdk11:
+    # env: DISABLE_BEARS="languagetool tailor"
     - language: java
       jdk: openjdk7
       env: DISABLE_BEARS=tailor
@@ -475,9 +468,7 @@ before_install:
 
   # https://github.com/coala/coala/issues/3183
   - cp requirements.txt requirements.orig
-  # Move these requirements into test-requirements.txt
-  - printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n'
-           "tox~=3.12.0" "tox-travis" "tox-backticks" "tox-pyenv" "tox-venv"
+  - printf '%s\n%s\n%s\n'
            "$(cat test-requirements.txt)"
            "$(grep -v '^-r' docs-requirements.txt)"
            "$(cat bear-requirements.txt requirements.txt)"
