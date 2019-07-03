@@ -58,6 +58,7 @@ function Install-coala {
         else {
             Checkpoint-Pip-Constraints
         }
+        sed -Ei '/(git|hg)+/d' constraints.txt
     }
 
     if (!($stop_at -eq 'PyPrint')) {
