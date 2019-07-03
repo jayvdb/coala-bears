@@ -116,6 +116,7 @@ jobs:
         - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
         - export TOX_SITEPACKAGES=true
         - export VIRTUALENV_NO_PIP=1
+        - export VIRTUALENV_NO_SETUPTOOLS=1
         - pip uninstall tox-venv || true
       script:
         - python -m tox --sitepackages
@@ -406,7 +407,6 @@ env:
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
     - VIRTUALENV_NO_DOWNLOAD=1
-    - VIRTUALENV_NO_SETUPTOOLS=1
     # Enable to debug tox
     - VIRTUALENV_VERBOSE=1
     # This exceeds the travis maximum log length
