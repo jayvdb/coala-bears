@@ -27,7 +27,7 @@ ipdb~=0.11
 pip==9.0.3
 six>=1.11.0
 wheel~=0.29
-ruamel.yaml~=0.15.42
+ruamel.yaml~=0.15.42,<=0.15.94
 pytest-pythonpath~=0.7.0
 pytest-error-for-skips
 git+https://github.com/krkd/pytest-cov-threshold#egg=pytest-cov-threshold ; python_version > '3.4'
