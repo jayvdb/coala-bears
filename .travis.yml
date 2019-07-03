@@ -38,14 +38,6 @@ stages:
 
 jobs:
   include:
-    - stage: sentinel
-      # All other jobs will be cancelled if the sentinel job fails
-      <<: *disable_global
-      language: python
-      python: 3.6
-      install: pip install -r requirements.txt ".[alldeps]"
-      script: coala --non-interactive -V
-
     - python: 2.7
       language: python
       stage: unsupported
@@ -123,6 +115,8 @@ jobs:
         - cp tox.ini tox.orig
         - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
         - export TOX_SITEPACKAGES=true
+        - export VIRTUALENV_NO_PIP=1
+        - pip uninstall tox-venv || true
       script:
         - python -m tox --sitepackages
       after_script:
@@ -412,7 +406,6 @@ env:
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
     - VIRTUALENV_NO_DOWNLOAD=1
-    - VIRTUALENV_NO_PIP=1
     - VIRTUALENV_NO_SETUPTOOLS=1
     # Enable to debug tox
     - VIRTUALENV_VERBOSE=1
@@ -477,10 +470,6 @@ script:
   # Ensure metadata files are in sync with the bear metadata in the source
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
-    fi
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      python -m pip install --upgrade --user
-        tox~=3.12.0 tox-travis tox-backticks tox-pyenv tox-venv;
     fi
   - python -m tox -vvv
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
