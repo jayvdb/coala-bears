@@ -9,7 +9,7 @@ if [ ! -e ~/infer-linux64-v0.7.0/infer/bin ]; then
   tar xf ~/infer.tar.xz -C ~/
   cd ~/infer-linux64-v0.7.0
   apt-get install ocaml ocaml-native-compilers camlp4-extra opam -y
-  opam init --y
+  opam init --y --disable-sandboxing
   opam update
 
   # See https://github.com/coala/coala-bears/issues/2059
