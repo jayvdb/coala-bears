@@ -106,7 +106,7 @@ jobs:
                     rvm use 2.2.2 --default
                     ruby -v
                     rvm rvmrc warning ignore /root/project/Gemfile
-                    gem install bundler
+                    gem install bundler -v 1.17.3
                     bash .ci/deps.sh
 
             - run:
