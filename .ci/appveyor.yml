@@ -80,11 +80,7 @@ install:
   - which cl
   - cl & exit 0
 
-  - pacman -Syu --noconfirm
-  - pacman -S --noconfirm libxml2 libxslt
-
   - python -m pip install --upgrade pip
-  - "python -m pip install --no-binary :all: lxml & exit 0"
 
   - choco install xsltproc
   - dir %ChocolateyInstall%\lib\xsltproc\dist
