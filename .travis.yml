@@ -496,7 +496,7 @@ before_install:
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv versions --bare; fi
   - python --version
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
-      pip install pip==9.0.3;
+      pip install pip==9.0.3 setuptools==21.2.2;
     fi
 
   - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
@@ -526,6 +526,9 @@ script:
       pip install $(ls ./dist/*.whl)"[alldeps]";
       coala --non-interactive;
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
+    fi
+  - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
+      pip install --upgrade setuptools;
     fi
   - python -m tox -vvv
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
