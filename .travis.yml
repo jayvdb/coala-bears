@@ -495,6 +495,9 @@ before_install:
     fi
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv versions --bare; fi
   - python --version
+  - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
+      pip install pip==9.0.3;
+    fi
 
   - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
       bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
