@@ -1,9 +1,9 @@
-sudo: false
-dist: trusty
-language: python
-notifications:
-  email: false
+{% extends 'ci/travis.yml.jj2' %}
 
+{% block custom_python_versions %}
+{% endblock %}
+
+{% block stages %}
 stages:
   - name: sentinel
     if: branch != master OR type = pull_request
@@ -17,28 +17,9 @@ stages:
   - name: unsupported
     if: branch = master AND type = push
 
-.disable_global: &disable_global
-  addons: false
-  cache: false
-  python: false
-  before_install: false
-  install: false
-  before_script: false
-  script: false
-  after_success: false
-  after_failure: false
-  before_deploy: false
-  deploy: false
+{% endblock %}
 
-.moban: &moban
-  <<: *disable_global
-  python: 3.6
-  stage: moban
-  install: pip install moban>=0.0.4
-  script:
-    - moban
-    - git diff --exit-code
-
+{% block jobs %}
 jobs:
   include:
     - python: 2.7
@@ -374,9 +355,9 @@ jobs:
       os: osx
       dist: false
 
-    - *check_moban
+    - *moban
   allow_failures:
-    - *check_moban
+    - *moban
 
 cache:
   pip: true
@@ -419,9 +400,9 @@ env:
     - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
     - TOX_FEATURES=check-noskip-codecov
 
+{% endblock %}
 
-stage: test
-
+{% block before_install %}
 before_install:
   - printenv
   - mkdir -p ~/bin ~/.local/bin
@@ -464,10 +445,15 @@ before_install:
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
 
+{% endblock %}
+
+{% block before_script %}
 before_script:
   - mv requirements.orig requirements.txt
 
-script:
+{% endblock %}
+
+{% block script %}
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
       python -m pip install --upgrade --user -r test-requirements.txt;
     fi
@@ -482,7 +468,11 @@ script:
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py docs;
     fi
+{% endblock %}
+
+{% block end %}
 
 branches:
   exclude:
     - /^sils\//
+{% endblock %}

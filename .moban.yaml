@@ -12,7 +12,9 @@ package_module: bears
 docs_source_dir: API
 docs_dir: docs
 test_prevent_skips: false
+travis_dist: trusty
 pip_constraints_file: bear-requirements.txt
+lint_command: false
 appveyor_global_environment:
   # Needed for Julia
   JL_PKG: CoalaBears
@@ -89,6 +91,7 @@ targets:
   - DESCRIPTION: DESCRIPTION.jj2
   - package.json: package.json.jj2
   - bear-requirements.txt: bear-requirements.txt.jj2
+  - .travis.yml: bears-travis.yml.jj2
   - .ci/appveyor.yml: ci/appveyor.yml.jj2
   # from package manager
   - .ci/deps.golang.ps1: .ci/deps.golang.ps1
