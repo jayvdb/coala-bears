@@ -7,21 +7,215 @@
 stages:
   - name: sentinel
     if: branch != master OR type = pull_request
-  - test-python
   - test-languages
   - test-other-versions
-  - test-apt
   - moban
   - name: test-master
-    if: branch = master AND type = push
+  # if: branch = master AND type = push
   - name: unsupported
-    if: branch = master AND type = push
+  # if: branch = master AND type = push
 
 {% endblock %}
 
 {% block jobs %}
+{% macro job(language, version, seen) -%}
+{%   if language == 'python' and version.startswith('3.5') %}
+{%     set seen = False %}
+{%   endif %}
+{%   if language == 'python' and version.startswith('3.6') %}
+    - stage: sentinel
+{%   elif not seen %}
+    - stage: test-languages
+{%   else %}
+    - stage: test-other-versions
+{%   endif %}
+{%   set version_key = language %}
+{%   if language == 'ruby' %}
+{%     set version_key = 'rvm' %}
+{%   elif language == 'java' %}
+{%     set version_key = 'jdk' %}
+{%   endif %}
+{%   if language == 'mono' %}
+{%     set language = 'csharp' %}
+{%   endif %}
+      language: {{ language }}
+      {{ version_key }}: {{ version }}
+{%   if language == 'python' %}
+      addons:
+        apt:
+          packages: clang-3.4
+{%   elif language == 'go' %}
+      install: true
+{%   elif language == 'scala' and version.startswith('2.12') %}
+      jdk: openjdk8
+{%   elif language == 'julia' %}
+{# default language is 0.6.4, and has problems with pre-installed Lint.jl #}
+{# install not provided https://github.com/travis-ci/travis-build/pull/1571 #}
+      env: JL_PKG=CoalaBears
+      install:
+        - julia --color=yes .ci/deps.julia.jl
+        # Verify compilation works
+        - julia -e 'import Lint.lintfile'
+{%   endif %}
+{% endmacro %}
+{# reorder so python is first on Python 3.6 #}
+{% set _supported_versions = {'python': python_versions} %}
+{% set _ = _supported_versions.update(supported_versions) %}
+{% set supported_versions = _supported_versions %}
 jobs:
   include:
+    # Entries generates from `supported_versions`
+{% set seen_languages = {} %}
+{% for language, versions in supported_versions.items() %}
+{%   for version in versions %}
+{%     set version = ''.__class__(version) %}
+{{ job(language, version, language in seen_languages) }}
+{%     set _ = seen_languages.__setitem__(language, 1) %}
+{%   endfor %}
+{% endfor %}
+    # Manually added "language" entries should complete test coverage
+    - stage: test-languages
+      language: lua
+      env: BEARS=lua
+      addons:
+        apt:
+          packages:
+            - luarocks
+
+    - stage: test-languages
+      language: generic
+      env: BEARS=opam INFER_VERSION=0.7.0
+           PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
+      addons:
+        apt:
+          sources:
+            - avsm
+          packages:
+            - camlp4-extra
+            - ocaml
+            - opam
+
+    - stage: test-languages
+      # This is in generic image, as language: haskell isnt working yet
+      language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod hlint"
+      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
+      # ghc-mod needs cabal-install
+      # shellcheck is failing in xenial
+      addons:
+        apt:
+          packages:
+            - cabal-install
+            - ghc
+            - ghc-mod
+            - hlint
+
+    # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
+    # which is the old circle init
+    - stage: test-languages
+      language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php7.0-cli
+            - phpmd
+            - php-codesniffer
+            - verilator
+
+    - stage: test-languages
+      language: generic
+      dist: xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre"
+
+    - stage: test-languages
+      language: generic
+      env: DIST=trusty BEARS=adhoc BEAR_LIST=astyle
+      addons:
+        apt:
+          sources:
+            - sourceline:  # astyle
+                deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
+              key_url:
+                https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
+          packages:
+            - astyle
+
+    # Additonal manual entries
+    - stage: test-other-versions
+      language: ruby
+      rvm: 2.5
+      env: DISABLE_BEARS=csvlint
+
+    - stage: test-other-versions
+      language: java
+      jdk: openjdk11
+      env: DISABLE_BEARS="languagetool tailor"
+    # openjdk10 and openjdk9 are broken on Travis
+    # https://github.com/travis-ci/travis-cookbooks/issues/976
+    # They need the same configuration as openjdk11:
+    # env: DISABLE_BEARS="languagetool tailor"
+    - stage: test-other-versions
+      language: java
+      jdk: openjdk7
+      env: DISABLE_BEARS=tailor
+
+    - stage: test-other-versions
+      language: generic
+      env: DIST=trusty BEARS=apt_get
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            - php-codesniffer
+            - shellcheck
+            - verilator
+
+    - stage: test-other-versions
+      language: generic
+      env: DIST=precise BEARS=apt_get
+      dist: precise
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php5-cli
+            - python3
+            - verilator
+
+    - stage: test-master
+      # This is only performed on master, as the osx jobs take too long to
+      # start, causing delays.  The only ObjC bear is tailor which is also
+      # a java bear covered above.
+      language: objective_c
+      os: osx
+      dist: false
+
     - python: 2.7
       language: python
       stage: unsupported
@@ -106,254 +300,6 @@ jobs:
         - python -m tox --sitepackages
       after_script:
         - cp tox.orig tox.ini
-
-    - stage: sentinel
-      language: python
-      python: 3.6
-      addons:
-        apt:
-          packages: clang-3.4
-
-    - stage: test-languages
-      language: python
-      python: 3.5
-      addons:
-        apt:
-          packages: clang-3.4
-
-    - stage: test-other-versions
-      language: python
-      python: 3.4
-      addons:
-        apt:
-          packages: clang-3.4
-
-    - stage: test-languages
-      language: csharp
-      mono: 5.20.1
-
-    - language: r
-      r: release
-
-    - language: node_js
-      node_js: 10
-
-    - language: julia
-      # default language is 0.6.4, and has problems with pre-installed Lint.jl
-      julia: 1.1
-      env: JL_PKG=CoalaBears
-      # install not provided https://github.com/travis-ci/travis-build/pull/1571
-      install:
-        - julia --color=yes .ci/deps.julia.jl
-        # Verify compilation works
-        - julia -e 'import Lint.lintfile'
-
-    - language: dart
-      dart: 1.15.0
-
-    - language: perl
-      perl: 5.14
-
-    - language: go
-      go: 1.11
-      install: true
-
-    - language: ruby
-      rvm: 2.4
-
-    - language: php
-      php: 7.2
-
-    - language: java
-      jdk: openjdk8
-
-    - language: scala
-      scala: 2.11
-
-    - language: lua
-      env: BEARS=lua
-      addons:
-        apt:
-          packages:
-            - luarocks
-
-    - language: generic
-      env: BEARS=opam INFER_VERSION=0.7.0
-           PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
-      addons:
-        apt:
-          sources:
-            - avsm
-          packages:
-            - camlp4-extra
-            - ocaml
-            - opam
-
-    # This is in generic image, as language: haskell isnt working yet
-    - language: generic
-      dist: xenial
-      env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod hlint"
-      # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
-      # ghc-mod needs cabal-install
-      # shellcheck is failing in xenial
-      addons:
-        apt:
-          packages:
-            - cabal-install
-            - ghc
-            - ghc-mod
-            - hlint
-
-    # BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
-    # which is the old circle init
-    - language: generic
-      dist: xenial
-      env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
-      addons:
-        apt:
-          packages:
-            - chktex
-            - cppcheck
-            - devscripts
-            - flawfinder
-            - indent
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
-            - php7.0-cli
-            - phpmd
-            - php-codesniffer
-            - verilator
-
-    - language: generic
-      dist: xenial
-      env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre"
-
-    - language: generic
-      env: DIST=trusty BEARS=adhoc BEAR_LIST=astyle
-      addons:
-        apt:
-          sources:
-            - sourceline:  # astyle
-                deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
-              key_url:
-                https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
-          packages:
-            - astyle
-
-    - stage: test-other-versions
-
-      language: r
-      r: devel
-
-    - language: r
-      r: oldrel
-
-    - language: node_js
-      node_js: 9
-    - language: node_js
-      node_js: 8
-    - language: node_js
-      node_js: 7
-    - language: node_js
-      node_js: 6
-
-    - language: ruby
-      rvm: 2.5
-      env: DISABLE_BEARS=csvlint
-    - language: ruby
-      rvm: 2.3
-    - language: ruby
-      rvm: 2.2
-    - language: ruby
-      rvm: 2.1
-
-    - language: go
-      go: '1.10'
-      install: true
-
-    - language: php
-      php: hhvm-3.18
-    - language: php
-      php: 5.5
-
-    - language: scala
-      jdk: openjdk8
-      scala: 2.12.2
-
-    - language: java
-      jdk: openjdk11
-      env: DISABLE_BEARS="languagetool tailor"
-    # openjdk10 and openjdk9 are broken on Travis
-    # https://github.com/travis-ci/travis-cookbooks/issues/976
-    # They need the same configuration as openjdk11:
-    # env: DISABLE_BEARS="languagetool tailor"
-    - language: java
-      jdk: openjdk7
-      env: DISABLE_BEARS=tailor
-
-    - language: dart
-      dart: 1.14.2
-
-    - language: julia
-      julia: 1.0
-      env: JL_PKG=CoalaBears
-      install:
-        - julia --color=yes .ci/deps.julia.jl
-        - julia -e 'import Lint.lintfile'
-
-    - language: julia
-      julia: 0.7.0
-      env: JL_PKG=CoalaBears
-      install:
-        - julia --color=yes .ci/deps.julia.jl
-        - julia -e 'import Lint.lintfile'
-
-    - language: generic
-      env: DIST=trusty BEARS=apt_get
-      addons:
-        apt:
-          packages:
-            - chktex
-            - cppcheck
-            - devscripts
-            - flawfinder
-            - indent
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
-            - php5-cli
-            - php-codesniffer
-            - shellcheck
-            - verilator
-
-    - stage: test-other-versions
-      language: generic
-      env: DIST=precise BEARS=apt_get
-      dist: precise
-      addons:
-        apt:
-          packages:
-            - chktex
-            - cppcheck
-            - devscripts
-            - flawfinder
-            - indent
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
-            - php5-cli
-            - python3
-            - verilator
-
-    - stage: test-master
-
-      # This is only performed on master, as the osx jobs take too long to
-      # start, causing delays.  The only ObjC bear is tailor which is also
-      # a java bear covered above.
-      language: objective_c
-      os: osx
-      dist: false
 
     - *moban
   allow_failures:

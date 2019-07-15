@@ -54,15 +54,56 @@ choco_requirements:
   xsltproc: true
   ShellCheck: true  # https://github.com/coala/coala-bears/issues/2920
 
-requires:
-  - https://gitlab.com/coala/package_manager/
+supported_versions:
+  # python included from `python_version`
+  mono:
+    - 5.20.1
+  r:
+    - release
+    - devel
+    - oldrel
+  node_js:
+    - 10
+    - 9
+    - 8
+    - 7
+    - 6
+  julia:
+    - 1.1
+    - 1.0
+    - 0.7.0
+  dart:
+    - 1.15.0
+    - 1.14.2
+  perl:
+    - 5.14
+  go:
+    - 1.11
+    - 1.10
+  ruby:
+    - 2.4
+    - 2.3
+    - 2.2
+    - 2.1
+  php:
+    - 7.2
+    - hhvm-3.18
+    - 5.5
+  scala:
+    - 2.11
+    - 2.12.2
+  java:
+    - openjdk8
+
+#requires:
+#  - https://gitlab.com/coala/package_manager/
 
 configuration:
   template_dir:
     - .moban.dt/
     - ../coala-mobans/templates/
     - ../coala-mobans/assets/
-    - 'package_manager:'
+    - '../libraries/package_manager/'
   configuration: .moban.yaml
   configuration_dir: ../coala-mobans/
 targets:
