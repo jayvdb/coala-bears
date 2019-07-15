@@ -511,8 +511,6 @@ before_install:
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
 
-  - pip --version
-
 before_script:
   - mv requirements.orig requirements.txt
 
