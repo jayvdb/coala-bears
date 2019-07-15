@@ -40,14 +40,6 @@ stages:
 
 jobs:
   include:
-
-    - stage: sentinel
-      language: python
-      python: 3.4.4
-      addons:
-        apt:
-          packages: clang-3.4
-
     # Manually added "language" entries should complete test coverage
     - stage: test-languages
       language: lua
@@ -278,19 +270,6 @@ jobs:
 
 
     # Entries generates from `supported_versions`
-    - stage: test-languages
-      language: java
-      jdk: openjdk8
-
-    - stage: test-languages
-      language: scala
-      scala: 2.11
-
-    - stage: test-other-versions
-      language: scala
-      scala: 2.12.2
-      jdk: openjdk8
-
     - stage: sentinel
       language: python
       python: 3.6
@@ -305,13 +284,32 @@ jobs:
         apt:
           packages: clang-3.4
 
+    - stage: test-other-versions
+      language: python
+      python: 3.4.4
+      addons:
+        apt:
+          packages: clang-3.4
+
     - stage: test-languages
       language: csharp
       mono: 5.20.1
 
     - stage: test-languages
+      language: r
+      r: release
+
+    - stage: test-other-versions
+      language: r
+      r: devel
+
+    - stage: test-other-versions
+      language: r
+      r: oldrel
+
+    - stage: test-languages
       language: node_js
-      node_js: 10
+      node_js: '10'
 
     - stage: test-other-versions
       language: node_js
@@ -369,38 +367,14 @@ jobs:
       perl: 5.14
 
     - stage: test-languages
-      language: r
-      r: release
-
-    - stage: test-other-versions
-      language: r
-      r: devel
-
-    - stage: test-other-versions
-      language: r
-      r: oldrel
-
-    - stage: test-languages
       language: go
       go: 1.11
       install: true
 
     - stage: test-other-versions
       language: go
-      go: 1.10
+      go: '1.10'
       install: true
-
-    - stage: test-languages
-      language: php
-      php: 7.2
-
-    - stage: test-other-versions
-      language: php
-      php: hhvm-3.18
-
-    - stage: test-other-versions
-      language: php
-      php: 5.5
 
     - stage: test-languages
       language: ruby
@@ -417,6 +391,31 @@ jobs:
     - stage: test-other-versions
       language: ruby
       rvm: 2.1
+
+    - stage: test-languages
+      language: php
+      php: 7.2
+
+    - stage: test-other-versions
+      language: php
+      php: hhvm-3.18
+
+    - stage: test-other-versions
+      language: php
+      php: 5.5
+
+    - stage: test-languages
+      language: scala
+      scala: 2.11
+
+    - stage: test-other-versions
+      language: scala
+      scala: 2.12.2
+      jdk: openjdk8
+
+    - stage: test-languages
+      language: java
+      jdk: openjdk8
 
 
     - *moban
