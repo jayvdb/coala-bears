@@ -1,0 +1,227 @@
+- stage: test-languages
+  language: lua
+  env: BEARS=lua
+  addons:
+    apt:
+      packages:
+        - luarocks
+
+- stage: test-languages
+  language: generic
+  env: BEARS=opam INFER_VERSION=0.7.0
+       PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
+  addons:
+    apt:
+      sources:
+        - avsm
+      packages:
+        - camlp4-extra
+        - ocaml
+        - opam
+
+- stage: test-languages
+  # This is in generic image, as language: haskell isnt working yet
+  language: generic
+  dist: xenial
+  env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod hlint"
+  # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
+  # ghc-mod needs cabal-install
+  # shellcheck is failing in xenial
+  addons:
+    apt:
+      packages:
+        - cabal-install
+        - ghc
+        - ghc-mod
+        - hlint
+
+# BEARS=apt_get rather than 'apt' to avoid invoking .deps.apt.sh
+# which is the old circle init
+- stage: test-languages
+  language: generic
+  dist: xenial
+  env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
+  addons:
+    apt:
+      packages:
+        - chktex
+        - cppcheck
+        - devscripts
+        - flawfinder
+        - indent
+        - libperl-critic-perl
+        - libxml2-utils
+        - mono-mcs
+        - php7.0-cli
+        - phpmd
+        - php-codesniffer
+        - verilator
+
+- stage: test-languages
+  language: generic
+  dist: xenial
+  env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre"
+
+- stage: test-languages
+  language: generic
+  env: DIST=trusty BEARS=adhoc BEAR_LIST=astyle
+  addons:
+    apt:
+      sources:
+        - sourceline:  # astyle
+            deb http://ppa.launchpad.net/cs50/ppa/ubuntu trusty main
+          key_url:
+            https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
+      packages:
+        - astyle
+
+# Additonal manual entries
+- stage: test-other-versions
+  os: windows
+  language: bash
+  python: 3.6.8
+  env:
+    BEAR_LIST="astyle cppcheck xmllint"
+    TOX_TEST_SELECTORS=pip-noreqs-npm-gem-go-perl-php-java8-adhoc
+  cache:
+    directories:
+      - C:/nuget_http_cache/
+      - C:/choco_cache/
+      - C:/pip_cache/
+  before_install:
+    - bash --version
+    - powershell -c "$PSVersionTable"
+    - powershell -c 'Set-MpPreference -DisableRealtimeMonitoring $true'
+    - powershell -c 'Set-MpPreference -DisableArchiveScanning $true'
+    - powershell -c 'Set-MpPreference -DisableBehaviorMonitoring $true'
+
+    - export NUGET_HTTP_CACHE_PATH=/C/nuget_http_cache
+    - export CHOCO_CACHE_DIR=/C/choco_cache
+    - export PIP_CACHE_DIR=/C/pip_cache
+
+    - export TOXENV=py36-${TOX_TEST_SELECTORS}-${TOX_FEATURES}-win
+
+    - printenv
+
+    - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
+    - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+                                         -Scope LocalMachine"
+
+    - python .ci/store_env_in_registry.py
+    - source .ci/refreshenv.sh
+
+    # TODO: Add support for disabling pre-installed vctools which is
+    # disabled in choco_requirements.  Uninstalling vctools fails
+  install:
+    - powershell -c ". .ci/Fudge.ps1 install"
+    - refreshenv
+    - taskkill -IM "gpg-agent.exe" || true
+  before_script:
+    - python --version
+    - cp tox.ini tox.orig
+    - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
+    - export TOX_SITEPACKAGES=true
+    - export VIRTUALENV_NO_PIP=1
+    - export VIRTUALENV_NO_SETUPTOOLS=1
+    - pip uninstall tox-venv || true
+  script:
+    - python -m tox --sitepackages
+  after_script:
+    - cp tox.orig tox.ini
+
+- stage: test-other-versions
+  language: ruby
+  rvm: 2.5
+  env: DISABLE_BEARS=csvlint
+
+- stage: test-other-versions
+  language: java
+  jdk: openjdk11
+  env: DISABLE_BEARS="languagetool tailor"
+# openjdk10 and openjdk9 are broken on Travis
+# https://github.com/travis-ci/travis-cookbooks/issues/976
+# They need the same configuration as openjdk11:
+# env: DISABLE_BEARS="languagetool tailor"
+- stage: test-other-versions
+  language: java
+  jdk: openjdk7
+  env: DISABLE_BEARS=tailor
+
+- stage: test-other-versions
+  language: generic
+  env: DIST=trusty BEARS=apt_get
+  addons:
+    apt:
+      packages:
+        - chktex
+        - cppcheck
+        - devscripts
+        - flawfinder
+        - indent
+        - libperl-critic-perl
+        - libxml2-utils
+        - mono-mcs
+        - php5-cli
+        - php-codesniffer
+        - shellcheck
+        - verilator
+
+- stage: test-other-versions
+  language: generic
+  env: DIST=precise BEARS=apt_get
+  dist: precise
+  addons:
+    apt:
+      packages:
+        - chktex
+        - cppcheck
+        - devscripts
+        - flawfinder
+        - indent
+        - libperl-critic-perl
+        - libxml2-utils
+        - mono-mcs
+        - php5-cli
+        - python3
+        - verilator
+
+- stage: test-master
+  # This is only performed on master, as the osx jobs take too long to
+  # start, causing delays.  The only ObjC bear is tailor which is also
+  # a java bear covered above.
+  language: objective_c
+  os: osx
+  dist: false
+
+- python: 2.7
+  language: python
+  stage: unsupported
+  env: PIP_NO_COMPILE=1
+  addons: false
+  before_install: true
+  install: pip install 3to2
+  before_script: true
+  script: .ci/check_unsupported.sh
+- python: 3.3
+  language: python
+  stage: unsupported
+  env: PIP_NO_COMPILE=1
+  addons: false
+  before_install: true
+  install: true
+  before_script: true
+  script: .ci/check_unsupported.sh
+
+- python: 3.6
+  language: python
+  stage: moban
+  addons: false
+  cache: pip
+  before_install: false
+  install: pip install moban
+  before_script: false
+  script: .ci/check_moban.sh
+  after_success: false
+  after_failure: false
+  if: branch = master AND type = push
+

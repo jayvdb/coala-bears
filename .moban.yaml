@@ -79,7 +79,7 @@ supported_versions:
     - 5.14
   go:
     - 1.11
-    - 1.10
+    - '1.10'
   ruby:
     - 2.4
     - 2.3
