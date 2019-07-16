@@ -7,6 +7,7 @@ notifications:
 stages:
   - name: sentinel
     if: branch != master OR type = pull_request
+  - test-win
   - test-languages
   - test-other-versions
   - moban
@@ -119,7 +120,7 @@ jobs:
             - astyle
 
     # Additonal manual entries
-    - stage: test-other-versions
+    - stage: test-win
       os: windows
       language: bash
       python: 3.6.8
@@ -150,8 +151,9 @@ jobs:
         - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
                                              -Scope LocalMachine"
 
-        - python .ci/store_env_in_registry.py
         - source .ci/refreshenv.sh
+        - python .ci/store_env_in_registry.py
+        - refreshenv
 
         # TODO: Add support for disabling pre-installed vctools which is
         # disabled in choco_requirements.  Uninstalling vctools fails
