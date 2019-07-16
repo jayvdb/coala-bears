@@ -284,12 +284,11 @@ jobs:
           packages: clang-3.4
 
     - stage: test-languages
-      language: csharp
-      mono: 5.20.1
-
-    - stage: test-languages
       language: r
       r: release
+      addons:
+        apt:
+          packages: libcolamd2.8.0
 
     - stage: test-other-versions
       language: r
