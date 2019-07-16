@@ -95,15 +95,15 @@ supported_versions:
   java:
     - openjdk8
 
-#requires:
-#  - https://gitlab.com/coala/package_manager/
+requires:
+  - https://gitlab.com/coala/package_manager/
 
 configuration:
   template_dir:
     - .moban.dt/
     - ../coala-mobans/templates/
     - ../coala-mobans/assets/
-    - '../libraries/package_manager/'
+    - 'package_manager:'
   configuration: .moban.yaml
   configuration_dir: ../coala-mobans/
 targets:
