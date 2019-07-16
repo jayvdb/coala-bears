@@ -5,9 +5,9 @@ notifications:
   email: false
 
 stages:
+  - test-win
   - name: sentinel
     if: branch != master OR type = pull_request
-  - test-win
   - test-languages
   - test-other-versions
   - moban

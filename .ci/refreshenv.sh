@@ -21,6 +21,7 @@ Get-ChildItem env:* | %{
 
 EOF
 
+  cat "$TEMP/refreshenv.sh"
   # shellcheck disable=SC1090
   # as shellcheck can not follow this `source`
   source "$TEMP/refreshenv.sh"
