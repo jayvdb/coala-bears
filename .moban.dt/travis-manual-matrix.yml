@@ -185,14 +185,6 @@
         - python3
         - verilator
 
-- stage: test-master
-  # This is only performed on master, as the osx jobs take too long to
-  # start, causing delays.  The only ObjC bear is tailor which is also
-  # a java bear covered above.
-  language: objective_c
-  os: osx
-  dist: false
-
 - python: 2.7
   language: python
   stage: unsupported
@@ -207,9 +199,9 @@
   stage: unsupported
   env: PIP_NO_COMPILE=1
   addons: false
-  before_install: true
-  install: true
-  before_script: true
+  before_install: skip
+  install: skip
+  before_script: skip
   script: .ci/check_unsupported.sh
 
 - python: 3.6

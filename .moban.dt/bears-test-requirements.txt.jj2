@@ -1,6 +1,4 @@
 {% include 'test-requirements.txt.jj2' %}
-ruamel.yaml~=0.15.42,<=0.15.94
-pytest-pythonpath~=0.7.0
 pytest-error-for-skips
 git+https://github.com/krkd/pytest-cov-threshold#egg=pytest-cov-threshold ; python_version > '3.4'
 twine~=1.7.4
