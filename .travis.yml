@@ -438,7 +438,6 @@ cache:
 env:
   global:
     - TERM=dumb
-    - R_PROFILE=~/.Rprofile
     - LINTR_COMMENT_BOT=false
     - CABAL_VERSION=1.24
     - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
