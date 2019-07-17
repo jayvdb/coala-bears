@@ -33,5 +33,5 @@ git+https://github.com/krkd/pytest-cov-threshold#egg=pytest-cov-threshold ; pyth
 twine~=1.7.4
 tox~=3.12.0
 tox-travis
-git+https://github.com/jayvdb/tox-backticks@indirect#egg=tox-backticks
+git+https://github.com/jayvdb/tox-backticks@take2#egg=tox-backticks
 tox-pyenv
