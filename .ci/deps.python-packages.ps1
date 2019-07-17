@@ -159,7 +159,7 @@ function Install-Test-Packages {
         Checkpoint-Pip-Constraints
 
         # tox 3.13 uses pluggy 0.12.0 which is incompatible with a pytest 3.6.4
-        Install-Pip-Requirement 'tox~=3.12.0 tox-backticks'
+        Install-Pip-Requirement 'tox~=3.12.0 git+https://github.com/jayvdb/tox-backticks@indirect'
     }
 }
 

@@ -10,6 +10,11 @@ IS_WIN = os.name == 'nt'
 def main():
     args = sys.argv[1:]
     thresholds = {}
+    if args == ['none']:
+        if os.path.exists(".threshold.json"):
+            os.remove(".threshold.json")
+            return
+
     for test in args:
         bear = test.replace('tests/', 'bears/')
         bear = bear.replace('Test.py', '.py').replace('*', '.*')
