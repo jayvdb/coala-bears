@@ -556,6 +556,7 @@ script:
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
       pip install --upgrade setuptools;
     fi
+  - which gherkin-lint || true
   - python -m tox -vvv
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py docs;
