@@ -413,7 +413,7 @@ jobs:
           - $HOME/.cache/go-build
           - $HOME/gopath/pkg/mod
 
-    - stage: sentinel
+    - stage: test-other-versions
       language: ruby
       dist: trusty
       rvm: 2.4
@@ -534,7 +534,11 @@ before_install:
 
 before_script:
   - find $TRAVIS_BUILD_DIR/node_modules/.bin || true
-  - ls $TRAVIS_BUILD_DIR/node_modules/ || true
+  - ls -al $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint || true
+  - head $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint || true
+  - $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint --version || true
+  - which gherkin-lint || true
+  # ls $TRAVIS_BUILD_DIR/node_modules/ || true
   - mv requirements.orig requirements.txt
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py bdist_wheel &&
