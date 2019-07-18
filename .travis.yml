@@ -490,18 +490,6 @@ before_install:
       source .ci/deps.pyenv.sh;
       source .ci/deps.python36.sh;
     fi
-  - pyenv versions --bare
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      PYTHON36_VERSION=$(pyenv versions --bare | fgrep '3.6' --max-count 1);
-      if [ "$BEARS" = "infer" -o "$BEARS" = "opam" ]; then
-        pyenv global 2.7 $PYTHON36_VERSION;
-      else
-        pyenv global $PYTHON36_VERSION;
-      fi;
-      hash -r;
-    fi
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv versions --bare; fi
-  - python --version
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
       pip install pip==9.0.3 setuptools==21.2.2;
     fi

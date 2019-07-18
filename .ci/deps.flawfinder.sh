@@ -9,6 +9,8 @@ if [ ! -e ~/.local/bin/flawfinder ]; then
   chmod +x ~/.local/bin/flawfinder
 fi
 
+.ci/deps.python27.sh
+
 head ~/.local/bin/flawfinder
 
 ~/.local/bin/flawfinder || true
