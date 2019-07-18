@@ -2,7 +2,7 @@
 
 set -e -x
 
-PYTHON36_VERSION=$(pyenv versions --bare | fgrep '3.6' --max-count 1)
+PYTHON36_VERSION=$(pyenv versions --bare | fgrep '3.6' --max-count 1 || true)
 
 if [ -z "$PYTHON36_VERSION" ]; then
   git clone https://github.com/s1341/pyenv-alias.git \
