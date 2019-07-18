@@ -316,7 +316,7 @@ jobs:
       r: oldrel
       cache: packages
 
-    - stage: test-languages
+    - stage: sentinel
       language: node_js
       node_js: '10'
       cache: npm
@@ -489,11 +489,7 @@ cache:
 env:
   global:
     - TERM=dumb
-    - LINTR_COMMENT_BOT=false
-    - BUNDLE_PATH="$TRAVIS_BUILD_DIR/vendor/bundle"
-    - BUNDLE_BIN="$BUNDLE_PATH/bin"
-    - PATH="$HOME/.local/bin:$PATH:$TRAVIS_BUILD_DIR/vendor/bundle/bin:$HOME/.local/tailor/tailor-latest/bin"
-    # :$TRAVIS_BUILD_DIR/node_modules/.bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    - PATH="$HOME/.local/bin:$PATH"
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
     - VIRTUALENV_NO_DOWNLOAD=1
@@ -510,10 +506,8 @@ stage: test
 
 before_install:
   - printenv
-  # https://travis-ci.community/t/bundle-path-disappears/4260
-  - export BUNDLE_PATH="$TRAVIS_BUILD_DIR/vendor/bundle"
   - mkdir -p ~/bin ~/.local/bin
-
+  - source .ci/extra_globals.sh
   - python --version
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
@@ -539,6 +533,8 @@ before_install:
            > requirements.txt
 
 before_script:
+  - find $TRAVIS_BUILD_DIR/node_modules/.bin || true
+  - ls $TRAVIS_BUILD_DIR/node_modules/ || true
   - mv requirements.orig requirements.txt
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py bdist_wheel &&
