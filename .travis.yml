@@ -488,8 +488,7 @@ before_install:
   - rm -f ~/.local/bin/python* ~/.local/bin/pip*
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      source .ci/deps.pyenv.sh;
-      source .ci/deps.python36.sh;
+      .ci/deps.pyenv.sh && .ci/deps.python36.sh;
     fi
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
       pip install pip==9.0.3 setuptools==21.2.2;
@@ -509,18 +508,20 @@ before_install:
 
 before_script:
   - mv requirements.orig requirements.txt
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py bdist_wheel &&
+      pip install $(ls ./dist/*.whl)"[alldeps]";
+    fi
 
 script:
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      coala --non-interactive;
+    fi
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
       python -m pip install --upgrade --user -r test-requirements.txt;
     fi
   # Ensure metadata files are in sync with the bear metadata in the source
-  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
-      python setup.py bdist_wheel;
-      pip install $(ls ./dist/*.whl)"[alldeps]";
-      coala --non-interactive;
-      PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
-    fi
+  - PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
       pip install --upgrade setuptools;
     fi
