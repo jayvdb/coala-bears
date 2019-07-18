@@ -388,9 +388,9 @@ jobs:
       language: php
       php: 7.2
 
-    - stage: test-other-versions
-      language: php
-      php: hhvm-3.18
+    # stage: test-other-versions
+    # language: php
+    # php: hhvm-3.18
 
     - stage: test-other-versions
       language: php
