@@ -36,4 +36,7 @@ ls /opt/pyenv/plugins/pyenv-register || true
 #                    /usr/bin/python[3].[0-9].[0-9] 2>/dev/null || true)
 #for pybin in $SYSTEM_PYTHONS $(which python3.6); do
 
-pyenv register -f $(which python3.6) || true
+PYTHON36_VERSION="$(which python3.6 || true)"
+if [ -n "$PYTHON36_VERSION" ]; then
+  pyenv register -f "$PYTHON36_VERSION" || true
+fi
