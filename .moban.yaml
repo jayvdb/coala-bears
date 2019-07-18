@@ -105,7 +105,7 @@ configuration:
   template_dir:
     - .moban.dt/
     - 'mobans:templates/'
-    - 'mobans:mobans:assets'
+    - 'mobans:assets/'
     - 'package_manager:'
   configuration: .moban.yaml
   configuration_dir: 'mobans:'
