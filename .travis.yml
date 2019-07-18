@@ -430,7 +430,6 @@ jobs:
       language: java
       jdk: openjdk8
 
-
     - *moban
   allow_failures:
     - *moban
@@ -452,7 +451,6 @@ cache:
     # coala managed data
     - ~/nltk_data
     # Installed linters
-    # Check this version works
     - ~/infer-linux64-v$INFER_VERSION
     - ~/.local/
 
@@ -479,6 +477,7 @@ stage: test
 before_install:
   - printenv
   - mkdir -p ~/bin ~/.local/bin
+  - ls /opt/cabal/ $HOME/.cabal || true
 
   - if [ -z "$GOPATH" ]; then
       export GOPATH="/home/travis/gopath";
