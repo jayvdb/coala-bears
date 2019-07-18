@@ -50,7 +50,7 @@ jobs:
           packages:
             - luarocks
 
-    - stage: sentinel
+    - stage: test-languages
       language: generic
       dist: trusty
       env: BEARS=opam INFER_VERSION=0.7.0
@@ -217,7 +217,7 @@ jobs:
             - php-codesniffer
             - verilator
 
-    - stage: sentinel
+    - stage: test-other-versions
       language: generic
       env: DIST=precise BEARS=apt_get
       cache:
@@ -379,14 +379,14 @@ jobs:
     - stage: sentinel
       language: perl
       perl: 5.22
-      dist: trusty
+      dist: xenial
       cache:
         directories:
           - $HOME/perl5
 
     # perl: 5.18 dist: trusty
 
-    - stage: sentinel
+    - stage: test-other-versions
       language: perl
       perl: '5.14'
       dist: xenial
@@ -536,14 +536,21 @@ before_install:
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
 
+  - pwd
+
 before_script:
   - mv requirements.orig requirements.txt
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py bdist_wheel &&
       pip install $(ls ./dist/*.whl)"[alldeps]";
     fi
+  - pwd
   - perlcritic --version || true
   - sqlint --help || true
+  - ls $TRAVIS_BUILD_DIR/vendor/bundle/ || true
+  - ls $TRAVIS_BUILD_DIR/vendor/bundle/bin || true
+  - ls $HOME/vendor/bundle/ || true
+  - ls $HOME/vendor/bundle/bin || true
 
 script:
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
