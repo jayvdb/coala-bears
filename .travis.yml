@@ -511,7 +511,7 @@ before_install:
   - python --version
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      .ci/deps.python36.sh;
+      .ci/deps.python36.sh && hash -r;
     fi
   - if [ -d "$HOME/.pyenv/bin" ]; then
       export PATH="$HOME/.pyenv/bin:$PATH";
