@@ -378,7 +378,7 @@ jobs:
 
     - stage: sentinel
       language: perl
-      # perl: 5.22
+      perl: 5.22
       # trusty is installing into py27
       # dist: xenial
       cache:
@@ -480,6 +480,7 @@ env:
   global:
     - TERM=dumb
     - LINTR_COMMENT_BOT=false
+    - BUNDLE_PATH=$TRAVIS_BUILD_DIR/vendor
     - PATH="$HOME/.local/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
