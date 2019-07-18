@@ -68,23 +68,22 @@ jobs:
       # https://github.com/coala/coala-bears/issues/1384
       language: generic
       dist: xenial
-      env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod hlint"
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod"
       # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
       # ghc-mod needs cabal-install
-      # shellcheck is failing in xenial
       addons:
         apt:
           packages:
             - cabal-install
             - ghc
             - ghc-mod
-            - hlint
 
-    # BEARS=apt_get rather than 'apt' to match key in bear-metadata.yaml
     - stage: test-languages
       language: generic
       dist: xenial
-      env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
+      # astyle and shellcheck are failing in xenial
+      env: DIST=xenial BEARS=adhoc BEAR_LIST="apt_get bakalint default-jre"
+           DISABLE_BEARS="shellcheck astyle"
       addons:
         apt:
           packages:
@@ -92,6 +91,7 @@ jobs:
             - cppcheck
             - devscripts
             - flawfinder
+            - hlint
             - indent
             - libperl-critic-perl
             - libxml2-utils
@@ -103,12 +103,8 @@ jobs:
 
     - stage: test-languages
       language: generic
-      dist: xenial
-      env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre"
-
-    - stage: test-languages
-      language: generic
-      env: DIST=trusty BEARS=adhoc BEAR_LIST=astyle
+      dist: trusty
+      env: DIST=trusty BEARS=adhoc BEAR_LIST="astyle shellcheck"
       addons:
         apt:
           sources:
@@ -118,6 +114,7 @@ jobs:
                 https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
           packages:
             - astyle
+            - shellcheck
 
     # Additonal manual entries
     - stage: test-other-versions
@@ -191,6 +188,7 @@ jobs:
       jdk: openjdk7
       env: DISABLE_BEARS=tailor
 
+    # BEARS=apt_get allows matching bears to be skipped
     - stage: test-other-versions
       language: generic
       dist: bionic
@@ -228,7 +226,6 @@ jobs:
             - mono-mcs
             - php5-cli
             - php-codesniffer
-            - shellcheck
             - verilator
 
     - stage: test-other-versions
