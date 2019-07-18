@@ -537,6 +537,7 @@ before_install:
            > requirements.txt
 
   - pwd
+  - export BUNDLE_BIN=$BUNDLE_PATH/bin
 
 before_script:
   - mv requirements.orig requirements.txt
