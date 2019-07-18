@@ -476,16 +476,8 @@ stage: test
 before_install:
   - printenv
   - mkdir -p ~/bin ~/.local/bin
-  - ls /opt/cabal/ $HOME/.cabal || true
-
-  - if [ -z "$GOPATH" ]; then
-      export GOPATH="/home/travis/gopath";
-    fi
-  # TODO: implement DISABLE_BEARS globally, esp deps.generic.sh
 
   - python --version
-  # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
-  - rm -f ~/.local/bin/python* ~/.local/bin/pip*
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
       .ci/deps.pyenv.sh && .ci/deps.python36.sh;
