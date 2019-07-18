@@ -416,7 +416,6 @@ jobs:
     - stage: sentinel
       language: ruby
       dist: trusty
-      env: PATH="$PATH:$TRAVIS_BUILD_DIR/vendor/bundle/bin"
       rvm: 2.4
       cache: bundler
 
@@ -492,7 +491,8 @@ env:
     - TERM=dumb
     - LINTR_COMMENT_BOT=false
     - BUNDLE_PATH="$TRAVIS_BUILD_DIR/vendor/bundle"
-    - PATH="$HOME/.local/bin:$PATH"
+    - BUNDLE_BIN="$BUNDLE_PATH/bin"
+    - PATH="$HOME/.local/bin:$PATH:$TRAVIS_BUILD_DIR/vendor/bundle/bin:$HOME/.local/tailor/tailor-latest/bin"
     # :$TRAVIS_BUILD_DIR/node_modules/.bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
@@ -509,9 +509,9 @@ env:
 stage: test
 
 before_install:
-  - echo $BUNDLE_PATH
-  - export BUNDLE_PATH="$TRAVIS_BUILD_DIR/vendor/bundle"
   - printenv
+  # https://travis-ci.community/t/bundle-path-disappears/4260
+  - export BUNDLE_PATH="$TRAVIS_BUILD_DIR/vendor/bundle"
   - mkdir -p ~/bin ~/.local/bin
 
   - python --version
@@ -538,22 +538,12 @@ before_install:
            "$(cat bear-requirements.txt requirements.txt)"
            > requirements.txt
 
-  - pwd
-  - export BUNDLE_BIN=$BUNDLE_PATH/bin
-
 before_script:
   - mv requirements.orig requirements.txt
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py bdist_wheel &&
       pip install $(ls ./dist/*.whl)"[alldeps]";
     fi
-  - pwd
-  - perlcritic --version || true
-  - sqlint --help || true
-  - ls -al $TRAVIS_BUILD_DIR/vendor/bundle/ || true
-  - ls $TRAVIS_BUILD_DIR/vendor/bundle/ruby/ || true
-  - ls $TRAVIS_BUILD_DIR/vendor/bundle/ruby/bin/ || true
-  - find $TRAVIS_BUILD_DIR/vendor/bundle/ || true
 
 script:
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
