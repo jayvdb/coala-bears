@@ -510,7 +510,7 @@ stage: test
 
 before_install:
   - echo $BUNDLE_PATH
-  - echo "$TRAVIS_BUILD_DIR/vendor/bundle"
+  - export BUNDLE_PATH="$TRAVIS_BUILD_DIR/vendor/bundle"
   - printenv
   - mkdir -p ~/bin ~/.local/bin
 
