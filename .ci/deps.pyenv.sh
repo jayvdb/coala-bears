@@ -8,10 +8,10 @@ fi
 git clone https://github.com/garyp/pyenv-register.git \
   $(pyenv root)/plugins/pyenv-register
 
-SYSTEM_PYTHONS=$(ls /usr/bin/python[3] \
-                    /usr/bin/python[3].[0-9] \
-                    /usr/bin/python[3].[0-9].[0-9] 2>/dev/null || true)
-for pybin in $SYSTEM_PYTHONS $(which python3.6); do
-  pyenv register -f $pybin || true
-done
+#SYSTEM_PYTHONS=$(ls /usr/bin/python[3] \
+#                    /usr/bin/python[3].[0-9] \
+#                    /usr/bin/python[3].[0-9].[0-9] 2>/dev/null || true)
+#for pybin in $SYSTEM_PYTHONS $(which python3.6); do
+
+pyenv register -f $(which python3.6)
 set +x
