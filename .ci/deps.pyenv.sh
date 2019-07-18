@@ -1,12 +1,19 @@
+#!/bin/bash
+
 set -e -x
+
 if [ -z "$(which pyenv)" ]; then
   git clone https://github.com/pyenv/pyenv.git ~/.pyenv;
   export PYENV_ROOT="$HOME/.pyenv";
   export PATH="$PYENV_ROOT/bin:$PATH";
 fi
+
 # https://github.com/doloopwhile/pyenv-register/pull/3
 git clone https://github.com/garyp/pyenv-register.git \
-  $(pyenv root)/plugins/pyenv-register
+  "$PYENV_ROOT/plugins/pyenv-register"
+
+ls /home/travis/.pyenv/plugins/
+ls /home/travis/.pyenv/plugins/pyenv-register
 
 #SYSTEM_PYTHONS=$(ls /usr/bin/python[3] \
 #                    /usr/bin/python[3].[0-9] \
