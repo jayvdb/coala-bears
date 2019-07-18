@@ -379,29 +379,21 @@ jobs:
     - stage: sentinel
       language: perl
       perl: 5.22
-      # trusty is installing into py27
-      # dist: xenial
+      dist: trusty
       cache:
         directories:
           - $HOME/perl5
 
-    - stage: sentinel
-      language: perl
-      perl: 5.18
-      # trusty is installing into py27
-      dist: trusty
+    # perl: 5.18 dist: trusty
 
     - stage: sentinel
       language: perl
-      perl: 5.30
-      # trusty is installing into py27
+      perl: '5.14'
       dist: trusty
 
-    - stage: sentinel
-      language: perl
-      perl: 5.28
-      # trusty is installing into py27
-      dist: trusty
+    # perl: '5.30' dist: trusty
+
+    # perl: 5.28  dist: trusty
 
     - stage: test-languages
       language: go
@@ -424,6 +416,7 @@ jobs:
     - stage: sentinel
       language: ruby
       dist: trusty
+      env: PATH="$PATH:vendor/bundle/bin"
       rvm: 2.4
       cache: bundler
 
@@ -499,7 +492,8 @@ env:
     - TERM=dumb
     - LINTR_COMMENT_BOT=false
     - BUNDLE_PATH=$TRAVIS_BUILD_DIR/vendor
-    - PATH="$HOME/.local/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    - PATH="$HOME/.local/bin:$PATH"
+    # :$TRAVIS_BUILD_DIR/node_modules/.bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
     - VIRTUALENV_NO_DOWNLOAD=1
