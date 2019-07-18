@@ -389,7 +389,7 @@ jobs:
     - stage: sentinel
       language: perl
       perl: '5.14'
-      dist: trusty
+      dist: xenial
 
     # perl: '5.30' dist: trusty
 
@@ -416,7 +416,7 @@ jobs:
     - stage: sentinel
       language: ruby
       dist: trusty
-      env: PATH="$PATH:vendor/bundle/bin"
+      env: PATH="$PATH:$TRAVIS_BUILD_DIR/vendor/bundle/bin"
       rvm: 2.4
       cache: bundler
 
