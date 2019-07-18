@@ -196,22 +196,8 @@ jobs:
     - stage: test-other-versions
       language: generic
       dist: bionic
+      # https://travis-ci.community/t/apt-addon-broken-on-bionic/4061
       env: DIST=bionic BEARS=apt_get DISABLE_BEARS=shellcheck
-      addons:
-        apt:
-          packages:
-            - chktex
-            - cppcheck
-            - devscripts
-            - flawfinder
-            - indent
-            - libperl-critic-perl
-            - libxml2-utils
-            - mono-mcs
-            - php7.0-cli
-            - phpmd
-            - php-codesniffer
-            - verilator
 
     - stage: test-other-versions
       language: generic
@@ -390,7 +376,7 @@ jobs:
       language: dart
       dart: 1.14.2
 
-    - stage: test-languages
+    - stage: sentinel
       language: perl
       # perl: 5.22
       # trusty is installing into py27
@@ -417,7 +403,7 @@ jobs:
           - $HOME/.cache/go-build
           - $HOME/gopath/pkg/mod
 
-    - stage: test-languages
+    - stage: sentinel
       language: ruby
       dist: trusty
       rvm: 2.4
@@ -543,6 +529,8 @@ before_script:
       python setup.py bdist_wheel &&
       pip install $(ls ./dist/*.whl)"[alldeps]";
     fi
+  - perlcritic --version || true
+  - sqlint --help || true
 
 script:
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
