@@ -50,8 +50,9 @@ jobs:
           packages:
             - luarocks
 
-    - stage: test-languages
+    - stage: sentinel
       language: generic
+      dist: trusty
       env: BEARS=opam INFER_VERSION=0.7.0
            PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
       addons:
