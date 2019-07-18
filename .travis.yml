@@ -192,7 +192,28 @@ jobs:
 
     - stage: test-other-versions
       language: generic
+      dist: bionic
+      env: DIST=bionic BEARS=apt_get DISABLE_BEARS=shellcheck
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
+            - devscripts
+            - flawfinder
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - php7.0-cli
+            - phpmd
+            - php-codesniffer
+            - verilator
+
+    - stage: test-other-versions
+      language: generic
       env: DIST=trusty BEARS=apt_get
+      dist: trusty
       addons:
         apt:
           packages:
