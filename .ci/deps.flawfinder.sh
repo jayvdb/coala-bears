@@ -1,4 +1,7 @@
 #!/bin/sh
+
+set -e -x
+
 # Change environment for flawfinder from python to python2
 if [ ! -e ~/.local/bin/flawfinder ]; then
   cp /usr/bin/flawfinder ~/.local/bin/flawfinder
