@@ -8,3 +8,7 @@ if [ ! -e ~/.local/bin/flawfinder ]; then
   sed -i '1s/.*/#!\/usr\/bin\/env python2/' ~/.local/bin/flawfinder
   chmod +x ~/.local/bin/flawfinder
 fi
+
+head ~/.local/bin/flawfinder
+
+~/.local/bin/flawfinder || true

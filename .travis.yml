@@ -81,9 +81,10 @@ jobs:
     - stage: test-languages
       language: generic
       dist: xenial
-      # astyle and shellcheck are failing in xenial
       env: DIST=xenial BEARS=adhoc BEAR_LIST="apt_get bakalint default-jre"
-           DISABLE_BEARS="shellcheck astyle"
+           DISABLE_BEARS="astyle ghc-mod r_script shellcheck"
+      # astyle and shellcheck are failing in xenial
+      # R bears and ghc_mod use separate job
       addons:
         apt:
           packages:
@@ -456,8 +457,7 @@ env:
   global:
     - TERM=dumb
     - LINTR_COMMENT_BOT=false
-    - CABAL_VERSION=1.24
-    - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    - PATH="$HOME/.local/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
     - VIRTUALENV_NO_DOWNLOAD=1
