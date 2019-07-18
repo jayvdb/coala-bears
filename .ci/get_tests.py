@@ -5,8 +5,9 @@ import os
 import os.path
 import sys
 
-import yaml
+from ruamel.yaml import YAML
 
+yaml = YAML()
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -61,7 +62,7 @@ DISABLE_BEARS = set(os.environ.get('DISABLE_BEARS', '').split(' '))
 
 def get_metadata():
     with open('bear-metadata.yaml') as f:
-        metadata = yaml.load(f, Loader=yaml.BaseLoader)
+        metadata = yaml.load(f)
 
     return metadata
 
