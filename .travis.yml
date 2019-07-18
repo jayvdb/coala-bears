@@ -491,7 +491,7 @@ env:
   global:
     - TERM=dumb
     - LINTR_COMMENT_BOT=false
-    - BUNDLE_PATH=$TRAVIS_BUILD_DIR/vendor
+    - BUNDLE_PATH=$TRAVIS_BUILD_DIR/vendor/bundle
     - PATH="$HOME/.local/bin:$PATH"
     # :$TRAVIS_BUILD_DIR/node_modules/.bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
     # These are only needed by Windows
@@ -547,10 +547,10 @@ before_script:
   - pwd
   - perlcritic --version || true
   - sqlint --help || true
-  - ls $TRAVIS_BUILD_DIR/vendor/bundle/ || true
-  - ls $TRAVIS_BUILD_DIR/vendor/bundle/bin || true
-  - ls $HOME/vendor/bundle/ || true
-  - ls $HOME/vendor/bundle/bin || true
+  - ls -al $TRAVIS_BUILD_DIR/vendor/bundle/ || true
+  - ls $TRAVIS_BUILD_DIR/vendor/bundle/ruby/ || true
+  - ls $TRAVIS_BUILD_DIR/vendor/bundle/ruby/bin/ || true
+  - find $TRAVIS_BUILD_DIR/vendor/bundle/ || true
 
 script:
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
