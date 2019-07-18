@@ -376,7 +376,7 @@ jobs:
       language: dart
       dart: 1.14.2
 
-    - stage: sentinel
+    - stage: test-languages
       language: perl
       perl: 5.22
       dist: xenial
@@ -491,7 +491,7 @@ env:
   global:
     - TERM=dumb
     - LINTR_COMMENT_BOT=false
-    - BUNDLE_PATH=$TRAVIS_BUILD_DIR/vendor/bundle
+    - BUNDLE_PATH="$TRAVIS_BUILD_DIR/vendor/bundle"
     - PATH="$HOME/.local/bin:$PATH"
     # :$TRAVIS_BUILD_DIR/node_modules/.bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
     # These are only needed by Windows
@@ -509,6 +509,8 @@ env:
 stage: test
 
 before_install:
+  - echo $BUNDLE_PATH
+  - echo "$TRAVIS_BUILD_DIR/vendor/bundle"
   - printenv
   - mkdir -p ~/bin ~/.local/bin
 
