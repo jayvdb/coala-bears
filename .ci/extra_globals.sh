@@ -8,11 +8,9 @@ elif [ "$TRAVIS_LANGUAGE" = "java" ]; then
   EXTRA_PATH="$HOME/.local/tailor/tailor-latest/bin"
 elif [ "$TRAVIS_LANGUAGE" = "php" ]; then
   EXTRA_PATH="$TRAVIS_BUILD_DIR/vendor/bin"
-elif [ "$BEARS" = "lua" ; then
+elif [ "$BEARS" = "lua" ]; then
   EXTRA_PATH="$HOME/.luarocks/bin"
 fi
-
-export LINTR_COMMENT_BOT=false
 
 if [ -n "$EXTRA_PATH" ]; then
   echo EXTRA_PATH=$EXTRA_PATH
