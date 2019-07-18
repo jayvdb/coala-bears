@@ -534,7 +534,7 @@ before_install:
 
 before_script:
   - find $TRAVIS_BUILD_DIR/node_modules/.bin || true
-  - ls -al $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint || true
+  - ls -al $TRAVIS_BUILD_DIR/node_modules/.bin/ || true
   - head $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint || true
   - $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint --version || true
   - which gherkin-lint || true
