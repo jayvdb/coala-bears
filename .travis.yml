@@ -284,6 +284,7 @@ jobs:
     - stage: sentinel
       language: python
       python: 3.6
+      dist: trusty
       addons:
         apt:
           packages: clang-3.4
@@ -291,6 +292,7 @@ jobs:
     - stage: test-languages
       language: python
       python: 3.5
+      dist: trusty
       addons:
         apt:
           packages: clang-3.4
@@ -298,6 +300,7 @@ jobs:
     - stage: test-other-versions
       language: python
       python: 3.4.4
+      dist: trusty
       addons:
         apt:
           packages: clang-3.4
