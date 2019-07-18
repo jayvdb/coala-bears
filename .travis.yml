@@ -233,6 +233,9 @@ jobs:
     - stage: sentinel
       language: generic
       env: DIST=precise BEARS=apt_get
+      cache:
+        directories:
+          - $HOME/.pyenv
       dist: precise
       addons:
         apt:
@@ -508,7 +511,7 @@ before_install:
   - python --version
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      .ci/deps.pyenv.sh && .ci/deps.python36.sh;
+      .ci/deps.python36.sh;
     fi
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
       pip install pip==9.0.3 setuptools==21.2.2;
