@@ -392,9 +392,9 @@ jobs:
 
     - stage: test-languages
       language: perl
-      perl: 5.14
+      # perl: 5.22
       # trusty is installing into py27
-      dist: xenial
+      # dist: xenial
       cache:
         directories:
           - $HOME/perl5
@@ -419,21 +419,25 @@ jobs:
 
     - stage: test-languages
       language: ruby
+      dist: trusty
       rvm: 2.4
       cache: bundler
 
     - stage: test-other-versions
       language: ruby
+      dist: trusty
       rvm: 2.3
       cache: bundler
 
     - stage: test-other-versions
       language: ruby
+      dist: trusty
       rvm: 2.2
       cache: bundler
 
     - stage: test-other-versions
       language: ruby
+      dist: trusty
       rvm: 2.1
       cache: bundler
 
