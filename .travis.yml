@@ -385,6 +385,24 @@ jobs:
         directories:
           - $HOME/perl5
 
+    - stage: sentinel
+      language: perl
+      perl: 5.18
+      # trusty is installing into py27
+      dist: trusty
+
+    - stage: sentinel
+      language: perl
+      perl: 5.30
+      # trusty is installing into py27
+      dist: trusty
+
+    - stage: sentinel
+      language: perl
+      perl: 5.28
+      # trusty is installing into py27
+      dist: trusty
+
     - stage: test-languages
       language: go
       go: 1.11
