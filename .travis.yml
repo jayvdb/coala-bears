@@ -82,7 +82,7 @@ jobs:
       language: generic
       dist: xenial
       env: DIST=xenial BEARS=adhoc BEAR_LIST="apt_get bakalint default-jre"
-           DISABLE_BEARS="astyle ghc-mod r_script shellcheck"
+           DISABLE_BEARS="astyle flawfinder ghc-mod r_script shellcheck"
       # astyle and shellcheck are failing in xenial
       # xenial doesnt have Python 2.7 needed for flawfinder
       # R bears and ghc_mod use separate jobs

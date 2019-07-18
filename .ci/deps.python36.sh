@@ -10,7 +10,7 @@ if [ -z "$PYTHON36_VERSION" ]; then
 
   export PYTHON36_VERSION=3.6.3
 
-  VERSION_ALIAS=3.6 pyenv install "$PYTHON36_VERSION";
+  pyenv install "$PYTHON36_VERSION";
 fi
 
 pyenv global "$PYTHON36_VERSION"
