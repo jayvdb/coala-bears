@@ -221,7 +221,6 @@ jobs:
             - chktex
             - cppcheck
             - devscripts
-            - flawfinder
             - indent
             - libperl-critic-perl
             - libxml2-utils
@@ -240,7 +239,6 @@ jobs:
             - chktex
             - cppcheck
             - devscripts
-            - flawfinder
             - indent
             - libperl-critic-perl
             - libxml2-utils
