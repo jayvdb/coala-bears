@@ -12,8 +12,11 @@ fi
 git clone https://github.com/garyp/pyenv-register.git \
   "$PYENV_ROOT/plugins/pyenv-register"
 
-ls /home/travis/.pyenv/plugins/
-ls /home/travis/.pyenv/plugins/pyenv-register
+ls /home/travis/.pyenv/plugins/ || true
+ls /home/travis/.pyenv/plugins/pyenv-register || true
+
+ls /opt/pyenv/plugins/ || true
+ls /opt/pyenv/plugins/pyenv-register || true
 
 #SYSTEM_PYTHONS=$(ls /usr/bin/python[3] \
 #                    /usr/bin/python[3].[0-9] \
