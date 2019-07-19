@@ -134,22 +134,21 @@ jobs:
           - C:/pip_cache/
       before_install:
         - bash --version
-        - powershell -c "$PSVersionTable"
-        - powershell -c 'Set-MpPreference -DisableRealtimeMonitoring $true'
-        - powershell -c 'Set-MpPreference -DisableArchiveScanning $true'
-        - powershell -c 'Set-MpPreference -DisableBehaviorMonitoring $true'
+        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+                                             -Scope LocalMachine"
+        - powershell .ci/travis_init.ps1
 
         - export NUGET_HTTP_CACHE_PATH=/C/nuget_http_cache
         - export CHOCO_CACHE_DIR=/C/choco_cache
         - export PIP_CACHE_DIR=/C/pip_cache
+
+        - source .ci/travis_extra_globals.sh
 
         - export TOXENV=py36-${TOX_TEST_SELECTORS}-${TOX_FEATURES}-win
 
         - printenv
 
         - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
-        - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
-                                             -Scope LocalMachine"
 
         - python .ci/store_env_in_registry.py
         - source .ci/refreshenv.sh
@@ -476,11 +475,8 @@ cache:
     - ~/.cabal
     - ~/.ghc
     - ~/.ghc-mod
-    - ~/R/Library
     - ~/.julia
     - ~/.luarocks
-    - $TRAVIS_BUILD_DIR/node_modules
-    - $TRAVIS_BUILD_DIR/.bundle
     - $TRAVIS_BUILD_DIR/vendor
     # coala managed data
     - ~/nltk_data
@@ -509,7 +505,7 @@ stage: test
 before_install:
   - printenv
   - mkdir -p ~/bin ~/.local/bin
-  - source .ci/extra_globals.sh
+  - source .ci/travis_extra_globals.sh
   - python --version
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
@@ -522,8 +518,8 @@ before_install:
       pip install pip==9.0.3 setuptools==21.2.2;
     fi
 
-  - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
-      bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
+  - if [ -f ".ci/deps.$TRAVIS_LANGUAGE.sh" ]; then
+      bash -e -x ".ci/deps.$TRAVIS_LANGUAGE.sh";
     fi
 
   # https://github.com/coala/coala/issues/3183
