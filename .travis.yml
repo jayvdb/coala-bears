@@ -1,9 +1,9 @@
 sudo: false
 dist: xenial
 language: python
-python: 3.6.3
 notifications:
   email: false
+python: 3.6.3
 
 stages:
   - name: sentinel
@@ -11,10 +11,6 @@ stages:
   - test-languages
   - test-other-versions
   - moban
-  - name: test-master
-  # if: branch = master AND type = push
-  - name: unsupported
-  # if: branch = master AND type = push
 
 .disable_global: &disable_global
   addons: false
@@ -244,7 +240,7 @@ jobs:
 
     - python: 2.7
       language: python
-      stage: unsupported
+      stage: test-other-versions
       env: PIP_NO_COMPILE=1
       addons: false
       before_install: true
@@ -253,7 +249,7 @@ jobs:
       script: .ci/check_unsupported.sh
     - python: 3.3
       language: python
-      stage: sentinel
+      stage: test-other-versions
       dist: trusty
       env: PIP_NO_COMPILE=1
       addons: false
@@ -275,29 +271,30 @@ jobs:
       after_failure: false
       if: branch = master AND type = push
 
-
     # Entries generates from `supported_versions`
     - stage: sentinel
+      dist: trusty
       language: python
       python: 3.6
-      # clang-3.4 is not available on xenial
-      dist: trusty
+      cache: pip
       addons:
         apt:
           packages: clang-3.4
 
     - stage: test-languages
+      dist: trusty
       language: python
       python: 3.5
-      dist: trusty
+      cache: pip
       addons:
         apt:
           packages: clang-3.4
 
     - stage: test-other-versions
+      dist: trusty
       language: python
       python: 3.4.4
-      dist: trusty
+      cache: pip
       addons:
         apt:
           packages: clang-3.4
@@ -321,7 +318,7 @@ jobs:
       r: oldrel
       cache: packages
 
-    - stage: test-other-versions
+    - stage: test-languages
       language: node_js
       node_js: '10'
       cache: npm
@@ -382,23 +379,36 @@ jobs:
       dart: 1.14.2
 
     - stage: test-languages
+      dist: trusty
       language: perl
-      perl: 5.22
-      dist: xenial
+      perl: '5.30'
       cache:
         directories:
           - $HOME/perl5
 
-    # perl: 5.18 dist: trusty
+    - stage: test-other-versions
+      dist: trusty
+      language: perl
+      perl: 5.22
+      cache:
+        directories:
+          - $HOME/perl5
 
     - stage: test-other-versions
+      dist: xenial
       language: perl
-      perl: '5.14'
-      dist: trusty
+      perl: 5.18
+      cache:
+        directories:
+          - $HOME/perl5
 
-    # perl: '5.30' dist: trusty
-
-    # perl: 5.28  dist: trusty
+    - stage: test-other-versions
+      dist: xenial
+      language: perl
+      perl: 5.14
+      cache:
+        directories:
+          - $HOME/perl5
 
     - stage: test-languages
       language: go
@@ -418,41 +428,43 @@ jobs:
           - $HOME/.cache/go-build
           - $HOME/gopath/pkg/mod
 
-    - stage: test-other-versions
-      language: ruby
+    - stage: test-languages
       dist: trusty
+      language: ruby
       rvm: 2.4
       cache: bundler
 
     - stage: test-other-versions
-      language: ruby
       dist: trusty
+      language: ruby
       rvm: 2.3
       cache: bundler
 
     - stage: test-other-versions
-      language: ruby
       dist: trusty
+      language: ruby
       rvm: 2.2
       cache: bundler
 
     - stage: test-other-versions
-      language: ruby
       dist: trusty
+      language: ruby
       rvm: 2.1
       cache: bundler
 
     - stage: test-languages
+      dist: trusty
       language: php
       php: 7.2
 
-    # stage: test-other-versions
-    # language: php
-    # php: hhvm-3.18
+    - stage: test-other-versions
+      dist: trusty
+      language: php
+      php: hhvm-3.18
 
     - stage: test-other-versions
-      language: php
       dist: trusty
+      language: php
       php: 5.5
 
     - stage: test-languages
@@ -536,12 +548,6 @@ before_install:
            > requirements.txt
 
 before_script:
-  - find $TRAVIS_BUILD_DIR/node_modules/.bin || true
-  - ls -al $TRAVIS_BUILD_DIR/node_modules/.bin/ || true
-  - head $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint || true
-  - $TRAVIS_BUILD_DIR/node_modules/.bin/gherkin-lint --version || true
-  - which gherkin-lint || true
-  # ls $TRAVIS_BUILD_DIR/node_modules/ || true
   - mv requirements.orig requirements.txt
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py bdist_wheel &&

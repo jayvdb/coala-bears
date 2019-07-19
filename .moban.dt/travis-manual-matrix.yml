@@ -8,6 +8,7 @@
 
 - stage: test-languages
   language: generic
+  dist: trusty
   env: BEARS=opam INFER_VERSION=0.7.0
        PATH=$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin
   addons:
@@ -24,30 +25,31 @@
   # https://github.com/coala/coala-bears/issues/1384
   language: generic
   dist: xenial
-  env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod hlint"
+  env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod"
   # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
   # ghc-mod needs cabal-install
-  # shellcheck is failing in xenial
   addons:
     apt:
       packages:
         - cabal-install
         - ghc
         - ghc-mod
-        - hlint
 
-# BEARS=apt_get rather than 'apt' to match key in bear-metadata.yaml
 - stage: test-languages
   language: generic
   dist: xenial
-  env: DIST=xenial BEARS=apt_get DISABLE_BEARS=shellcheck
+  env: DIST=xenial BEARS=adhoc BEAR_LIST="apt_get bakalint default-jre"
+       DISABLE_BEARS="astyle flawfinder ghc-mod r_script shellcheck"
+  # astyle and shellcheck are failing in xenial
+  # xenial doesnt have Python 2.7 needed for flawfinder
+  # R bears and ghc_mod use separate jobs
   addons:
     apt:
       packages:
         - chktex
         - cppcheck
         - devscripts
-        - flawfinder
+        - hlint
         - indent
         - libperl-critic-perl
         - libxml2-utils
@@ -59,12 +61,8 @@
 
 - stage: test-languages
   language: generic
-  dist: xenial
-  env: DIST=xenial BEARS=adhoc BEAR_LIST="bakalint default-jre"
-
-- stage: test-languages
-  language: generic
-  env: DIST=trusty BEARS=adhoc BEAR_LIST=astyle
+  dist: trusty
+  env: DIST=trusty BEARS=adhoc BEAR_LIST="astyle flawfinder shellcheck"
   addons:
     apt:
       sources:
@@ -74,6 +72,8 @@
             https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5BDA2E974A0E822C
       packages:
         - astyle
+        - flawfinder
+        - shellcheck
 
 # Additonal manual entries
 - stage: test-other-versions
@@ -90,22 +90,21 @@
       - C:/pip_cache/
   before_install:
     - bash --version
-    - powershell -c "$PSVersionTable"
-    - powershell -c 'Set-MpPreference -DisableRealtimeMonitoring $true'
-    - powershell -c 'Set-MpPreference -DisableArchiveScanning $true'
-    - powershell -c 'Set-MpPreference -DisableBehaviorMonitoring $true'
+    - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+                                         -Scope LocalMachine"
+    - powershell .ci/travis_init.ps1
 
     - export NUGET_HTTP_CACHE_PATH=/C/nuget_http_cache
     - export CHOCO_CACHE_DIR=/C/choco_cache
     - export PIP_CACHE_DIR=/C/pip_cache
+
+    - source .ci/travis_extra_globals.sh
 
     - export TOXENV=py36-${TOX_TEST_SELECTORS}-${TOX_FEATURES}-win
 
     - printenv
 
     - cp .ci/choco.config $ChocolateyInstall/config/chocolatey.config
-    - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted
-                                         -Scope LocalMachine"
 
     - python .ci/store_env_in_registry.py
     - source .ci/refreshenv.sh
@@ -124,14 +123,19 @@
     - export VIRTUALENV_NO_PIP=1
     - export VIRTUALENV_NO_SETUPTOOLS=1
     - pip uninstall tox-venv || true
+    # Avoid verify_gemfile_dependencies_are_found errors due to
+    # Gemfile modifications in .ci/deps.ruby-packages.ps1
+    - cp Gemfile.win Gemfile
   script:
     - python -m tox --sitepackages
   after_script:
     - cp tox.orig tox.ini
+    - cp Gemfile.orig Gemfile
 
 - stage: test-other-versions
   language: ruby
   rvm: 2.5
+  cache: bundler
   env: DISABLE_BEARS=csvlint
 
 - stage: test-other-versions
@@ -145,30 +149,40 @@
 - stage: test-other-versions
   language: java
   jdk: openjdk7
+  dist: trusty
   env: DISABLE_BEARS=tailor
+
+# BEARS=apt_get allows matching bears to be skipped
+- stage: test-other-versions
+  language: generic
+  dist: bionic
+  # https://travis-ci.community/t/apt-addon-broken-on-bionic/4061
+  env: DIST=bionic BEARS=apt_get DISABLE_BEARS=shellcheck
 
 - stage: test-other-versions
   language: generic
   env: DIST=trusty BEARS=apt_get
+  dist: trusty
   addons:
     apt:
       packages:
         - chktex
         - cppcheck
         - devscripts
-        - flawfinder
         - indent
         - libperl-critic-perl
         - libxml2-utils
         - mono-mcs
         - php5-cli
         - php-codesniffer
-        - shellcheck
         - verilator
 
 - stage: test-other-versions
   language: generic
   env: DIST=precise BEARS=apt_get
+  cache:
+    directories:
+      - $HOME/.pyenv
   dist: precise
   addons:
     apt:
@@ -176,7 +190,6 @@
         - chktex
         - cppcheck
         - devscripts
-        - flawfinder
         - indent
         - libperl-critic-perl
         - libxml2-utils
@@ -187,7 +200,7 @@
 
 - python: 2.7
   language: python
-  stage: unsupported
+  stage: test-other-versions
   env: PIP_NO_COMPILE=1
   addons: false
   before_install: true
@@ -196,7 +209,8 @@
   script: .ci/check_unsupported.sh
 - python: 3.3
   language: python
-  stage: unsupported
+  stage: test-other-versions
+  dist: trusty
   env: PIP_NO_COMPILE=1
   addons: false
   before_install: skip
@@ -206,7 +220,7 @@
 
 - python: 3.6
   language: python
-  stage: moban
+  stage: sentinel
   addons: false
   cache: pip
   before_install: false
@@ -216,4 +230,3 @@
   after_success: false
   after_failure: false
   if: branch = master AND type = push
-

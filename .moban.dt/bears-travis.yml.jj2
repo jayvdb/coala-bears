@@ -1,7 +1,7 @@
 {% extends 'ci/travis.yml.jj2' %}
 
 {% block custom_python_versions %}
-python: 3.6
+python: 3.6.3
 {% endblock %}
 
 {% block stages %}
@@ -11,10 +11,6 @@ stages:
   - test-languages
   - test-other-versions
   - moban
-  - name: test-master
-  # if: branch = master AND type = push
-  - name: unsupported
-  # if: branch = master AND type = push
 
 {% endblock %}
 
@@ -31,13 +27,35 @@ stages:
     - stage: test-other-versions
 {%   endif %}
 {%   set version_key = language %}
+{%   set dist = None %}
+{%   set cacher = False %}
 {%   if language == 'ruby' %}
+{%     set dist = 'trusty' %}
 {%     set version_key = 'rvm' %}
+{%     set cacher = 'bundler' %}
+{%   elif language == 'python' %}
+{#     clang-3.4 is not available on xenial #}
+{%     set dist = 'trusty' %}
+{%     set cacher = 'pip' %}
+{%   elif language == 'perl' %}
+{%     if version >= '5.22' %}
+{%       set dist = 'trusty' %}
+{%     else %}
+{%       set dist = 'xenial' %}
+{%     endif %}
+{%   elif language == 'php' %}
+{%     set dist = 'trusty' %}
+{%   elif language == 'r' %}
+{%     set cacher = 'packages' %}
+{%   elif language == 'node_js' %}
+{%     set cacher = 'npm' %}
 {%   elif language == 'java' %}
 {%     set version_key = 'jdk' %}
-{%   endif %}
-{%   if language == 'mono' %}
+{%   elif language == 'mono' %}
 {%     set language = 'csharp' %}
+{%   endif %}
+{%   if dist %}
+      dist: {{ dist }}
 {%   endif %}
       language: {{ language }}
 {%   if version.endswith('0') and not version.endswith('.0') %}
@@ -45,12 +63,23 @@ stages:
 {%   else %}
       {{ version_key }}: {{ version }}
 {%   endif %}
+{%   if cacher %}
+      cache: {{ cacher }}
+{%   endif %}
 {%   if language == 'python' %}
       addons:
         apt:
           packages: clang-3.4
 {%   elif language == 'go' %}
-      install: true
+      install: skip
+      cache:
+        directories:
+          - $HOME/.cache/go-build
+          - $HOME/gopath/pkg/mod
+{%   elif language == 'perl' %}
+      cache:
+        directories:
+          - $HOME/perl5
 {%   elif language == 'scala' and version.startswith('2.12') %}
       jdk: openjdk8
 {%   elif language == 'julia' %}
@@ -81,7 +110,6 @@ jobs:
 {%     set _ = seen_languages.__setitem__(language, 1) %}
 {%   endfor %}
 {% endfor %}
-
     - *moban
   allow_failures:
     - *moban
@@ -94,26 +122,19 @@ cache:
     - ~/.cabal
     - ~/.ghc
     - ~/.ghc-mod
-    - ~/R/Library
     - ~/.julia
     - ~/.luarocks
-    - $TRAVIS_BUILD_DIR/node_modules
-    - $TRAVIS_BUILD_DIR/.bundle
     - $TRAVIS_BUILD_DIR/vendor
     # coala managed data
     - ~/nltk_data
     # Installed linters
-    # Check this version works
     - ~/infer-linux64-v$INFER_VERSION
     - ~/.local/
 
 env:
   global:
     - TERM=dumb
-    - R_PROFILE=~/.Rprofile
-    - LINTR_COMMENT_BOT=false
-    - CABAL_VERSION=1.24
-    - PATH="$HOME/.local/bin:/opt/cabal/$CABAL_VERSION/bin:$PATH:$TRAVIS_BUILD_DIR/node_modules/.bin:$TRAVIS_BUILD_DIR/vendor/bin:$HOME/.cabal/bin:$HOME/.local/tailor/tailor-latest/bin:$HOME/.luarocks/bin"
+    - PATH="$HOME/.local/bin:$PATH"
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
     - VIRTUALENV_NO_DOWNLOAD=1
@@ -131,38 +152,21 @@ env:
 before_install:
   - printenv
   - mkdir -p ~/bin ~/.local/bin
-
-  - if [ -z "$GOPATH" ]; then
-      export GOPATH="/home/travis/gopath";
-    fi
-  # TODO: implement DISABLE_BEARS globally, esp deps.generic.sh
-
+  - source .ci/travis_extra_globals.sh
   - python --version
-  # ~/bin is uncached; ~/local/bin is cached; we dont want python/pip in latter
-  - rm -f ~/.local/bin/python* ~/.local/bin/pip*
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      source .ci/deps.pyenv.sh;
-      source .ci/deps.python36.sh;
+      .ci/deps.python36.sh && hash -r;
     fi
-  - pyenv versions --bare
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
-      PYTHON36_VERSION=$(pyenv versions --bare | fgrep '3.6' --max-count 1);
-      if [ "$BEARS" = "infer" -o "$BEARS" = "opam" ]; then
-        pyenv global 2.7 $PYTHON36_VERSION;
-      else
-        pyenv global $PYTHON36_VERSION;
-      fi;
-      hash -r;
+  - if [ -d "$HOME/.pyenv/bin" ]; then
+      export PATH="$HOME/.pyenv/bin:$PATH";
     fi
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then pyenv versions --bare; fi
-  - python --version
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
       pip install pip==9.0.3 setuptools==21.2.2;
     fi
 
-  - if [ -f .ci/deps.$TRAVIS_LANGUAGE.sh ]; then
-      bash -e -x .ci/deps.$TRAVIS_LANGUAGE.sh;
+  - if [ -f ".ci/deps.$TRAVIS_LANGUAGE.sh" ]; then
+      bash -e -x ".ci/deps.$TRAVIS_LANGUAGE.sh";
     fi
 
   # https://github.com/coala/coala/issues/3183
@@ -178,6 +182,10 @@ before_install:
 {% block before_script %}
 before_script:
   - mv requirements.orig requirements.txt
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      python setup.py bdist_wheel &&
+      pip install $(ls ./dist/*.whl)"[alldeps]";
+    fi
 
 {% endblock %}
 
@@ -187,17 +195,18 @@ before_script:
     fi
   # Ensure metadata files are in sync with the bear metadata in the source
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
-      python setup.py bdist_wheel;
-      pip install $(ls ./dist/*.whl)"[alldeps]";
-      coala --non-interactive;
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
     fi
   - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
       pip install --upgrade setuptools;
     fi
+  - which gherkin-lint || true
   - python -m tox -vvv
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py docs;
+    fi
+  - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
+      coala --non-interactive;
     fi
 {% endblock %}
 
