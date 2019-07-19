@@ -167,10 +167,14 @@ jobs:
         - export VIRTUALENV_NO_PIP=1
         - export VIRTUALENV_NO_SETUPTOOLS=1
         - pip uninstall tox-venv || true
+        # Avoid verify_gemfile_dependencies_are_found errors due to
+        # Gemfile modifications in .ci/deps.ruby-packages.ps1
+        - cp Gemfile.win Gemfile
       script:
         - python -m tox --sitepackages
       after_script:
         - cp tox.orig tox.ini
+        - cp Gemfile.orig Gemfile
 
     - stage: test-other-versions
       language: ruby
