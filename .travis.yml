@@ -172,7 +172,7 @@ jobs:
         - cp tox.orig tox.ini
         - cp Gemfile.orig Gemfile
 
-    - stage: test-other-versions
+    - stage: sentinel
       language: ruby
       rvm: 2.5
       cache: bundler
@@ -318,7 +318,7 @@ jobs:
       r: oldrel
       cache: packages
 
-    - stage: test-languages
+    - stage: sentinel
       language: node_js
       node_js: '10'
       cache: npm
@@ -410,7 +410,7 @@ jobs:
         directories:
           - $HOME/perl5
 
-    - stage: test-languages
+    - stage: sentinel
       language: go
       go: 1.11
       install: skip
