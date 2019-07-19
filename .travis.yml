@@ -120,7 +120,7 @@ jobs:
             - shellcheck
 
     # Additonal manual entries
-    - stage: test-other-versions
+    - stage: sentinel
       os: windows
       language: bash
       python: 3.6.8
@@ -187,9 +187,10 @@ jobs:
     # https://github.com/travis-ci/travis-cookbooks/issues/976
     # They need the same configuration as openjdk11:
     # env: DISABLE_BEARS="languagetool tailor"
-    - stage: test-other-versions
+    - stage: sentinel
       language: java
       jdk: openjdk7
+      dist: trusty
       env: DISABLE_BEARS=tailor
 
     # BEARS=apt_get allows matching bears to be skipped
@@ -389,7 +390,7 @@ jobs:
     - stage: test-other-versions
       language: perl
       perl: '5.14'
-      dist: xenial
+      dist: trusty
 
     # perl: '5.30' dist: trusty
 
@@ -445,8 +446,9 @@ jobs:
     # language: php
     # php: hhvm-3.18
 
-    - stage: test-other-versions
+    - stage: sentinel
       language: php
+      dist: trusty
       php: 5.5
 
     - stage: test-languages
