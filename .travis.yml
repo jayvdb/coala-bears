@@ -120,7 +120,7 @@ jobs:
             - shellcheck
 
     # Additonal manual entries
-    - stage: sentinel
+    - stage: test-other-versions
       os: windows
       language: bash
       python: 3.6.8
@@ -190,7 +190,7 @@ jobs:
     # https://github.com/travis-ci/travis-cookbooks/issues/976
     # They need the same configuration as openjdk11:
     # env: DISABLE_BEARS="languagetool tailor"
-    - stage: sentinel
+    - stage: test-other-versions
       language: java
       jdk: openjdk7
       dist: trusty
@@ -253,7 +253,8 @@ jobs:
       script: .ci/check_unsupported.sh
     - python: 3.3
       language: python
-      stage: unsupported
+      stage: sentinel
+      dist: trusty
       env: PIP_NO_COMPILE=1
       addons: false
       before_install: skip
@@ -263,7 +264,7 @@ jobs:
 
     - python: 3.6
       language: python
-      stage: moban
+      stage: sentinel
       addons: false
       cache: pip
       before_install: false
@@ -320,7 +321,7 @@ jobs:
       r: oldrel
       cache: packages
 
-    - stage: sentinel
+    - stage: test-other-versions
       language: node_js
       node_js: '10'
       cache: npm
@@ -449,7 +450,7 @@ jobs:
     # language: php
     # php: hhvm-3.18
 
-    - stage: sentinel
+    - stage: test-other-versions
       language: php
       dist: trusty
       php: 5.5
