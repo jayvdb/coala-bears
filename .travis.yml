@@ -509,7 +509,7 @@ env:
     - NUGET_EXE_NO_PROMPT=true
     - VIRTUALENV_NO_DOWNLOAD=1
     # Enable to debug tox
-    - VIRTUALENV_VERBOSE=1
+    # VIRTUALENV_VERBOSE=1
     # This exceeds the travis maximum log length
     # PIP_VERBOSE=1
     - PIP_DISABLE_PIP_VERSION_CHECK=1
@@ -566,7 +566,7 @@ script:
       pip install --upgrade setuptools;
     fi
   - which gherkin-lint || true
-  - python -m tox -vvv
+  - python -m tox
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       python setup.py docs;
     fi
