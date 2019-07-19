@@ -34,10 +34,6 @@ function Install-Binary-Packages {
     # pycparser not a wheel, but ensure it is installable before proceeding
     # https://github.com/eliben/pycparser/issues/251
     python -m pip --verbose install pycparser
-    # pyrsistent->jsonschema->nbformat fails on old setuptools if no MS VC 9
-    # https://github.com/tobgu/pyrsistent/issues/172
-    python -m pip install -U setuptools
-    python -m pip install pyrsistent
 }
 
 function Install-coala {
