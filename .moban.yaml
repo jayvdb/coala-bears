@@ -12,7 +12,6 @@ package_module: bears
 docs_source_dir: API
 docs_dir: docs
 test_prevent_skips: false
-travis_dist: trusty
 pip_constraints_file: bear-requirements.txt
 lint_command: false
 appveyor_global_environment:
@@ -76,6 +75,9 @@ supported_versions:
     - 1.15.0
     - 1.14.2
   perl:
+    - '5.30'
+    - 5.22
+    - 5.18
     - 5.14
   go:
     - 1.11
