@@ -124,13 +124,23 @@ def get_tests(bears):
 
 
 def main():
-    args = sys.argv[1:]
+    args_orig = sys.argv[1:]
     metadata = get_metadata()
 
     include_disabled = False
-    if args[0] == '--disabled':
+    if args_orig[0] == '--disabled':
         include_disabled = True
-        args = args[1:]
+        args_orig = args_orig[1:]
+
+    args = []
+    for arg in args_orig:
+        args += arg.split('-')
+
+    if 'java7' in args or 'java8' in args:
+        args.append('java')
+
+    if 'pip' in args:
+        args.append('noreqs')
 
     # TODO: pass through any args which are literal test filenames
 
