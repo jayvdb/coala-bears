@@ -134,6 +134,9 @@ def main():
 
     args = []
     for arg in args_orig:
+        if arg in ['ghc-mod', 'default-jre']:
+            args += [arg]
+            continue
         args += arg.split('-')
 
     if 'java7' in args or 'java8' in args:
