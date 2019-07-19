@@ -61,10 +61,10 @@ jobs:
             - opam
 
     - stage: test-languages
+      dist: xenial
       # This is in generic image, as language: haskell isnt working yet
       # https://github.com/coala/coala-bears/issues/1384
       language: generic
-      dist: xenial
       env: DIST=xenial BEARS=adhoc BEAR_LIST="ghc-mod"
       # ghc-mod needs parts of ghc, specifically at least /usr/lib/ghc/settings
       # ghc-mod needs cabal-install
@@ -76,8 +76,8 @@ jobs:
             - ghc-mod
 
     - stage: test-languages
-      language: generic
       dist: xenial
+      language: generic
       env: DIST=xenial BEARS=adhoc BEAR_LIST="apt_get bakalint default-jre"
            DISABLE_BEARS="astyle flawfinder ghc-mod r_script shellcheck"
       # astyle and shellcheck are failing in xenial
@@ -100,8 +100,8 @@ jobs:
             - verilator
 
     - stage: test-languages
-      language: generic
       dist: trusty
+      language: generic
       env: DIST=trusty BEARS=adhoc BEAR_LIST="astyle flawfinder shellcheck"
       addons:
         apt:
@@ -194,15 +194,15 @@ jobs:
 
     # BEARS=apt_get allows matching bears to be skipped
     - stage: test-other-versions
-      language: generic
       dist: bionic
+      language: generic
       # https://travis-ci.community/t/apt-addon-broken-on-bionic/4061
       env: DIST=bionic BEARS=apt_get DISABLE_BEARS=shellcheck
 
     - stage: test-other-versions
+      dist: trusty
       language: generic
       env: DIST=trusty BEARS=apt_get
-      dist: trusty
       addons:
         apt:
           packages:
@@ -218,12 +218,12 @@ jobs:
             - verilator
 
     - stage: test-other-versions
+      dist: precise
       language: generic
       env: DIST=precise BEARS=apt_get
       cache:
         directories:
           - $HOME/.pyenv
-      dist: precise
       addons:
         apt:
           packages:
