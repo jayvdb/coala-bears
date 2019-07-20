@@ -144,6 +144,9 @@ stages:
 {%     if 'php-codesniffer' in packages and dist in ['precise'] %}
 {%       set _ = packages.remove('php-codesniffer') %}
 {%     endif %}
+{%     if 'hlint' in packages and dist in ['precise'] %}
+{%       set _ = packages.remove('hlint') %}
+{%     endif %}
 {%     if 'phpmd' in packages and dist in ['precise'] %}
 {%       set _ = packages.remove('phpmd') %}
 {%     endif %}

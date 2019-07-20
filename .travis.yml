@@ -243,7 +243,6 @@ jobs:
             - default-jre
             - devscripts
             - flawfinder
-            - hlint
             - indent
             - libperl-critic-perl
             - libxml2-utils
