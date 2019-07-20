@@ -1,15 +1,3 @@
-cache: &global_cache
-  pip: true
-  directories:
-    - docs/_build
-    # Installed language package caches
-    - ~/.cabal
-    - ~/.ghc
-    - ~/.ghc-mod
-    # coala managed data
-    - ~/nltk_data
-    - ~/.local/
-
 env:
   global:
     - TERM=dumb
