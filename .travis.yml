@@ -252,7 +252,7 @@ jobs:
             - php5-cli
             - ruby
             - verilator
-            - python2
+            - python
       cache:
         directories:
           - $HOME/.pyenv

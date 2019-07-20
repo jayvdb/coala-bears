@@ -60,7 +60,7 @@ stages:
 {%       set packages = all_apt_packages %}
 {%     endif %}
 {%     if 'flawfinder' in packages %}
-{%       set _ = packages.append('python2') %}
+{%       set _ = packages.append('python') %}
 {%     endif %}
 {%   elif language == 'ruby' %}
 {%     set dist = 'trusty' %}
