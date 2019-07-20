@@ -97,7 +97,7 @@
 
     - source .ci/travis_extra_globals.sh
 
-    - export TOX_SITEPACKAGES=true
+    - export TOXINI_SITEPACKAGES=true
     - export VIRTUALENV_NO_PIP=1
     - export VIRTUALENV_NO_SETUPTOOLS=1
 

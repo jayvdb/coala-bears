@@ -7,7 +7,6 @@ python: 3.6.3
 
 stages:
   - name: sentinel
-    if: branch != master OR type = pull_request
   - test-languages
   - test-other-versions
   - moban
@@ -112,7 +111,7 @@ jobs:
             - verilator
 
     # Additonal manual entries
-    - stage: sentinel
+    - stage: test-other-versions
       os: windows
       language: bash
       python: '3.6.8'
@@ -232,7 +231,7 @@ jobs:
         apt:
           packages: clang-3.4
 
-    - stage: sentinel
+    - stage: test-languages
       dist: precise
       language: generic
       env:
@@ -259,7 +258,7 @@ jobs:
         directories:
           - $HOME/.pyenv
 
-    - stage: sentinel
+    - stage: test-other-versions
       dist: bionic
       language: generic
       env:
