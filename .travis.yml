@@ -252,7 +252,6 @@ jobs:
             perl
             php5-cli
             ruby
-            shellcheck
             verilator
       cache:
         directories:

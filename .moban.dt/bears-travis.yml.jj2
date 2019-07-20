@@ -126,7 +126,7 @@ stages:
 {%   if packages %}
       addons:
         apt:
-{%     if 'shellcheck' in packages and dist not in ['precise', 'trusty'] %}
+{%     if 'shellcheck' in packages and dist not in ['trusty'] %}
 {%       set _ = packages.remove('shellcheck') %}
 {%     endif %}
 {%     if 'atyle' in packages and dist in ['precise', 'trusty'] %}
