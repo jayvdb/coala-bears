@@ -1,4 +1,4 @@
-.cache:
+cache: &global_cache
   pip: true
   directories:
     - docs/_build

@@ -208,7 +208,6 @@ jobs:
       dist: trusty
       language: python
       python: 3.6
-      cache: pip
       addons:
         apt:
           packages: clang-3.4
@@ -217,7 +216,6 @@ jobs:
       dist: trusty
       language: python
       python: 3.5
-      cache: pip
       addons:
         apt:
           packages: clang-3.4
@@ -226,7 +224,6 @@ jobs:
       dist: trusty
       language: python
       python: 3.4.4
-      cache: pip
       addons:
         apt:
           packages: clang-3.4
@@ -273,42 +270,58 @@ jobs:
     - stage: test-languages
       language: r
       r: release
-      cache: packages
+      cache:
+        <<: *global_cache
+        packages: true
 
     - stage: test-other-versions
       language: r
       r: devel
-      cache: packages
+      cache:
+        <<: *global_cache
+        packages: true
 
     - stage: test-other-versions
       language: r
       r: oldrel
-      cache: packages
+      cache:
+        <<: *global_cache
+        packages: true
 
     - stage: test-languages
       language: node_js
       node_js: '10'
-      cache: npm
+      cache:
+        <<: *global_cache
+        npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 9
-      cache: npm
+      cache:
+        <<: *global_cache
+        npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 8
-      cache: npm
+      cache:
+        <<: *global_cache
+        npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 7
-      cache: npm
+      cache:
+        <<: *global_cache
+        npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 6
-      cache: npm
+      cache:
+        <<: *global_cache
+        npm: true
 
     - stage: test-languages
       language: julia
@@ -408,32 +421,42 @@ jobs:
       dist: trusty
       language: ruby
       rvm: 2.4
-      cache: bundler
+      cache:
+        <<: *global_cache
+        bundler: true
 
     - stage: test-other-versions
       dist: trusty
       language: ruby
       rvm: 2.3
-      cache: bundler
+      cache:
+        <<: *global_cache
+        bundler: true
 
     - stage: test-other-versions
       dist: trusty
       language: ruby
       rvm: 2.2
-      cache: bundler
+      cache:
+        <<: *global_cache
+        bundler: true
 
     - stage: test-other-versions
       dist: trusty
       language: ruby
       rvm: 2.1
-      cache: bundler
+      cache:
+        <<: *global_cache
+        bundler: true
 
     - stage: test-other-versions
       dist: trusty
       language: ruby
       rvm: 2.5
       env: DISABLE_BEARS="csvlint"
-      cache: bundler
+      cache:
+        <<: *global_cache
+        bundler: true
 
     - stage: test-languages
       dist: trusty
@@ -506,7 +529,7 @@ jobs:
 
 stage: test
 
-.cache:
+cache: &global_cache
   pip: true
   directories:
     - docs/_build
