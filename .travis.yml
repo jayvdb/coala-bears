@@ -136,6 +136,10 @@ jobs:
 
         - source .ci/travis_extra_globals.sh
 
+        - export TOX_SITEPACKAGES=true
+        - export VIRTUALENV_NO_PIP=1
+        - export VIRTUALENV_NO_SETUPTOOLS=1
+
         - export TOXENV=py36-${TOX_TEST_SELECTORS}-${TOX_FEATURES}-win
 
         - printenv
@@ -150,20 +154,19 @@ jobs:
       install:
         - powershell -c ". .ci/Fudge.ps1 install"
         - refreshenv
+
         - taskkill -IM "gpg-agent.exe" || true
-      before_script:
-        - python --version
-        - cp tox.ini tox.orig
-        - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
-        - export TOX_SITEPACKAGES=true
-        - export VIRTUALENV_NO_PIP=1
-        - export VIRTUALENV_NO_SETUPTOOLS=1
+
         - pip uninstall tox-venv || true
+
         # Avoid verify_gemfile_dependencies_are_found errors due to
         # Gemfile modifications in .ci/deps.ruby-packages.ps1
         - cp Gemfile.win Gemfile
-      script:
-        - python -m tox --sitepackages
+
+        - cp requirements.txt requirements.orig
+        - cp tox.ini tox.orig
+        - "sed -i 's/^envlist.*$/envlist: '$TOXENV/ tox.ini"
+
       after_script:
         - cp tox.orig tox.ini
         - cp Gemfile.orig Gemfile
@@ -571,7 +574,7 @@ before_script:
     fi
 
 script:
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+  - if [ -z "$TRAVIS_PYTHON_VERSION" -a "$TRAVIS_OS_NAME" = "linux" ]; then
       python -m pip install --upgrade --user -r test-requirements.txt;
     fi
   # Ensure metadata files are in sync with the bear metadata in the source

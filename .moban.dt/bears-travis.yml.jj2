@@ -55,10 +55,18 @@ stages:
          'BEARS': 'apt_get',
          'DISABLE_BEARS': _disable_bears,
        } %}
-{%     if version != 'bionic' %}
 {#       https://travis-ci.community/t/apt-addon-broken-on-bionic/4061 #}
-{%       set packages = all_apt_packages %}
-{%     endif %}
+{%     set _unsupported_packages = {
+            'precise': ['astyle', 'hlint', 'php-codesniffer', 'phpmd', 'shellcheck'],
+            'trusty': ['astyle'],
+            'xenial': ['shellcheck'],
+            'bionic': all_apt_packages,
+       } %}
+{%     for package in all_apt_packages %}
+{%       if package not in _unsupported_packages[dist] %}
+{%         set _ = packages.append(package) %}
+{%       endif %}
+{%     endfor %}
 {%     if 'flawfinder' in packages %}
 {%       set _ = packages.append('python') %}
 {%     endif %}
@@ -134,21 +142,6 @@ stages:
 {%     if 'opam' in packages %}
           sources:
             - avsm
-{%     endif %}
-{%     if 'shellcheck' in packages and dist not in ['trusty'] %}
-{%       set _ = packages.remove('shellcheck') %}
-{%     endif %}
-{%     if 'astyle' in packages and dist in ['precise', 'trusty'] %}
-{%       set _ = packages.remove('astyle') %}
-{%     endif %}
-{%     if 'php-codesniffer' in packages and dist in ['precise'] %}
-{%       set _ = packages.remove('php-codesniffer') %}
-{%     endif %}
-{%     if 'hlint' in packages and dist in ['precise'] %}
-{%       set _ = packages.remove('hlint') %}
-{%     endif %}
-{%     if 'phpmd' in packages and dist in ['precise'] %}
-{%       set _ = packages.remove('phpmd') %}
 {%     endif %}
 {%     if packages | length == 1 %}
           packages: {{ packages[0] }}
@@ -299,7 +292,7 @@ before_script:
 {% endblock %}
 
 {% block script %}
-  - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
+  - if [ -z "$TRAVIS_PYTHON_VERSION" -a "$TRAVIS_OS_NAME" = "linux" ]; then
       python -m pip install --upgrade --user -r test-requirements.txt;
     fi
   # Ensure metadata files are in sync with the bear metadata in the source
