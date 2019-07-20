@@ -340,6 +340,7 @@ jobs:
         # Verify compilation works
         - julia -e 'import Lint.lintfile'
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.julia
 
@@ -352,6 +353,7 @@ jobs:
         # Verify compilation works
         - julia -e 'import Lint.lintfile'
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.julia
 
@@ -364,6 +366,7 @@ jobs:
         # Verify compilation works
         - julia -e 'import Lint.lintfile'
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.julia
 
@@ -380,6 +383,7 @@ jobs:
       language: perl
       perl: '5.30'
       cache:
+        <<: *global_cache
         directories:
           - $HOME/perl5
 
@@ -388,6 +392,7 @@ jobs:
       language: perl
       perl: 5.22
       cache:
+        <<: *global_cache
         directories:
           - $HOME/perl5
 
@@ -396,6 +401,7 @@ jobs:
       language: perl
       perl: 5.18
       cache:
+        <<: *global_cache
         directories:
           - $HOME/perl5
 
@@ -404,6 +410,7 @@ jobs:
       language: perl
       perl: 5.14
       cache:
+        <<: *global_cache
         directories:
           - $HOME/perl5
 
@@ -412,6 +419,7 @@ jobs:
       go: 1.11
       install: skip
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.cache/go-build
           - $HOME/gopath/pkg/mod
@@ -421,6 +429,7 @@ jobs:
       go: '1.10'
       install: skip
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.cache/go-build
           - $HOME/gopath/pkg/mod
@@ -512,6 +521,7 @@ jobs:
         apt:
           packages: luarocks
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.luarocks
 

@@ -166,6 +166,7 @@ cache: &global_cache
 {%   if language == 'go' %}
       install: skip
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.cache/go-build
           - $HOME/gopath/pkg/mod
@@ -175,10 +176,12 @@ cache: &global_cache
           - $HOME/.pyenv
 {%   elif language == 'lua' %}
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.luarocks
 {%   elif language == 'perl' %}
       cache:
+        <<: *global_cache
         directories:
           - $HOME/perl5
 {%   elif language == 'scala' and version.startswith('2.12') %}
@@ -192,6 +195,7 @@ cache: &global_cache
         # Verify compilation works
         - julia -e 'import Lint.lintfile'
       cache:
+        <<: *global_cache
         directories:
           - $HOME/.julia
 {%   endif %}
