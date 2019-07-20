@@ -68,6 +68,8 @@ choco_requirements:
   xsltproc: true
   ShellCheck: true  # https://github.com/coala/coala-bears/issues/2920
 
+# The first entry is the most supported
+# Latter entries which are higher versions may have some bears disabled
 supported_versions:
   # python included from `python_version`
   mono:
@@ -102,6 +104,7 @@ supported_versions:
     - 2.3
     - 2.2
     - 2.1
+    - 2.5
   php:
     - 7.2
     - hhvm-3.18
@@ -110,11 +113,24 @@ supported_versions:
     - 2.11
     - 2.12.2
   java:
-    - openjdk8
+    - 8
+    - 7
+    # openjdk10 and openjdk9 are broken on Travis
+    # https://github.com/travis-ci/travis-cookbooks/issues/976
+    # Their config is the same as 11
+    - 11
+    - 12
   lua:
     - default
   infer:
     - 0.7.0
+
+foo:
+  apt:
+    - xenial
+    - trusty
+    - precise
+    - bionic
 
 requires:
   - https://gitlab.com/coala/package_manager/

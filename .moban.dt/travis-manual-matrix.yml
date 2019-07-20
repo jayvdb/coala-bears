@@ -1,3 +1,4 @@
+{# This file can include Jinja as long as it is valid YAML #}
 - stage: test-languages
   dist: xenial
   # This is in generic image, as language: haskell isnt working yet
@@ -109,26 +110,6 @@
   after_script:
     - cp tox.orig tox.ini
     - cp Gemfile.orig Gemfile
-
-- stage: test-other-versions
-  language: ruby
-  rvm: 2.5
-  cache: bundler
-  env: DISABLE_BEARS=csvlint
-
-- stage: test-other-versions
-  language: java
-  jdk: openjdk11
-  env: DISABLE_BEARS="languagetool tailor"
-# openjdk10 and openjdk9 are broken on Travis
-# https://github.com/travis-ci/travis-cookbooks/issues/976
-# They need the same configuration as openjdk11:
-# env: DISABLE_BEARS="languagetool tailor"
-- stage: test-other-versions
-  language: java
-  jdk: openjdk7
-  dist: trusty
-  env: DISABLE_BEARS=tailor
 
 # BEARS=apt_get allows matching bears to be skipped
 - stage: test-other-versions

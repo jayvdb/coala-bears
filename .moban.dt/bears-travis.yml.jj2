@@ -41,10 +41,19 @@ stages:
          'PATH': '$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin',
        } %}
 {%     set dist = 'trusty' %}
+{%   elif language == 'apt' %}
+{%     set version_key = None %}
+{%     set env = {
+         'DIST': language,
+       } %}
+{%     set dist = 'trusty' %}
 {%   elif language == 'ruby' %}
 {%     set dist = 'trusty' %}
 {%     set version_key = 'rvm' %}
 {%     set cacher = 'bundler' %}
+{%     if version >= '2.5' %}
+{%       set env = {'DISABLE_BEARS': "csvlint"} %}
+{%     endif %}
 {%   elif language == 'python' %}
 {#     clang-3.4 is not available on xenial #}
 {%     set dist = 'trusty' %}
@@ -59,6 +68,13 @@ stages:
 {%     set cacher = 'npm' %}
 {%   elif language == 'java' %}
 {%     set version_key = 'jdk' %}
+{%     if version == '7' %}
+{%       set dist = 'trusty' %}
+{%       set env = {'DISABLE_BEARS': "tailor"} %}
+{%     elif version != '8' %}
+{%       set env = {'DISABLE_BEARS': "languagetool tailor"} %}
+{%     endif %}
+{%     set version = 'openjdk' + version %}
 {%   elif language == 'mono' %}
 {%     set language = 'csharp' %}
 {%   endif %}
@@ -82,10 +98,16 @@ stages:
 {%     endif %}
 {%   endif %}
 {%   if env %}
+{%     if env | length == 1 %}
+{%       set name = [].__class__(env.keys())[0] %}
+{%       set value = env[name] %}
+      env: {{ name }}="{{ value }}"
+{%     else %}
       env:
-{%     for name, value in env.items() %}
+{%       for name, value in env.items() %}
         {{ name }}="{{ value }}"
-{%     endfor %}
+{%       endfor %}
+{%     endif %}
 {%   endif %}
 {%   if cacher %}
       cache: {{ cacher }}
