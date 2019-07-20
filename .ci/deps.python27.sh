@@ -15,5 +15,8 @@ if [ -n "$PYTHON27_BIN" ]; then
   pyenv register -f "$PYTHON27_BIN" || true
 fi
 
-pyenv global 2.7 $(pyenv versions --bare | fgrep '3.6' --max-count 1)
+PYTHON27_VERSION=$(pyenv versions --bare | fgrep '2.7' --max-count 1)
+PYTHON36_VERSION=$(pyenv versions --bare | fgrep '3.6' --max-count 1 || true)
+
+pyenv global "$PYTHON27_VERSION" "$PYTHON36_VERSION"
 hash -r
