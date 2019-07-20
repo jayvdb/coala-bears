@@ -29,11 +29,12 @@ stages:
 {%   set env = {} %}
 {%   set version_key = language %}
 {%   set dist = None %}
-{%   set packages = None %}
+{%   set packages = [] %}
 {%   set cacher = False %}
 {%   if language == 'lua' %}
 {%     set env = {'BEARS': language} %}
 {%     set version_key = None %}
+{%     set packages = ['luarocks'] %}
 {%   elif language == 'infer' %}
 {%     set version_key = None %}
 {%     set env = {
@@ -42,6 +43,7 @@ stages:
          'PATH': '$PATH:$HOME/infer-linux64-v$INFER_VERSION/infer/bin',
        } %}
 {%     set dist = 'trusty' %}
+{%     set packages = ['camlp4-extra', 'ocaml', 'opam'] %}
 {%   elif language == 'apt' %}
 {%     set version_key = None %}
 {%     set dist = version %}
@@ -56,6 +58,9 @@ stages:
 {%     if version != 'bionic' %}
 {#       https://travis-ci.community/t/apt-addon-broken-on-bionic/4061 #}
 {%       set packages = all_apt_packages %}
+{%     endif %}
+{%     if 'flawfinder' in packages %}
+{%       set _ = packages.append('python2') %}
 {%     endif %}
 {%   elif language == 'ruby' %}
 {%     set dist = 'trusty' %}
@@ -126,10 +131,14 @@ stages:
 {%   if packages %}
       addons:
         apt:
+{%     if 'opam' in packages %}
+          sources:
+            - avsm
+{%     endif %}
 {%     if 'shellcheck' in packages and dist not in ['trusty'] %}
 {%       set _ = packages.remove('shellcheck') %}
 {%     endif %}
-{%     if 'atyle' in packages and dist in ['precise', 'trusty'] %}
+{%     if 'astyle' in packages and dist in ['precise', 'trusty'] %}
 {%       set _ = packages.remove('astyle') %}
 {%     endif %}
 {%     if 'php-codesniffer' in packages and dist in ['precise'] %}
@@ -143,7 +152,7 @@ stages:
 {%     else %}
           packages:
 {%       for package in packages %}
-            {{ package }}
+            - {{ package }}
 {%       endfor %}
 {%     endif %}
 {%   endif %}
@@ -161,10 +170,6 @@ stages:
       cache:
         directories:
           - $HOME/.luarocks
-      addons:
-        apt:
-          packages:
-            - luarocks
 {%   elif language == 'perl' %}
       cache:
         directories:
@@ -182,15 +187,6 @@ stages:
       cache:
         directories:
           - $HOME/.julia
-{%   elif language == 'infer' %}
-      addons:
-        apt:
-          sources:
-            - avsm
-          packages:
-            - camlp4-extra
-            - ocaml
-            - opam
 {%   endif %}
 {% endmacro %}
 {# reorder so python is first on Python 3.6 #}

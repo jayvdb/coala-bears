@@ -73,7 +73,8 @@ choco_requirements:
 supported_versions:
   # python included from `python_version`
   apt:
-    # xenial and trusty are manually created
+    # xenial and trusty are manually crafted to balance the job matrix
+    # so that only one of each necessary dependency is done in first batch
     - precise
     - bionic
   mono:

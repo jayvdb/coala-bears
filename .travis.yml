@@ -238,21 +238,21 @@ jobs:
       addons:
         apt:
           packages:
-            astyle
-            chktex
-            cppcheck
-            default-jre
-            devscripts
-            flawfinder
-            hlint
-            indent
-            libperl-critic-perl
-            libxml2-utils
-            mono-mcs
-            perl
-            php5-cli
-            ruby
-            verilator
+            - chktex
+            - cppcheck
+            - default-jre
+            - devscripts
+            - flawfinder
+            - hlint
+            - indent
+            - libperl-critic-perl
+            - libxml2-utils
+            - mono-mcs
+            - perl
+            - php5-cli
+            - ruby
+            - verilator
+            - python2
       cache:
         directories:
           - $HOME/.pyenv
@@ -476,13 +476,12 @@ jobs:
     - stage: test-languages
       language: lua
       env: BEARS="lua"
+      addons:
+        apt:
+          packages: luarocks
       cache:
         directories:
           - $HOME/.luarocks
-      addons:
-        apt:
-          packages:
-            - luarocks
 
     - stage: test-languages
       dist: trusty
