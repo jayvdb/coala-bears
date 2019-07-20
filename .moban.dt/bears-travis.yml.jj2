@@ -81,7 +81,7 @@ stages:
 {%   if dist %}
       dist: {{ dist }}
 {%   endif %}
-{%   if language in ['lua', 'infer'] %}
+{%   if language in ['infer'] %}
 {%     if dist == 'trusty' %}
       language: generic
 {%     else %}

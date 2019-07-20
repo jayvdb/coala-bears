@@ -471,7 +471,7 @@ jobs:
       env: DISABLE_BEARS="languagetool tailor"
 
     - stage: test-languages
-      language: minimal
+      language: lua
       env: BEARS="lua"
       cache:
         directories:
