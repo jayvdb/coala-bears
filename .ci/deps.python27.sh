@@ -2,6 +2,8 @@
 
 set -e -x
 
+source .ci/deps.pyenv.sh
+
 PYTHON27_BIN="$(which python2.7 || true)"
 if [ -n "$PYTHON27_BIN" ]; then
   if [ ! -d "$PYENV_ROOT/plugins/pyenv-register" ]; then
