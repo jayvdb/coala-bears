@@ -504,7 +504,9 @@ jobs:
   allow_failures:
     - *moban
 
-cache:
+stage: test
+
+.cache:
   pip: true
   directories:
     - docs/_build
@@ -512,11 +514,8 @@ cache:
     - ~/.cabal
     - ~/.ghc
     - ~/.ghc-mod
-    - $TRAVIS_BUILD_DIR/vendor
     # coala managed data
     - ~/nltk_data
-    # Installed linters
-    - ~/infer-linux64-v$INFER_VERSION
     - ~/.local/
 
 env:
@@ -534,8 +533,6 @@ env:
     - PIP_YES=1
     - FudgeCI=${TRAVIS_BUILD_DIR}/.ci/
     - TOX_FEATURES=check-noskip-codecov
-
-stage: test
 
 before_install:
   - printenv
@@ -571,17 +568,17 @@ before_script:
       python setup.py bdist_wheel &&
       pip install $(ls ./dist/*.whl)"[alldeps]";
     fi
-
-script:
   - if [ -z "$TRAVIS_PYTHON_VERSION" -a "$TRAVIS_OS_NAME" = "linux" ]; then
       python -m pip install --upgrade --user -r test-requirements.txt;
     fi
+  - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
+      pip install --upgrade setuptools;
+    fi
+
+script:
   # Ensure metadata files are in sync with the bear metadata in the source
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
       PYTHONPATH=. .ci/generate_bear_metadata.py --debug --update;
-    fi
-  - if [ "${TRAVIS_PYTHON_VERSION/3.4/}" != "$TRAVIS_PYTHON_VERSION" ]; then
-      pip install --upgrade setuptools;
     fi
   - python -m tox
   - if [ -n "$TRAVIS_PYTHON_VERSION" ]; then
