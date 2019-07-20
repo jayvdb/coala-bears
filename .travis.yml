@@ -171,7 +171,6 @@ jobs:
         - cp Gemfile.orig Gemfile
 
     - python: 2.7
-      language: python
       stage: test-other-versions
       env: PIP_NO_COMPILE=1
       addons: false
@@ -180,14 +179,13 @@ jobs:
       before_script: true
       script: .ci/check_unsupported.sh
     - python: 3.3
-      language: python
       stage: test-other-versions
       dist: trusty
       env: PIP_NO_COMPILE=1
       addons: false
-      before_install: skip
-      install: skip
-      before_script: skip
+      before_install: true
+      install: true
+      before_script: true
       script: .ci/check_unsupported.sh
 
     - python: 3.6
