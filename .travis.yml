@@ -6,7 +6,7 @@ notifications:
 python: 3.6.3
 
 stages:
-  - name: sentinel
+  - sentinel
   - test-languages
   - test-other-versions
 
