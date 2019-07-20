@@ -9,7 +9,6 @@ stages:
   - name: sentinel
   - test-languages
   - test-other-versions
-  - moban
 
 .disable_global: &disable_global
   addons: false
@@ -178,6 +177,7 @@ jobs:
       install: pip install 3to2
       before_script: true
       script: .ci/check_unsupported.sh
+
     - python: 3.3
       stage: test-other-versions
       dist: trusty
@@ -189,7 +189,6 @@ jobs:
       script: .ci/check_unsupported.sh
 
     - python: 3.6
-      language: python
       stage: sentinel
       addons: false
       cache: pip
@@ -199,7 +198,6 @@ jobs:
       script: .ci/check_moban.sh
       after_success: false
       after_failure: false
-      if: branch = master AND type = push
 
     # Entries generates from `supported_versions`
     - stage: sentinel

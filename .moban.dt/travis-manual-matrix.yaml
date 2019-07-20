@@ -140,6 +140,7 @@
   install: pip install 3to2
   before_script: true
   script: .ci/check_unsupported.sh
+
 - python: 3.3
   stage: test-other-versions
   dist: trusty
@@ -151,7 +152,6 @@
   script: .ci/check_unsupported.sh
 
 - python: 3.6
-  language: python
   stage: sentinel
   addons: false
   cache: pip
@@ -161,4 +161,3 @@
   script: .ci/check_moban.sh
   after_success: false
   after_failure: false
-  if: branch = master AND type = push

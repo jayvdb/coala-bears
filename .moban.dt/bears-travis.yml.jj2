@@ -9,7 +9,6 @@ stages:
   - name: sentinel
   - test-languages
   - test-other-versions
-  - moban
 
 {% endblock %}
 
