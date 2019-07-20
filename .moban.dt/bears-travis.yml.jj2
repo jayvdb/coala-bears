@@ -132,7 +132,7 @@ stages:
 {%   endif %}
 {%   if cacher %}
       cache:
-        <<: *global_cache
+{#        <<: *global_cache #}
         {{ cacher }}: true
 {%   endif %}
 {%   if packages %}

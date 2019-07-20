@@ -6,7 +6,7 @@ notifications:
 python: 3.6.3
 
 stages:
-  - sentinel
+  - name: sentinel
   - test-languages
   - test-other-versions
 
@@ -267,56 +267,48 @@ jobs:
       language: r
       r: release
       cache:
-        <<: *global_cache
         packages: true
 
     - stage: test-other-versions
       language: r
       r: devel
       cache:
-        <<: *global_cache
         packages: true
 
     - stage: test-other-versions
       language: r
       r: oldrel
       cache:
-        <<: *global_cache
         packages: true
 
     - stage: test-languages
       language: node_js
       node_js: '10'
       cache:
-        <<: *global_cache
         npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 9
       cache:
-        <<: *global_cache
         npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 8
       cache:
-        <<: *global_cache
         npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 7
       cache:
-        <<: *global_cache
         npm: true
 
     - stage: test-other-versions
       language: node_js
       node_js: 6
       cache:
-        <<: *global_cache
         npm: true
 
     - stage: test-languages
@@ -418,7 +410,6 @@ jobs:
       language: ruby
       rvm: 2.4
       cache:
-        <<: *global_cache
         bundler: true
 
     - stage: test-other-versions
@@ -426,7 +417,6 @@ jobs:
       language: ruby
       rvm: 2.3
       cache:
-        <<: *global_cache
         bundler: true
 
     - stage: test-other-versions
@@ -434,7 +424,6 @@ jobs:
       language: ruby
       rvm: 2.2
       cache:
-        <<: *global_cache
         bundler: true
 
     - stage: test-other-versions
@@ -442,7 +431,6 @@ jobs:
       language: ruby
       rvm: 2.1
       cache:
-        <<: *global_cache
         bundler: true
 
     - stage: test-other-versions
@@ -451,7 +439,6 @@ jobs:
       rvm: 2.5
       env: DISABLE_BEARS="csvlint"
       cache:
-        <<: *global_cache
         bundler: true
 
     - stage: test-languages
