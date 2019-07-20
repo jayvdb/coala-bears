@@ -64,7 +64,7 @@ def get_metadata():
     with open('bear-metadata.yaml') as f:
         metadata = yaml.load(f)
 
-    return metadata
+    return metadata['bear_metadata']
 
 
 def get_bears(metadata, args, include_disabled=False):

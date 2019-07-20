@@ -15,11 +15,11 @@ stages:
 {% endblock %}
 
 {% block jobs %}
-{% macro job(language, version, seen) -%}
+{% macro job(language, version, seen, all_apt_packages) -%}
 {%   if language == 'python' and version.startswith('3.5') %}
 {%     set seen = False %}
 {%   endif %}
-{%   if language == 'python' and version.startswith('3.6') %}
+{%   if language == 'apt' or ( language == 'python' and version.startswith('3.6') ) %}
     - stage: sentinel
 {%   elif not seen %}
     - stage: test-languages
@@ -29,9 +29,10 @@ stages:
 {%   set env = {} %}
 {%   set version_key = language %}
 {%   set dist = None %}
+{%   set packages = None %}
 {%   set cacher = False %}
 {%   if language == 'lua' %}
-{%     set env = {'BEARS': 'lua'} %}
+{%     set env = {'BEARS': language} %}
 {%     set version_key = None %}
 {%   elif language == 'infer' %}
 {%     set version_key = None %}
@@ -43,10 +44,19 @@ stages:
 {%     set dist = 'trusty' %}
 {%   elif language == 'apt' %}
 {%     set version_key = None %}
+{%     set dist = version %}
+{%     if version in ['xenial', 'bionic'] %}
+{%       set _disable_bears = "shellcheck" %}
+{%     endif %}
 {%     set env = {
-         'DIST': language,
+         'DIST': version,
+         'BEARS': 'apt_get',
+         'DISABLE_BEARS': _disable_bears,
        } %}
-{%     set dist = 'trusty' %}
+{%     if version != 'bionic' %}
+{#       https://travis-ci.community/t/apt-addon-broken-on-bionic/4061 #}
+{%       set packages = all_apt_packages %}
+{%     endif %}
 {%   elif language == 'ruby' %}
 {%     set dist = 'trusty' %}
 {%     set version_key = 'rvm' %}
@@ -57,6 +67,7 @@ stages:
 {%   elif language == 'python' %}
 {#     clang-3.4 is not available on xenial #}
 {%     set dist = 'trusty' %}
+{%     set packages = ['clang-3.4'] %}
 {%     set cacher = 'pip' %}
 {%   elif language == 'perl' %}
 {%     set dist = 'trusty' %}
@@ -81,12 +92,8 @@ stages:
 {%   if dist %}
       dist: {{ dist }}
 {%   endif %}
-{%   if language in ['infer'] %}
-{%     if dist == 'trusty' %}
+{%   if language in ['infer', 'apt'] %}
       language: generic
-{%     else %}
-      language: minimal
-{%     endif %}
 {%   else %}
       language: {{ language }}
 {%   endif %}
@@ -100,28 +107,56 @@ stages:
 {%   if env %}
 {%     if env | length == 1 %}
 {%       set name = [].__class__(env.keys())[0] %}
-{%       set value = env[name] %}
-      env: {{ name }}="{{ value }}"
+{%       set _value = env[name] %}
+{%     endif %}
+{%     if _value %}
+      env: {{ name }}="{{ _value }}"
 {%     else %}
       env:
 {%       for name, value in env.items() %}
+{%         if value %}
         {{ name }}="{{ value }}"
+{%         endif %}
 {%       endfor %}
 {%     endif %}
 {%   endif %}
 {%   if cacher %}
       cache: {{ cacher }}
 {%   endif %}
-{%   if language == 'python' %}
+{%   if packages %}
       addons:
         apt:
-          packages: clang-3.4
-{%   elif language == 'go' %}
+{%     if 'shellcheck' in packages and dist not in ['precise', 'trusty'] %}
+{%       set _ = packages.remove('shellcheck') %}
+{%     endif %}
+{%     if 'atyle' in packages and dist in ['precise', 'trusty'] %}
+{%       set _ = packages.remove('astyle') %}
+{%     endif %}
+{%     if 'php-codesniffer' in packages and dist in ['precise'] %}
+{%       set _ = packages.remove('php-codesniffer') %}
+{%     endif %}
+{%     if 'phpmd' in packages and dist in ['precise'] %}
+{%       set _ = packages.remove('phpmd') %}
+{%     endif %}
+{%     if packages | length == 1 %}
+          packages: {{ packages[0] }}
+{%     else %}
+          packages:
+{%       for package in packages %}
+            {{ package }}
+{%       endfor %}
+{%     endif %}
+{%   endif %}
+{%   if language == 'go' %}
       install: skip
       cache:
         directories:
           - $HOME/.cache/go-build
           - $HOME/gopath/pkg/mod
+{%   elif language == 'apt' and version == 'precise' %}
+      cache:
+        directories:
+          - $HOME/.pyenv
 {%   elif language == 'lua' %}
       cache:
         directories:
@@ -169,10 +204,21 @@ jobs:
     {{ manualmatrix() | indent(4) }}
     # Entries generates from `supported_versions`
 {% set seen_languages = {} %}
+{% set apt_packages = [] %}
+{% for requirement in distro_requirements.values() %}
+{%   for package_type, package_name in requirement.packages.items() %}
+{%     if package_type == 'apt_get' %}
+{%       if not package_name.startswith('r-') and package_name not in ['ghc-mod'] %}
+{%         set package_name = package_name.replace('php-cli', 'php5-cli') %}
+{%         set _ = apt_packages.append(package_name) %}
+{%       endif %}
+{%     endif %}
+{%   endfor %}
+{% endfor %}
 {% for language, versions in supported_versions.items() %}
 {%   for version in versions %}
 {%     set version = ''.__class__(version) %}
-{{ job(language, version, language in seen_languages) }}
+{{ job(language, version, language in seen_languages, apt_packages) }}
 {%     set _ = seen_languages.__setitem__(language, 1) %}
 {%   endfor %}
 {% endfor %}

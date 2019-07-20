@@ -72,6 +72,10 @@ choco_requirements:
 # Latter entries which are higher versions may have some bears disabled
 supported_versions:
   # python included from `python_version`
+  apt:
+    # xenial and trusty are manually created
+    - precise
+    - bionic
   mono:
     - 5.20.1
   r:
@@ -115,22 +119,14 @@ supported_versions:
   java:
     - 8
     - 7
-    # openjdk10 and openjdk9 are broken on Travis
+    # openjdk 9, 10 and 12 are broken on Travis
     # https://github.com/travis-ci/travis-cookbooks/issues/976
     # Their config is the same as 11
     - 11
-    - 12
   lua:
     - default
   infer:
     - 0.7.0
-
-foo:
-  apt:
-    - xenial
-    - trusty
-    - precise
-    - bionic
 
 requires:
   - https://gitlab.com/coala/package_manager/

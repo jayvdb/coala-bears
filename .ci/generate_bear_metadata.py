@@ -509,6 +509,7 @@ if __name__ == '__main__':
 
     metadata = get_metadata(all_bears, bear_requirements, bear_languages)
     metadata = _create_sorted_commented_map(metadata)
+    metadata = {'bear_metadata': metadata}
     file_path = os.path.join(PROJECT_DIR, BEAR_METADATA_YAML)
     with open(file_path, 'w') as outfile:
         yaml.indent(mapping=2, sequence=4, offset=2)

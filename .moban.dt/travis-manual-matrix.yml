@@ -54,6 +54,24 @@
         - flawfinder
         - shellcheck
 
+- stage: test-other-versions
+  dist: trusty
+  language: generic
+  env: DIST=trusty BEARS=apt_get
+  addons:
+    apt:
+      packages:
+        - chktex
+        - cppcheck
+        - devscripts
+        - indent
+        - libperl-critic-perl
+        - libxml2-utils
+        - mono-mcs
+        - php5-cli
+        - php-codesniffer
+        - verilator
+
 # Additonal manual entries
 - stage: test-other-versions
   os: windows
@@ -110,52 +128,6 @@
   after_script:
     - cp tox.orig tox.ini
     - cp Gemfile.orig Gemfile
-
-# BEARS=apt_get allows matching bears to be skipped
-- stage: test-other-versions
-  dist: bionic
-  language: generic
-  # https://travis-ci.community/t/apt-addon-broken-on-bionic/4061
-  env: DIST=bionic BEARS=apt_get DISABLE_BEARS=shellcheck
-
-- stage: test-other-versions
-  dist: trusty
-  language: generic
-  env: DIST=trusty BEARS=apt_get
-  addons:
-    apt:
-      packages:
-        - chktex
-        - cppcheck
-        - devscripts
-        - indent
-        - libperl-critic-perl
-        - libxml2-utils
-        - mono-mcs
-        - php5-cli
-        - php-codesniffer
-        - verilator
-
-- stage: test-other-versions
-  dist: precise
-  language: generic
-  env: DIST=precise BEARS=apt_get
-  cache:
-    directories:
-      - $HOME/.pyenv
-  addons:
-    apt:
-      packages:
-        - chktex
-        - cppcheck
-        - devscripts
-        - indent
-        - libperl-critic-perl
-        - libxml2-utils
-        - mono-mcs
-        - php5-cli
-        - python3
-        - verilator
 
 - python: 2.7
   language: python
