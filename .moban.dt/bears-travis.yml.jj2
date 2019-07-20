@@ -7,7 +7,6 @@ python: 3.6.3
 {% block stages %}
 stages:
   - name: sentinel
-    if: branch != master OR type = pull_request
   - test-languages
   - test-other-versions
   - moban
@@ -19,7 +18,7 @@ stages:
 {%   if language == 'python' and version.startswith('3.5') %}
 {%     set seen = False %}
 {%   endif %}
-{%   if language == 'apt' or ( language == 'python' and version.startswith('3.6') ) %}
+{%   if language == 'python' and version.startswith('3.6') %}
     - stage: sentinel
 {%   elif not seen %}
     - stage: test-languages

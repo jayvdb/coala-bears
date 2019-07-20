@@ -112,7 +112,7 @@ jobs:
             - verilator
 
     # Additonal manual entries
-    - stage: test-other-versions
+    - stage: sentinel
       os: windows
       language: bash
       python: '3.6.8'
@@ -136,7 +136,7 @@ jobs:
 
         - source .ci/travis_extra_globals.sh
 
-        - export TOX_SITEPACKAGES=true
+        - export TOXINI_SITEPACKAGES=true
         - export VIRTUALENV_NO_PIP=1
         - export VIRTUALENV_NO_SETUPTOOLS=1
 
