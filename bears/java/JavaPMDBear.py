@@ -1,5 +1,10 @@
 from shutil import which
 
+from dependency_management.requirements.AnyOneOfRequirements import (
+    AnyOneOfRequirements)
+from dependency_management.requirements.ExecutableRequirement import (
+    ExecutableRequirement)
+
 from coalib.bearlib.abstractions.Linter import linter
 from coalib.bearlib import deprecate_settings
 from coala_utils.param_conversion import negate
@@ -17,6 +22,13 @@ class JavaPMDBear:
     """
 
     LANGUAGES = {'Java'}
+    REQUIREMENTS = {
+        AnyOneOfRequirements(
+            [ExecutableRequirement('pmd'),
+             ExecutableRequirement('run.sh'),
+             ]
+        ),
+    }
     AUTHORS = {'The coala developers'}
     AUTHORS_EMAILS = {'coala-devel@googlegroups.com'}
     LICENSE = 'AGPL-3.0'
@@ -25,9 +37,7 @@ class JavaPMDBear:
 
     @classmethod
     def check_prerequisites(cls):
-        if which('bash') is None:
-            return 'bash is not installed.'
-        elif which('pmd') is None and which('run.sh') is None:
+        if which('pmd') is None and which('run.sh') is None:
             return ('PMD is missing. Make sure to install it from '
                     '<https://pmd.github.io/>')
         else:
