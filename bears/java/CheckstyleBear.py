@@ -57,7 +57,7 @@ class CheckstyleBear:
 
     def setup_dependencies(self):
         version = _checkstyle_version
-        self.debug('downloading as {!r} of type {!r}'.format(self, type(self)))
+        self.debug('downloading as {!r} of class at {!r}'.format(self, hex(id(type(self)))))
         type(self).checkstyle_jar_file = self.download_cached_file(
             'https://github.com/checkstyle/checkstyle/releases/download/'
             'checkstyle-%s/checkstyle-%s-all.jar' % (version, version),
@@ -100,7 +100,7 @@ class CheckstyleBear:
                 _online_styles[checkstyle_configs],
                 checkstyle_configs + '.xml')
 
-        self.debug('running as {!r} of type {!r}'.format(self, type(self)))
+        self.debug('running as {!r} of class at {!r}'.format(self, hex(id(type(self)))))
 
         return ('-jar', self.checkstyle_jar_file, '-c',
                 checkstyle_configs, filename)
