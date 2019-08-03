@@ -1,6 +1,11 @@
 from shutil import which
 from xml.etree import ElementTree
 
+from dependency_management.requirements.AnyOneOfRequirements import (
+    AnyOneOfRequirements)
+from dependency_management.requirements.ExecutableRequirement import (
+    ExecutableRequirement)
+
 from coalib.bears.GlobalBear import GlobalBear
 from coalib.misc.Shell import run_shell_command
 from coalib.results.Result import Result
@@ -30,6 +35,13 @@ class CPDBear(GlobalBear):
                      'Swift': 'swift'}
 
     LANGUAGES = set(language_dict.keys())
+    REQUIREMENTS = {
+        AnyOneOfRequirements(
+            [ExecutableRequirement('pmd'),
+             ExecutableRequirement('run.sh'),
+             ]
+        ),
+    }
     AUTHORS = {'The coala developers'}
     AUTHORS_EMAILS = {'coala-devel@googlegroups.com'}
     LICENSE = 'AGPL-3.0'
@@ -37,8 +49,6 @@ class CPDBear(GlobalBear):
 
     @classmethod
     def check_prerequisites(cls):
-        if which('bash') is None:
-            return 'bash is not installed.'
         if which('pmd') is None and which('run.sh') is None:
             return ('PMD is missing. Make sure to install it from '
                     '<https://pmd.github.io/>.')
@@ -94,7 +104,7 @@ class CPDBear(GlobalBear):
 
         files = ','.join(self.file_dict.keys())
         executable = which('pmd') or which('run.sh')
-        arguments = ('bash', executable, 'cpd', '--skip-lexical-errors',
+        arguments = (executable, 'cpd', '--skip-lexical-errors',
                      '--minimum-tokens', str(minimum_tokens),
                      '--language', cpd_language,
                      '--files', files,
