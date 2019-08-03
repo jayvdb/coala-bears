@@ -266,6 +266,10 @@ def get_bear_requirement_metadata(bear_requirement_sets, storage=None,
         if not requirements:
             continue
 
+        if requirement_type == 'exe':
+            requirements = dict((key.partition('/', 1)[2], value) for
+                                key, value in requirements.items())
+
         label = settings['prefix']
         if old_labels:
             label += '_requirements'
@@ -318,11 +322,6 @@ def get_bear_tags(bear, metadata):
             tags.remove('java')
         tags.add('opam')
 
-    elif bear.name == 'CPDBear':
-        # Has no requirements defined yet
-        tags.remove('noreqs')
-        tags.add('java')
-
     elif bear.name == 'LanguageToolBear':
         # Has no requirements defined yet
         tags.add('java')
@@ -334,6 +333,7 @@ def get_bear_tags(bear, metadata):
 
     elif bear.name == 'CPDBear':
         # Has no executable defined
+        tags.add('java')
         tags.add('cpd')
 
     elif bear.name == 'VHDLLintBear':

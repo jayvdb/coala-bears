@@ -154,6 +154,9 @@ bear_metadata:
     subdir: general
     filename: CPDBear.py
     requirements:
+      exe:
+        pmd:
+        run.sh:
     languages:
       - C#
       - CPP
@@ -174,8 +177,11 @@ bear_metadata:
       - Scala
       - Swift
     tags:
+      - exe
       - general
       - java
+      - pmd
+      - run.sh
   CPPCheckBear:
     name: CPPCheckBear
     subdir: c_languages
@@ -188,6 +194,7 @@ bear_metadata:
             brew: cppcheck
             dnf: cppcheck
             pacman: cppcheck
+            pkg: cppcheck
             portage: cppcheck
             xbps: cppcheck
             yum: cppcheck
@@ -206,6 +213,7 @@ bear_metadata:
       - dnf
       - exe
       - pacman
+      - pkg
       - portage
       - xbps
       - yum
@@ -326,6 +334,7 @@ bear_metadata:
             brew: flawfinder
             dnf: flawfinder
             pacman: flawfinder
+            pkg: flawfinder
             portage: flawfinder
             xbps: flawfinder
             yum: flawfinder
@@ -344,6 +353,7 @@ bear_metadata:
       - exe
       - flawfinder
       - pacman
+      - pkg
       - portage
       - xbps
       - yum
@@ -360,6 +370,7 @@ bear_metadata:
             brew: mono
             dnf: mono
             pacman: mono
+            pkg: mono
             portage: dev-lang/mono
             xbps: mono
             yum: mono
@@ -378,6 +389,7 @@ bear_metadata:
       - mcs
       - mono
       - pacman
+      - pkg
       - portage
       - xbps
       - yum
@@ -725,6 +737,7 @@ bear_metadata:
             brew: indent
             dnf: indent
             pacman: indent
+            pkg: indent
             portage: indent
             xbps: indent
             yum: indent
@@ -743,6 +756,7 @@ bear_metadata:
       - exe
       - indent
       - pacman
+      - pkg
       - portage
       - xbps
       - yum
@@ -762,6 +776,7 @@ bear_metadata:
             brew: ghc-mod
             dnf: ghc-mod
             pacman: ghc-mod
+            pkg: ghc-mod
             portage: ghc-mod
             xbps: ghc-mod
             yum: ghc-mod
@@ -780,6 +795,7 @@ bear_metadata:
       - ghc-mod
       - haskell
       - pacman
+      - pkg
       - portage
       - xbps
       - yum
@@ -1000,7 +1016,7 @@ bear_metadata:
     filename: HTMLLintBear.py
     requirements:
       exe:
-        /home/areebbeigh/virtualenvs/coala-venv/bin/python3:
+        python3:
       pip:
         html-linter:
           version: ~=0.4.0
@@ -1009,7 +1025,7 @@ bear_metadata:
       - Jinja2
       - PHP
     tags:
-      - /home/areebbeigh/virtualenvs/coala-venv/bin/python3
+      - python3
       - exe
       - hypertext
       - pip
@@ -1194,6 +1210,8 @@ bear_metadata:
     requirements:
       exe:
         bash:
+        pmd:
+        run.sh:
     languages:
       - Java
     tags:
@@ -1201,6 +1219,7 @@ bear_metadata:
       - exe
       - java
       - pmd
+      - run.sh
   Jinja2Bear:
     name: Jinja2Bear
     subdir: jinja2
@@ -1263,6 +1282,7 @@ bear_metadata:
             brew: chktex
             dnf: chktex
             pacman: chktex
+            pkg: chktex
             portage: chktex
             xbps: chktex
             yum: chktex
@@ -1280,6 +1300,7 @@ bear_metadata:
       - exe
       - latex
       - pacman
+      - pkg
       - portage
       - xbps
       - yum
@@ -1411,7 +1432,7 @@ bear_metadata:
     filename: MypyBear.py
     requirements:
       exe:
-        /home/areebbeigh/virtualenvs/coala-venv/bin/python3:
+        python3:
       pip:
         mypy:
           version: ==0.590
@@ -1420,7 +1441,7 @@ bear_metadata:
       - Python 2
       - Python 3
     tags:
-      - /home/areebbeigh/virtualenvs/coala-venv/bin/python3
+      - python3
       - exe
       - pip
       - python
@@ -1990,6 +2011,7 @@ bear_metadata:
             brew: ruby
             dnf: ruby
             pacman: ruby
+            pkg: ruby
             portage: ruby
             xbps: ruby
             yum: ruby
@@ -2006,6 +2028,7 @@ bear_metadata:
       - dnf
       - exe
       - pacman
+      - pkg
       - portage
       - ruby
       - xbps
@@ -2114,6 +2137,7 @@ bear_metadata:
             brew: shellcheck
             dnf: shellcheck
             pacman: shellcheck
+            pkg: shellcheck
             portage: shellcheck
             xbps: shellcheck
             yum: shellcheck
@@ -2133,6 +2157,7 @@ bear_metadata:
       - dnf
       - exe
       - pacman
+      - pkg
       - portage
       - shell
       - shellcheck
@@ -2369,6 +2394,7 @@ bear_metadata:
             brew: perl
             dnf: perl
             pacman: perl
+            pkg: perl
             portage: perl
             xbps: perl
             yum: perl
@@ -2386,6 +2412,7 @@ bear_metadata:
       - exe
       - pacman
       - perl
+      - pkg
       - portage
       - vhdl
       - xbps
@@ -2480,6 +2507,7 @@ bear_metadata:
             brew: libxml2
             dnf: libxml2
             pacman: libxml2
+            pkg: libxml2
             portage: dev-libs/libxml2
             xbps: libxml2
             yum: libxml2
@@ -2496,6 +2524,7 @@ bear_metadata:
       - exe
       - libxml2
       - pacman
+      - pkg
       - portage
       - xbps
       - xml2
