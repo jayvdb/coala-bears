@@ -21,7 +21,6 @@ IS_WIN = os.name == 'nt'
 WINDOWS_BROKEN = set((
     'bakalint',  # not installed
     'phpcs',  # https://github.com/coala/coala-bears/issues/2916
-    'pmd', 'cpd',  # https://github.com/coala/coala-bears/issues/2908
     'mcs',  # choco mono isnt providing this in the PATH
     'tailor',  # installer fails
     'shellcheck',  # https://github.com/coala/coala-bears/issues/2920

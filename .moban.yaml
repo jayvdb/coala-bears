@@ -66,6 +66,7 @@ choco_requirements:
   cppcheck: true
   xsltproc: true
   ShellCheck: true  # https://github.com/coala/coala-bears/issues/2920
+  pmd: true
 
 # The first entry is the most supported
 # Latter entries which are higher versions may have some bears disabled
