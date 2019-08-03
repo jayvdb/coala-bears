@@ -97,6 +97,10 @@
         {
             "name": "ShellCheck",
             "source": ""
+        },
+        {
+            "name": "pmd",
+            "source": ""
         }
     ],
     "scripts": {
