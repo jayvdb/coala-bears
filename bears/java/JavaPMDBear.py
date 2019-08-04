@@ -9,8 +9,10 @@ from coalib.bearlib.abstractions.Linter import linter
 from coalib.bearlib import deprecate_settings
 from coala_utils.param_conversion import negate
 
+_executable = which('pmd') or which('run.sh')
 
-@linter('bash', output_format='regex',
+
+@linter(_executable, output_format='regex',
         output_regex=r'.+:(?P<line>.+):(?P<message>.*)')
 class JavaPMDBear:
     """
@@ -96,5 +98,4 @@ class JavaPMDBear:
             'java-unusedcode': not allow_unused_code}
         rules = ','.join(key for key in options if options[key])
 
-        executable = which('pmd') or which('run.sh')  # Mac vs. Unix
-        return executable, 'pmd', '-R', rules, '-d', filename
+        return '-R', rules, '-d', filename
