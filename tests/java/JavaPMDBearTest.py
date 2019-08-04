@@ -1,5 +1,3 @@
-from unittest import mock, TestCase
-
 from bears.java.JavaPMDBear import JavaPMDBear
 from coalib.testing.LocalBearTestHelper import verify_local_bear
 
