@@ -123,13 +123,33 @@ def get_tests(bears):
     return tests
 
 
+def get_pytest_deselected_tests(args, tests):
+    not_list = []
+    if 'tests/documentation/DocGrammarBearTest.py' in tests:
+        if 'win' in args:
+            not_list.append('test_language_french')
+
+    if 'tests/python/YapfBearTest.py' in tests:
+        if 'py34' in args:
+            not_list.append('test_valid_async')
+
+    if 'tests/php/PHPMessDetectorBearTest.py' in tests:
+        not_list.append('test_cleancode_violation')
+
+    return not_list
+
+
 def main():
     args_orig = sys.argv[1:]
     metadata = get_metadata()
 
     include_disabled = False
+    show_deselected = False
     if args_orig[0] == '--disabled':
         include_disabled = True
+        args_orig = args_orig[1:]
+    elif args_orig[0] == '--deselected':
+        show_deselected = True
         args_orig = args_orig[1:]
 
     args = []
@@ -149,7 +169,14 @@ def main():
 
     bears = get_bears(metadata, args, include_disabled)
     tests = get_tests(bears)
-    print(' '.join(sorted(tests)))
+    if show_deselected:
+        not_list = get_pytest_deselected_tests(args, tests)
+        if len(not_list) > 1:
+            print('-k "not ({})"'.format(' or '.join(not_list)))
+        elif len(not_list) == 1:
+            print('-k "not {}"'.format(not_list[0]))
+    else:
+        print(' '.join(sorted(tests)))
 
 
 if __name__ == '__main__':
