@@ -1,3 +1,4 @@
+from shutil import which
 from xml.etree import ElementTree
 
 from dependency_management.requirements.AnyOneOfRequirements import (
