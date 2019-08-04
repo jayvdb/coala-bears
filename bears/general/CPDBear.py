@@ -47,14 +47,6 @@ class CPDBear(GlobalBear):
     LICENSE = 'AGPL-3.0'
     CAN_DETECT = {'Duplication'}
 
-    @classmethod
-    def check_prerequisites(cls):
-        if which('pmd') is None and which('run.sh') is None:
-            return ('PMD is missing. Make sure to install it from '
-                    '<https://pmd.github.io/>.')
-        else:
-            return True
-
     def run(self, language: language,
             minimum_tokens: int = 20,
             ignore_annotations: bool = False,

@@ -35,14 +35,6 @@ class JavaPMDBear:
     CAN_DETECT = {'Code Simplification', 'Unreachable Code', 'Smell',
                   'Duplication'}
 
-    @classmethod
-    def check_prerequisites(cls):
-        if which('pmd') is None and which('run.sh') is None:
-            return ('PMD is missing. Make sure to install it from '
-                    '<https://pmd.github.io/>')
-        else:
-            return True
-
     @staticmethod
     @deprecate_settings(allow_unnecessary_code=('check_unnecessary', negate),
                         allow_unused_code=('check_unused', negate))
