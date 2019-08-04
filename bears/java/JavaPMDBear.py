@@ -1,5 +1,3 @@
-from shutil import which
-
 from dependency_management.requirements.AnyOneOfRequirements import (
     AnyOneOfRequirements)
 from dependency_management.requirements.ExecutableRequirement import (
