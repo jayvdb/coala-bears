@@ -138,6 +138,9 @@ install:
   - refreshenv
   - echo %PATH%
 
+  - C:\ProgramData\chocolatey\bin\pmd.EXE --help & exit 0
+  - which pmd & exit 0s
+
   - ps: if ($env:APPVEYOR_JOB_NUMBER -eq 1) { . .ci/PSLint.ps1 }
 
   # Check that we have the expected version and architecture for Python
