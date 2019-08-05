@@ -122,7 +122,7 @@ jobs:
             - verilator
 
     # Additonal manual entries
-    - stage: test-other-versions
+    - stage: sentinel
       os: windows
       language: bash
       python: '3.6.8'
@@ -236,7 +236,7 @@ jobs:
           - docs/_build/
           - $HOME/nltk_data/
 
-    - stage: test-other-versions
+    - stage: sentinel
       dist: trusty
       language: python
       python: 3.4.4
