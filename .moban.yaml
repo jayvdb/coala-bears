@@ -12,6 +12,7 @@ package_module: bears
 docs_source_dir: API
 docs_dir: docs
 test_prevent_skips: false
+test_timeout: 120
 lint_command: false
 appveyor_global_environment:
   # Needed for Julia
