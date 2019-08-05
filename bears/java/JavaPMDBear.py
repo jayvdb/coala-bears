@@ -101,4 +101,5 @@ class JavaPMDBear:
         arguments = '-R', rules, '-d', filename, '-f', 'text'
         executable = tuple([_executable] if not _executable.endswith('run.sh')
                            else [_executable, 'pmd'])
+        self.warn('exe = {}'.format(executable))
         return executable + arguments

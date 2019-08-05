@@ -181,6 +181,10 @@ jobs:
         - cp tox.orig tox.ini
         - cp Gemfile.orig Gemfile
 
+    - stage: test-languages
+      language: java
+      jdk: openjdk8
+
     - python: 2.7
       stage: test-other-versions
       env: PIP_NO_COMPILE=1
@@ -522,10 +526,6 @@ jobs:
     - stage: test-other-versions
       language: scala
       scala: 2.12.2
-      jdk: openjdk8
-
-    - stage: test-languages
-      language: java
       jdk: openjdk8
 
     - stage: test-other-versions
