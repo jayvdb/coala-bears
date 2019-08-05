@@ -99,6 +99,7 @@
             "source": ""
         },
         {
+            "args": "--ignore-dependencies",
             "name": "pmd",
             "source": ""
         }
