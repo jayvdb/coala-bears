@@ -590,6 +590,8 @@ stage: test
 env:
   global:
     - TERM=dumb
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+    - JDK="adopt@1.8.212-04"
     - PATH="$HOME/.local/bin:$PATH"
     # These are only needed by Windows
     - NUGET_EXE_NO_PROMPT=true
@@ -606,6 +608,8 @@ env:
 before_install:
   - printenv
   - mkdir -p ~/bin ~/.local/bin
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
+  - source ~/.install-jdk-travis.sh
   - source .ci/travis_extra_globals.sh
 
   - if [ -z "$TRAVIS_PYTHON_VERSION" ]; then
