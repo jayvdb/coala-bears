@@ -250,6 +250,20 @@ jobs:
           - docs/_build/
           - $HOME/nltk_data/
 
+    - stage: test-other-versions
+      dist: trusty
+      language: python
+      python: 3.7
+      addons:
+        apt:
+          packages: clang-3.4
+      cache:
+        <<: *global_cache
+        directories:
+          - $HOME/.local/
+          - docs/_build/
+          - $HOME/nltk_data/
+
     - stage: test-languages
       dist: precise
       language: generic

@@ -47,6 +47,8 @@ environment:
       PYTHON_MINOR_NODOTS: 35
     - PYTHON_VERSION: 3.4
       PYTHON_MINOR_NODOTS: 34
+    - PYTHON_VERSION: 3.7
+      PYTHON_MINOR_NODOTS: 37
 
 platform:
   - x86
@@ -173,7 +175,8 @@ test_script:
   - "sed -i 's/^envlist.*$/envlist: %TOXENV%/' tox.ini"
   - python -m tox --sitepackages
 
-  - python setup.py install
+  - if not "%PYTHON_VERSION%" == "3.7"
+      python setup.py install
 
 
   - rm -rf .tox
