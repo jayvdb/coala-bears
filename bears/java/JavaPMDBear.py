@@ -1,4 +1,5 @@
 from shutil import which
+import sys
 
 from dependency_management.requirements.AnyOneOfRequirements import (
     AnyOneOfRequirements)
@@ -101,5 +102,5 @@ class JavaPMDBear:
         arguments = '-R', rules, '-d', filename, '-f', 'text'
         executable = tuple([_executable] if not _executable.endswith('run.sh')
                            else [_executable, 'pmd'])
-        self.warn('exe = {}'.format(executable))
+        print('exe = {}'.format(executable), file=sys.stderr)
         return executable + arguments
