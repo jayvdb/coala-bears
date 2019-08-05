@@ -256,7 +256,7 @@ jobs:
       python: 3.7
       addons:
         apt:
-          packages: clang-3.4
+          packages: clang-3.7
       cache:
         <<: *global_cache
         directories:
