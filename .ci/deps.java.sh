@@ -23,3 +23,5 @@ fi
 which pmd || true
 which cpd || true
 which run.sh || true
+
+/home/travis/.local/bin/run.sh pmd --help
