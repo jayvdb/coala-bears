@@ -24,4 +24,4 @@ which pmd || true
 which cpd || true
 which run.sh || true
 
-/home/travis/.local/bin/run.sh pmd -R java-unusedcode -d ./tests/java/test_files/good_file.java -f text
+/home/travis/.local/bin/run.sh pmd -debug -R java-unusedcode -d ./tests/java/test_files/good_file.java -f text

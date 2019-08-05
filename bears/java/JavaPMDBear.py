@@ -99,7 +99,7 @@ class JavaPMDBear:
             'java-unusedcode': not allow_unused_code}
         rules = ','.join(key for key in options if options[key])
 
-        arguments = '-R', rules, '-d', filename, '-f', 'text'
+        arguments = '-debug', '-R', rules, '-d', filename, '-f', 'text'
         executable = tuple([_executable] if not _executable.endswith('run.sh')
                            else [_executable, 'pmd'])
         print('exe = {}'.format(executable), file=sys.stderr)
