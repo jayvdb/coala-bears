@@ -251,7 +251,7 @@ jobs:
           - $HOME/nltk_data/
 
     - stage: test-other-versions
-      dist: trusty
+      dist: xenial
       language: python
       python: 3.7
       addons:
