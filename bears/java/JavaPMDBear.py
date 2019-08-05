@@ -12,7 +12,7 @@ from coala_utils.param_conversion import negate
 _executable = which('pmd') or which('run.sh')
 
 
-@linter(_executable, output_format='regex',
+@linter(_executable or 'pmd', output_format='regex',
         output_regex=r'.+:(?P<line>.+):(?P<message>.*)')
 class JavaPMDBear:
     """
@@ -98,4 +98,9 @@ class JavaPMDBear:
             'java-unusedcode': not allow_unused_code}
         rules = ','.join(key for key in options if options[key])
 
-        return '-R', rules, '-d', filename
+        arguments = '-R', rules, '-d', filename
+
+        if _executable.endswith('run.sh'):
+            return ('pmd', ) + arguments
+        else:
+            return arguments

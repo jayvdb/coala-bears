@@ -37,7 +37,7 @@ class CPDBear(GlobalBear):
     LANGUAGES = set(language_dict.keys())
     REQUIREMENTS = {
         AnyOneOfRequirements(
-            [ExecutableRequirement('pmd'),
+            [ExecutableRequirement('cpd'),
              ExecutableRequirement('run.sh'),
              ]
         ),
@@ -95,8 +95,13 @@ class CPDBear(GlobalBear):
             '--skip-duplicate-files': skip_duplicate_files}
 
         files = ','.join(self.file_dict.keys())
-        executable = which('pmd') or which('run.sh')
-        arguments = (executable, 'cpd', '--skip-lexical-errors',
+        executable = which('cpd') or which('run.sh')
+        if executable.endswith('run.sh'):
+            executable = (executable, 'cpd')
+        else:
+            executable = (executable, )
+
+        arguments = ('--skip-lexical-errors',
                      '--minimum-tokens', str(minimum_tokens),
                      '--language', cpd_language,
                      '--files', files,
@@ -106,6 +111,7 @@ class CPDBear(GlobalBear):
                            for option, enable in options.items()
                            if enable is True)
 
+        arguments = executable + arguments
         stdout_output, _ = run_shell_command(arguments)
 
         if stdout_output:
