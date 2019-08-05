@@ -26,6 +26,11 @@ def main():
                 threshold = 90
             elif 'CPDBear' in bear:
                 threshold = 98
+        elif sys.version_info[:3] >= (3, 7, 0):
+            for name in ['HTTPSBear', 'InvalidLinkBear', 'MementoBear']:
+                if name in bear:
+                    threshold = 95
+                    break
 
         thresholds[bear] = threshold
 
