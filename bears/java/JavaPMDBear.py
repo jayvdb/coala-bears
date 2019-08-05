@@ -9,7 +9,7 @@ from coalib.bearlib.abstractions.Linter import linter
 from coalib.bearlib import deprecate_settings
 from coala_utils.param_conversion import negate
 
-_executable = which('pmd') or which('run.sh')
+_executable = which('run.sh') or which('pmd')
 
 
 @linter(_executable or 'pmd', output_format='regex',
@@ -98,7 +98,7 @@ class JavaPMDBear:
             'java-unusedcode': not allow_unused_code}
         rules = ','.join(key for key in options if options[key])
 
-        arguments = '-R', rules, '-d', filename
+        arguments = '-R', rules, '-d', filename, '-f', 'text'
         executable = tuple([_executable] if not _executable.endswith('run.sh')
                            else [_executable, 'pmd'])
         return executable + arguments
