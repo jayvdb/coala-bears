@@ -53,6 +53,7 @@ choco_requirements:
   visualstudio2017-workload-vctools: false
   MinGW: false
   miniconda3: false
+  maven: false
   R.Project: false  # https://github.com/coala/coala-bears/issues/2919
   luarocks: false  # https://github.com/coala/coala-bears/issues/2918
   julia: false  # A bit tricky to get Lint.jl to build
