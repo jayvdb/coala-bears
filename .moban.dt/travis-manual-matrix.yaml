@@ -80,7 +80,7 @@
         - verilator
 
 # Additonal manual entries
-- stage: test-other-versions
+- stage: sentinel
   os: windows
   language: bash
   python: '{{ choco_requirements.python.version }}'
