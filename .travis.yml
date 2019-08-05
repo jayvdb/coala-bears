@@ -319,6 +319,11 @@ jobs:
     - stage: test-languages
       language: node_js
       node_js: '10'
+      addons:
+        apt:
+          packages:
+            - chktex
+            - cppcheck
       cache:
         <<: *global_cache
         npm: true
