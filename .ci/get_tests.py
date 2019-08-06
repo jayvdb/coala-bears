@@ -135,6 +135,11 @@ def get_pytest_deselected_tests(args, tests):
     if 'tests/php/PHPMessDetectorBearTest.py' in tests:
         not_list.append('test_cleancode_violation')
 
+    if 'tests/xml2/XMLBearTest.py' in tests:
+        if 'win' in args and os.environ.get('TRAVIS'):
+            not_list.append(
+                'tests/xml2/XMLBearTest.py::XMLBearDTDUrlTest.test_valid_files')
+
     return not_list
 
 
@@ -170,10 +175,20 @@ def main():
     tests = get_tests(bears)
     if show_deselected:
         not_list = get_pytest_deselected_tests(args, tests)
+        deselect_list = [item for item in not_list if '::' in item]
+        not_list = [item for item in not_list if item not in deselect_list]
         if len(not_list) > 1:
-            print('-k "not ({})"'.format(' or '.join(not_list)))
+            not_list = '-k "not ({})"'.format(' or '.join(not_list))
         elif len(not_list) == 1:
-            print('-k "not {}"'.format(not_list[0]))
+            not_list = '-k "not {}"'.format(not_list[0])
+        else:
+            not_list = ''
+        if deselect_list:
+            deselect_list = ' --deselect={}'.format(
+                ' --deselect='.join(deselect_list))
+        else:
+            deselect_list = ''
+        print(not_list + deselect_list)
     else:
         print(' '.join(sorted(tests)))
 
