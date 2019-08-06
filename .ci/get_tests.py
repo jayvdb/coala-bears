@@ -138,7 +138,7 @@ def get_pytest_deselected_tests(args, tests):
     if 'tests/xml2/XMLBearTest.py' in tests:
         if 'win' in args and os.environ.get('TRAVIS'):
             not_list.append(
-                'tests/xml2/XMLBearTest.py::XMLBearDTDUrlTest.test_valid_files')
+                'tests/xml2/XMLBearTest.py::XMLBearDTDUrlTest::test_valid_files')
 
     return not_list
 
